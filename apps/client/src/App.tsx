@@ -1,14 +1,13 @@
-import { useState } from "react";
-import { Button } from "./components/ui/button";
+import React from "react";
+import Layout from "./components/Layout";
 
-function App() {
-  const [count, setCount] = useState(0);
-
+const App = () => {
   return (
-    <>
-     <Button onClick={()=>setCount(count+1)}>{count}</Button>
-    </>
+    <div>
+      {/* @ts-ignore */}
+      <Layout />
+    </div>
   );
-}
+};
 
 export default App;

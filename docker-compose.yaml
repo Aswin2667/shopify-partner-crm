@@ -5,15 +5,19 @@ services:
       dockerfile: Dockerfile
     container_name: ${APP_CONTAINER_NAME:-dev_app}
     ports:
-      - "${APP_CLIENT_PORT:-3000}:3000"
-      - "${APP_SERVER_PORT:-8081}:8081"
-      - "${APP_SCHEDULER_PORT:-8082}:8082"
+      - "3000:3000"
+      - "8081:8080"
+      - "8082:8081"
     volumes:
       - .:/app/
     networks:
       - app_network
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:${APP_CLIENT_PORT:-3000} || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "curl -f http://localhost:${APP_CLIENT_PORT:-3000} || exit 1",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
