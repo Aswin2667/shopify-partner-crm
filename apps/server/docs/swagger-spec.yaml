@@ -1,0 +1,4018 @@
+openapi: 3.0.0
+info:
+  title: Shopify Partner CRM API
+  description: API for managing Shopify partner CRM operations including partner accounts, organizations, leads, and activities.
+  version: '1.0.0'
+  contact:
+    name: API Support
+    url: https://api.cartrabbit.com/support
+    email: support@cartrabbit.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: https://example.com/terms
+securitySchemes:
+  api_key:
+    type: apiKey
+    name: api_key
+    in: header
+tags:
+  - name: User
+    description: Operations related to users
+  - name: Org-Member-Invitations
+    description: Operations related to invitations
+  - name: Magic Link
+    description: Operations related to magic link authentication
+  - name: Organization
+    description: Operations related to Organizations
+  - name: OrgMember
+    description: Organization Member related Operations
+  - name: Template
+    description: Operations related to templates
+  - name: Leads
+    description: Operations related to Leads
+  - name: Attachments
+    description: Operations related to Attachments
+  - name: LeadActivity
+    description: Operations related to LeadActivity
+  - name: LeadNotes
+    description: Operations related to LeadNotes
+  - name: Contacts
+    description: Operations related to Contacts
+  - name: Emails
+    description: Operations related to Emails
+
+paths:
+  /user:
+    post:
+      summary: Create a user
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'rajesh kumar'
+                email:
+                  type: string
+                  example: 'example@gmail.com'
+                authenticationMethod:
+                  type: string
+                  enum:
+                    - MAGIC_LINK
+                    - GOOGLE
+                avatarUrl:
+                  type: string
+                  example: 'http://amazons3.com/avatar.jpg'
+              required:
+                - name
+                - email
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'User created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'ck2j49r2a0d1m0741gzhjo41v'
+                      name:
+                        type: string
+                        example: 'John'
+                      authenticationMethod:
+                        type: string
+                        enum:
+                          - GOOGLE
+                          - MAGIC_LINK
+                      createdAt:
+                        type: integer
+                        format: int64
+                        example: 872748344
+                      deletedAt:
+                        type: integer
+                        format: int64
+                        example: 124234123
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for user. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred. Please try again later.'
+  /user/{id}:
+    delete:
+      summary: Delete a user by ID
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'ck2j49r2a0d1m0741gzhjo41v'
+      responses:
+        '200':
+          description: User deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'User deleted successfully.'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid user ID. Please check the provided ID.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'User not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while deleting the user.'
+    patch:
+      summary: Update a user's name by ID
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'ck2j49r2a0d1m0741gzhjo41v'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'Updated Name'
+              required:
+                - name
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'User name updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'ck2j49r2a0d1m0741gzhjo41v'
+                      name:
+                        type: string
+                        example: 'Updated Name'
+                      createdAt:
+                        type: integer
+                        format: int64
+                        example: 872748344
+                      deletedAt:
+                        type: integer
+                        format: int64
+                        example: 124234123
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for user update. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'User not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while updating the user.'
+    get:
+      summary: Retrieve a user by ID
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'ck2j49r2a0d1m0741gzhjo41v'
+      responses:
+        '200':
+          description: User retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'User retrieved successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'ck2j49r2a0d1m0741gzhjo41v'
+                      name:
+                        type: string
+                        example: 'John'
+                      email:
+                        type: string
+                        example: 'john.doe@example.com'
+                      authenticationMethod:
+                        type: string
+                        enum:
+                          - MAGIC_LINK
+                          - GOOGLE
+                        example: 'GOOGLE'
+                      avatarUrl:
+                        type: string
+                        example: 'http://amazons3.com/avatar.jpg'
+                      createdAt:
+                        type: integer
+                        format: int64
+                        example: 872748344
+                      deletedAt:
+                        type: integer
+                        format: int64
+                        example: 124234123
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid user ID. Please check the provided ID.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'User not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while retrieving the user.'
+
+  /send-magic-link:
+    post:
+      summary: Send a magic link to the user
+      tags:
+        - Magic Link
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: 'example@gmail.com'
+              required:
+                - email
+      responses:
+        '200':
+          description: Magic link sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Magic link sent to the provided email.'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid email address. Please check the provided email.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while sending the magic link.'
+
+  /verify-magic-token:
+    get:
+      summary: Verify a magic link token
+      tags:
+        - Magic Link
+      parameters:
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+      responses:
+        '200':
+          description: Token verified successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Token verified successfully.'
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'ck2j49r2a0d1m0741gzhjo41v'
+                      name:
+                        type: string
+                        example: 'John Doe'
+                      email:
+                        type: string
+                        example: 'example@gmail.com'
+                      authenticationMethod:
+                        type: string
+                        enum:
+                          - MAGIC_LINK
+                          - GOOGLE
+                      createdAt:
+                        type: integer
+                        format: int64
+                        example: 872748344
+                      deletedAt:
+                        type: integer
+                        format: int64
+                        example: 124234123
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid token. Please provide a valid token.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Token not found or expired.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while verifying the token.'
+
+  /send-invite-link:
+    post:
+      summary: Send a Invitations to the user
+      tags:
+        - Org-Member-Invitations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: 'example@gmail.com'
+                organizationId:
+                  type: string
+                  example: 'ck2j49r2a0d1m0741gzhjo41v'
+                invitedBy:
+                  type: string
+                  example: 'ck2j49r2a0d1m0741gzhjo41v'
+                role:
+                  type: string
+                  enum:
+                    - ADMIN
+                    - MAMBER
+
+              required:
+                - email
+      responses:
+        '200':
+          description: Invite link sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Invite link sent to the provided email.'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid requestBody . Please check the provided data.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while sending the magic link.'
+
+  /verify-invite-token:
+    get:
+      summary: Verify a invite link token
+      tags:
+        - Org-Member-Invitations
+      parameters:
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+      responses:
+        '200':
+          description: Token verified successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Token verified successfully.'
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'ck2j49r2a0d1m0741gzhjo41v'
+                      name:
+                        type: string
+                        example: 'John Doe'
+                      email:
+                        type: string
+                        example: 'example@gmail.com'
+                      authenticationMethod:
+                        type: string
+                        enum:
+                          - MAGIC_LINK
+                          - GOOGLE
+                      createdAt:
+                        type: integer
+                        format: int64
+                        example: 872748344
+                      deletedAt:
+                        type: integer
+                        format: int64
+                        example: 124234123
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid token. Please provide a valid token.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Token not found or expired.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while verifying the token.'
+
+  /organization:
+    post:
+      summary: Create an organization
+      tags:
+        - Organization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'humbletree'
+                userId:
+                  type: string
+                  example: 'ck2j49r2a0d1m0741gzhjo41v'
+                role:
+                  type: string
+                  enum:
+                    - ADMIN
+                    - MEMBER
+              required:
+                - name
+                - userId
+      responses:
+        '201':
+          description: Organization created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Organization created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'org12345'
+                      name:
+                        type: string
+                        example: 'humbletree'
+                      userId:
+                        type: string
+                        example: 'ck2j49r2a0d1m0741gzhjo41v'
+                      createdAt:
+                        type: integer
+                        format: int64
+                        example: 872748344
+                      updatedAt:
+                        type: integer
+                        format: int64
+                        example: 124234123
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for organization. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while creating the organization.'
+  /organization/{userId}:
+    get:
+      summary: Get all organizations by user ID
+      tags:
+        - Organization
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'ck2j49r2a0d1m0741gzhjo41v'
+      responses:
+        '200':
+          description: Organizations retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Organizations retrieved successfully.'
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 'org12345'
+                        name:
+                          type: string
+                          example: 'humbletree'
+                        userId:
+                          type: string
+                          example: 'ck2j49r2a0d1m0741gzhjo41v'
+                        createdAt:
+                          type: integer
+                          format: int64
+                          example: 872748344
+                        updatedAt:
+                          type: integer
+                          format: int64
+                          example: 124234123
+                  integrationCount:
+                    type: integer
+                    format: int64
+                    example: 2
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid user ID. Please check the provided user ID.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'No organizations found for the provided user ID.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while retrieving the organizations.'
+
+  /organization/{id}:
+    delete:
+      summary: Delete an organization by ID
+      tags:
+        - Organization
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'org12345'
+      responses:
+        '200':
+          description: Organization deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Organization deleted successfully.'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid organization ID. Please check the provided ID.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Organization not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while deleting the organization.'
+
+    patch:
+      summary: Update an organization's name
+      tags:
+        - Organization
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'org12345'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'newname'
+              required:
+                - name
+      responses:
+        '200':
+          description: Organization name updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Organization name updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'org12345'
+                      name:
+                        type: string
+                        example: 'newname'
+                      userId:
+                        type: string
+                        example: 'ck2j49r2a0d1m0741gzhjo41v'
+                      createdAt:
+                        type: integer
+                        format: int64
+                        example: 872748344
+                      updatedAt:
+                        type: integer
+                        format: int64
+                        example: 124234123
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for organization. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Organization not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while updating the organization.'
+
+  /org-member/{memberId}:
+    patch:
+      summary: Update the role of a member (only admin can change this)
+      tags:
+        - OrgMember
+      parameters:
+        - name: memberId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'ck2j49r2a0d1m0741gzhjo41v'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: string
+                  enum:
+                    - ADMIN
+                    - MEMBER
+                  example: 'MEMBER'
+              required:
+                - role
+      responses:
+        '200':
+          description: Member role updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Member role updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      memberId:
+                        type: string
+                        example: 'ck2j49r2a0d1m0741gzhjo41v'
+                      role:
+                        type: string
+                        enum:
+                          - ADMIN
+                          - MEMBER
+                        example: 'MEMBER'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for role update. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Only admin can change the role.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Member not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while updating the member role.'
+    delete:
+      summary: Delete a member by ID
+      tags:
+        - OrgMember
+      parameters:
+        - name: memberId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'ck2j49r2a0d1m0741gzhjo41v'
+      responses:
+        '200':
+          description: Member deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Member deleted successfully.'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid member ID. Please check the provided ID.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Only admin can delete a member.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Member not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while deleting the member.'
+
+  /template:
+    post:
+      summary: Create a template
+      tags:
+        - Template
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                html:
+                  type: string
+                  example: '<html><body><h1>Hello World</h1></body></html>'
+                userId:
+                  type: string
+                  example: 'user12345'
+                scope:
+                  type: string
+                  enum:
+                    - ADMIN_ONLY
+                    - MEMBER
+              required:
+                - html
+                - userId
+                - scope
+      responses:
+        '201':
+          description: Template created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Template created successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'tmpl12345'
+                      html:
+                        type: string
+                        example: '<html><body><h1>Hello World</h1></body></html>'
+                      scope:
+                        type: string
+                        enum:
+                          - ADMIN_ONLY
+                          - MEMBER
+                      createdAt:
+                        type: integer
+                        format: int64
+                        example: 872748344
+                      updatedAt:
+                        type: integer
+                        format: int64
+                        example: 872748344
+                      deletedAt:
+                        type: integer
+                        format: int64
+                        example: 0
+                      userId:
+                        type: string
+                        example: 'user12345'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for template. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while creating the template.'
+
+  /template/{id}:
+    get:
+      summary: Get a template by ID
+      tags:
+        - Template
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'tmpl12345'
+      responses:
+        '200':
+          description: Template retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Template retrieved successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'tmpl12345'
+                      html:
+                        type: string
+                        example: '<html><body><h1>Hello World</h1></body></html>'
+                      createdAt:
+                        type: integer
+                        format: int64
+                        example: 872748344
+                      updatedAt:
+                        type: integer
+                        format: int64
+                        example: 872748344
+                      deletedAt:
+                        type: integer
+                        format: int64
+                        example: 0
+                      userId:
+                        type: string
+                        example: 'user12345'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid template ID. Please check the provided ID.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Template not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while retrieving the template.'
+
+    patch:
+      summary: Update a template by ID
+      tags:
+        - Template
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'tmpl12345'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                html:
+                  type: string
+                  example: '<html><body><h1>Hello Updated World</h1></body></html>'
+              required:
+                - html
+      responses:
+        '200':
+          description: Template updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Template updated successfully.'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'tmpl12345'
+                      html:
+                        type: string
+                        example: '<html><body><h1>Hello Updated World</h1></body></html>'
+                      createdAt:
+                        type: integer
+                        format: int64
+                        example: 872748344
+                      updatedAt:
+                        type: integer
+                        format: int64
+                        example: 872748344
+                      deletedAt:
+                        type: integer
+                        format: int64
+                        example: 0
+                      userId:
+                        type: string
+                        example: 'user12345'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for template update. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Template not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while updating the template.'
+
+    delete:
+      summary: Delete a template by ID
+      tags:
+        - Template
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'tmpl12345'
+      responses:
+        '200':
+          description: Template deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Template deleted successfully.'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid template ID. Please check the provided ID.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Template not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while deleting the template.'
+
+  /template/user/{userId}:
+    get:
+      summary: Get all templates by user ID
+      tags:
+        - Template
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 'user12345'
+      responses:
+        '200':
+          description: Templates retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Templates retrieved successfully.'
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 'tmpl12345'
+                        html:
+                          type: string
+                          example: '<html><body><h1>Hello World</h1></body></html>'
+                        createdAt:
+                          type: integer
+                          format: int64
+                          example: 872748344
+                        updatedAt:
+                          type: integer
+                          format: int64
+                          example: 872748344
+                        deletedAt:
+                          type: integer
+                          format: int64
+                          example: 0
+                        userId:
+                          type: string
+                          example: 'user12345'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid user ID. Please check the provided ID.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'No templates found for the given user.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred while retrieving templates.'
+   # Leads
+  /leads/{appId}:
+    get:
+      summary: Get all leads using the appId
+      description: Retrieves all the leads using the appId
+      operationId: getLeadsByAppId
+      tags:
+        - Leads
+      parameters:
+        - in: path
+          name: appId
+          schema:
+            type: string
+          required: true
+          description: App id to filter the leads
+      responses:
+        '200':
+          description: List of leads
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    status:
+                      type: bool
+                      example: true
+                    message:
+                      type: string
+                      example: "Got Lead using the AppId"
+                    data:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: '84138'
+                        name:
+                          type: string
+                          example: 'Fish store'
+                        email:
+                          type: string
+                          example: 'fish@gmail.com'
+                        phone:
+                          type: string
+                          example: '926423981123'
+                        appId:
+                          type: string
+                          example: 'eur2g28uufbwe'
+                        shopifyDomain:
+                          type: string
+                          example: '238ug03ign2euh'
+                        shopifyStoreId:
+                          type: string
+                          example: 'uf3gntbeun'
+                        shopDetails:
+                          type: object
+                          properties:
+                            address:
+                              type: string
+                              example: '123 Ocean Avenue, Coral City'
+                            ownerName:
+                              type: string
+                              example: 'John Doe'
+                        industry:
+                          type: string
+                          example: 'Retail'
+                        createdAt:
+                          type: string
+                          example: '2582870287'
+                        updatedAt:
+                          type: string
+                          example: '2959582'
+                        deletedAt:
+                          type: string
+                          example: '4245452'
+
+        '400':
+          description: Invalid Application Id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: bool
+                    example: false
+                  message:
+                    type: string
+                    example: Invalid AppId
+        
+        '401':
+          description: UnAuthorized user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: bool
+                    example: false
+                  message:
+                    type: string
+                    example: You cant get the lead because you are unAuthorized
+
+        '404':
+          description: Leads not found for the given AppId
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: bool
+                    example: false
+                  message:
+                    type: string
+                    example: Lead not found
+        '500':
+          description:  Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: bool
+                    example: false
+                  message:
+                    type: string
+
+  /leads/{leadId}:
+    get:
+      summary: Get Specific lead using the leadId
+      description: fetches lead using its Id
+      operationId: getLeadById
+      tags:
+        - Leads
+      parameters:
+        - in: path
+          name: leadId
+          required: true
+          schema:
+            type: string
+          description: Unique identifier for the Lead
+      responses:
+        '200':
+          description:  Lead found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Got the user using the leadId"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: Unique Identifier for the lead
+                      name:
+                        type: string
+                        example: Name of the lead
+                      email:
+                        type: string
+                        example: 'fish@gmail.com'
+                      phone:
+                        type: string
+                        example: '926423981123'
+                      leadId:
+                        type: string
+                        example: 'eur2g28uufbwe'
+                      shopifyDomain:
+                        type: string
+                        example: '238ug03ign2euh'
+                      shopifyStoreId:
+                        type: string
+                        example: 'uf3gntbeun'
+                      shopDetails:
+                        type: object
+                        properties:
+                          address:
+                            type: string
+                            example: '123 Ocean Avenue, Coral City'
+                          ownerName:
+                            type: string
+                            example: 'John Doe'
+                      industry:
+                        type: string
+                        example: 'Retail'
+                      createdAt:
+                        type: string
+                        example: '2582870287'
+                      updatedAt:
+                        type: string
+                        example: '2959582'
+                      deletedAt:
+                        type: string
+                        example: '4245452'
+
+
+        '400':
+          description: Invalid Application Id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+
+        '401':
+          description: UnAuthorized user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: bool
+                    example: false
+                  message:
+                    type: string
+                    example: You cant get the lead because you are unAuthorized
+
+
+        '404':
+          description: Leads not found for the given AppId
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+        '500':
+          description:  Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+
+# Leads Attachments
+  /leads/{leadId}/attachments:
+    post:
+      summary: Upload attachments for the lead
+      description: Uploads one or more attachments for a specific lead identified by leadId.
+      operationId: uploadLeadAttachments
+      tags:
+        - Attachments
+      parameters:
+        - in: path
+          name: leadId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the Lead
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                    description: The files to upload
+      responses:
+        '201':
+          description: Attachments uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Attachments uploaded successfully"
+                  data:
+                    type: object
+                    properties:
+                      attachmentIds:
+                        type: array
+                        items:
+                          type: string
+                          example: 'attachmentId12345'
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: '2024-07-25T12:34:56Z'
+        '400':
+          description: Invalid leadId or file format
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid leadId or file format"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access"
+        '404':
+          description: Lead not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Lead not found"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+
+  /lead/{leadId}/attachments:
+    get:
+      summary: Get all attachments for the lead
+      description: Retrieves all attachments specific to the leadId.
+      operationId: getLeadAttachments
+      tags:
+        - Attachments
+      parameters:
+        - in: path
+          name: leadId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the Lead
+      responses:
+        '200':
+          description: List of attachments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 'attachmentId12345'
+                    attachmentUrl:
+                      type: string
+                      example: 'https://example.com/attachments/document.pdf'
+                    attachmentType:
+                      type: string
+                      example: 'pdf'
+                    eTag:
+                      type: string
+                      example: 'd41d8cd98f00b204e9800998ecf8427e'
+                    attachmentName:
+                      type: string
+                      example: 'document.pdf'
+                    leadId:
+                      type: string
+                      example: 'leadId12345'
+                    createdAt:
+                      type: string
+                      format: date-time
+                      example: '2024-07-25T12:34:56Z'
+                    updatedAt:
+                      type: string
+                      format: date-time
+                      example: '2024-07-25T12:34:56Z'
+                    deletedAt:
+                      type: string
+                      format: date-time
+                      example: '2024-07-25T12:34:56Z'
+        '400':
+          description: Invalid leadId
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid leadId"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access"
+        '404':
+          description: Lead not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Lead not found"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+
+  /leads/{leadId}/attachments/{attachmentId}:
+    put:
+      summary: Update an attachment for a lead
+      description: Updates the specific attachment for the specific lead.
+      operationId: updateLeadAttachment
+      tags:
+        - Attachments
+      parameters:
+        - in: path
+          name: leadId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the lead
+        - in: path
+          name: attachmentId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the attachment
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The new file to upload
+                fileName:
+                  type: string
+                  example: 'updated_document.pdf'
+                  description: New filename
+                metadata:
+                  type: object
+                  properties:
+                    description:
+                      type: string
+                      example: 'Updated description of the file'
+                      description: Description of the attachment
+      responses:
+        '200':
+          description: Attachment updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Attachment updated successfully"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'attachmentId12345'
+                      attachmentUrl:
+                        type: string
+                        example: 'https://example.com/attachments/updated_document.pdf'
+                      attachmentType:
+                        type: string
+                        example: 'pdf'
+                      eTag:
+                        type: string
+                        example: 'd41d8cd98f00b204e9800998ecf8427e'
+                      attachmentName:
+                        type: string
+                        example: 'updated_document.pdf'
+                      leadId:
+                        type: string
+                        example: 'leadId12345'
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: '2024-07-25T12:34:56Z'
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: '2024-07-25T12:34:56Z'
+        '400':
+          description: Invalid leadId, attachmentId, or data format
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid leadId, attachmentId, or data format"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access"
+        '404':
+          description: Lead or Attachment not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Lead or Attachment not found"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+
+    delete:
+      summary: Delete an attachment for a lead
+      description: Deletes a specific attachment for a specific lead.
+      operationId: deleteLeadAttachment
+      tags:
+        - Attachments
+      parameters:
+        - in: path
+          name: leadId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the lead
+        - in: path
+          name: attachmentId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the attachment
+      responses:
+        '204':
+          description: Attachment deleted successfully
+        '400':
+          description: Invalid leadId or attachmentId
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid leadId or attachmentId"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access"
+        '404':
+          description: Lead or Attachment not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Lead or Attachment not found"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+
+
+# Lead Notes
+  /leads/{leadId}/notes:
+    post:
+      summary: Create a Note for the lead
+      description: Adds a new note to the specific lead by leadId
+      operationId: createLeadNote
+      tags:
+        - LeadNotes
+      parameters:
+        - in: path
+          name: leadId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the Lead
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: string
+                  example: 'This is the note for the lead'
+                  description: The content of the note
+      responses:
+        '201':
+          description: Note created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Note created successfully"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'noteId12345'
+                      leadId:
+                        type: string
+                        example: 'leadId12345'
+                      data:
+                        type: string
+                        example: "This is a note for the lead."
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: '2024-07-25T12:34:56Z'
+        '400':
+          description: Invalid leadId or data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid leadId or data"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access"
+        '404':
+          description: Lead not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Lead not found"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+    get:
+      summary: Get all notes for the lead
+      description: Retrieves all notes of the lead
+      operationId: getLeadNotes
+      tags:
+        - LeadNotes
+      parameters:
+        - in: path
+          name: leadId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the Lead
+      responses:
+        '200':
+          description: List of notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 'noteId12345'
+                    leadId:
+                      type: string
+                      example: 'leadId12345'
+                    data:
+                      type: string
+                      example: "This is a note for the lead."
+                    createdAt:
+                      type: string
+                      format: date-time
+                      example: '2024-07-25T12:34:56Z'
+                    updatedAt:
+                      type: string
+                      format: date-time
+                      example: '2024-07-25T12:34:56Z'
+                    deletedAt:
+                      type: string
+                      format: date-time
+                      example: '2024-07-25T12:34:56Z'
+        '400':
+          description: Invalid leadId
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid leadId"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access"
+        '404':
+          description: Lead not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Lead not found"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+
+  /leads/{leadId}/notes/{noteId}:
+    put:
+      summary: Update a note for the lead
+      description: Updates the specific note for the specific lead.
+      operationId: updateLeadNote
+      tags:
+        - LeadNotes
+      parameters:
+        - in: path
+          name: leadId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the lead
+        - in: path
+          name: noteId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the note
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: string
+                  example: "Updated note content."
+                  description: The updated content of the note
+      responses:
+        '200':
+          description: Note updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Note updated successfully"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'noteId12345'
+                      leadId:
+                        type: string
+                        example: 'leadId12345'
+                      data:
+                        type: string
+                        example: "Updated note content."
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: '2024-07-25T12:34:56Z'
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: '2024-07-25T12:34:56Z'
+        '400':
+          description: Invalid leadId, noteId, or data format
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid leadId, noteId, or data format"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access"
+        '404':
+          description: Lead or Note not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Lead or Note not found"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+            
+    delete:
+      summary: Delete a note for the lead
+      description: Deletes a specific note for a specific lead.
+      operationId: deleteLeadNote
+      tags:
+        - LeadNotes
+      parameters:
+        - in: path
+          name: leadId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the lead
+        - in: path
+          name: noteId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the note
+      responses:
+        '204':
+          description: Note deleted successfully
+        '400':
+          description: Invalid leadId or noteId
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid leadId or noteId"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access"
+        '404':
+          description: Lead or Note not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Lead or Note not found"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+
+# Lead contacts
+  /leads/{leadId}/contacts:
+    post:
+      summary: Create a contact for a lead
+      description: Add new contact for the specific lead
+      operationId: createLeadContact
+      tags:
+        - Contacts
+      parameters:
+        - in: path
+          name: leadId
+          schema:
+            type: string
+          required: true
+          description:  Unique identifier for the lead
+      requestBody:
+        required: true
+        content:
+          application/json: 
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                  example: "John"
+                  description: The first name of the contact
+                lastName:
+                  type: string
+                  example: "Doe"
+                  description: The last name of the contact
+                primaryEmail:
+                  type: string
+                  example: "john.doe@example.com"
+                  description: The primary email of the contact
+                secondaryEmail:
+                  type: string
+                  example: "john.doe@anotherdomain.com"
+                  description: The secondary email of the contact
+                primaryPhNo:
+                  type: string
+                  example: "+1234567890"
+                  description: The primary phone number of the contact
+                secondaryPhNo:
+                  type: string
+                  example: "+0987654321"
+                  description: The secondary phone number of the contact
+                industry:
+                  type: string
+                  example: "Technology"
+                  description: The industry of the contact
+                type:
+                  type: string
+                  example: "Client"
+                  description: The type of contact (e.g., Client, Partner, etc.)
+                lastContacted:
+                  type: string
+                  format: date-time
+                  example: '2024-07-25T12:34:56Z'
+                  description: The last contacted timestamp
+                notes:
+                  type: string
+                  example: "Met at the tech conference."
+                  description: Notes about the contact
+      responses:
+        '201':
+          description: Contact created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Contact created successfully"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'contactId12345'
+                      leadId:
+                        type: string
+                        example: 'leadId12345'
+                      firstName:
+                        type: string
+                        example: "John"
+                      lastName:
+                        type: string
+                        example: "Doe"
+                      primaryEmail:
+                        type: string
+                        example: "john.doe@example.com"
+                      secondaryEmail:
+                        type: string
+                        example: "john.doe@anotherdomain.com"
+                      primaryPhNo:
+                        type: string
+                        example: "+1234567890"
+                      secondaryPhNo:
+                        type: string
+                        example: "+0987654321"
+                      industry:
+                        type: string
+                        example: "Technology"
+                      type:
+                        type: string
+                        example: "Client"
+                      lastContacted:
+                        type: string
+                        format: date-time
+                        example: '2024-07-25T12:34:56Z'
+                      notes:
+                        type: string
+                        example: "Met at the tech conference."
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: '2024-07-25T12:34:56Z'
+        '400':
+          description: Invalid leadId or data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid leadId or data"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access"
+        '404':
+          description: Lead not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Lead not found"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+    get:
+      summary: Get all contacts for the lead
+      description: Retrieves all contacts for a specific lead identified by leadId.
+      operationId: getLeadContacts
+      tags:
+        - Contacts
+      parameters:
+        - in: path
+          name: leadId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the Lead
+      responses:
+        '200':
+          description: List of contacts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 'contactId12345'
+                    leadId:
+                      type: string
+                      example: 'leadId12345'
+                    firstName:
+                      type: string
+                      example: "John"
+                    lastName:
+                      type: string
+                      example: "Doe"
+                    primaryEmail:
+                      type: string
+                      example: "john.doe@example.com"
+                    secondaryEmail:
+                      type: string
+                      example: "john.doe@anotherdomain.com"
+                    primaryPhNo:
+                      type: string
+                      example: "+1234567890"
+                    secondaryPhNo:
+                      type: string
+                      example: "+0987654321"
+                    industry:
+                      type: string
+                      example: "Technology"
+                    type:
+                      type: string
+                      example: "Client"
+                    lastContacted:
+                      type: string
+                      format: date-time
+                      example: '2024-07-25T12:34:56Z'
+                    notes:
+                      type: string
+                      example: "Met at the tech conference."
+                    createdAt:
+                      type: string
+                      format: date-time
+                      example: '2024-07-25T12:34:56Z'
+                    updatedAt:
+                      type: string
+                      format: date-time
+                      example: '2024-07-25T12:34:56Z'
+                    deletedAt:
+                      type: string
+                      format: date-time
+                      example: '2024-07-25T12:34:56Z'
+        '400':
+          description: Invalid leadId
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid leadId"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access"
+        '404':
+          description: Lead not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Lead not found"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+
+  /leads/{leadId}/contacts/{contactId}:
+    get:
+      summary: Get a specific contact by ID
+      description: Retrieves details of a specific contact identified by contactId associated with a specific lead.
+      operationId: getLeadContactById
+      tags:
+        - Contacts
+      parameters:
+        - in: path
+          name: leadId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the Lead
+        - in: path
+          name: contactId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the Contact
+      responses:
+        '200':
+          description: Contact details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Contact details retrieved successfully"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'contactId12345'
+                      leadId:
+                        type: string
+                        example: 'leadId12345'
+                      firstName:
+                        type: string
+                        example: "John"
+                      lastName:
+                        type: string
+                        example: "Doe"
+                      primaryEmail:
+                        type: string
+                        example: "john.doe@example.com"
+                      secondaryEmail:
+                        type: string
+                        example: "john.doe@anotherdomain.com"
+                      primaryPhNo:
+                        type: string
+                        example: "+1234567890"
+                      secondaryPhNo:
+                        type: string
+                        example: "+0987654321"
+                      industry:
+                        type: string
+                        example: "Technology"
+                      type:
+                        type: string
+                        example: "Client"
+                      lastContacted:
+                        type: string
+                        format: date-time
+                        example: '2024-07-25T12:34:56Z'
+                      notes:
+                        type: string
+                        example: "Met at the tech conference."
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: '2024-07-25T12:34:56Z'
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: '2024-07-25T12:34:56Z'
+                      deletedAt:
+                        type: string
+                        format: date-time
+                        example: '2024-07-25T12:34:56Z'
+        '400':
+          description: Invalid leadId or contactId
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid leadId or contactId"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access"
+        '404':
+          description: Lead or Contact not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Lead or Contact not found"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+
+  # org member(user) go into the specific lead and send mail to the lead contact 
+  /leads/{leadId}/contacts/{contactId}/send-email:
+    post:
+      summary: Send an email to a specific contact
+      description: Sends an email from the organization member to a contact associated with a specific lead.
+      operationId: sendEmailToContact
+      tags:
+        - Emails
+      parameters:
+        - in: path
+          name: leadId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the Lead
+        - in: path
+          name: contactId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the Contact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subject:
+                  type: string
+                  example: "Meeting Follow-Up"
+                  description: Subject of the email
+                messageId:
+                  type: string
+                  example: "msg-id-12345"
+                  description: Unique identifier for the email message
+                hasAttachments:
+                  type: boolean
+                  example: false
+                  description: Indicates if the email has attachments
+                cc:
+                  type: string
+                  example: "cc@example.com"
+                  description: CC email addresses
+                bcc:
+                  type: string
+                  example: "bcc@example.com"
+                  description: BCC email addresses
+                from:
+                  type: string
+                  example: "sender@example.com"
+                  description: Sender email address
+                to:
+                  type: string
+                  example: "contact@example.com"
+                  description: Recipient email address
+                userId:
+                  type: string
+                  example: "userId12345"
+                  description: Identifier for the user sending the email
+      responses:
+        '201':
+          description: Email sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Email sent successfully"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'emailId12345'
+                      subject:
+                        type: string
+                        example: "Meeting Follow-Up"
+                      messageId:
+                        type: string
+                        example: "msg-id-12345"
+                      hasAttachments:
+                        type: boolean
+                        example: false
+                      cc:
+                        type: string
+                        example: "cc@example.com"
+                      bcc:
+                        type: string
+                        example: "bcc@example.com"
+                      from:
+                        type: string
+                        example: "sender@example.com"
+                      to:
+                        type: string
+                        example: "contact@example.com"
+                      userId:
+                        type: string
+                        example: "userId12345"
+                      time:
+                        type: string
+                        format: date-time
+                        example: '2024-07-25T12:34:56Z'
+        '400':
+          description: Invalid data or contact not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid data or contact not found"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access"
+        '404':
+          description: Lead or Contact not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Lead or Contact not found"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+
+  /emails/{emailId}:
+    get:
+      summary: Get details of a specific email
+      description: Retrieves details of a specific email identified by emailId.
+      operationId: getEmailById
+      tags:
+        - Emails
+      parameters:
+        - in: path
+          name: emailId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the Email
+      responses:
+        '200':
+          description: Email details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Email details retrieved successfully"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 'emailId12345'
+                      subject:
+                        type: string
+                        example: "Meeting Follow-Up"
+                      messageId:
+                        type: string
+                        example: "msg-id-12345"
+                      hasAttachments:
+                        type: boolean
+                        example: false
+                      cc:
+                        type: string
+                        example: "cc@example.com"
+                      bcc:
+                        type: string
+                        example: "bcc@example.com"
+                      from:
+                        type: string
+                        example: "sender@example.com"
+                      to:
+                        type: string
+                        example: "contact@example.com"
+                      userId:
+                        type: string
+                        example: "userId12345"
+                      time:
+                        type: string
+                        format: date-time
+                        example: '2024-07-25T12:34:56Z'
+                      unsubscribed:
+                        type: boolean
+                        example: false
+                      failed:
+                        type: boolean
+                        example: false
+                      skipped:
+                        type: boolean
+                        example: false
+                      opened:
+                        type: boolean
+                        example: false
+                      sent:
+                        type: boolean
+                        example: true
+                      deletedAt:
+                        type: string
+                        format: date-time
+                        example: '2024-07-25T12:34:56Z'
+        '400':
+          description: Invalid emailId
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid emailId"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access"
+        '404':
+          description: Email not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Email not found"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+
+  # Get All Emails from Organization Member
+  /users/{userId}/emails:
+    get:
+      summary: Retrieve all emails sent by a specific organization member
+      description: Fetches a list of all emails sent by an organization member identified by userId.
+      operationId: getEmailsByUserId
+      tags:
+        - Emails
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the Organization Member (User)
+      responses:
+        '200':
+          description: List of emails retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Emails retrieved successfully"
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 'emailId12345'
+                        subject:
+                          type: string
+                          example: "Meeting Follow-Up"
+                        messageId:
+                          type: string
+                          example: "msg-id-12345"
+                        hasAttachments:
+                          type: boolean
+                          example: false
+                        cc:
+                          type: string
+                          example: "cc@example.com"
+                        bcc:
+                          type: string
+                          example: "bcc@example.com"
+                        from:
+                          type: string
+                          example: "sender@example.com"
+                        to:
+                          type: string
+                          example: "contact@example.com"
+                        time:
+                          type: string
+                          format: date-time
+                          example: '2024-07-25T12:34:56Z'
+                        unsubscribed:
+                          type: boolean
+                          example: false
+                        failed:
+                          type: boolean
+                          example: false
+                        skipped:
+                          type: boolean
+                          example: false
+                        opened:
+                          type: boolean
+                          example: false
+                        sent:
+                          type: boolean
+                          example: true
+                        deletedAt:
+                          type: string
+                          format: date-time
+                          example: '2024-07-25T12:34:56Z'
+        '400':
+          description: Invalid userId
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid userId"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access"
+        '404':
+          description: No emails found for the given userId
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "No emails found for the given userId"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+  
+  # Get Emails Sent to Contacts for a Specific Lead
+  /leads/{leadId}/emails:
+    get:
+      summary: Retrieve all emails sent to contacts associated with a specific lead
+      description: Fetches a list of emails sent to contacts of a lead identified by leadId.
+      operationId: getEmailsByLeadId
+      tags:
+        - Emails
+      parameters:
+        - in: path
+          name: leadId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the Lead
+      responses:
+        '200':
+          description: List of emails sent to contacts retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Emails sent to contacts for the lead retrieved successfully"
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: 'emailId12345'
+                        subject:
+                          type: string
+                          example: "Meeting Follow-Up"
+                        messageId:
+                          type: string
+                          example: "msg-id-12345"
+                        hasAttachments:
+                          type: boolean
+                          example: false
+                        cc:
+                          type: string
+                          example: "cc@example.com"
+                        bcc:
+                          type: string
+                          example: "bcc@example.com"
+                        from:
+                          type: string
+                          example: "sender@example.com"
+                        to:
+                          type: string
+                          example: "contact@example.com"
+                        time:
+                          type: string
+                          format: date-time
+                          example: '2024-07-25T12:34:56Z'
+                        unsubscribed:
+                          type: boolean
+                          example: false
+                        failed:
+                          type: boolean
+                          example: false
+                        skipped:
+                          type: boolean
+                          example: false
+                        opened:
+                          type: boolean
+                          example: false
+                        sent:
+                          type: boolean
+                          example: true
+                        deletedAt:
+                          type: string
+                          format: date-time
+                          example: '2024-07-25T12:34:56Z'
+        '400':
+          description: Invalid leadId
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid leadId"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access"
+        '404':
+          description: No emails found for the given leadId
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "No emails found for the given leadId"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+
+  # Get Emails Sent to a Specific Contact
+  /leads/{leadId}/contacts/{contactId}/emails:
+    get:
+      summary: Get all emails sent to a specific contact
+      description: Retrieves all emails sent to a contact associated with a specific lead.
+      operationId: getEmailsSentToContact
+      tags:
+        - Emails
+      parameters:
+        - in: path
+          name: leadId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the Lead
+        - in: path
+          name: contactId
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the Contact
+      responses:
+        '200':
+          description: List of emails sent to the contact
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 'emailId12345'
+                    subject:
+                      type: string
+                      example: "Meeting Follow-Up"
+                    messageId:
+                      type: string
+                      example: "msg-id-12345"
+                    hasAttachments:
+                      type: boolean
+                      example: false
+                    cc:
+                      type: string
+                      example: "cc@example.com"
+                    bcc:
+                      type: string
+                      example: "bcc@example.com"
+                    from:
+                      type: string
+                      example: "sender@example.com"
+                    to:
+                      type: string
+                      example: "contact@example.com"
+                    userId:
+                      type: string
+                      example: "userId12345"
+                    time:
+                      type: string
+                      format: date-time
+                      example: '2024-07-25T12:34:56Z'
+        '400':
+          description: Invalid leadId or contactId
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid leadId or contactId"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access"
+        '404':
+          description: Lead or Contact not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Lead or Contact not found"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Internal server error"

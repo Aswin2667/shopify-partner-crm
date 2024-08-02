@@ -1,0 +1,29 @@
+{
+  "name": "shopify_partner_crm",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "@types/yamljs": "^0.2.34",
+    "prettier": "3.3.3",
+    "turbo": "^2.0.10",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@10.8.1",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "dependencies": {
+    "@nestjs/swagger": "^7.4.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1"
+  }
+}
