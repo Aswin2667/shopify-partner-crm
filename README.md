@@ -17,6 +17,8 @@ If you are developing a production application, we recommend updating the config
 export default {
   // other rules...
   /// Testing 
+  /// Testing - 2
+  // this is so good github is awsome
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
