@@ -14,9 +14,9 @@ async function bootstrap() {
     BigInt.prototype['toJSON'] = function () {
       return this.toString();
     };
-    app.useGlobalPipes(new ValidationPipe(validationPipeConfig));
-    app.useGlobalInterceptors(new CustomInterceptors());
-    app.useGlobalFilters(new CustomExceptionFilter());
+    // app.useGlobalPipes(new ValidationPipe(validationPipeConfig));
+    // app.useGlobalInterceptors(new CustomInterceptors());
+    // app.useGlobalFilters(new CustomExceptionFilter());
     app.enableCors();
 
     app.use(helmet());

@@ -59,6 +59,24 @@
   }
 }
 
+*::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+/* Custom scrollbar thumb */
+/* Adjust the background-color, width, and border-radius as needed */
+*::-webkit-scrollbar-thumb {
+  background-color: #485075;
+  border-radius: 2rem;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
 @layer base {
   * {
     @apply border-border;

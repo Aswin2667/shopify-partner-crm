@@ -1,7 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "../ui/separator";
+import {  GoogleLogin, TokenResponse, useGoogleLogin } from "@react-oauth/google";
+import userService from "@/services/UserService";
 
 export default function Login() {
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse : Omit<TokenResponse, "error" | "error_description" | "error_uri">) => {
+
+      handleLogin(tokenResponse);
+    },
+  });
+  const handleLogin = async (tokenResponse:Omit<TokenResponse, "error" | "error_description" | "error_uri"> ) => {
+    try {
+      const response = await userService.login(tokenResponse);
+      console.log("Login response:", response.data);
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
+  };
+
   return (
     <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-screen">
       <div className="flex items-center justify-center ">
@@ -16,15 +33,26 @@ export default function Login() {
             <Button type="submit" className="w-full">
               Continue with Email
             </Button>
-            <Button variant="outline" className="w-full">
+            <Button
+              onClick={() => login()}
+              variant="outline"
+              className="w-full"
+            >
+              <img
+                src="https://img.icons8.com/color/48/000000/google-logo.png"
+                className="h-7 w-7 mr-5"
+                alt=""
+              />{" "}
               Login with Google
             </Button>
-          </div>
-          <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{" "}
-            <a href="#" className="underline">
-              Sign up
-            </a>
+            <GoogleLogin
+  onSuccess={credentialResponse => {
+    console.log(credentialResponse);
+  }}
+  onError={() => {
+    console.log('Login Failed');
+  }}
+/>
           </div>
         </div>
         <Separator orientation="vertical" />
