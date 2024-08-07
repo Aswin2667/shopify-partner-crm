@@ -11,26 +11,16 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
+import { ServerResponse } from 'http';
+import { TokenResponse } from 'google-auth-library/build/src/auth/impersonated';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  async createUser(@Body() createUserDto: CreateUserDto) {
-    try {
-      const user = await this.userService.create(createUserDto);
-      return {
-        status: true,
-        message: 'User created successfully.',
-        data: user,
-      };
-    } catch (error) {
-      throw new HttpException(
-        error.message || 'An unexpected error occurred.',
-        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+  @Post('/login')
+  async createUser(@Body() createUser: Omit<TokenResponse, "error" | "error_description" | "error_uri">) {
+          return this.userService.login(createUser);
   }
 
   @Delete(':id')

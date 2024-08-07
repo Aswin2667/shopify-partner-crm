@@ -32,7 +32,7 @@ export class MailService {
         TemplateModel: {
           name: `${email}`,
           otp: generateOtp,
-          storeName: storeName
+          storeName: storeName,
         },
       });
 
