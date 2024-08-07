@@ -1,4 +1,15 @@
-import { Controller, Post, Get, Patch, Delete, Param, Body, Query, HttpStatus, HttpException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Patch,
+  Delete,
+  Param,
+  Body,
+  Query,
+  HttpStatus,
+  HttpException,
+} from '@nestjs/common';
 import { TemplateService } from './template.service';
 import { CreateTemplateDto, UpdateTemplateDto } from './dto/template.dto';
 
@@ -32,15 +43,17 @@ export class TemplateController {
           userId: 'user12345',
           createdAt: 123123123123,
           updatedAt: 123123123123,
-          deletedAt: 0
-        }
+          deletedAt: 0,
+        },
       };
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateTemplateDto: UpdateTemplateDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateTemplateDto: UpdateTemplateDto,
+  ) {
     try {
       const template = await this.templateService.update(id, updateTemplateDto);
       if (!template) {
@@ -51,24 +64,20 @@ export class TemplateController {
         message: 'Template updated successfully.',
         data: template,
       };
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
     try {
       const result = await this.templateService.remove(id);
- 
+
       return {
         status: true,
         message: 'Template deleted successfully.',
       };
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   }
-  
 
   @Get('user/:userId')
   async findAllByUser(@Param('userId') userId: string) {

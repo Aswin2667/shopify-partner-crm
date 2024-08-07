@@ -3,7 +3,6 @@ import { DateTime, DurationLike } from 'luxon';
 
 @Injectable()
 export class DateHelper {
-
   getCurrentUnixTime() {
     return DateTime.now().toLocal().toUTC().toUnixInteger();
   }

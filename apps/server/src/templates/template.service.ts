@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { CreateTemplateDto, UpdateTemplateDto } from './dto/template.dto';
 
 @Injectable()
@@ -6,27 +10,31 @@ export class TemplateService {
   private templates = [];
 
   async create(createTemplateDto: CreateTemplateDto) {
-    const existingTemplate = this.templates.find(template => 
-      template.userId === createTemplateDto.userId && template.scope === createTemplateDto.scope
+    const existingTemplate = this.templates.find(
+      (template) =>
+        template.userId === createTemplateDto.userId &&
+        template.scope === createTemplateDto.scope,
     );
 
     if (existingTemplate) {
-      throw new BadRequestException('A template with the same userId and scope already exists.');
+      throw new BadRequestException(
+        'A template with the same userId and scope already exists.',
+      );
     }
 
     const newTemplate = {
-      id: (this.templates.length + 1).toString(), 
+      id: (this.templates.length + 1).toString(),
       ...createTemplateDto,
-      createdAt:123123123123,
+      createdAt: 123123123123,
       updatedAt: 123123123123,
-      deletedAt: 0
+      deletedAt: 0,
     };
     this.templates.push(newTemplate);
     return newTemplate;
   }
 
   async findOne(id: string) {
-    const template = this.templates.find(template => template.id === id);
+    const template = this.templates.find((template) => template.id === id);
     if (!template) {
       throw new NotFoundException('Template not found.');
     }
@@ -34,13 +42,15 @@ export class TemplateService {
   }
 
   async update(id: string, updateTemplateDto: UpdateTemplateDto) {
-    const index = this.templates.findIndex(template => template.id === id);
+    const index = this.templates.findIndex((template) => template.id === id);
     if (index === -1) {
       throw new NotFoundException('Template not found.');
     }
 
     if (!updateTemplateDto.html) {
-      throw new BadRequestException('HTML content is required for updating the template.');
+      throw new BadRequestException(
+        'HTML content is required for updating the template.',
+      );
     }
 
     const updatedTemplate = {
@@ -53,11 +63,13 @@ export class TemplateService {
   }
 
   async remove(id: string) {
-  //  for remove opt
+    //  for remove opt
   }
 
   async findAllByUser(userId: string) {
-    const templates = this.templates.filter(template => template.userId === userId);
+    const templates = this.templates.filter(
+      (template) => template.userId === userId,
+    );
     if (templates.length === 0) {
       throw new NotFoundException('No templates found for the given user.');
     }

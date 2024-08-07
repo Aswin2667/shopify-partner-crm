@@ -13,16 +13,17 @@ import { OrgMemberService } from './org-member/org-member.service';
 import { AuthMiddleware } from './auth/auth.middleware';
 import { TemplateController } from './templates/template.controller';
 import { TemplateService } from './templates/template.service';
+import { LeadModule } from './leads/lead.module';
 
 @Module({
-  imports: [UserModule],
+  imports: [UserModule, LeadModule],
   controllers: [
     UserController,
     MagicLinkController,
     OrganizationController,
     OrgMemberInvitationsController,
     OrgMemberController,
-    TemplateController
+    TemplateController,
   ],
   providers: [
     UserService,
@@ -30,7 +31,7 @@ import { TemplateService } from './templates/template.service';
     OrganizationService,
     OrgMemberInvitationsService,
     OrgMemberService,
-    TemplateService
+    TemplateService,
   ],
 })
 export class AppModule {
