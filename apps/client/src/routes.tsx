@@ -18,7 +18,8 @@ export const routes = createBrowserRouter([
     path: "/login",
     element: <Login />,
     index: true,
-  },{
+  },
+  {
     path: "/:id",
     element: <RootLayout />,
     children: [
@@ -33,15 +34,17 @@ export const routes = createBrowserRouter([
       },
       {
         path: "integration",
-        children:[
+        children: [
           {
-            index:true,
-            element:<Integration/>
+            index: true,
+            element: <Integration />,
           },
           {
-            path:":intergrationName",
-            element:<IntegrationDetailScreen />
-          }
+            path: ":intergrationName",
+            element: <IntegrationDetailScreen />,
+          },
+        ],
+      },
     ],
-  }
+  },
 ]);
