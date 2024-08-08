@@ -5,6 +5,8 @@ import Inbox from "./pages/mail/Inbox";
 import PageNotFount from "./pages/404/404";
 import OrganizationList from "./pages/organizations/OrganizationList";
 import RootLayout from "./components/RootLayout";
+import Integration from "./pages/Integration/Integration";
+import IntegrationDetailScreen from "./pages/Integration/components/IntegrationDetailScreen";
 
 export const routes = createBrowserRouter([
   {
@@ -28,7 +30,18 @@ export const routes = createBrowserRouter([
       {
         path: "inbox",
         element: <Inbox />,
-      }
+      },
+      {
+        path: "integration",
+        children:[
+          {
+            index:true,
+            element:<Integration/>
+          },
+          {
+            path:":intergrationName",
+            element:<IntegrationDetailScreen />
+          }
     ],
   }
 ]);

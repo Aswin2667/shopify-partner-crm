@@ -228,8 +228,7 @@ export default function RootLayout() {
           <Navbar
             isCollapsed={isCollapsed}
             links={[
-              {
-                title: "Integrations",
+                title: "Integration",
                 label: "8",
                 icon: ShoppingCart,
                 variant: "ghost",
