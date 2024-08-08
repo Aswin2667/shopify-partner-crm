@@ -16,7 +16,6 @@ export class OrgMemberInvitationsService {
 
   async verifyInviteToken(token: string): Promise<any> {
     try {
-      console.log('Verify token', token);
       return {
         id: 'ck2j49r2a0d1m0741gzhjo41v',
         name: 'John Doe',

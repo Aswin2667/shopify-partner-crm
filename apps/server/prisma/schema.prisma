@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,4 +5,219 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    String            @id @default(uuid())
+  email                 String            @unique
+  authenticationMethod  AuthenticationMethod
+  name                  String?
+  avatarUrl             String?
+  createdAt             BigInt            @default(autoincrement())
+  updatedAt             BigInt            @default(autoincrement())
+  deletedAt             BigInt
+  orgMemberInvites      OrgMemberInvite[]
+  orgMembers            OrgMember[]
+  templates             Template[]
+}
+
+model OrgMemberInvite {
+  id             String        @id @default(uuid())
+  token          String        @unique
+  email          String
+  role           OrgMemberRole @default(MEMBER)
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+  organizationId String
+  inviter        User          @relation(fields: [inviterId], references: [id])
+  inviterId      String
+  createdAt      BigInt        @default(autoincrement())
+  updatedAt      BigInt        @default(autoincrement())
+  deletedAt      BigInt
+
+  @@unique([organizationId, email])
+}
+
+model Organization {
+  id          String          @id @default(uuid())
+  name        String
+  logo        String?
+  description String?
+  createdAt   BigInt          @default(autoincrement())
+  updatedAt   BigInt          @default(autoincrement())
+  deletedAt   BigInt
+  apps        Apps[]
+  members     OrgMember[]
+  invites     OrgMemberInvite[]
+  integrations Integration[]
+}
+
+model OrgMember {
+  id             String         @id @default(uuid())
+  organization   Organization   @relation(fields: [organizationId], references: [id])
+  organizationId String
+  user           User           @relation(fields: [userId], references: [id])
+  userId         String
+  role           OrgMemberRole  @default(MEMBER)
+  createdAt      BigInt         @default(autoincrement())
+  updatedAt      BigInt         @default(autoincrement())
+  deletedAt      BigInt
+
+  @@unique([organizationId, userId])
+}
+
+model Apps {
+  id              String        @id @default(uuid())
+  slug            String        @unique
+  name            String
+  organization    Organization  @relation(fields: [organizationId], references: [id])
+  organizationId  String
+  createdAt       BigInt        @default(autoincrement())
+  updatedAt       BigInt        @default(autoincrement())
+  deletedAt       BigInt?
+  version         AppVersion    @default(V2)
+  leadApps        LeadApps[]
+  integrationId   String?
+  integration     Integration?  @relation(fields: [integrationId], references: [id])
+}
+
+model LeadNotes {
+  id          String @id @default(uuid())
+  leadId      String
+  lead        Lead   @relation(fields: [leadId], references: [id])
+  data        String
+  createdAt   BigInt @default(autoincrement())
+  updatedAt   BigInt @default(autoincrement())
+  deletedAt   BigInt
+}
+
+model Lead {
+  id              String        @id @default(uuid())
+  shopifyDomain   String        @unique
+  shopifyStoreId  String        @unique
+  apps            LeadApps[]
+  leadSource      String?
+  shopDetails     Json?
+  industry        String?
+  createdAt       BigInt        @default(autoincrement())
+  updatedAt       BigInt        @default(autoincrement())
+  deletedAt       BigInt
+  leadActivities  LeadActivity[]
+  leadNotes       LeadNotes[]
+  contacts        Contact[]
+  attachments     Attachment[]
+}
+
+model LeadApps {
+  id         String @id @default(uuid())
+  leadId     String
+  appId      String
+  lead       Lead   @relation(fields: [leadId], references: [id])
+  app        Apps   @relation(fields: [appId], references: [id])
+  createdAt  BigInt @default(autoincrement())
+  updatedAt  BigInt @default(autoincrement())
+  deletedAt  BigInt
+  status     String?
+
+  @@unique([appId, leadId])
+}
+
+model Contact {
+  id             String   @id @default(uuid())
+  firstName      String?
+  lastName       String?
+  primaryEmail   String?
+  secondaryEmail String?
+  primaryPhNo    String?
+  secondaryPhNo  String?
+  industry       String?
+  type           String?
+  leadId         String?
+  lead           Lead?    @relation(fields: [leadId], references: [id])
+  lastContacted  BigInt?
+
+  createdAt BigInt @default(autoincrement())
+  updatedAt BigInt @default(autoincrement())
+  deletedAt BigInt
+}
+
+model Attachment {
+  id            String @id @default(uuid())
+  attachmentUrl String
+  attachmentType String
+  eTag          String
+  attachmentName String
+  leadId        String
+  lead          Lead   @relation(fields: [leadId], references: [id])
+  createdAt     BigInt @default(autoincrement())
+  updatedAt     BigInt @default(autoincrement())
+  deletedAt     BigInt
+}
+
+model LeadActivity {
+  id        String @id @default(uuid())
+  leadId    String
+  lead      Lead   @relation(fields: [leadId], references: [id])
+  type      String
+  data      Json
+  createdAt BigInt @default(autoincrement())
+  updatedAt BigInt @default(autoincrement())
+  deletedAt BigInt
+}
+
+model Email {
+  id              String  @id @default(uuid())
+  subject         String?
+  messageId       String
+  hasAttachments  Boolean
+  unsubscribed    Boolean
+  failed          Boolean
+  skipped         Boolean
+  opened          Boolean
+  sent            Boolean
+  time            BigInt
+  cc              String?
+  bcc             String?
+  from            String
+  to              String
+  deletedAt       BigInt
+  userId          String
+
+}
+
+model Integration {
+  id             String        @id @default(uuid())
+  organizationId String
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+  data           Json
+  description    String?
+  type           String?
+  createdAt      BigInt        @default(autoincrement())
+  updatedAt      BigInt        @default(autoincrement())
+  deletedAt      BigInt
+  apps           Apps[]
+}
+
+model Template {
+  id        String @id @default(uuid())
+  html      String
+  createdAt BigInt  @default(autoincrement())
+  updatedAt BigInt  @default(autoincrement())
+  deletedAt BigInt
+  userId    String
+  user      User    @relation(fields: [userId], references: [id])
+}
+
+enum AuthenticationMethod {
+  GOOGLE
+  MAGIC_LINK
+}
+
+enum OrgMemberRole {
+  ADMIN
+  MEMBER
+}
+
+enum AppVersion {
+  V2
+  V3
 }

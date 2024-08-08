@@ -1,11 +1,11 @@
 import { TokenResponse } from '@react-oauth/google';
-import axios from 'axios';
+import axios from "../utils/_axios"
 
 class UserService {
-   private static URL:string = 'http://localhost:8080/user';
+   private static BASE_URL:string = 'http://localhost:8080/';
   public static async login(data: Omit<TokenResponse, "error" | "error_description" | "error_uri">) {
     try {
-      const response = await axios.post(`${UserService.URL}/login`, data);
+      const response = await axios.post(`${this.BASE_URL}user/login`, data);
       return response;
     } catch (error) {
       console.error('Error during login:', error);

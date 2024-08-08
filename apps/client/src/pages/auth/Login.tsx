@@ -1,23 +1,26 @@
 import { Button } from "@/components/ui/button";
-import { Separator } from "../ui/separator";
-import {  GoogleLogin, TokenResponse, useGoogleLogin } from "@react-oauth/google";
+import { Separator } from "../../components/ui/separator";
+import { GoogleLogin } from "@react-oauth/google";
 import userService from "@/services/UserService";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 
 export default function Login() {
-  const login = useGoogleLogin({
-    onSuccess: (tokenResponse : Omit<TokenResponse, "error" | "error_description" | "error_uri">) => {
+  const navigate = useNavigate();
 
-      handleLogin(tokenResponse);
+  const {mutate:handleLogin} = useMutation({
+    mutationFn: async (tokenResponse: any): Promise<any> =>
+      await userService.login(tokenResponse),
+    onSuccess: (response) => {
+      if (response.data?.status) {
+        sessionStorage.setItem("session", JSON.stringify(response.data.data));
+        navigate("/");
+      }
     },
-  });
-  const handleLogin = async (tokenResponse:Omit<TokenResponse, "error" | "error_description" | "error_uri"> ) => {
-    try {
-      const response = await userService.login(tokenResponse);
-      console.log("Login response:", response.data);
-    } catch (error) {
-      console.error("Login failed:", error);
+    onError: (error:any) => {
+      console.error("Login failed:", error?.response.data);
     }
-  };
+  });
 
   return (
     <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-screen">
@@ -33,26 +36,11 @@ export default function Login() {
             <Button type="submit" className="w-full">
               Continue with Email
             </Button>
-            <Button
-              onClick={() => login()}
-              variant="outline"
-              className="w-full"
-            >
-              <img
-                src="https://img.icons8.com/color/48/000000/google-logo.png"
-                className="h-7 w-7 mr-5"
-                alt=""
-              />{" "}
-              Login with Google
-            </Button>
             <GoogleLogin
-  onSuccess={credentialResponse => {
-    console.log(credentialResponse);
-  }}
-  onError={() => {
-    console.log('Login Failed');
-  }}
-/>
+              onSuccess={(credentialResponse) => {
+                handleLogin(credentialResponse);
+              }}
+            />
           </div>
         </div>
         <Separator orientation="vertical" />
