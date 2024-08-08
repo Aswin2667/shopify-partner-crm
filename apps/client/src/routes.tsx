@@ -4,7 +4,8 @@ import RootLayout from "./components/RootLayout";
 import Dashboard from "./pages/organizations/Dashboard";
 import Inbox from "./pages/mail/Inbox";
 import PageNotFount from "./pages/404/404";
-import Integration from "./components/Integration";
+import Integration from "./pages/Integration/Integration";
+import IntegrationDetailScreen from "./pages/Integration/components/IntegrationDetailScreen";
 
 export const routes = createBrowserRouter([
   {
@@ -31,8 +32,17 @@ export const routes = createBrowserRouter([
         ],
       },
       {
-        path: "integrations",
-        element: <Integration />
+        path: "integration",
+        children:[
+          {
+            index:true,
+            element:<Integration/>
+          },
+          {
+            path:":intergrationName",
+            element:<IntegrationDetailScreen />
+          }
+        ]
       }
     ],
   },{
