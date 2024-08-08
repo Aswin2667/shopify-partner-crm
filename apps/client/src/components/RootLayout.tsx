@@ -33,6 +33,7 @@ import Loader from "./Loader";
 export default function RootLayout() {
   const defaultLayout = [17, 32];
   const [isCollapsed, setIsCollapsed] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const navCollapsedSize = undefined;
   const navigate = useNavigate();
 
@@ -80,183 +81,188 @@ export default function RootLayout() {
     const sessionData = sessionStorage.getItem("sessionData");
     if (sessionData) {
       navigate("/login");
+    } else {
+      setLoading(false);
     }
   }, [navigate]);
 
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
-    // <TooltipProvider delayDuration={0}>
-    //   <ResizablePanelGroup
-    //     direction="horizontal"
-    //     onLayout={(sizes: number[]) => {
-    //       document.cookie = `react-resizable-panels:layout:mail=${JSON.stringify(
-    //         sizes
-    //       )}`;
-    //     }}
-    //     className="min-h-screen items-stretch"
-    //   >
-    //     <ResizablePanel
-    //       defaultSize={defaultLayout[0]}
-    //       collapsedSize={navCollapsedSize}
-    //       collapsible={true}
-    //       minSize={5}
-    //       maxSize={10}
-    //       onCollapse={() => {
-    //         setIsCollapsed(true);
-    //         document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-    //           true
-    //         )}`;
-    //       }}
-    //       onResize={() => {
-    //         setIsCollapsed(false);
-    //         document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-    //           false
-    //         )}`;
-    //       }}
-    //       className={cn(
-    //         isCollapsed
-    //           ? "min-w-[50px] transition-all duration-300 ease-in-out "
-    //           : "h-screen sticky top-0"
-    //       )}
-    //     >
-    //       <div
-    //         className={cn(
-    //           "flex h-[52px] items-center justify-center",
-    //           isCollapsed ? "h-[52px]" : "px-2"
-    //         )}
-    //       >
-    //         <OrgSwitcher
-    //           isCollapsed={isCollapsed}
-    //           organizations={organizations}
-    //         />
-    //       </div>
-    //       <Separator />
-    //      <div className="flex gap-3 flex-col justify-between h-fit">
-    //       <div className="">
-    //       <Navbar
-    //         isCollapsed={isCollapsed}
-    //         links={[
-    //           {
-    //             title: "Inbox",
-    //             label: "128",
-    //             icon: Inbox,
-    //             variant: "default",
-    //           },
-    //           {
-    //             title: "Leads",
-    //             label: "9",
-    //             icon: Building,
-    //             variant: "ghost",
-    //           },
-    //           {
-    //             title: "Contacts",
-    //             label: "",
-    //             icon: User,
-    //             variant: "ghost",
-    //           },
-    //           {
-    //             title: "Apps",
-    //             label: "",
-    //             icon: LayoutGrid,
-    //             variant: "ghost",
-    //           },
-    //           {
-    //             title: "Workflows",
-    //             label: "23",
-    //             icon: ArchiveX,
-    //             variant: "ghost",
-    //           },
-    //           {
-    //             title: "Archive",
-    //             label: "",
-    //             icon: Archive,
-    //             variant: "ghost",
-    //           },
-    //         ]}
-    //       />
-    //       <Separator />
-    //       <Navbar
-    //         isCollapsed={isCollapsed}
-    //         links={[
-    //           {
-    //             title: "Social",
-    //             label: "972",
-    //             icon: Users2,
-    //             variant: "ghost",
-    //           },
-    //           {
-    //             title: "Updates",
-    //             label: "342",
-    //             icon: AlertCircle,
-    //             variant: "ghost",
-    //           },
-    //           {
-    //             title: "Forums",
-    //             label: "128",
-    //             icon: MessagesSquare,
-    //             variant: "ghost",
-    //           },
-    //           {
-    //             title: "Shopping",
-    //             label: "8",
-    //             icon: ShoppingCart,
-    //             variant: "ghost",
-    //           },
-    //           {
-    //             title: "Promotions",
-    //             label: "21",
-    //             icon: Archive,
-    //             variant: "ghost",
-    //           },
-    //         ]}
-    //       />
-    //       </div>
-    //      <div>
-    //      <Separator />
-    //       <Navbar
-    //         isCollapsed={isCollapsed}
-    //         links={[
-    //           {
-    //             title: "Integrations",
-    //             label: "8",
-    //             icon: ShoppingCart,
-    //             variant: "ghost",
-    //           },
-    //           {
-    //             title: "Settings",
-    //             label: "21",
-    //             icon: Archive,
-    //             variant: "ghost",
-    //           },
-    //         ]}
-    //       />
-    //      </div>
-    //      </div>
-    //     </ResizablePanel>
-    //     <ResizableHandle withHandle />
-    //     <ResizablePanel defaultSize={defaultLayout[1]} minSize={30} className="h-screen">
-    //       <div className="flex items-center px-4 justify-between">
-    //         <div className="bg-background/95 p-[6px] backdrop-blur supports-[backdrop-filter]:bg-background/60">
-    //           <form>
-    //             <div className="relative">
-    //               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-    //               <Input placeholder="Search" className="pl-8" />
-    //             </div>
-    //           </form>
-    //         </div>
-    //         <div className="flex items-center gap-4">
-    //           <ThemeToggle />
-    //           <UserNav />
-    //         </div>
-    //       </div>
-    //       <Separator />
-    //       <div className="max-h-full max-w-full min-w-full flex items-center justify-center">
-    //         <div className="max-h-screen max-w-full min-h-screen min-w-full overflow-auto">
-    //           <Outlet />
-    //         </div>
-    //       </div>
-    //     </ResizablePanel>
-    //   </ResizablePanelGroup>
-    // </TooltipProvider>
-    <Loader />
+    <TooltipProvider delayDuration={0}>
+      <ResizablePanelGroup
+        direction="horizontal"
+        onLayout={(sizes: number[]) => {
+          document.cookie = `react-resizable-panels:layout:mail=${JSON.stringify(
+            sizes
+          )}`;
+        }}
+        className="min-h-screen items-stretch"
+      >
+        <ResizablePanel
+          defaultSize={defaultLayout[0]}
+          collapsedSize={navCollapsedSize}
+          collapsible={true}
+          minSize={5}
+          maxSize={10}
+          onCollapse={() => {
+            setIsCollapsed(true);
+            document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+              true
+            )}`;
+          }}
+          onResize={() => {
+            setIsCollapsed(false);
+            document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+              false
+            )}`;
+          }}
+          className={cn(
+            isCollapsed
+              ? "min-w-[50px] transition-all duration-300 ease-in-out "
+              : "h-screen sticky top-0"
+          )}
+        >
+          <div
+            className={cn(
+              "flex h-[52px] items-center justify-center",
+              isCollapsed ? "h-[52px]" : "px-2"
+            )}
+          >
+            <OrgSwitcher
+              isCollapsed={isCollapsed}
+              organizations={organizations}
+            />
+          </div>
+          <Separator />
+         <div className="flex gap-3 flex-col justify-between h-fit">
+          <div className="">
+          <Navbar
+            isCollapsed={isCollapsed}
+            links={[
+              {
+                title: "Inbox",
+                label: "128",
+                icon: Inbox,
+                variant: "default",
+              },
+              {
+                title: "Leads",
+                label: "9",
+                icon: Building,
+                variant: "ghost",
+              },
+              {
+                title: "Contacts",
+                label: "",
+                icon: User,
+                variant: "ghost",
+              },
+              {
+                title: "Apps",
+                label: "",
+                icon: LayoutGrid,
+                variant: "ghost",
+              },
+              {
+                title: "Workflows",
+                label: "23",
+                icon: ArchiveX,
+                variant: "ghost",
+              },
+              {
+                title: "Archive",
+                label: "",
+                icon: Archive,
+                variant: "ghost",
+              },
+            ]}
+          />
+          <Separator />
+          <Navbar
+            isCollapsed={isCollapsed}
+            links={[
+              {
+                title: "Social",
+                label: "972",
+                icon: Users2,
+                variant: "ghost",
+              },
+              {
+                title: "Updates",
+                label: "342",
+                icon: AlertCircle,
+                variant: "ghost",
+              },
+              {
+                title: "Forums",
+                label: "128",
+                icon: MessagesSquare,
+                variant: "ghost",
+              },
+              {
+                title: "Shopping",
+                label: "8",
+                icon: ShoppingCart,
+                variant: "ghost",
+              },
+              {
+                title: "Promotions",
+                label: "21",
+                icon: Archive,
+                variant: "ghost",
+              },
+            ]}
+          />
+          </div>
+         <div>
+         <Separator />
+          <Navbar
+            isCollapsed={isCollapsed}
+            links={[
+              {
+                title: "Integration",
+                label: "8",
+                icon: ShoppingCart,
+                variant: "ghost",
+              },
+              {
+                title: "Settings",
+                label: "21",
+                icon: Archive,
+                variant: "ghost",
+              },
+            ]}
+          />
+         </div>
+         </div>
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel defaultSize={defaultLayout[1]} minSize={30} className="h-screen">
+          <div className="flex items-center px-4 justify-between">
+            <div className="bg-background/95 p-[6px] backdrop-blur supports-[backdrop-filter]:bg-background/60">
+              <form>
+                <div className="relative">
+                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input placeholder="Search" className="pl-8" />
+                </div>
+              </form>
+            </div>
+            <div className="flex items-center gap-4">
+              <ThemeToggle />
+              <UserNav />
+            </div>
+          </div>
+          <Separator />
+          <div className="max-h-full max-w-full min-w-full flex items-center justify-center">
+            <div className="max-h-screen max-w-full min-h-screen min-w-full overflow-auto">
+              <Outlet />
+            </div>
+          </div>
+        </ResizablePanel>
+      </ResizablePanelGroup>
+    </TooltipProvider>
   );
 }
