@@ -6,6 +6,7 @@ import {
   ArchiveX,
   Building,
   Inbox,
+  LayoutDashboard,
   LayoutGrid,
   MessagesSquare,
   Search,
@@ -37,7 +38,6 @@ export default function RootLayout() {
   const navCollapsedSize = undefined;
   const navigate = useNavigate();
 
-  // Organizations data
   const organizations = [
     {
       label: "Alicia Koch",
@@ -78,8 +78,8 @@ export default function RootLayout() {
   ];
 
   React.useEffect(() => {
-    const sessionData = sessionStorage.getItem("sessionData");
-    if (sessionData) {
+    const sessionData = sessionStorage.getItem("session");
+    if (!sessionData) {
       navigate("/login");
     } else {
       setLoading(false);
@@ -142,6 +142,12 @@ export default function RootLayout() {
           <Navbar
             isCollapsed={isCollapsed}
             links={[
+              {
+                title: "Dashboard",
+                label: "128",
+                icon: LayoutDashboard,
+                variant: "default",
+              },
               {
                 title: "Inbox",
                 label: "128",
@@ -222,7 +228,6 @@ export default function RootLayout() {
           <Navbar
             isCollapsed={isCollapsed}
             links={[
-              {
                 title: "Integration",
                 label: "8",
                 icon: ShoppingCart,

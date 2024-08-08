@@ -1,8 +1,8 @@
 import { Injectable, HttpException, HttpStatus, ConsoleLogger } from '@nestjs/common';
 import { CreateUserDto } from './dto/user.dto';
-import { TokenResponse } from 'google-auth-library/build/src/auth/impersonated';
+import { DateHelper } from '@org/utils';
 import { OAuth2Client } from 'google-auth-library/build/src/auth/oauth2client';
-
+import prisma from '../shared/utils/prisma';
 const client = new OAuth2Client(
   "639566010681-lt4gkh6lf2v6s6nap66vfvjpueqaqgkm.apps.googleusercontent.com",
  "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"
@@ -10,38 +10,38 @@ const client = new OAuth2Client(
 
 @Injectable()
 export class UserService {
-
-  async login(data: Omit<any, "error" | "error_description" | "error_uri">) {
+  
+  async create(data:  Omit<any, "error" | "error_description" | "error_uri">) {
     try {
-      console.log(data);
       const user = await client.verifyIdToken({
-        idToken: data.access_token,
-        audience: "639566010681-lt4gkh6lf2v6s6nap66vfvjpueqaqgkm.apps.googleusercontent.com",
+        idToken: data.credential,
+        audience: data.clientId,
       });
-
-      console.log(user.getPayload());
+      const payload = user.getPayload();
+      const upsertedUser = await prisma.user.upsert({
+        where: {
+          email: payload.email,
+        },
+        update: {
+          name: payload.name,
+          avatarUrl: payload.picture,
+          updatedAt: DateHelper.getCurrentUnixTime(),
+          deletedAt: 0,
+        },
+        create: {
+          name: payload.name,
+          email: payload.email,
+          avatarUrl: payload.picture,
+          authenticationMethod: 'GOOGLE',
+          createdAt: DateHelper.getCurrentUnixTime(),
+          deletedAt: 0,
+        },
+      });
       return {
         status: true,
         message: 'User created successfully.',
-        data: user,
+        data: upsertedUser,
       };
-    } catch (error) {
-      console.log(error)
-      throw new HttpException(
-        'Invalid data for user. Please check the provided data.',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-  }
-  async create(userDto: CreateUserDto) {
-    try {
-      const user = {
-        id: '1',
-        name: 'John Doe',
-        email: 'john@example.com',
-        authenticationMethod: 'GOOGLE',
-      };
-      return user;
     } catch (error) {
       throw new HttpException(
         'Invalid data for user. Please check the provided data.',

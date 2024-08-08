@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Tooltip,
   TooltipContent,
@@ -19,7 +18,7 @@ const Navbar = ({ links, isCollapsed }: any) => {
             <Tooltip key={index} delayDuration={0}>
               <TooltipTrigger asChild>
                 <a
-                  href="#"
+                  href={link.title.toLowerCase()}
                   className={cn(
                     buttonVariants({ variant: link.variant, size: "sm" }),
                     "h-9 w-12 flex items-center justify-center",
@@ -42,8 +41,7 @@ const Navbar = ({ links, isCollapsed }: any) => {
             </Tooltip>
           ) : (
             <a
-              key={index}
-              href="#"
+            href={link.title.toLowerCase()}
               className={cn(
                 buttonVariants({ variant: link.variant, size: "sm" }),
                 link.variant === "light" &&
