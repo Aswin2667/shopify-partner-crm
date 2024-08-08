@@ -3,6 +3,7 @@ import {
   UpdateOrganizationDto,
   CreateOrganizationDto,
 } from './dto/organization.dto';
+import { DateHelper } from '@org/utils';
 
 @Injectable()
 export class OrganizationService {
@@ -16,17 +17,32 @@ export class OrganizationService {
     return organization;
   }
 
-  async create(createOrganizationDto: CreateOrganizationDto): Promise<any> {
+  async create(data: CreateOrganizationDto): Promise<any> {
     try {
-      const newOrganization = {
-        id: 'org' + Math.floor(Math.random() * 10000),
-        ...createOrganizationDto,
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      };
+      const newOrganization = await prisma.organization.create({
+        data: {
+          name: data.name,
+          description: data.description,
+          createdAt: DateHelper.getCurrentUnixTime(),
+          updatedAt: 0,
+          logo:"https://www.shutterstock.com/shutterstock/photos/2330509313/display_1500/stock-photo-aerial-drone-view-of-shapes-of-cha-gorreana-tea-plantation-at-sao-miguel-azores-portugal-2330509313.jpg",
+          deletedAt:0
+        },
+      })
+       await prisma.orgMember.create({
+        data: {
+          organizationId: newOrganization.id,
+          userId: data.userId,
+          role: 'ADMIN',
+          createdAt: DateHelper.getCurrentUnixTime(),
+          updatedAt:0,
+          deletedAt:0
+        }
+      })
       this.organizations.push(newOrganization);
       return newOrganization;
     } catch (error) {
+      console.log(error)
       throw new HttpException(
         'Failed to create organization.',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -38,9 +54,14 @@ export class OrganizationService {
     userId: string,
   ): Promise<{ organizations: any[]; integrationCount: number }> {
     try {
-      const userOrganizations = this.organizations.filter(
-        (org) => org.userId === userId,
-      );
+      const userOrganizations = await prisma.orgMember.findMany({
+        where:{
+          userId:userId
+        },
+        include:{
+          organization:true
+        }
+      })
       return {
         organizations: userOrganizations,
         integrationCount: userOrganizations.length,

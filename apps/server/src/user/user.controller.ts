@@ -20,7 +20,7 @@ export class UserController {
 
   @Post('/login')
   async createUser(@Body() createUser: Omit<TokenResponse, "error" | "error_description" | "error_uri">) {
-          return this.userService.login(createUser);
+          return this.userService.create(createUser);
   }
 
   @Delete(':id')

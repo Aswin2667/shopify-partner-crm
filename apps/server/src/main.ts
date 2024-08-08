@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
 import validationPipeConfig from './common/pipes/validation-pipe.config';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { CustomInterceptors } from './common/interceptors/response.interceptor';
 import { CustomExceptionFilter } from './common/exceptions/errors.exception';
 import { setupSwagger } from './config/swagger.config';
@@ -17,13 +17,14 @@ async function bootstrap() {
     // app.useGlobalPipes(new ValidationPipe(validationPipeConfig));
     // app.useGlobalInterceptors(new CustomInterceptors());
     // app.useGlobalFilters(new CustomExceptionFilter());
-    app.enableCors();
+    app.enableCors({origin:"*"});
 
     app.use(helmet());
     setupSwagger(app);
     await app.listen(8080);
   } catch (error) {
     console.log(error);
+    Logger.log(error)
   }
 }
 bootstrap();

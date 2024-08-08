@@ -1,12 +1,10 @@
-import { Injectable } from '@nestjs/common';
 import { DateTime } from 'luxon';
 
-@Injectable()
-export class DateHelper {
+export default class DateHelper {
   public static getCurrentUnixTime() {
     return DateTime.now().toLocal().toUTC().toUnixInteger();
   }
-  public static formatTimestamp(utcTimestamp) {
+  public static formatTimestamp(utcTimestamp:number) {
     // Convert the UTC timestamp to milliseconds
     const date = new Date(utcTimestamp * 1000);
   
