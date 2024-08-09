@@ -7,6 +7,8 @@ import OrganizationList from "./pages/organizations/OrganizationList";
 import RootLayout from "./components/RootLayout";
 import Integration from "./pages/Integration/Integration";
 import IntegrationDetailScreen from "./pages/Integration/components/IntegrationDetailScreen";
+import IntegrationDashboard from "./pages/Integration/components/IntegrationDashboard";
+import IntegrationDashboardLayout from "./pages/Integration/components/IntegrationDashboardLayout";
 
 export const routes = createBrowserRouter([
   {
@@ -20,30 +22,39 @@ export const routes = createBrowserRouter([
     index: true,
   },
   {
-    path: "/:id",
-    element: <RootLayout />,
+    path: "/:organizationId",
+    element: <IntegrationDashboardLayout />,
     children: [
       {
-        path: "",
-        element: <Dashboard />,
         index: true,
+        element: <IntegrationDashboard />,
       },
       {
-        path: "inbox",
-        element: <Inbox />,
-      },
-      {
-        path: "integration",
+        path: ":integrationId",
+        element: <RootLayout />,
         children: [
           {
-            index: true,
-            element: <Integration />,
+            path: "inbox",
+            element: <Inbox />,
           },
           {
-            path: ":intergrationName",
-            element: <IntegrationDetailScreen />,
+            path: "integration",
+            children: [
+              {
+                index: true,
+                element: <Integration />,
+              },
+              {
+                path: ":intergrationName",
+                element: <IntegrationDetailScreen />,
+              },
+            ],
           },
         ],
+      },
+      {
+        path: "settings",
+        element: <>Organization Settings</>,
       },
     ],
   },

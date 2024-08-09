@@ -18,6 +18,10 @@ import { MulterModule } from '@nestjs/platform-express';
 import * as winston from 'winston';
 import { S3Service } from './s3/s3.service';
 import { S3Controller } from 's3.controller';
+import { IntegrationsController } from './integrations/integrations.controller';
+import { IntegrationsModule } from './integrations/integrations.module';
+import { IntegrationsService } from './integrations/integrations.service';
+
 import { BullModule, BullQueueEvents } from '@nestjs/bull';
 import { MailModule, MailService } from '@org/utils';
 
@@ -51,7 +55,8 @@ import { MailModule, MailService } from '@org/utils';
     OrgMemberInvitationsController,
     OrgMemberController,
     TemplateController,
-    S3Controller
+    S3Controller,
+    IntegrationsController
   ],
   providers: [
     UserService,
@@ -61,6 +66,7 @@ import { MailModule, MailService } from '@org/utils';
     OrgMemberService,
     TemplateService,
     S3Service,
+    IntegrationsService,
   ],
 })
 export class AppModule {

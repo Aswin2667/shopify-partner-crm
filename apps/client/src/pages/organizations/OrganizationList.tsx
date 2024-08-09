@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useNavigate } from "react-router-dom";
 import React from "react";
+import Loader from "@/components/Loader";
 import { UserNav } from "@/components/ui/userNav";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -75,6 +76,7 @@ export function CreateOrganizationPopup({
   //   }
   // };
   const { mutate: onSubmit } = useMutation({
+    
     mutationFn: async (data: any): Promise<any> =>
       await OrganizationService.create({ ...data, userId, image }),
     onSuccess: (response) => {
@@ -228,7 +230,6 @@ export default function OrganizationList() {
       navigate("/login");
     } else {
           fetchOrganizations();
-    }
   }, [navigate, reload]);
 
 
@@ -302,7 +303,6 @@ export default function OrganizationList() {
                   My Organizations
                 </a>
               </nav>
-             
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">

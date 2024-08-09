@@ -10,13 +10,12 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
-import {
-  TooltipTrigger,
-  TooltipContent,
-} from "@radix-ui/react-tooltip";
-import { Tooltip } from "@/components/ui/tooltip";
+// import {
+//   TooltipProvider,
+//   TooltipTrigger,
+//   TooltipContent,
+// } from "@radix-ui/react-tooltip";
 
 const organizationSchema = z.object({
   name: z.string().min(1, "Organization name is required"),
@@ -42,7 +41,6 @@ const CreateShopifyModal: React.FC = () => {
   const handleCancel = () => {
     reset();
   };
-  // const { toast } = useToast();
 
   return (
     <AlertDialogContent>
@@ -64,7 +62,7 @@ const CreateShopifyModal: React.FC = () => {
               type="text"
               {...register("name")}
               className={`bg-gray-50 border ${errors.name ? "border-red-500 " : "border-gray-300"} focus-visible:outline-none focus-visible:border-none text-gray-900 placeholder-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
-              placeholder="Bonnie Green"
+              placeholder="e.g. Bonnie Green"
             />
             {errors.name && (
               <p className="mt-2 text-sm text-red-600 dark:text-red-500">
@@ -79,7 +77,7 @@ const CreateShopifyModal: React.FC = () => {
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Partner ID
             </label>
-            <Tooltip>
+            {/* <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="outline">Hover</Button>
               </TooltipTrigger>
@@ -90,12 +88,12 @@ const CreateShopifyModal: React.FC = () => {
               >
                 <p className="text-sm">Add to library</p>
               </TooltipContent>
-            </Tooltip>
+            </Tooltip> */}
             <input
               type="number"
               {...register("partnerId")}
               className={`bg-gray-50 border ${errors.partnerId ? "border-red-500 " : "border-gray-300"} focus-visible:outline-none focus-visible:border-none text-gray-900 placeholder-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
-              placeholder="123456"
+              placeholder="e.g. 123456"
             />
             {errors.partnerId && (
               <p className="mt-2 text-sm text-red-600 dark:text-red-500">
@@ -114,7 +112,7 @@ const CreateShopifyModal: React.FC = () => {
               type="text"
               {...register("accessToken")}
               className={`bg-gray-50 border ${errors.accessToken ? "border-red-500 " : "border-gray-300"} focus-visible:outline-none focus-visible:border-none text-gray-900 placeholder-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
-              placeholder="123456"
+              placeholder="e.g. prtapi_abcdef123456"
             />
             {errors.accessToken && (
               <p className="mt-2 text-sm text-red-600 dark:text-red-500">
