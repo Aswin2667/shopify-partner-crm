@@ -14,17 +14,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useNavigate } from "react-router-dom";
-import React from "react";
+import React, { useEffect } from "react";
 import Loader from "@/components/Loader";
 import { UserNav } from "@/components/ui/userNav";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import OrganizationService from "@/services/OrganizationService";
 import DateHelper from "@/utils/DateHelper";
+import SkeletonCard from "@/components/skelotons/SkeletonCard";
+import OrganizationCard from "./OrganizationCard";
 
 const organizationSchema = z.object({
   name: z.string().min(1, "Organization name is required"),
@@ -35,7 +37,7 @@ const organizationSchema = z.object({
     .optional(),
 });
 
-export function CreateOrganizationPopup() {
+export function CreateOrganizationPopup({message}: {message: string}) {
   const {
     register,
     handleSubmit,
@@ -44,25 +46,23 @@ export function CreateOrganizationPopup() {
   }: any = useForm({
     resolver: zodResolver(organizationSchema),
   });
-  const userId = JSON.parse(sessionStorage.getItem("session")??"").id;
-  const {mutate:onSubmit} = useMutation({
+  const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
+  const { mutate: onSubmit } = useMutation({
     mutationFn: async (data: any): Promise<any> =>
-      await OrganizationService.create({...data,userId}),
+      await OrganizationService.create({ ...data, userId }),
     onSuccess: (response) => {
       toast({
         title: response.message,
         description: DateHelper.formatTimestamp(response.data.createdAt),
         duration: 1000,
-        variant: `${response.status ? 'default' : 'destructive'}`,
-      })
+        variant: `${response.status ? "default" : "destructive"}`,
+      });
       reset();
     },
-    onError: (error:any) => {
+    onError: (error: any) => {
       console.error("Login failed:", error?.response.data);
-    }
-  })
-
-
+    },
+  });
 
   const handleCancel = () => {
     reset();
@@ -72,11 +72,11 @@ export function CreateOrganizationPopup() {
   return (
     <>
       <AlertDialogTrigger asChild>
-        <Button>Create New Organization</Button>
+        <Button>{message}</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Create New Organization</AlertDialogTitle>
+          <AlertDialogTitle>Create new Organization</AlertDialogTitle>
           <AlertDialogDescription>
             Fill the following details to create an organization
           </AlertDialogDescription>
@@ -126,7 +126,9 @@ export function CreateOrganizationPopup() {
           <br />
           <AlertDialogFooter>
             <AlertDialogCancel onClick={handleCancel}>Cancel</AlertDialogCancel>
-            <AlertDialogAction type="submit" onClick={(data)=>onSubmit(data)}>Create</AlertDialogAction>
+            <AlertDialogAction type="submit" onClick={(data) => onSubmit(data)}>
+              Create
+            </AlertDialogAction>
           </AlertDialogFooter>
         </form>
       </AlertDialogContent>
@@ -137,12 +139,37 @@ export function CreateOrganizationPopup() {
 export default function OrganizationList() {
   const [loading, setLoading] = React.useState(true);
   const navigate = useNavigate();
-  const [organizations,setOrganizations] = React.useState([]);
+  const [organizations, setOrganizations] = React.useState([]);
+  const { toast } = useToast();
+
+  const fetchOrganizations = async () => {
+    try {
+      const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
+      const response:any =
+        await OrganizationService.getOrganizationsByUserId(userId);
+      setOrganizations(response.data.data);
+      if(!response.status){
+        toast({
+          title: response.message,
+          description: DateHelper.formatTimestamp(DateHelper.getCurrentUnixTime()),
+          duration: 1000,
+          variant: `${response.status ? "default" : "destructive"}`,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching organizations:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   React.useEffect(() => {
     const sessionData = sessionStorage.getItem("session");
     if (!sessionData) {
       navigate("/login");
     } else {
+      fetchOrganizations();
+
       setLoading(false);
     }
   }, [navigate]);
@@ -222,11 +249,14 @@ export default function OrganizationList() {
             <UserNav />
           </header>
           <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-            {organizations?.length === 0 ? (
-              <div
-                className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
-                x-chunk="dashboard-02-chunk-1"
-              >
+            {loading ? (
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                {[...Array(16)].map((_, index) => (
+                  <SkeletonCard key={index} />
+                ))}
+              </div>
+            ) : organizations.length === 0 ? (
+              <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
                 <div className="flex flex-col items-center gap-1 text-center">
                   <h3 className="text-2xl font-bold tracking-tight">
                     You have no Organization
@@ -235,13 +265,21 @@ export default function OrganizationList() {
                     You can start by creating a new organization or join by
                     invitation
                   </p>
-                  <CreateOrganizationPopup />
+                  <CreateOrganizationPopup message="Create new Organization" />
                 </div>
               </div>
             ) : (
+             <>
+             <div className="w-full flex items-center justify-end">
+             <CreateOrganizationPopup message="Create" />
+
+             </div> 
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-               
+                {organizations.map((organization, index) => (
+                  <OrganizationCard key={index} organization={organization} />
+                ))}
               </div>
+             </>
             )}
           </main>
         </div>

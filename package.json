@@ -9,6 +9,8 @@
   },
   "devDependencies": {
     "@types/luxon": "^3.4.2",
+    "@types/multer": "^1.4.11",
+    "@types/uuid": "^10.0.0",
     "@types/yamljs": "^0.2.34",
     "prettier": "3.3.3",
     "turbo": "^2.0.10",
@@ -33,9 +35,12 @@
     "class-validator": "^0.14.1",
     "google-auth-library": "^9.13.0",
     "jwt-decode": "^4.0.0",
+    "minio": "^8.0.1",
+    "nest-winston": "^1.9.7",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "react-router-dom": "^6.26.0",
+    "uuid": "^10.0.0",
     "zod": "^3.23.8"
   }
 }

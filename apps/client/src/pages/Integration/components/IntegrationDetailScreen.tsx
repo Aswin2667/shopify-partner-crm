@@ -25,7 +25,7 @@ const IntegrationDetailScreen: React.FC<Props> = (props: Props) => {
   return (
     <div className="space-y-10 flex flex-col items-center">
       <div className="border-b p-5 w-full">
-        <Link
+            <Link
           to=".."
           className="flex items-center gap-1 text-sm text-[#767676]
           hover:text-gray-800 w-fit"

@@ -2,6 +2,7 @@ import React from "react";
 import download from "../../assets/download.svg";
 import { integrations } from "./utils/data";
 import IntegrationItem from "./components/IntegrationItem";
+import { Button } from "@/components/ui/button";
 
 type Props = {};
 
@@ -26,6 +27,7 @@ const Integration: React.FC = (props: Props) => {
           ))}
         </ul>
       </div>
+      <Button />
     </div>
   );
 };
