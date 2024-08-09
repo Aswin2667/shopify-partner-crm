@@ -3,9 +3,8 @@ import download from "../../assets/download.svg";
 import { integrations } from "./utils/data";
 import IntegrationItem from "./components/IntegrationItem";
 
-type Props = {};
 
-const Integration: React.FC = (props: Props) => {
+const Integration: React.FC = () => {
   return (
     <div>
       <div className="border-b p-5">
