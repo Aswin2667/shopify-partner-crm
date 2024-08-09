@@ -1,59 +1,39 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { ServerClient } from 'postmark';
-import { generate } from 'otp-generator';
-import { SendEmailType, SendOtpType } from './types';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class MailService {
-  private Transporter: ServerClient;
+  constructor(private readonly mailerService: MailerService) {}
 
-  constructor(private readonly config: ConfigService) {
-    if (!this.Transporter) {
-      this.Transporter = new ServerClient(
-        this.config.get<string>('POSTMARK_TOKEN'),
-      );
+  async sendUserConfirmation(userEmail: string, data: string) {
+    try {
+      await this.mailerService.sendMail({
+        to: userEmail, // list of receivers
+        subject: 'Testing Nest MailerModule ✔', // Subject line
+        text: 'welcome', // plaintext body
+        html: '<b>welcome</b>', // HTML body content
+      }).then((res)=>{
+        console.log(res)
+      });
+    } catch (error) {
+      console.error('Error sending email:', error);
+      throw new Error('Failed to send confirmation email.');
     }
   }
 
-  async sendOtp({ email, storeName }: SendOtpType): Promise<number> {
+  async sendResetPassword(userEmail: string, token: string) {
     try {
-      const generateOtp: String = generate(6, {
-        upperCaseAlphabets: false,
-        specialChars: false,
-        digits: true,
-        lowerCaseAlphabets: false,
-      });
-
-      await this.Transporter.sendEmailWithTemplate({
-        From: this.config.get<string>('FROM_EMAIL_ADDRESS'),
-        To: `${email}`,
-        TemplateId: 34308445,
-        TemplateModel: {
-          name: `${email}`,
-          otp: generateOtp,
-          storeName: storeName,
+      await this.mailerService.sendMail({
+        to: userEmail,
+        subject: 'Reset your Password',
+        template: './reset-password',
+        context: { 
+          token,
         },
       });
-
-      return Number(generateOtp);
     } catch (error) {
-      throw error;
-    }
-  }
-
-  async sendEmail({ body, email, subject }: SendEmailType) {
-    try {
-      const emailDetail = await this.Transporter.sendEmail({
-        From: this.config.get<string>('FROM_EMAIL_ADDRESS'),
-        To: email,
-        HtmlBody: body,
-        Subject: subject,
-      });
-
-      return emailDetail;
-    } catch (error) {
-      throw error;
+      console.error('Error sending reset password email:', error);
+      throw new Error('Failed to send reset password email.');
     }
   }
 }

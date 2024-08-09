@@ -13,7 +13,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "./dropdown-menu"
-  
+
   export function UserNav() {
     const navigate = useNavigate();
     const session = sessionStorage.getItem("session")??"";

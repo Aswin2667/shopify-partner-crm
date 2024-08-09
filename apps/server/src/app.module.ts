@@ -22,6 +22,9 @@ import { IntegrationsController } from './integrations/integrations.controller';
 import { IntegrationsModule } from './integrations/integrations.module';
 import { IntegrationsService } from './integrations/integrations.service';
 
+import { BullModule, BullQueueEvents } from '@nestjs/bull';
+import { MailModule, MailService } from '@org/utils';
+
 @Module({
   imports: [
     MulterModule.register({
@@ -34,6 +37,16 @@ import { IntegrationsService } from './integrations/integrations.service';
         }),
       ],
     }),
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6378,
+      },
+    }),
+    BullModule.registerQueue({
+      name: 'events',
+    }),
+    MailModule
   ],
   controllers: [
     UserController,
