@@ -23,7 +23,6 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import Navbar from "./Navbar";
 import OrgSwitcher from "./OrgSwitcher";
 import ThemeToggle from "./ThemeToggle";
@@ -91,7 +90,6 @@ export default function RootLayout() {
   }
 
   return (
-    <TooltipProvider delayDuration={0}>
       <ResizablePanelGroup
         direction="horizontal"
         onLayout={(sizes: number[]) => {
@@ -269,6 +267,5 @@ export default function RootLayout() {
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>
-    </TooltipProvider>
   );
 }

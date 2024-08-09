@@ -4,9 +4,8 @@ import { integrations } from "./utils/data";
 import IntegrationItem from "./components/IntegrationItem";
 import { Button } from "@/components/ui/button";
 
-type Props = {};
 
-const Integration: React.FC = (props: Props) => {
+const Integration: React.FC = () => {
   return (
     <div>
       <div className="border-b p-5">
