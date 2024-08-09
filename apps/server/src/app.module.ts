@@ -18,6 +18,8 @@ import { MulterModule } from '@nestjs/platform-express';
 import * as winston from 'winston';
 import { S3Service } from './s3/s3.service';
 import { S3Controller } from 's3.controller';
+import { BullModule, BullQueueEvents } from '@nestjs/bull';
+import { MailModule, MailService } from '@org/utils';
 
 @Module({
   imports: [
@@ -31,6 +33,16 @@ import { S3Controller } from 's3.controller';
         }),
       ],
     }),
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6378,
+      },
+    }),
+    BullModule.registerQueue({
+      name: 'events',
+    }),
+    MailModule
   ],
   controllers: [
     UserController,

@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -11,12 +10,9 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useToast } from "@/components/ui/use-toast";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+
 import { Button } from "@/components/ui/button";
 import {
-  TooltipProvider,
   TooltipTrigger,
   TooltipContent,
 } from "@radix-ui/react-tooltip";
@@ -46,7 +42,7 @@ const CreateShopifyModal: React.FC = () => {
   const handleCancel = () => {
     reset();
   };
-  const { toast } = useToast();
+  // const { toast } = useToast();
 
   return (
     <AlertDialogContent>

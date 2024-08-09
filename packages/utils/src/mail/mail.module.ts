@@ -1,9 +1,19 @@
 import { Module } from '@nestjs/common';
 import { MailService } from './mail.service';
-import { ConfigModule } from '@nestjs/config';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
-  imports: [ConfigModule],
+  imports: [
+    MailerModule.forRoot({
+      transport: {
+        service: 'Gmail',
+        auth: {
+          user: 'bikecare.no.replay@gmail.com',
+          pass: 'jucpohpxtwtztzcq',
+        },
+      }
+    }),
+  ],
   providers: [MailService],
   exports: [MailService],
 })

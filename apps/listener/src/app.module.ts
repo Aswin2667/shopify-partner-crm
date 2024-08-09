@@ -1,10 +1,20 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-
+import { BullModule } from '@nestjs/bull';
+import { UserEventsProcessor } from './userEvents/user.event.processer';
+import {MailModule} from '@org/utils'
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6378, 
+      },
+    }),
+    BullModule.registerQueue({
+      name: 'events', 
+    }),
+    MailModule
+  ],
+  providers: [UserEventsProcessor],
 })
 export class AppModule {}

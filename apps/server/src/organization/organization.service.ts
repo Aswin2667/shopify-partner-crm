@@ -54,6 +54,7 @@ export class OrganizationService {
     userId: string,
   ): Promise<{ organizations: any[]; integrationCount: number }> {
     try {
+      
       const userOrganizations = await prisma.orgMember.findMany({
         where:{
           userId:userId
