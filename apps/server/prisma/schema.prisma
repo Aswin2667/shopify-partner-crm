@@ -188,9 +188,10 @@ model Integration {
   id             String        @id @default(uuid())
   organizationId String
   organization   Organization  @relation(fields: [organizationId], references: [id])
+  name           String
+  type           String?
   data           Json
   description    String?
-  type           String?
   createdAt      BigInt        @default(autoincrement())
   updatedAt      BigInt        @default(autoincrement())
   deletedAt      BigInt

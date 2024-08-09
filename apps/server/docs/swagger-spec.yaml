@@ -41,6 +41,10 @@ tags:
     description: Operations related to Contacts
   - name: Emails
     description: Operations related to Emails
+  - name: Integrations
+    description: Operations related to Integrations
+  - name: Apps
+    description: Operations related to applications
 
 paths:
   /user:
@@ -4013,3 +4017,1006 @@ paths:
                   message:
                     type: string
                     example: 'Internal server error'
+
+
+  # Apps
+  /apps/{integrationId}:
+    parameters:
+      - in: path
+        name: integrationId
+        required: true
+        schema:
+          type: string
+        description: Integration ID to retrive apps list 
+
+    # Get all apps of an integration by integrationId
+    get:
+      summary: Get all apps
+      operationId: getAllApps
+      tags:
+        - Apps
+      responses:
+        '200':
+          description: List of apps of an integration fetched Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "App List Fetched successfully."
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Apps'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid data for App. Please check the provided data."
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access. Please provide a valid API key."
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Integration Id not found."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "An unexpected error occurred. Please try again later."
+
+  /apps:
+    # Create an app
+    post:
+      summary: Create an app
+      operationId: createApp
+      tags:
+        - Apps
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "My App"
+                shopifyAppId:
+                  type: number
+                  example: 142561116161
+                shopifyClientId:
+                  type: string
+                  example: "aa34d8ba161ff72be06e138db0f5777e"
+                integrationId:
+                  type: string
+                  example: "ck2j49r2a0d1m0741gzhjo41v" 
+                organizationId:
+                  type: string
+                  example: "ck2j49r2a0d1m0741gzhjo41v"
+
+      responses:
+        '201':
+          description: App created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "App created successfully."
+                  data:
+                    type: object
+                    # schema:
+                    $ref: '#/components/schemas/Apps'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid data for App. Please check the provided data."
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access. Please provide a valid API key."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "An unexpected error occurred. Please try again later."
+
+  /apps/{appId}:
+    parameters:
+      - in: path
+        name: appId
+        required: true
+        schema:
+          type: string
+        description: App ID to perform operation
+
+    # Get an app by ID
+    get:
+      summary: Retrieve an app by ID
+      operationId: getAppById
+      tags:
+        - Apps
+      responses:
+        '200':
+          description: App found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "App Fetched successfully."
+                  data:
+                    type: object
+                    $ref: '#/components/schemas/Apps'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid data for App. Please check the provided data."
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access. Please provide a valid API key."
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "App Id not found."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "An unexpected error occurred. Please try again later."
+
+    # Update an app
+    put:
+      summary: Update an app
+      operationId: updateApp
+      tags:
+        - Apps
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "My App"
+                shopifyAppId:
+                  type: number
+                  example: 142561116161
+                shopifyClientId:
+                  type: string
+                  example: "aa34d8ba161ff72be06e138db0f5777e"
+      responses:
+        '200':
+          description: App updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Apps'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid data for App. Please check the provided data."
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access. Please provide a valid API key."
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "App Id not found."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "An unexpected error occurred. Please try again later."
+
+    # Delete an app
+    delete:
+      summary: Delete an app
+      operationId: deleteApp
+      tags:
+        - Apps
+      responses:
+        '204':
+          description: App deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "App deleted successfully."
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid data for App. Please check the provided data."
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access. Please provide a valid API key."
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "App Id not found."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "An unexpected error occurred. Please try again later."
+
+
+  # Integrations
+  /integrations/{organizationId}:
+    parameters:
+      - in: path
+        name: organizationId
+        required: true
+        schema:
+          type: string
+        description: Organization ID to retrive Integration list
+
+    # Get all integrations by Organization Id
+    get:
+      summary: Get all integrations
+      operationId: getAllIntegrations
+      tags:
+        - Integrations
+      responses:
+        '200':
+          description: List of integrations for an organization fetched Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Integrations List Fetched successfully."
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Integrations'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid data for Integration. Please check the provided data."
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access. Please provide a valid API key."
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Organization Id not found."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "An unexpected error occurred. Please try again later."
+
+  /integrations:
+    # Create an integration
+    post:
+      summary: Create an integration
+      operationId: createIntegration
+      tags:
+        - Integrations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "My Integration"
+                type:
+                  type: string
+                  enum:
+                    - SHOPIFY
+                    - KLAVIYO
+                    - ZAPIER
+                  example: "SHOPIFY"
+                data:
+                  type: object
+                  example: {
+                    "accessToken": "prtapi_eaf760b84b01f56228e266d699c42f8e",
+                    "partnerId": "3767830",
+                  }
+
+      responses:
+        '201':
+          description: Integration created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "App created successfully."
+                  data:
+                    type: object
+                    # schema:
+                    $ref: '#/components/schemas/Integrations'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid data for Integration. Please check the provided data."
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access. Please provide a valid API key."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "An unexpected error occurred. Please try again later."
+
+  /integrations/{integrationId}:
+    parameters:
+      - in: path
+        name: integrationId
+        required: true
+        schema:
+          type: string
+        description: Integration ID to perform operation
+    
+    # Get an integration by ID
+    get:
+      summary: Get an integration
+      operationId: getIntegration
+      tags:
+        - Integrations
+      responses:
+        '200':
+          description: Integration found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Integration Fetched successfully."
+                  data:
+                    type: object
+                    $ref: '#/components/schemas/Integrations'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid data for Integration. Please check the provided data."
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access. Please provide a valid API key."
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Integration Id not found."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "An unexpected error occurred. Please try again later."
+
+    # Update an integration
+    put:
+      summary: Update an integration
+      operationId: updateIntegration
+      tags:
+        - Integrations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "My Integration"
+                type:
+                  type: string
+                  enum:
+                    - SHOPIFY
+                    - KLAVIYO
+                    - ZAPIER
+                  example: "SHOPIFY"
+                data:
+                  type: object
+                  example: {
+                    "accessToken": "prtapi_eaf760b84b01f56228e266d699c42f8e",
+                    "partnerId": "3767830",
+                  }
+      responses:
+        '200':
+          description: Integration updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Integrations'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid data for Integration. Please check the provided data."
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access. Please provide a valid API key."
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Integration Id not found."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "An unexpected error occurred. Please try again later."
+
+    # Delete an integration
+    delete:
+      summary: Delete an integration
+      operationId: deleteIntegration
+      tags:
+        - Integrations
+      responses:
+        '204':
+          description: Integration deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Integration deleted successfully."
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid data for Integration. Please check the provided data."
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access. Please provide a valid API key."
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Integration Id not found."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "An unexpected error occurred. Please try again later."
+
+  /integrations/connect/{integrationId}:
+    post:
+      summary: Connect an integration
+      operationId: connectIntegration
+      tags:
+        - Integrations
+      parameters:
+        - name: partnerId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "3767830"
+      responses:
+        '200':
+          description: Integration connected successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Integration connected successfully."
+                  data:
+                    type: object
+                    $ref: '#/components/schemas/Integrations'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid data for Integration. Please check the provided data."
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access. Please provide a valid API key."
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Integration Id not found."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "An unexpected error occurred. Please try again later."
+
+  /integrations/disconnect/{integrationId}:
+    post:
+      summary: Disconnect an integration
+      operationId: disconnectIntegration
+      tags:
+        - Integrations
+      parameters:
+        - name: partnerId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "3767830"
+      responses:
+        '200':
+          description: Integration disconnected successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Integration disconnected successfully."
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid data for Integration. Please check the provided data."
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Unauthorized access. Please provide a valid API key."
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Integration Id not found."
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "An unexpected error occurred. Please try again later."
