@@ -5,6 +5,7 @@ import {
 } from "../components/ui/tooltip";
 import { buttonVariants } from "../components/ui/button";
 import { cn } from "../lib/utils";
+import { NavLink } from "react-router-dom";
 
 const Navbar = ({ links, isCollapsed }: any) => {
   return (
@@ -16,19 +17,22 @@ const Navbar = ({ links, isCollapsed }: any) => {
         {links.map((link: any, index: any) =>
           isCollapsed ? (
             <Tooltip key={index} delayDuration={0}>
-              <TooltipTrigger asChild>
-                <a
-                  href={link.title.toLowerCase()}
-                  className={cn(
-                    buttonVariants({ variant: link.variant, size: "sm" }),
-                    "h-9 w-12 flex items-center justify-center",
-                    link.variant === "light " &&
-                      "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white",
-                  )}
+              <TooltipTrigger>
+                <NavLink
+                  to={link.title.toLowerCase()}
+                  className={({ isActive }) =>
+                    cn(
+                      buttonVariants({
+                        variant: isActive ? "default" : "ghost",
+                        size: "sm",
+                      }),
+                      "justify-start"
+                    )
+                  }
                 >
                   <link.icon className="h-4 w-4" />
                   <span className="sr-only">{link.title}</span>
-                </a>
+                </NavLink>
               </TooltipTrigger>
               <TooltipContent side="right" className="flex items-center gap-4 ">
                 {link.title}
@@ -40,14 +44,17 @@ const Navbar = ({ links, isCollapsed }: any) => {
               </TooltipContent>
             </Tooltip>
           ) : (
-            <a
-            href={link.title.toLowerCase()}
-              className={cn(
-                buttonVariants({ variant: link.variant, size: "sm" }),
-                link.variant === "light" &&
-                  "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white outline-none",
-                "justify-start",
-              )}
+            <NavLink
+              to={link.title.toLowerCase()}
+              className={({ isActive }) =>
+                cn(
+                  buttonVariants({
+                    variant: isActive ? "default" : "ghost",
+                    size: "sm",
+                  }),
+                  "justify-start"
+                )
+              }
             >
               <link.icon className="mr-2 h-4 w-4" />
               {link.title}
@@ -56,14 +63,14 @@ const Navbar = ({ links, isCollapsed }: any) => {
                   className={cn(
                     "ml-auto",
                     link.variant === "default" &&
-                      "text-background dark:text-white",
+                      "text-background dark:text-white"
                   )}
                 >
                   {link.label}
                 </span>
               )}
-            </a>
-          ),
+            </NavLink>
+          )
         )}
       </div>
     </div>

@@ -13,10 +13,41 @@ import { OrgMemberService } from './org-member/org-member.service';
 import { AuthMiddleware } from './auth/auth.middleware';
 import { TemplateController } from './templates/template.controller';
 import { TemplateService } from './templates/template.service';
-import { LeadModule } from './leads/lead.module';
+import { WinstonModule } from 'nest-winston';
+import { MulterModule } from '@nestjs/platform-express';
+import * as winston from 'winston';
+import { S3Service } from './s3/s3.service';
+import { S3Controller } from 's3.controller';
+import { IntegrationsController } from './integrations/integrations.controller';
+import { IntegrationsModule } from './integrations/integrations.module';
+import { IntegrationsService } from './integrations/integrations.service';
+
+import { BullModule, BullQueueEvents } from '@nestjs/bull';
+import { MailModule, MailService } from '@org/utils';
 
 @Module({
-  imports: [UserModule, LeadModule],
+  imports: [
+    MulterModule.register({
+      dest: './uploads',
+    }),
+    WinstonModule.forRoot({
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.simple(),
+        }),
+      ],
+    }),
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6378,
+      },
+    }),
+    BullModule.registerQueue({
+      name: 'events',
+    }),
+    MailModule
+  ],
   controllers: [
     UserController,
     MagicLinkController,
@@ -24,6 +55,8 @@ import { LeadModule } from './leads/lead.module';
     OrgMemberInvitationsController,
     OrgMemberController,
     TemplateController,
+    S3Controller,
+    IntegrationsController
   ],
   providers: [
     UserService,
@@ -32,6 +65,8 @@ import { LeadModule } from './leads/lead.module';
     OrgMemberInvitationsService,
     OrgMemberService,
     TemplateService,
+    S3Service,
+    IntegrationsService,
   ],
 })
 export class AppModule {

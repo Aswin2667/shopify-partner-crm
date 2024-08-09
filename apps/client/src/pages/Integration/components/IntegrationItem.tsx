@@ -12,7 +12,7 @@ const IntegrationItem: React.FC<IntegrationItemProps> = ({
       className="border w-40 h-52 bg-white rounded-lg cursor-pointer hover:-translate-y-[2px]
     hover:drop-shadow-lg hover:transition-all hover:duration-200"
     >
-      <Link to={`/integration/${title.toLowerCase()}`}>
+      <Link to={title.toLowerCase()}>
         <div className="h-[55%] flex justify-center items-center">
           <img src={image} alt="" className="h-16 object-contain" />
         </div>
