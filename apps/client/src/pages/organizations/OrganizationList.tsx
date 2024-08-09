@@ -14,7 +14,6 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useNavigate } from "react-router-dom";
 import React from "react";
-import Loader from "@/components/Loader";
 import { UserNav } from "@/components/ui/userNav";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -230,7 +229,8 @@ export default function OrganizationList() {
       navigate("/login");
     } else {
           fetchOrganizations();
-  }, [navigate, reload]);
+    }
+  },[navigate, reload])
 
 
 

@@ -1,13 +1,4 @@
-import {
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-  } from "@/components/ui/alert-dialog";
+
   import { Home, Menu, Package2, Search } from "lucide-react";
   import { Button } from "@/components/ui/button";
   import { Input } from "@/components/ui/input";
@@ -19,8 +10,6 @@ import {
   import { useToast } from "@/components/ui/use-toast";
   import OrganizationService from "@/services/OrganizationService";
   import DateHelper from "@/utils/DateHelper";
-  import SkeletonCard from "@/components/skelotons/SkeletonCard";
-  import OrganizationCard from "../../organizations/OrganizationCard";
   import CreateShopifyModal from "./CreateShopifyModal";
   
   export default function IntegrationDashboardLayout() {
@@ -89,6 +78,7 @@ import {
                 </a>
               </nav>
             </div>
+            
           </div>
         </div>
         <div className="flex flex-col">
@@ -120,6 +110,7 @@ import {
                     <Home className="h-5 w-5" />
                     My Integrations
                   </a>
+                 
                 </nav>
               </SheetContent>
             </Sheet>
