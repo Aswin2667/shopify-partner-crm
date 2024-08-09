@@ -95,6 +95,8 @@ services:
       MINIO_ROOT_USER: test
       MINIO_ROOT_PASSWORD: 12345678
     container_name: s3
+    networks:
+      - app_network
     
 volumes:
   redis_insight_volume_data:

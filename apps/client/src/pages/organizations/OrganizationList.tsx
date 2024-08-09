@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useNavigate } from "react-router-dom";
-import React from "react";
+import React, { useEffect } from "react";
 import Loader from "@/components/Loader";
 import { UserNav } from "@/components/ui/userNav";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,9 +22,10 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
-import { useMutation } from "@tanstack/react-query";
 import OrganizationService from "@/services/OrganizationService";
 import DateHelper from "@/utils/DateHelper";
+import SkeletonCard from "@/components/skelotons/SkeletonCard";
+import OrganizationCard from "./OrganizationCard";
 
 const organizationSchema = z.object({
   name: z.string().min(1, "Organization name is required"),
@@ -35,7 +36,7 @@ const organizationSchema = z.object({
     .optional(),
 });
 
-export function CreateOrganizationPopup() {
+export function CreateOrganizationPopup({message}: {message: string}) {
   const {
     register,
     handleSubmit,
@@ -70,11 +71,11 @@ export function CreateOrganizationPopup() {
   return (
     <>
       <AlertDialogTrigger asChild>
-        <Button>Create New Organization</Button>
+        <Button>{message}</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Create New Organization</AlertDialogTitle>
+          <AlertDialogTitle>Create new Organization</AlertDialogTitle>
           <AlertDialogDescription>
             Fill the following details to create an organization
           </AlertDialogDescription>
@@ -137,12 +138,37 @@ export function CreateOrganizationPopup() {
 export default function OrganizationList() {
   const [loading, setLoading] = React.useState(true);
   const navigate = useNavigate();
-  const [organizations] = React.useState([]);
+  const [organizations, setOrganizations] = React.useState([]);
+  const { toast } = useToast();
+
+  const fetchOrganizations = async () => {
+    try {
+      const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
+      const response:any =
+        await OrganizationService.getOrganizationsByUserId(userId);
+      setOrganizations(response.data.data);
+      if(!response.status){
+        toast({
+          title: response.message,
+          description: DateHelper.formatTimestamp(DateHelper.getCurrentUnixTime()),
+          duration: 1000,
+          variant: `${response.status ? "default" : "destructive"}`,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching organizations:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   React.useEffect(() => {
     const sessionData = sessionStorage.getItem("session");
     if (!sessionData) {
       navigate("/login");
     } else {
+      fetchOrganizations();
+
       setLoading(false);
     }
   }, [navigate]);
@@ -204,43 +230,90 @@ export default function OrganizationList() {
                   MyOrganizations
                 </a>
               </nav>
-            </SheetContent>
-          </Sheet>
-          <div className="w-full flex-1">
-            <form>
-              <div className="relative">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="search"
-                  placeholder="Search organizations..."
-                  className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
-                />
-              </div>
-            </form>
-          </div>
-          <UserNav />
-        </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-          {organizations?.length === 0 ? (
-            <div
-              className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
-              x-chunk="dashboard-02-chunk-1"
-            >
-              <div className="flex flex-col items-center gap-1 text-center">
-                <h3 className="text-2xl font-bold tracking-tight">
-                  You have no Organization
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  You can start by creating a new organization or join by
-                  invitation
-                </p>
-                <CreateOrganizationPopup />
-              </div>
             </div>
-          ) : (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"></div>
-          )}
-        </main>
+          </div>
+        </div>
+        <div className="flex flex-col">
+          <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="shrink-0 md:hidden"
+                >
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Toggle navigation menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="flex flex-col">
+                <nav className="grid gap-2 text-lg font-medium">
+                  <a
+                    href="#"
+                    className="flex items-center gap-2 text-lg font-semibold"
+                  >
+                    <Package2 className="h-6 w-6" />
+                    <span className="sr-only">CRM</span>
+                  </a>
+                  <a
+                    href="#"
+                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                  >
+                    <Home className="h-5 w-5" />
+                    MyOrganizations
+                  </a>
+                </nav>
+              </SheetContent>
+            </Sheet>
+            <div className="w-full flex-1">
+              <form>
+                <div className="relative">
+                  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type="search"
+                    placeholder="Search organizations..."
+                    className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
+                  />
+                </div>
+              </form>
+            </div>
+            <UserNav />
+          </header>
+          <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+            {loading ? (
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                {[...Array(16)].map((_, index) => (
+                  <SkeletonCard key={index} />
+                ))}
+              </div>
+            ) : organizations.length === 0 ? (
+              <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
+                <div className="flex flex-col items-center gap-1 text-center">
+                  <h3 className="text-2xl font-bold tracking-tight">
+                    You have no Organization
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    You can start by creating a new organization or join by
+                    invitation
+                  </p>
+                  <CreateOrganizationPopup message="Create new Organization" />
+                </div>
+              </div>
+            ) : (
+             <>
+             <div className="w-full flex items-center justify-end">
+             <CreateOrganizationPopup message="Create" />
+
+             </div> 
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                {organizations.map((organization, index) => (
+                  <OrganizationCard key={index} organization={organization} />
+                ))}
+              </div>
+             </>
+            )}
+          </main>
+        </div>
       </div>
     </div>
   );

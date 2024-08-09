@@ -2,6 +2,7 @@ import React from "react";
 import download from "../../assets/download.svg";
 import { integrations } from "./utils/data";
 import IntegrationItem from "./components/IntegrationItem";
+import { Button } from "@/components/ui/button";
 
 
 const Integration: React.FC = () => {
@@ -25,6 +26,7 @@ const Integration: React.FC = () => {
           ))}
         </ul>
       </div>
+      <Button />
     </div>
   );
 };
