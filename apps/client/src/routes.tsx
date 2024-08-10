@@ -9,6 +9,8 @@ import Integration from "./pages/Integration/Integration";
 import IntegrationDetailScreen from "./pages/Integration/components/IntegrationDetailScreen";
 import IntegrationDashboard from "./pages/Integration/components/IntegrationDashboard";
 import IntegrationDashboardLayout from "./pages/Integration/components/IntegrationDashboardLayout";
+import WorkflowTable from "./pages/workflows/table/WorkflowTable";
+import Editor from "./pages/workflows/editor/Editor";
 
 export const routes = createBrowserRouter([
   {
@@ -47,6 +49,19 @@ export const routes = createBrowserRouter([
               {
                 path: ":intergrationName",
                 element: <IntegrationDetailScreen />,
+              },
+            ],
+          },
+          {
+            path: "workflows",
+            children: [
+              {
+                index: true,
+                element: <WorkflowTable />,
+              },
+              {
+                path: "editor/:id",
+                element: <Editor />,
               },
             ],
           },
