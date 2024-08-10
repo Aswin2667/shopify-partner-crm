@@ -40,6 +40,7 @@ export default function Login() {
               onSuccess={(credentialResponse) => {
                 handleLogin(credentialResponse);
               }}
+              auto_select={true}
             />
           </div>
         </div>

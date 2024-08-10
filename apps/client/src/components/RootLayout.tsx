@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   AlertCircle,
   Archive,
@@ -261,7 +261,7 @@ export default function RootLayout() {
           </div>
           <Separator />
           <div className="max-h-full max-w-full min-w-full flex items-center justify-center">
-            <div className="max-h-screen max-w-full min-h-screen min-w-full overflow-auto">
+            <div className="max-h-screen max-w-full min-h-screen min-w-full overflow-hidden">
               <Outlet />
             </div>
           </div>

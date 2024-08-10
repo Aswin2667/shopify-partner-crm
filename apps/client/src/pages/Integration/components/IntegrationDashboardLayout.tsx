@@ -3,7 +3,7 @@
   import { Button } from "@/components/ui/button";
   import { Input } from "@/components/ui/input";
   import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-  import { Outlet, useNavigate } from "react-router-dom";
+  import { Outlet, useNavigate, useParams } from "react-router-dom";
   import React from "react";
   import Loader from "@/components/Loader";
   import { UserNav } from "@/components/ui/userNav";
@@ -18,7 +18,7 @@
     const [organizations, setOrganizations] = React.useState([]);
     const { toast } = useToast();
     const [reload, setReload] = React.useState(false);
-  
+
     const fetchOrganizations = async () => {
       try {
         const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
@@ -42,6 +42,10 @@
       }
     };
   
+    const { integrationId, organizationId } = useParams();
+    if(integrationId && organizationId) {
+      return <Outlet />
+    }
     React.useEffect(() => {
       const sessionData = sessionStorage.getItem("session");
       if (!sessionData) {
@@ -78,7 +82,6 @@
                 </a>
               </nav>
             </div>
-            
           </div>
         </div>
         <div className="flex flex-col">
@@ -134,4 +137,3 @@
       </div>
     );
   }
-  
