@@ -29,7 +29,7 @@ import {
       return this.integrationsService.create(parsedData);
     }
   
-    @Get(':organizationId')
+    @Get(':organizationId/all')
     async findAll(@Param('organizationId') organizationId: string) {
       return this.integrationsService.findAll(organizationId);
     }

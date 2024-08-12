@@ -38,7 +38,7 @@ import prisma from "../shared/utils/prisma";
     async findAll(organizationId: string) {
       // Retrieve all integrations for a specific organization
       return prisma.integration.findMany({
-        where: { organizationId, deletedAt: null },
+        where: { organizationId },
       });
     }
   

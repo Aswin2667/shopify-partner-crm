@@ -1,21 +1,8 @@
-import {
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Home, Menu, Package2, Search } from "lucide-react";
+import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import Loader from "@/components/Loader";
-import { UserNav } from "@/components/ui/userNav";
 import { useToast } from "@/components/ui/use-toast";
 import OrganizationService from "@/services/OrganizationService";
 import DateHelper from "@/utils/DateHelper";
@@ -28,7 +15,7 @@ export default function IntegrationDashboard() {
   const navigate = useNavigate();
   const [organizations, setOrganizations] = React.useState([]);
   const { toast } = useToast();
-  const [reload, setReload] = React.useState(false);
+  const [reload] = React.useState(false);
 
   const fetchOrganizations = async () => {
     try {
