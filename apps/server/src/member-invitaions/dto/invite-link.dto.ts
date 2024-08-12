@@ -3,4 +3,5 @@ export class SendInviteLinkDto {
   organizationId: string;
   invitedBy: string;
   role: 'ADMIN' | 'MEMBER';
+  emails: any;
 }

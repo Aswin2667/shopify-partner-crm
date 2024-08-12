@@ -10,6 +10,13 @@ import IntegrationDashboard from "./pages/Integration/components/IntegrationDash
 import IntegrationDashboardLayout from "./pages/Integration/components/IntegrationDashboardLayout";
 import WorkflowTable from "./pages/workflows/table/WorkflowTable";
 import Editor from "./pages/workflows/editor/Editor";
+import OrganizationSettings from "./pages/organizations/OrganizationSettings";
+import SettingsLayout from "./pages/organizations/settings/layout";
+import SettingsProfilePage from "./pages/organizations/settings/page";
+import SettingsAppearancePage from "./pages/organizations/settings/appearance/page";
+import SettingsNotificationsPage from "./pages/organizations/settings/notifications/page";
+import SettingsDisplayPage from "./pages/organizations/settings/display/page";
+import ManageAccess from "./pages/organizations/ManageAccess";
 
 export const routes = createBrowserRouter([
   {
@@ -27,7 +34,7 @@ export const routes = createBrowserRouter([
     element: <IntegrationDashboardLayout />,
     children: [
       {
-        index: true,
+        path: "dashboard",
         element: <IntegrationDashboard />,
       },
       {
@@ -72,7 +79,30 @@ export const routes = createBrowserRouter([
       },
       {
         path: "settings",
-        element: <>Organization Settings</>,
+        element: <SettingsLayout />,
+        children:[
+          {
+            index: true,
+            path:"profile",
+            element: <SettingsProfilePage />
+          },
+          {
+            path:"appearance",
+            element: <SettingsAppearancePage />
+          },
+          {
+            path:"notifications",
+            element: <SettingsNotificationsPage />
+          },
+          {
+            path:"display",
+            element: <SettingsDisplayPage/>
+          }
+        ]
+      },
+      {
+        path: "manage-access",
+        element: <ManageAccess />,
       },
     ],
   },
