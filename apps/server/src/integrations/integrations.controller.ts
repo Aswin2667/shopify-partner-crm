@@ -17,7 +17,7 @@ import {
   } from './dto/integrations.dto';
   import z from "zod"
   
-  @Controller('integrations')
+  @Controller('integration')
   export class IntegrationsController {
     constructor(private readonly integrationsService: IntegrationsService) {}
   
