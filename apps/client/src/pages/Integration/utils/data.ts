@@ -1,6 +1,8 @@
 import { IntegrationItem } from "./types";
 import gmail from "../../../assets/gmail.png";
 import shopify from "../../../assets/shopify-logo.svg";
+import { Home, PackagePlus, Users, Settings } from "lucide-react";
+
 
 export const integrations: IntegrationItem[] = [
   {
@@ -29,3 +31,30 @@ export const integrationsList = {
       "Shopify seamlessly integrates with your e-commerce operations, giving you full visibility into your sales and customer data from within the app. When you connect Shopify to your platform, you'll gain a robust, all-in-one solution tailored to optimize and supercharge your online business.",
   },
 };
+
+export const intergrationSideBarList = [
+  {
+    id: 'igsbl_1',
+    to:"dashboard",
+    Icon: Home,
+    title: "My Integrations",
+  },
+  {
+    id: 'igsbl_2',
+    to:"create-integration",
+    Icon: PackagePlus,
+    title: "Create Integration",
+  },
+  {
+    id: 'igsbl_3',
+    to:"manage-access",
+    Icon: Users,
+    title: "Manage Access",
+  },
+  {
+    id: 'igsbl_4',
+    to:"settings",
+    Icon: Settings,
+    title: "Settings",
+  }
+]

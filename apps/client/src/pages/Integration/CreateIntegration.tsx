@@ -2,14 +2,13 @@ import React from "react";
 import download from "../../assets/download.svg";
 import { integrations } from "./utils/data";
 import IntegrationItem from "./components/IntegrationItem";
-import { Button } from "@/components/ui/button";
 
 
-const Integration: React.FC = () => {
+const CreateIntegration: React.FC = () => {
   return (
     <div>
       <div className="border-b p-5">
-        <h1 className="text-2xl font-medium">Integrations</h1>
+        <h1 className="text-2xl font-medium">Create Integrations</h1>
       </div>
       <div
         className="bg-gray-100 h-96 bg-no-repeat bg-cover bg-left-top flex justify-center"
@@ -26,9 +25,8 @@ const Integration: React.FC = () => {
           ))}
         </ul>
       </div>
-      <Button />
     </div>
   );
 };
 
-export default Integration;
+export default CreateIntegration;

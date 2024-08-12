@@ -11,11 +11,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-// import {
-//   TooltipProvider,
-//   TooltipTrigger,
-//   TooltipContent,
-// } from "@radix-ui/react-tooltip";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import IntegrationService from "@/services/IntegrationService";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const organizationSchema = z.object({
   name: z.string().min(1, "Organization name is required"),
@@ -25,6 +24,12 @@ const organizationSchema = z.object({
 });
 
 const CreateShopifyModal: React.FC = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const { currentOrganization } = useSelector(
+    (state: any) => state.organization
+  );
   const {
     register,
     handleSubmit,
@@ -33,14 +38,23 @@ const CreateShopifyModal: React.FC = () => {
   }: any = useForm({
     resolver: zodResolver(organizationSchema),
   });
-  // const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
-  const onSubmit = async (data: any) => {
-    console.log(data);
-  };
 
-  const handleCancel = () => {
-    reset();
-  };
+  const { mutate: createIntergration } = useMutation({
+    mutationFn: async (data: any): Promise<any> =>
+      await IntegrationService.create(data),
+    // TODO: optimize by updating redux with respose data instead of making new request
+    onSuccess: (response) => {
+      reset();
+      queryClient.invalidateQueries({
+        queryKey: ["getAllIntegrations", currentOrganization.id],
+      });
+      navigate(`/${currentOrganization?.id}/dashboard`);
+    },
+    onError: (error: any) => {
+      console.error("Login failed:", error?.response.data);
+    },
+  });
+
 
   return (
     <AlertDialogContent>
@@ -51,7 +65,20 @@ const CreateShopifyModal: React.FC = () => {
         </AlertDialogDescription>
       </AlertDialogHeader>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit((data: any) =>
+          createIntergration({
+            name: data.name,
+            type: "SHOPIFY",
+            data: {
+              partnerId: data.partnerId,
+              accessToken: data.accessToken,
+            },
+            organizationId: currentOrganization?.id,
+            description: data.description,
+          })
+        )}
+      >
         <div>
           {/* Connection Name */}
           <div>
@@ -71,7 +98,7 @@ const CreateShopifyModal: React.FC = () => {
             )}
           </div>
           <br />
-          
+
           {/* Partner ID */}
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -137,7 +164,7 @@ const CreateShopifyModal: React.FC = () => {
         </div>
         <br />
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={handleCancel}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel onClick={() => reset()}>Cancel</AlertDialogCancel>
           <Button type="submit">Create</Button>
         </AlertDialogFooter>
       </form>

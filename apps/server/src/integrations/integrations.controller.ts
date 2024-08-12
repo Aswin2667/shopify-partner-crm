@@ -17,7 +17,7 @@ import {
   } from './dto/integrations.dto';
   import z from "zod"
   
-  @Controller('integrations')
+  @Controller('integration')
   export class IntegrationsController {
     constructor(private readonly integrationsService: IntegrationsService) {}
   
@@ -29,7 +29,7 @@ import {
       return this.integrationsService.create(parsedData);
     }
   
-    @Get(':organizationId')
+    @Get(':organizationId/all')
     async findAll(@Param('organizationId') organizationId: string) {
       return this.integrationsService.findAll(organizationId);
     }
