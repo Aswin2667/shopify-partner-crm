@@ -29,7 +29,7 @@ const sidebarNavItems = [
 export default function SettingsLayout() {
   return (
     <>
-      <div className="hidden space-y-6 md:block">
+      <div className="hidden space-y-6 md:block p-4">
         <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0 h-full ">
           <aside className="lg:w-1/5 max-h-fit">
             <SidebarNav items={sidebarNavItems} />

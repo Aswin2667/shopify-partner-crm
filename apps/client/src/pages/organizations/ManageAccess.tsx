@@ -114,7 +114,7 @@ const ManageAccess = () => {
   };
   
   return (
-    <div className="">
+    <div className="p-4">
       <div className="flex flex-col items-start space-y-4">
         <div className="box-border flex-wrap gap-3">
           {invitedEmails.length > 0 && (

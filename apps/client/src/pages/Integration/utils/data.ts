@@ -53,7 +53,7 @@ export const intergrationSideBarList = [
   },
   {
     id: 'igsbl_4',
-    to:"settings",
+    to:"settings/profile",
     Icon: Settings,
     title: "Settings",
   }
