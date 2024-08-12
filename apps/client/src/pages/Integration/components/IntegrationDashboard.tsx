@@ -1,110 +1,77 @@
-import {
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Home, Menu, Package2, Search } from "lucide-react";
+import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useNavigate } from "react-router-dom";
 import React from "react";
-import Loader from "@/components/Loader";
-import { UserNav } from "@/components/ui/userNav";
 import { useToast } from "@/components/ui/use-toast";
-import OrganizationService from "@/services/OrganizationService";
-import DateHelper from "@/utils/DateHelper";
 import SkeletonCard from "@/components/skelotons/SkeletonCard";
-import OrganizationCard from "../../organizations/OrganizationCard";
-import CreateShopifyModal from "./CreateShopifyModal";
+import { dataTagSymbol, useQuery } from "@tanstack/react-query";
+import IntegrationService from "@/services/IntegrationService";
+import { useDispatch, useSelector } from "react-redux";
+import { useQueryEvents } from "@/hooks/useQueryEvents.tsx";
+import { integrationAction } from "@/redux/integrationSlice";
+import IntegrationCard from "./IntegrationCard";
 
 export default function IntegrationDashboard() {
-  const [loading, setLoading] = React.useState(true);
   const navigate = useNavigate();
-  const [organizations, setOrganizations] = React.useState([]);
+  const dispatch = useDispatch();
   const { toast } = useToast();
-  const [reload, setReload] = React.useState(false);
 
-  const fetchOrganizations = async () => {
-    try {
-      const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
-      const response: any =
-        await OrganizationService.getOrganizationsByUserId(userId);
-      setOrganizations(response.data.data);
-      if (!response.status) {
-        toast({
-          title: response.message,
-          description: DateHelper.formatTimestamp(
-            DateHelper.getCurrentUnixTime()
-          ),
-          duration: 1000,
-          variant: `${response.status ? "default" : "destructive"}`,
-        });
-      }
-    } catch (error) {
-      console.error("Error fetching organizations:", error);
-    } finally {
-      setLoading(false);
+  const { currentOrganization } = useSelector(
+    (state: any) => state.organization
+  );
+
+  const { integrations } = useSelector((state: any) => state.integration);
+
+  const { isLoading } = useQueryEvents(
+    useQuery({
+      queryKey: ["getAllIntegrations", currentOrganization.id],
+      queryFn: async () =>
+        await IntegrationService.getAllIntegrations(currentOrganization.id),
+    }),
+    {
+      onSuccess: (data: any) =>
+        dispatch(integrationAction.setIntegrations(data)),
+      onError: (err: Error) => console.log("An error happened:", err.message),
     }
-  };
-
-  React.useEffect(() => {
-    const sessionData = sessionStorage.getItem("session");
-    if (!sessionData) {
-      navigate("/login");
-    } else {
-      fetchOrganizations();
-
-      setLoading(false);
-    }
-  }, [navigate, reload]);
-
-  if (loading) {
-    return <Loader />;
-  }
+  );
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-      {loading ? (
+      {isLoading ? (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {[...Array(16)].map((_, index) => (
             <SkeletonCard key={index} />
           ))}
         </div>
-      ) : organizations.length === 0 ? (
-        <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
+      ) : integrations.length === 0 ? (
+        <div className="flex flex-1 items-center justify-center rounded-lg min-h-fit border border-dashed shadow-sm">
           <div className="flex flex-col items-center gap-1 text-center">
             <h3 className="text-2xl font-bold tracking-tight">
-              You have no Shopify Integration
+              You have no Integration at the moment
             </h3>
             <p className="text-sm text-muted-foreground">
-              You can start by creating a new shopify integration
+              You can start by creating a new integration
             </p>
-            <AlertDialogTrigger>
-              <Button>Create</Button>
-            </AlertDialogTrigger>
+            <Button
+              onClick={() =>
+                navigate(
+                  `/${currentOrganization?.id}/create-integration`
+                )
+              }
+            >
+              Create
+            </Button>
           </div>
         </div>
       ) : (
         <>
-          <div className="w-full flex items-center justify-end">
-            <AlertDialogTrigger>
-              <Button>Create</Button>
-            </AlertDialogTrigger>
-          </div>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {organizations.map((organization, index) => (
-              <OrganizationCard key={index} organization={organization} />
+            {integrations.map((integration: any) => (
+              <IntegrationCard key={integration.id} integration={integration} />
             ))}
           </div>
         </>
       )}
-      <CreateShopifyModal />
     </main>
   );
 }
