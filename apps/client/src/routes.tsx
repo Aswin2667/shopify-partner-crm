@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import Login from "./pages/auth/Login";
-import Dashboard from "./pages/organizations/Dashboard";
 import Inbox from "./pages/mail/Inbox";
 import PageNotFount from "./pages/404/404";
 import OrganizationList from "./pages/organizations/OrganizationList";

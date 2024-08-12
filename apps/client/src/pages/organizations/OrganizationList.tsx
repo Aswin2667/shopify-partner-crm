@@ -317,7 +317,7 @@ export default function OrganizationList() {
               </div>
             </form>
           </div>
-          <UserNav />
+          {/* <UserNav /> */}
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
           {loading ? (
