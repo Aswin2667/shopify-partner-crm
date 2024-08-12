@@ -1,9 +1,9 @@
 
-  import { Home, Menu, Package2, Search } from "lucide-react";
+  import { Home, Menu, Package2, Search, Users } from "lucide-react";
   import { Button } from "@/components/ui/button";
   import { Input } from "@/components/ui/input";
   import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-  import { Outlet, useNavigate, useParams } from "react-router-dom";
+  import { NavLink, Outlet, useNavigate, useParams } from "react-router-dom";
   import React from "react";
   import Loader from "@/components/Loader";
   import { UserNav } from "@/components/ui/userNav";
@@ -11,7 +11,7 @@
   import OrganizationService from "@/services/OrganizationService";
   import DateHelper from "@/utils/DateHelper";
   import CreateShopifyModal from "./CreateShopifyModal";
-  
+
   export default function IntegrationDashboardLayout() {
     const [loading, setLoading] = React.useState(true);
     const navigate = useNavigate();
@@ -73,18 +73,42 @@
             </div>
             <div className="flex-1">
               <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                <a
-                  href="#"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                >
+                <NavLink
+                  to="dashboard"
+                  className={({isActive}) =>
+                    `flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
+                      isActive ? "text-primary" : ""
+                    }`
+                  }                >
                   <Home className="h-4 w-4" />
                   My Integrations
-                </a>
+                </NavLink>
+                <NavLink
+                  to="manage-access"
+                  className={({isActive}) =>
+                    `flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
+                      isActive ? "text-primary" : ""
+                    }`
+                  }                >
+                  <Users className="h-4 w-4" />
+                  Manage Access
+                </NavLink>
+                <NavLink
+                  to="settings/profile"
+                  className={({isActive}) =>
+                    `flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
+                      isActive ? "text-primary" : ""
+                    }`
+                  }
+                >
+                  <Home className="h-4 w-4" />
+                  Settings
+                </NavLink>
               </nav>
             </div>
           </div>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col h-screen">
           <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
             <Sheet>
               <SheetTrigger asChild>
@@ -113,7 +137,6 @@
                     <Home className="h-5 w-5" />
                     My Integrations
                   </a>
-                 
                 </nav>
               </SheetContent>
             </Sheet>
@@ -131,7 +154,9 @@
             </div>
             <UserNav />
           </header>
-          <Outlet />
+          <div className="overflow-y-auto p-4">
+              <Outlet />
+          </div>
         </div>
         <CreateShopifyModal />
       </div>

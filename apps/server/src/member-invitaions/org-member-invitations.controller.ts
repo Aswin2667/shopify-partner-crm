@@ -51,4 +51,38 @@ export class OrgMemberInvitationsController {
       );
     }
   }
+
+  @Get('all')
+  async getOrgMemberInvitationsByOrgId(@Query('orgId') orgId: string) {
+    if (!orgId) {
+      throw new HttpException(
+        { status: false, message: 'Organization ID is required', data: null },
+        HttpStatus.BAD_REQUEST
+      );
+    }
+
+    try {
+      const invitations = await this.orgMemberInvitationsService.getInvitationByOrgId(orgId);
+
+      if (!invitations.length) {
+        return {
+          status: false,
+          message: 'No invitations found for this organization',
+          data: null,
+        };
+      }
+
+      return {
+        status: true,
+        message: 'Invitations retrieved successfully',
+        data: invitations,
+      };
+    } catch (error) {
+      console.error('Error fetching invitations:', error);
+      throw new HttpException(
+        { status: false, message: 'An error occurred while retrieving invitations', data: null },
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
 }
