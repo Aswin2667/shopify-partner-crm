@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL") 
 }
 
 model User {
@@ -45,7 +45,7 @@ model Organization {
   createdAt   BigInt          @default(autoincrement())
   updatedAt   BigInt          @default(autoincrement())
   deletedAt   BigInt
-  apps        Apps[]
+  Projects        Projects[]
   members     OrgMember[]
   invites     OrgMemberInvite[]
   integrations Integration[]
@@ -65,17 +65,19 @@ model OrgMember {
   @@unique([organizationId, userId])
 }
 
-model Apps {
+model Projects {
   id              String        @id @default(uuid())
   slug            String        @unique
   name            String
+  type            String
+  data            Json
   organization    Organization  @relation(fields: [organizationId], references: [id])
   organizationId  String
   createdAt       BigInt        @default(autoincrement())
   updatedAt       BigInt        @default(autoincrement())
   deletedAt       BigInt?
   version         AppVersion    @default(V2)
-  leadApps        LeadApps[]
+  leadProjects        LeadProjects[]
   integrationId   String?
   integration     Integration?  @relation(fields: [integrationId], references: [id])
 }
@@ -94,7 +96,7 @@ model Lead {
   id              String        @id @default(uuid())
   shopifyDomain   String        @unique
   shopifyStoreId  String        @unique
-  apps            LeadApps[]
+  Projects            LeadProjects[]
   leadSource      String?
   shopDetails     Json?
   industry        String?
@@ -107,18 +109,18 @@ model Lead {
   attachments     Attachment[]
 }
 
-model LeadApps {
+model LeadProjects {
   id         String @id @default(uuid())
   leadId     String
-  appId      String
+  projectId      String
   lead       Lead   @relation(fields: [leadId], references: [id])
-  app        Apps   @relation(fields: [appId], references: [id])
+  project        Projects   @relation(fields: [projectId], references: [id])
   createdAt  BigInt @default(autoincrement())
   updatedAt  BigInt @default(autoincrement())
   deletedAt  BigInt
   status     String?
 
-  @@unique([appId, leadId])
+  @@unique([projectId, leadId])
 }
 
 model Contact {
@@ -195,7 +197,7 @@ model Integration {
   createdAt      BigInt        @default(autoincrement())
   updatedAt      BigInt        @default(autoincrement())
   deletedAt      BigInt
-  apps           Apps[]
+  Projects           Projects[]
 }
 
 model Template {
