@@ -6,7 +6,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
   imports: [
     MailerModule.forRoot({
       transport: {
-        service: 'Gmail',
+        host: 'smtp.gmail.com',
         auth: {
           user: 'bikecare.no.replay@gmail.com',
           pass: 'jucpohpxtwtztzcq',

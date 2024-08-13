@@ -2,7 +2,17 @@ import { organizationCreate } from "@/lib/types";
 import axiosInstance from "@/utils/_axios";
 
 export default class OrganizationService {
-  private static BASE_PATH = "/organization";
+
+  private static BASE_PATH = '/organization'; 
+  static async invite(data: any) {
+    try {
+      const response = await axiosInstance.post(`invitation/send`, data);
+      return response;
+    } catch (error) {
+      console.error('Error fetching organizations:', error);
+      throw error;
+    }
+  }
 
   static async getOrganizationsByUserId(id: any) {
     try {
