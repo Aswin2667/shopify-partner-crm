@@ -1,7 +1,7 @@
 import { columns } from "./components/columns"
 import { DataTable } from "./components/data-table"
 
-export default function WorkflowTable() {
+export default function LeadTable() {
   const tasks =  [
     {
       "id": "TASK-8782",

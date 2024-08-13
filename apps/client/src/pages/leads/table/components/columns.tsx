@@ -44,7 +44,7 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => {
 
       const navigate = useNavigate()
-      return <div onClick={() => navigate(`editor/${row.getValue("id")}`)}  className="w-[80px] hover:underline hover:text-blue-600 hover:cursor-pointer">{row.getValue("id")}</div>
+      return <div onClick={() => navigate(`${row.getValue("id")}`)}  className="w-[80px] hover:underline hover:text-blue-600 hover:cursor-pointer">{row.getValue("id")}</div>
     },
     enableSorting: false,
     enableHiding: false,

@@ -2,7 +2,7 @@ import "./404page.css";
 import pagenotfound from "../../assets/gif/PageNotFound.gif";
 const PageNotFound = () => {
   return (
-    <div className="w-screen h-screen bg-white">
+    <div className="w-screen h-screen ">
       <div className="container">
         <div className="gif">
           <img src={pagenotfound} alt="gif_ing" />

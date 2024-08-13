@@ -10,14 +10,15 @@ import IntegrationDashboard from "./pages/Integration/components/IntegrationDash
 import IntegrationDashboardLayout from "./pages/Integration/components/IntegrationDashboardLayout";
 import WorkflowTable from "./pages/workflows/table/WorkflowTable";
 import Editor from "./pages/workflows/editor/Editor";
-import OrganizationSettings from "./pages/organizations/OrganizationSettings";
 import SettingsLayout from "./pages/organizations/settings/layout";
 import SettingsProfilePage from "./pages/organizations/settings/page";
 import SettingsAppearancePage from "./pages/organizations/settings/appearance/page";
 import SettingsNotificationsPage from "./pages/organizations/settings/notifications/page";
 import SettingsDisplayPage from "./pages/organizations/settings/display/page";
 import ManageAccess from "./pages/organizations/ManageAccess";
-import Lead from "./pages/leads/Lead";
+import DashboardPage from "./pages/organizations/dashboard/page";
+import LeadDashboard from "./pages/leads/components/DashBoard";
+import LeadTable from "./pages/leads/table/LeadTable";
 
 export const routes = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ export const routes = createBrowserRouter([
         element: <RootLayout />,
         children: [
           {
+            path: "dashboard",
+            element: <DashboardPage />,
+          },
+          {
             path: "inbox",
             element: <Inbox />,
           },
@@ -62,10 +67,21 @@ export const routes = createBrowserRouter([
                 element: <Editor />,
               },
             ],
-          },{
+          },
+          {
             path: "leads",
-            element: <Lead />,
-          }
+            children: [
+              {
+                index:true,
+                element:<LeadTable />
+              },
+              {
+                path: ":leadId",
+                
+                element: <LeadDashboard />,
+              },
+            ],
+          },
         ],
       },
       {
@@ -84,25 +100,25 @@ export const routes = createBrowserRouter([
       {
         path: "settings",
         element: <SettingsLayout />,
-        children:[
+        children: [
           {
             index: true,
-            path:"profile",
-            element: <SettingsProfilePage />
+            path: "profile",
+            element: <SettingsProfilePage />,
           },
           {
-            path:"appearance",
-            element: <SettingsAppearancePage />
+            path: "appearance",
+            element: <SettingsAppearancePage />,
           },
           {
-            path:"notifications",
-            element: <SettingsNotificationsPage />
+            path: "notifications",
+            element: <SettingsNotificationsPage />,
           },
           {
-            path:"display",
-            element: <SettingsDisplayPage/>
-          }
-        ]
+            path: "display",
+            element: <SettingsDisplayPage />,
+          },
+        ],
       },
       {
         path: "manage-access",
