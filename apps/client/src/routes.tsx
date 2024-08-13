@@ -17,6 +17,7 @@ import SettingsAppearancePage from "./pages/organizations/settings/appearance/pa
 import SettingsNotificationsPage from "./pages/organizations/settings/notifications/page";
 import SettingsDisplayPage from "./pages/organizations/settings/display/page";
 import ManageAccess from "./pages/organizations/ManageAccess";
+import Lead from "./pages/leads/Lead";
 
 export const routes = createBrowserRouter([
   {
@@ -61,7 +62,10 @@ export const routes = createBrowserRouter([
                 element: <Editor />,
               },
             ],
-          },
+          },{
+            path: "leads",
+            element: <Lead />,
+          }
         ],
       },
       {

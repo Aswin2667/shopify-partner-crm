@@ -1,8 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from './prisma.service'; 
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'from scheduler 00- vxcvxcvxcv';
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async getHello() {
+    BigInt.prototype['toJSON'] = function () {
+      return this.toString();
+    };
+    return await this.prismaService.user.findMany();
   }
 }
