@@ -1,10 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { CreateLeadDto, UpdateLeadDto } from './dto/lead.dto';
+import { PrismaService } from 'src/config/prisma.service';
+import { DateHelper } from '@org/utils';
+import { randomUUID } from 'crypto';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { LeadActivityService } from 'src/lead-activity/lead-activity.service';
 
 @Injectable()
 export class LeadService {
   private leads = [];
-
+  constructor(private readonly prismaService: PrismaService,private readonly LeadActivityService:LeadActivityService) {}
   async findAllByAppId(appId: string) {
     return this.leads.filter((lead) => lead.appId === appId);
   }
@@ -14,15 +23,37 @@ export class LeadService {
   }
 
   async create(createLeadDto: CreateLeadDto) {
-    const newLead = {
-      id: 'unique-id',
-      ...createLeadDto,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-      deletedAt: 0,
-    };
-    this.leads.push(newLead);
-    return newLead;
+    try {
+      const lead = await this.prismaService.lead.create({
+        data: {
+          shopifyDomain: createLeadDto.myShopifyDomain,
+          shopifyStoreId: randomUUID(),
+          createdAt: DateHelper.getCurrentUnixTime(),
+          updatedAt: 0,
+          deletedAt: 0,
+        },
+      });
+      const activity = {
+        type: 'LEAD_CREATED',
+        data: {message:"User manually created by"},
+        leadId: lead.id,
+        userId: createLeadDto.userId,
+      }
+      await this.LeadActivityService.create(activity)
+      return lead;
+    } catch (error) {
+      console.log(error)
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new ConflictException(
+            'Shopify domain or store ID already exists.',
+          );
+        }
+      }
+      throw new InternalServerErrorException(
+        'An unexpected error occurred while creating the lead.',
+      );
+    }
   }
 
   async update(leadId: string, updateLeadDto: UpdateLeadDto) {

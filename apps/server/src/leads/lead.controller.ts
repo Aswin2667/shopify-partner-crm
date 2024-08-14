@@ -30,7 +30,7 @@ export class LeadController {
     }
   }
 
-  @Get(':leadId')
+  @Get('get/:leadId')
   async findOne(@Param('leadId') leadId: string) {
     try {
       const lead = await this.leadService.findOne(leadId);
@@ -47,7 +47,7 @@ export class LeadController {
     }
   }
 
-  @Post()
+  @Post('create')
   async create(@Body() createLeadDto: CreateLeadDto) {
     try {
       const lead = await this.leadService.create(createLeadDto);
@@ -61,7 +61,7 @@ export class LeadController {
     }
   }
 
-  @Patch(':leadId')
+  @Patch('update/:leadId')
   async update(
     @Param('leadId') leadId: string,
     @Body() updateLeadDto: UpdateLeadDto,
@@ -81,7 +81,7 @@ export class LeadController {
     }
   }
 
-  @Delete(':leadId')
+  @Delete('delete/:leadId')
   async remove(@Param('leadId') leadId: string) {
     try {
       const result = await this.leadService.remove(leadId);

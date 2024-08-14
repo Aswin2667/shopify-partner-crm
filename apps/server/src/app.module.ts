@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
 import { UserService } from './user/user.service';
@@ -24,9 +25,19 @@ import { IntegrationsService } from './integrations/integrations.service';
 
 import { BullModule, BullQueueEvents } from '@nestjs/bull';
 import { MailModule, MailService } from '@org/utils';
+import * as path from 'path';
+import { LeadController } from './leads/lead.controller';
+import { LeadService } from './leads/lead.service';
+import { PrismaService } from './config/prisma.service';
+import { LeadActivityService } from './lead-activity/lead-activity.service';
+
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: path.resolve(__dirname, '../../../../', '.env'),
+      isGlobal: true,
+    }),
     MulterModule.register({
       dest: './uploads',
     }),
@@ -46,7 +57,7 @@ import { MailModule, MailService } from '@org/utils';
     BullModule.registerQueue({
       name: 'events',
     }),
-    MailModule
+    MailModule,
   ],
   controllers: [
     UserController,
@@ -56,7 +67,8 @@ import { MailModule, MailService } from '@org/utils';
     OrgMemberController,
     TemplateController,
     S3Controller,
-    IntegrationsController
+    IntegrationsController,
+    LeadController
   ],
   providers: [
     UserService,
@@ -67,6 +79,9 @@ import { MailModule, MailService } from '@org/utils';
     TemplateService,
     S3Service,
     IntegrationsService,
+    LeadService,
+    PrismaService,
+    LeadActivityService
   ],
 })
 export class AppModule {

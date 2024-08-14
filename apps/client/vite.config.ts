@@ -1,6 +1,9 @@
 import path from "path";
 import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vite";
+import { config } from "dotenv";
+
+config({ path: path.resolve(__dirname, "../../.env") });
 
 export default defineConfig({
   plugins: [react()],
@@ -11,6 +14,6 @@ export default defineConfig({
   },
   server: {
     host: "0.0.0.0",
-    port: 3000,
+    port: parseInt(process.env.VITE_FRONTEND_PORT as string) || 3000,
   },
 });
