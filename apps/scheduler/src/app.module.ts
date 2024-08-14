@@ -5,7 +5,6 @@ import { AppService } from './app.service';
 import { PrismaService } from './prisma.service';
 import { CacheModule } from '@nestjs/cache-manager';
 import * as redisStore from 'cache-manager-redis-store'
-import { RedisModule } from './redis/redis.module';
 import { CacheManagerModule } from '@org/utils';
 
 
@@ -14,7 +13,6 @@ import { CacheManagerModule } from '@org/utils';
   imports: [
     CacheManagerModule.register(),
     ScheduleModule.forRoot(),
-    RedisModule
   ],
   providers: [AppService, PrismaService],
  })
