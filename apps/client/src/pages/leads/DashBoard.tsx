@@ -5,13 +5,12 @@ import {
   CreditCard,
   Mail,
   MoreVertical,
-  Truck,
+  Search,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -29,8 +28,20 @@ import {
   PaginationItem,
 } from "@/components/ui/pagination";
 import { Separator } from "@/components/ui/separator";
-import Activity from "./Activity";
-import ActivityPopoverFilter from "./ActivityPopoverFilter";
+import Activity from "./components/Activity";
+import ActivityPopoverFilter from "./components/ActivityPopoverFilter";
+import { Input } from "@/components/ui/input";
+import DateRangePicker from "./components/date-range-picker";
+import EmailEditor from "./components/EmailEditor";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Editor from "./components/EmailEditor";
 
 export default function LeadDashboard() {
   return (
@@ -41,7 +52,7 @@ export default function LeadDashboard() {
             <CardHeader className="flex flex-row items-start bg-muted/50">
               <div className="grid gap-0.5">
                 <CardTitle className="group flex items-center gap-2 text-lg">
-                  Order Oe31b70H
+                  Pasta.myshopify.com
                   <Button
                     size="icon"
                     variant="outline"
@@ -51,15 +62,22 @@ export default function LeadDashboard() {
                     <span className="sr-only">Copy Order ID</span>
                   </Button>
                 </CardTitle>
-                <CardDescription>Date: November 23, 2023</CardDescription>
+                <Select >
+                  <SelectTrigger className="max-w-fit  pt-0 pb-0 border-none">
+                    <SelectValue  />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem defaultChecked value="potential">Potential</SelectItem>
+                      <SelectItem value="Bad_Fit">Bad Fit</SelectItem>
+                      <SelectItem value="qualified">Qualified</SelectItem>
+                      <SelectItem value="interested">Interested</SelectItem>
+                      <SelectItem value="canceled">Canceled</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="ml-auto flex items-center gap-1">
-                <Button size="sm" variant="outline" className="h-8 gap-1">
-                  <Truck className="h-3.5 w-3.5" />
-                  <span className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
-                    Track Order
-                  </span>
-                </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button size="icon" variant="outline" className="h-8 w-8">
@@ -68,7 +86,6 @@ export default function LeadDashboard() {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
                     <DropdownMenuItem>Export</DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>Trash</DropdownMenuItem>
@@ -185,14 +202,30 @@ export default function LeadDashboard() {
             </CardFooter>
           </Card>
         </div>
+        <Separator orientation="vertical" />
         <div className="w-3/4">
-        <div className="flex items-center gap-2">
-        <ActivityPopoverFilter />
-        <Button  variant="outline" className="flex gap-2 items-center"><Mail className="h-4 w-4" />Email</Button>
-        </div>
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <ActivityPopoverFilter />
+              <Button variant="outline" className="flex gap-2 items-center">
+                <Mail className="h-4 w-4" />
+                Add Note
+              </Button>
+              <Button variant="outline" className="flex gap-2 items-center">
+                <Mail className="h-4 w-4" />
+                Email
+              </Button>
+              <DateRangePicker />
+            </div>
+            <div className="relative">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input placeholder="Search" className="pl-8" />
+            </div>
+          </div>
           <Separator className="mb-5 mt-2" />
           <div className="h-screen overflow-scroll p-5">
-          <Activity />
+            <Editor />
+            <Activity />
           </div>
         </div>
       </main>

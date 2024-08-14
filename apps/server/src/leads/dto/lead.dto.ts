@@ -3,7 +3,7 @@ export class CreateLeadDto {
   readonly email: string;
   readonly phone: string;
   readonly appId: string;
-  readonly shopifyDomain: string;
+  readonly myShopifyDomain: string;
   readonly shopifyStoreId: string;
   readonly shopDetails: {
     address: string;
@@ -13,6 +13,7 @@ export class CreateLeadDto {
   readonly createdAt?: number;
   readonly updatedAt?: number;
   readonly deletedAt?: number = 0;
+  userId: any;
 }
 export class UpdateLeadDto {
   readonly name?: string;

@@ -25,9 +25,7 @@ async function bootstrap() {
 
     app.use(helmet());
     setupSwagger(app);
-    await app.listen(process.env.BACKEND_PORT);
-    // await app.listen(configService.get<number>('BACKEND_PORT'));
-
+    await app.listen(process.env.BACKEND_PORT||8080);
     Logger.log(`Application is running on: ${await app.getUrl()}`);
   } catch (error) {
     console.log(error);

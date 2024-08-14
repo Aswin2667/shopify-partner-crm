@@ -4,21 +4,22 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL") 
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id                    String            @id @default(uuid())
-  email                 String            @unique
-  authenticationMethod  AuthenticationMethod
-  name                  String?
-  avatarUrl             String?
-  createdAt             BigInt            @default(autoincrement())
-  updatedAt             BigInt            @default(autoincrement())
-  deletedAt             BigInt
-  orgMemberInvites      OrgMemberInvite[]
-  orgMembers            OrgMember[]
-  templates             Template[]
+  id                   String               @id @default(uuid())
+  email                String               @unique
+  authenticationMethod AuthenticationMethod
+  name                 String?
+  avatarUrl            String?
+  createdAt            BigInt
+  updatedAt            BigInt
+  deletedAt            BigInt
+  LeadActivity         LeadActivity[]
+  orgMembers           OrgMember[]
+  orgMemberInvites     OrgMemberInvite[]
+  templates            Template[]
 }
 
 model OrgMemberInvite {
@@ -26,105 +27,107 @@ model OrgMemberInvite {
   token          String        @unique
   email          String
   role           OrgMemberRole @default(MEMBER)
-  organization   Organization  @relation(fields: [organizationId], references: [id])
   organizationId String
-  inviter        User          @relation(fields: [inviterId], references: [id])
   inviterId      String
-  createdAt      BigInt        @default(autoincrement())
-  updatedAt      BigInt        @default(autoincrement())
+  createdAt      BigInt
+  updatedAt      BigInt
   deletedAt      BigInt
+  inviter        User          @relation(fields: [inviterId], references: [id])
+  organization   Organization  @relation(fields: [organizationId], references: [id])
 
   @@unique([organizationId, email])
 }
 
 model Organization {
-  id          String          @id @default(uuid())
-  name        String
-  logo        String?
-  description String?
-  createdAt   BigInt          @default(autoincrement())
-  updatedAt   BigInt          @default(autoincrement())
-  deletedAt   BigInt
-  Projects        Projects[]
-  members     OrgMember[]
-  invites     OrgMemberInvite[]
+  id           String            @id @default(uuid())
+  name         String
+  logo         String?
+  description  String?
+  createdAt    BigInt
+  updatedAt    BigInt
+  deletedAt    BigInt
   integrations Integration[]
+  members      OrgMember[]
+  invites      OrgMemberInvite[]
+  Projects     Projects[]
 }
 
 model OrgMember {
-  id             String         @id @default(uuid())
-  organization   Organization   @relation(fields: [organizationId], references: [id])
+  id             String        @id @default(uuid())
   organizationId String
-  user           User           @relation(fields: [userId], references: [id])
   userId         String
-  role           OrgMemberRole  @default(MEMBER)
-  createdAt      BigInt         @default(autoincrement())
-  updatedAt      BigInt         @default(autoincrement())
+  role           OrgMemberRole @default(MEMBER)
+  createdAt      BigInt
+  updatedAt      BigInt
   deletedAt      BigInt
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+  user           User          @relation(fields: [userId], references: [id])
 
   @@unique([organizationId, userId])
 }
 
 model Projects {
-  id              String        @id @default(uuid())
-  slug            String        @unique
-  name            String
-  type            String
-  data            Json
-  organization    Organization  @relation(fields: [organizationId], references: [id])
-  organizationId  String
-  createdAt       BigInt        @default(autoincrement())
-  updatedAt       BigInt        @default(autoincrement())
-  deletedAt       BigInt?
-  version         AppVersion    @default(V2)
-  leadProjects        LeadProjects[]
-  integrationId   String?
-  integration     Integration?  @relation(fields: [integrationId], references: [id])
+  id             String         @id @default(uuid())
+  slug           String         @unique
+  name           String
+  organizationId String
+  createdAt      BigInt
+  updatedAt      BigInt
+  deletedAt      BigInt?
+  version        AppVersion     @default(V2)
+  integrationId  String?
+  data           Json
+  type           String
+  leadProjects   LeadProjects[]
+  integration    Integration?   @relation(fields: [integrationId], references: [id])
+  organization   Organization   @relation(fields: [organizationId], references: [id])
 }
 
 model LeadNotes {
-  id          String @id @default(uuid())
-  leadId      String
-  lead        Lead   @relation(fields: [leadId], references: [id])
-  data        String
-  createdAt   BigInt @default(autoincrement())
-  updatedAt   BigInt @default(autoincrement())
-  deletedAt   BigInt
+  id        String @id @default(uuid())
+  leadId    String
+  data      String
+  createdAt BigInt
+  updatedAt BigInt
+  deletedAt BigInt
+  lead      Lead   @relation(fields: [leadId], references: [id])
+
+  LeadActivity LeadActivity[]
 }
 
 model Lead {
-  id              String        @id @default(uuid())
-  shopifyDomain   String        @unique
-  shopifyStoreId  String        @unique
-  Projects            LeadProjects[]
-  leadSource      String?
-  shopDetails     Json?
-  industry        String?
-  createdAt       BigInt        @default(autoincrement())
-  updatedAt       BigInt        @default(autoincrement())
-  deletedAt       BigInt
-  leadActivities  LeadActivity[]
-  leadNotes       LeadNotes[]
-  contacts        Contact[]
-  attachments     Attachment[]
+  id             String         @id @default(uuid())
+  shopifyDomain  String         @unique
+  shopifyStoreId String         @unique
+  leadSource     String?
+  shopDetails    Json?
+  industry       String?
+  createdAt      BigInt
+  updatedAt      BigInt
+  deletedAt      BigInt
+  attachments    Attachment[]
+  contacts       Contact[]
+  leadActivities LeadActivity[]
+  leadNotes      LeadNotes[]
+  Projects       LeadProjects[]
 }
 
 model LeadProjects {
-  id         String @id @default(uuid())
-  leadId     String
-  projectId      String
-  lead       Lead   @relation(fields: [leadId], references: [id])
-  project        Projects   @relation(fields: [projectId], references: [id])
-  createdAt  BigInt @default(autoincrement())
-  updatedAt  BigInt @default(autoincrement())
-  deletedAt  BigInt
-  status     String?
+  id        String   @id @default(uuid())
+  leadId    String
+  projectId String
+  createdAt BigInt
+  updatedAt BigInt
+  deletedAt BigInt
+  status    String?
+  lead      Lead     @relation(fields: [leadId], references: [id])
+  project   Projects @relation(fields: [projectId], references: [id])
 
   @@unique([projectId, leadId])
 }
 
 model Contact {
-  id             String   @id @default(uuid())
+  id             String  @id @default(uuid())
   firstName      String?
   lastName       String?
   primaryEmail   String?
@@ -134,80 +137,97 @@ model Contact {
   industry       String?
   type           String?
   leadId         String?
-  lead           Lead?    @relation(fields: [leadId], references: [id])
   lastContacted  BigInt?
-
-  createdAt BigInt @default(autoincrement())
-  updatedAt BigInt @default(autoincrement())
-  deletedAt BigInt
+  createdAt      BigInt
+  updatedAt      BigInt
+  deletedAt      BigInt
+  lead           Lead?   @relation(fields: [leadId], references: [id])
 }
 
 model Attachment {
-  id            String @id @default(uuid())
-  attachmentUrl String
+  id             String @id @default(uuid())
+  attachmentUrl  String
   attachmentType String
-  eTag          String
+  eTag           String
   attachmentName String
-  leadId        String
-  lead          Lead   @relation(fields: [leadId], references: [id])
-  createdAt     BigInt @default(autoincrement())
-  updatedAt     BigInt @default(autoincrement())
-  deletedAt     BigInt
+  leadId         String
+  createdAt      BigInt
+  updatedAt      BigInt
+  deletedAt      BigInt
+  lead           Lead   @relation(fields: [leadId], references: [id])
 }
 
 model LeadActivity {
-  id        String @id @default(uuid())
+  id        String           @id @default(uuid())
   leadId    String
-  lead      Lead   @relation(fields: [leadId], references: [id])
-  type      String
   data      Json
-  createdAt BigInt @default(autoincrement())
-  updatedAt BigInt @default(autoincrement())
+  updatedAt BigInt
+  createdAt BigInt
   deletedAt BigInt
+  userId    String
+  noteId    String?
+  type      LeadActivityType
+  lead      Lead             @relation(fields: [leadId], references: [id])
+  user      User             @relation(fields: [userId], references: [id])
+  note      LeadNotes?        @relation(fields: [noteId],references: [id])
+
+  @@index([leadId, userId])
 }
 
 model Email {
-  id              String  @id @default(uuid())
-  subject         String?
-  messageId       String
-  hasAttachments  Boolean
-  unsubscribed    Boolean
-  failed          Boolean
-  skipped         Boolean
-  opened          Boolean
-  sent            Boolean
-  time            BigInt
-  cc              String?
-  bcc             String?
-  from            String
-  to              String
-  deletedAt       BigInt
-  userId          String
-
+  id             String  @id @default(uuid())
+  subject        String?
+  messageId      String
+  hasAttachments Boolean
+  unsubscribed   Boolean
+  failed         Boolean
+  skipped        Boolean
+  opened         Boolean
+  sent           Boolean
+  time           BigInt
+  cc             String?
+  bcc            String?
+  from           String
+  to             String
+  deletedAt      BigInt
+  userId         String
 }
 
 model Integration {
-  id             String        @id @default(uuid())
+  id             String       @id @default(uuid())
   organizationId String
-  organization   Organization  @relation(fields: [organizationId], references: [id])
-  name           String
-  type           String?
   data           Json
   description    String?
-  createdAt      BigInt        @default(autoincrement())
-  updatedAt      BigInt        @default(autoincrement())
+  type           String?
+  createdAt      BigInt
+  updatedAt      BigInt
   deletedAt      BigInt
-  Projects           Projects[]
+  name           String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  Projects       Projects[]
 }
 
 model Template {
   id        String @id @default(uuid())
   html      String
-  createdAt BigInt  @default(autoincrement())
-  updatedAt BigInt  @default(autoincrement())
+  createdAt BigInt
+  updatedAt BigInt
   deletedAt BigInt
   userId    String
-  user      User    @relation(fields: [userId], references: [id])
+  user      User   @relation(fields: [userId], references: [id])
+}
+
+enum LeadActivityType {
+  LEAD_CREATED
+  LEAD_UPDATED
+  NOTE_CREATED
+  NOTE_UPDATED
+  NOTE_DELETED
+  EMAIL
+  CALL
+  TASK
+  MEETING
+  STATUS_CHANGE
 }
 
 enum AuthenticationMethod {
