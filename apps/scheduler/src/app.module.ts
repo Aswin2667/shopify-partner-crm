@@ -14,11 +14,6 @@ import { CacheManagerModule } from '@org/utils';
   imports: [
     CacheManagerModule.register(),
     ScheduleModule.forRoot(),
-    // CacheModule.register({
-    //   store: redisStore,
-    //   host: '172.24.0.4',
-    //   port: 6379
-    // }),
     RedisModule
   ],
   providers: [AppService, PrismaService],

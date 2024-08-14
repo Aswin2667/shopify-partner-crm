@@ -243,30 +243,6 @@ export default function OrganizationList() {
     }
   );
 
-  // const fetchOrganizations = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
-  //     const response: any =
-  //       await OrganizationService.getOrganizationsByUserId(userId);
-  //     dispatch(organizationAction.setOrganizations(response.data.data));
-  //     setOrganizations(response.data.data);
-  //     if (!response.status) {
-  //       toast({
-  //         title: response.message,
-  //         description: DateHelper.formatTimestamp(
-  //           DateHelper.getCurrentUnixTime()
-  //         ),
-  //         duration: 1000,
-  //         variant: `${response.status ? "default" : "destructive"}`,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching organizations:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   React.useEffect(() => {
     const sessionData = sessionStorage.getItem("session");
