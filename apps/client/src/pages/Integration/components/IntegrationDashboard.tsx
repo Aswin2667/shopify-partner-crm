@@ -24,9 +24,9 @@ export default function IntegrationDashboard() {
 
   const { isLoading } = useQueryEvents(
     useQuery({
-      queryKey: ["getAllIntegrations", currentOrganization.id],
+      queryKey: ["getAllIntegrations", currentOrganization?.id],
       queryFn: async () =>
-        await IntegrationService.getAllIntegrations(currentOrganization.id),
+        await IntegrationService.getAllIntegrations(currentOrganization?.id),
     }),
     {
       onSuccess: (data: any) =>

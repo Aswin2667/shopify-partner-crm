@@ -3,8 +3,7 @@ import download from "../../assets/download.svg";
 import { integrations } from "./utils/data";
 import IntegrationItem from "./components/IntegrationItem";
 
-
-const CreateIntegration: React.FC = () => {
+const Integration: React.FC = () => {
   return (
     <div>
       <div className="border-b p-5">
@@ -29,4 +28,4 @@ const CreateIntegration: React.FC = () => {
   );
 };
 
-export default CreateIntegration;
+export default Integration;

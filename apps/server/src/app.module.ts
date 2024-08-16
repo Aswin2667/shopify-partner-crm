@@ -25,6 +25,7 @@ import { IntegrationsService } from './integrations/integrations.service';
 
 import { BullModule, BullQueueEvents } from '@nestjs/bull';
 import { MailModule, MailService } from '@org/utils';
+import { ProjectModule } from './project/project.module';
 import * as path from 'path';
 
 
@@ -54,6 +55,7 @@ import * as path from 'path';
       name: 'events',
     }),
     MailModule,
+    ProjectModule,
   ],
   controllers: [
     UserController,

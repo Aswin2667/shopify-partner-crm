@@ -4,7 +4,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL") 
+  // url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:postgres@localhost:5432/shopify_crm?schema=public" 
 }
 
 model User {
@@ -45,7 +46,7 @@ model Organization {
   createdAt   BigInt          @default(autoincrement())
   updatedAt   BigInt          @default(autoincrement())
   deletedAt   BigInt
-  Projects        Projects[]
+  Project        Project[]
   members     OrgMember[]
   invites     OrgMemberInvite[]
   integrations Integration[]
@@ -65,9 +66,8 @@ model OrgMember {
   @@unique([organizationId, userId])
 }
 
-model Projects {
+model Project {
   id              String        @id @default(uuid())
-  slug            String        @unique
   name            String
   type            String
   data            Json
@@ -76,8 +76,7 @@ model Projects {
   createdAt       BigInt        @default(autoincrement())
   updatedAt       BigInt        @default(autoincrement())
   deletedAt       BigInt?
-  version         AppVersion    @default(V2)
-  leadProjects        LeadProjects[]
+  leadProject        LeadProject[]
   integrationId   String?
   integration     Integration?  @relation(fields: [integrationId], references: [id])
 }
@@ -96,7 +95,7 @@ model Lead {
   id              String        @id @default(uuid())
   shopifyDomain   String        @unique
   shopifyStoreId  String        @unique
-  Projects            LeadProjects[]
+  Project            LeadProject[]
   leadSource      String?
   shopDetails     Json?
   industry        String?
@@ -109,12 +108,12 @@ model Lead {
   attachments     Attachment[]
 }
 
-model LeadProjects {
+model LeadProject {
   id         String @id @default(uuid())
   leadId     String
   projectId      String
   lead       Lead   @relation(fields: [leadId], references: [id])
-  project        Projects   @relation(fields: [projectId], references: [id])
+  project        Project   @relation(fields: [projectId], references: [id])
   createdAt  BigInt @default(autoincrement())
   updatedAt  BigInt @default(autoincrement())
   deletedAt  BigInt
@@ -197,7 +196,7 @@ model Integration {
   createdAt      BigInt        @default(autoincrement())
   updatedAt      BigInt        @default(autoincrement())
   deletedAt      BigInt
-  Projects           Projects[]
+  Project           Project[]
 }
 
 model Template {
