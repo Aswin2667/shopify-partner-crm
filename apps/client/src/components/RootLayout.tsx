@@ -165,7 +165,7 @@ export default function RootLayout() {
                 variant: "ghost",
               },
               {
-                title: "Apps",
+                title: "Projects",
                 label: "",
                 icon: LayoutGrid,
                 variant: "ghost",

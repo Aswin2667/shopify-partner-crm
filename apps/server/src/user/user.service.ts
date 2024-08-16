@@ -31,6 +31,7 @@ export class UserService {
       const upsertedUser = await prisma.user.upsert({
         where: {
           email: payload.email,
+          
         },
         update: {
           name: payload.name,
