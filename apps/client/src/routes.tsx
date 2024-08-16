@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import Login from "./pages/auth/Login";
-import Inbox from "./pages/mail/Inbox";
 import PageNotFount from "./pages/404/404";
 import OrganizationList from "./pages/organizations/OrganizationList";
 import RootLayout from "./components/RootLayout";
@@ -19,6 +18,7 @@ import ManageAccess from "./pages/organizations/ManageAccess";
 import DashboardPage from "./pages/organizations/dashboard/page";
 import LeadDashboard from "./pages/leads/DashBoard";
 import LeadTable from "./pages/leads/table/LeadTable";
+import MailPage from "./pages/mail/page";
 
 export const routes = createBrowserRouter([
   {
@@ -53,7 +53,7 @@ export const routes = createBrowserRouter([
           },
           {
             path: "inbox",
-            element: <Inbox />,
+            element: <MailPage />,
           },
           {
             path: "workflows",
