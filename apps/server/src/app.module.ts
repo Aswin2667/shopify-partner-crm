@@ -27,6 +27,10 @@ import { BullModule, BullQueueEvents } from '@nestjs/bull';
 import { MailModule, MailService } from '@org/utils';
 import { ProjectModule } from './project/project.module';
 import * as path from 'path';
+import { LeadController } from './leads/lead.controller';
+import { LeadService } from './leads/lead.service';
+import { PrismaService } from './config/prisma.service';
+import { LeadActivityService } from './lead-activity/lead-activity.service';
 
 
 @Module({
@@ -66,6 +70,7 @@ import * as path from 'path';
     TemplateController,
     S3Controller,
     IntegrationsController,
+    LeadController
   ],
   providers: [
     UserService,
@@ -76,6 +81,9 @@ import * as path from 'path';
     TemplateService,
     S3Service,
     IntegrationsService,
+    LeadService,
+    PrismaService,
+    LeadActivityService
   ],
 })
 export class AppModule {

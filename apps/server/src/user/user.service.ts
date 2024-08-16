@@ -45,6 +45,7 @@ export class UserService {
           avatarUrl: payload.picture,
           authenticationMethod: 'GOOGLE',
           createdAt: DateHelper.getCurrentUnixTime(),
+          updatedAt:0,
           deletedAt: 0,
         },
       });

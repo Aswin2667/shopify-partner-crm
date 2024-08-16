@@ -5,7 +5,7 @@ const Activity = () => {
 
     <ol className="relative border-s w-full border-gray-200 dark:border-gray-700">
       <li className="mb-10 ms-6">
-        <span className="absolute left-1 flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+        <span className="absolute  flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
           <img
             className="rounded-full shadow-lg"
             src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"

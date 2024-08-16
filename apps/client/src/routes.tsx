@@ -17,7 +17,7 @@ import SettingsNotificationsPage from "./pages/organizations/settings/notificati
 import SettingsDisplayPage from "./pages/organizations/settings/display/page";
 import ManageAccess from "./pages/organizations/ManageAccess";
 import DashboardPage from "./pages/organizations/dashboard/page";
-import LeadDashboard from "./pages/leads/components/DashBoard";
+import LeadDashboard from "./pages/leads/DashBoard";
 import LeadTable from "./pages/leads/table/LeadTable";
 import Project from "./pages/Project/components/Index";
 
