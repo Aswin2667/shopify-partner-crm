@@ -13,7 +13,10 @@ import { LeadActivityService } from 'src/lead-activity/lead-activity.service';
 @Injectable()
 export class LeadService {
   private leads = [];
-  constructor(private readonly prismaService: PrismaService,private readonly LeadActivityService:LeadActivityService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly LeadActivityService: LeadActivityService,
+  ) {}
   async findAllByAppId(appId: string) {
     return this.leads.filter((lead) => lead.appId === appId);
   }
@@ -36,14 +39,14 @@ export class LeadService {
       });
       const activity = {
         type: 'LEAD_CREATED',
-        data: {message:"User manually created by"},
+        data: { message: 'User manually created by' },
         leadId: lead.id,
         userId: createLeadDto.userId,
-      }
-      await this.LeadActivityService.create(activity)
+      };
+      await this.LeadActivityService.create(activity);
       return lead;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new ConflictException(

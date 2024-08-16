@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsUUID, IsEnum, IsOptional, IsJSON } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsUUID,
+  IsEnum,
+  IsOptional,
+  IsJSON,
+} from 'class-validator';
 import { LeadActivityType } from '@prisma/client';
 
 export class CreateLeadActivityDto {

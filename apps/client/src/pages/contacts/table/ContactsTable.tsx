@@ -36,7 +36,7 @@ import {
 import { DataTablePagination } from "./components/data-table-pagination";
 import { DataTableToolbar } from "./components/data-table-toolbar";
 
-export default function LeadTable() {
+export default function ContactsTable() {
   return (
     <div className="p-5">
       <DataTableDemo />

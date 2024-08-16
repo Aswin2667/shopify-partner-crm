@@ -3,7 +3,13 @@ import {
   ChevronRight,
   Copy,
   CreditCard,
+  Eye,
+  File,
+  Link,
+  Merge,
   MoreVertical,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -80,14 +86,35 @@ export default function LeadDashboard() {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button size="icon" variant="outline" className="h-8 w-8">
-                      <MoreVertical className="h-3.5 w-3.5" />
+                      <MoreVertical className="h-3.5 w-3.5 rotate-90" />
                       <span className="sr-only">More</span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem>Export</DropdownMenuItem>
+                  <DropdownMenuContent align="end" className="min-w-12">
+                    <DropdownMenuItem className="flex items-center gap-2">
+                      <Pencil className="h-4 w-4" />
+                      Edit Name
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="flex items-center gap-2">
+                      <Link className="h-4 w-4" />
+                      Share
+                    </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>Trash</DropdownMenuItem>
+                    <DropdownMenuItem className="flex items-center gap-2">
+                      <Merge className="rotate-90 h-4 w-4" />
+                      Merge
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="flex items-center gap-2">
+                      <Eye className="h-4 w-4" /> Visibility Summary
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="flex items-center gap-2">
+                      <File className="h-4 w-4" /> View Files
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className=" flex items-center gap-2">
+                      <Trash2 className="h-4 w-4" />
+                      Delete
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>

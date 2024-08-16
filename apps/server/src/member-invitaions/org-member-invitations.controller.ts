@@ -57,12 +57,13 @@ export class OrgMemberInvitationsController {
     if (!orgId) {
       throw new HttpException(
         { status: false, message: 'Organization ID is required', data: null },
-        HttpStatus.BAD_REQUEST
+        HttpStatus.BAD_REQUEST,
       );
     }
 
     try {
-      const invitations = await this.orgMemberInvitationsService.getInvitationByOrgId(orgId);
+      const invitations =
+        await this.orgMemberInvitationsService.getInvitationByOrgId(orgId);
 
       if (!invitations.length) {
         return {
@@ -80,8 +81,12 @@ export class OrgMemberInvitationsController {
     } catch (error) {
       console.error('Error fetching invitations:', error);
       throw new HttpException(
-        { status: false, message: 'An error occurred while retrieving invitations', data: null },
-        HttpStatus.INTERNAL_SERVER_ERROR
+        {
+          status: false,
+          message: 'An error occurred while retrieving invitations',
+          data: null,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }

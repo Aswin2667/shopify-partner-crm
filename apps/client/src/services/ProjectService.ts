@@ -15,7 +15,9 @@ export default class ProjectService {
 
   public static async getAllProjects(orgId: string) {
     try {
-      const response = await axiosInstance.get(`${this.BASE_PATH}/${orgId}/all`);
+      const response = await axiosInstance.get(
+        `${this.BASE_PATH}/${orgId}/all`,
+      );
       return response.data;
     } catch (error) {
       console.error("Error fetching projects:", error);

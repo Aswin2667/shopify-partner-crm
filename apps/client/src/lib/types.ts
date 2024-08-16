@@ -1,5 +1,5 @@
-export interface organizationCreate{
-    name: string
-    description: string
-    // logo: string
+export interface organizationCreate {
+  name: string;
+  description: string;
+  // logo: string
 }

@@ -19,8 +19,10 @@ import DashboardPage from "./pages/organizations/dashboard/page";
 import LeadDashboard from "./pages/leads/DashBoard";
 import LeadTable from "./pages/leads/table/LeadTable";
 import Project from "./pages/Project/components/Index";
-import {MailPage} from "./pages/mail/page";
+import { MailPage } from "./pages/mail/page";
 import Activity from "./pages/leads/components/Activity";
+import MediaLibrary from "./pages/media-library/MediaLibrary";
+import ContactsTable from "./pages/contacts/table/ContactsTable";
 
 export const routes = createBrowserRouter([
   {
@@ -68,24 +70,24 @@ export const routes = createBrowserRouter([
                 path: ":leadId",
 
                 element: <LeadDashboard />,
-                children:[
+                children: [
                   {
-                    index:true,
-                    element: <Activity />
+                    index: true,
+                    element: <Activity />,
                   },
                   {
                     path: "emails",
-                    element: <MailPage />
+                    element: <MailPage />,
                   },
                   {
                     path: "calls",
-                    element: <>call</>
+                    element: <>call</>,
                   },
                   {
                     path: "tasks",
-                    element: <>task</>
-                  }
-                ]
+                    element: <>task</>,
+                  },
+                ],
               },
             ],
           },
@@ -110,6 +112,14 @@ export const routes = createBrowserRouter([
                 element: <Editor />,
               },
             ],
+          },
+          {
+            path: "media library",
+            element: <MediaLibrary />,
+          },
+          {
+            path: "contacts",
+            element: <ContactsTable />,
           },
         ],
       },

@@ -17,14 +17,13 @@ export class UpdateOrganizationDto {
   name: string;
 }
 
-
-export class OrgMemberAdd{
+export class OrgMemberAdd {
   @IsString()
-  userId:string
+  userId: string;
 
   @IsString()
-  organizationId:string
+  organizationId: string;
 
   @IsEnum(['ADMIN', 'MEMBER'])
-  role:string
+  role: string;
 }

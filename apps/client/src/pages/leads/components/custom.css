@@ -19,7 +19,6 @@
   border-bottom-left-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
   background: white;
-
 }
 
 .ql-formats {
@@ -32,7 +31,7 @@
   background-color: #f3f4f6;
 }
 
-
-.ql-tooltip ,.ql-editing{
-    z-index: 500;
+.ql-tooltip,
+.ql-editing {
+  z-index: 500;
 }

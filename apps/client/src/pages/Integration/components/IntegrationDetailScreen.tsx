@@ -14,7 +14,7 @@ const IntegrationDetailScreen: React.FC = () => {
 
   useEffect(() => {
     setIntegration(
-      integrationsList[intergrationName as keyof typeof integrationsList]
+      integrationsList[intergrationName as keyof typeof integrationsList],
     );
 
     return () => {

@@ -17,7 +17,7 @@ export default function IntegrationDashboard() {
   const { toast } = useToast();
 
   const { currentOrganization } = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
 
   const { integrations } = useSelector((state: any) => state.integration);
@@ -32,7 +32,7 @@ export default function IntegrationDashboard() {
       onSuccess: (data: any) =>
         dispatch(integrationAction.setIntegrations(data)),
       onError: (err: Error) => console.log("An error happened:", err.message),
-    }
+    },
   );
 
   return (
@@ -54,9 +54,7 @@ export default function IntegrationDashboard() {
             </p>
             <Button
               onClick={() =>
-                navigate(
-                  `/${currentOrganization?.id}/create-integration`
-                )
+                navigate(`/${currentOrganization?.id}/create-integration`)
               }
             >
               Create

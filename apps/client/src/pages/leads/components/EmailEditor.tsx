@@ -6,8 +6,7 @@ export default function EmailEditor() {
   const [value, setValue] = useState("");
   const modules = {
     toolbar: [
-      [{ header: [1, 2, 3, 4, 5, 6, false]}
-      ],
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
       [{ size: [] }],
       ["bold", "italic", "underline", "strike", "blockquote"],
       [

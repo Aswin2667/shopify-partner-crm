@@ -30,15 +30,13 @@ describe('TemplateController (e2e)', () => {
       userId: 'user12345',
       scope: 'ADMIN_ONLY',
     };
-    templateService.create = jest
-      .fn()
-      .mockResolvedValue({
-        ...createTemplateDto,
-        id: 'tmpl12345',
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-        deletedAt: 0,
-      });
+    templateService.create = jest.fn().mockResolvedValue({
+      ...createTemplateDto,
+      id: 'tmpl12345',
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      deletedAt: 0,
+    });
 
     return request(app.getHttpServer())
       .post('/template')

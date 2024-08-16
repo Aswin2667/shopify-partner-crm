@@ -4018,7 +4018,6 @@ paths:
                     type: string
                     example: 'Internal server error'
 
-
   # Apps
   /apps/{integrationId}:
     parameters:
@@ -4027,7 +4026,7 @@ paths:
         required: true
         schema:
           type: string
-        description: Integration ID to retrive apps list 
+        description: Integration ID to retrive apps list
 
     # Get all apps of an integration by integrationId
     get:
@@ -4048,7 +4047,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "App List Fetched successfully."
+                    example: 'App List Fetched successfully.'
                   data:
                     type: array
                     items:
@@ -4065,7 +4064,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid data for App. Please check the provided data."
+                    example: 'Invalid data for App. Please check the provided data.'
         '401':
           description: Unauthorized
           content:
@@ -4078,7 +4077,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access. Please provide a valid API key."
+                    example: 'Unauthorized access. Please provide a valid API key.'
         '404':
           description: Not Found
           content:
@@ -4091,7 +4090,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Integration Id not found."
+                    example: 'Integration Id not found.'
         '500':
           description: Internal Server Error
           content:
@@ -4104,7 +4103,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "An unexpected error occurred. Please try again later."
+                    example: 'An unexpected error occurred. Please try again later.'
 
   /apps:
     # Create an app
@@ -4122,19 +4121,19 @@ paths:
               properties:
                 name:
                   type: string
-                  example: "My App"
+                  example: 'My App'
                 shopifyAppId:
                   type: number
                   example: 142561116161
                 shopifyClientId:
                   type: string
-                  example: "aa34d8ba161ff72be06e138db0f5777e"
+                  example: 'aa34d8ba161ff72be06e138db0f5777e'
                 integrationId:
                   type: string
-                  example: "ck2j49r2a0d1m0741gzhjo41v" 
+                  example: 'ck2j49r2a0d1m0741gzhjo41v'
                 organizationId:
                   type: string
-                  example: "ck2j49r2a0d1m0741gzhjo41v"
+                  example: 'ck2j49r2a0d1m0741gzhjo41v'
 
       responses:
         '201':
@@ -4149,7 +4148,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "App created successfully."
+                    example: 'App created successfully.'
                   data:
                     type: object
                     # schema:
@@ -4166,7 +4165,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid data for App. Please check the provided data."
+                    example: 'Invalid data for App. Please check the provided data.'
         '401':
           description: Unauthorized
           content:
@@ -4179,7 +4178,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access. Please provide a valid API key."
+                    example: 'Unauthorized access. Please provide a valid API key.'
         '500':
           description: Internal Server Error
           content:
@@ -4192,7 +4191,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "An unexpected error occurred. Please try again later."
+                    example: 'An unexpected error occurred. Please try again later.'
 
   /apps/{appId}:
     parameters:
@@ -4222,7 +4221,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "App Fetched successfully."
+                    example: 'App Fetched successfully.'
                   data:
                     type: object
                     $ref: '#/components/schemas/Apps'
@@ -4238,7 +4237,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid data for App. Please check the provided data."
+                    example: 'Invalid data for App. Please check the provided data.'
         '401':
           description: Unauthorized
           content:
@@ -4251,7 +4250,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access. Please provide a valid API key."
+                    example: 'Unauthorized access. Please provide a valid API key.'
         '404':
           description: Not Found
           content:
@@ -4264,7 +4263,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "App Id not found."
+                    example: 'App Id not found.'
         '500':
           description: Internal Server Error
           content:
@@ -4277,7 +4276,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "An unexpected error occurred. Please try again later."
+                    example: 'An unexpected error occurred. Please try again later.'
 
     # Update an app
     put:
@@ -4294,13 +4293,13 @@ paths:
               properties:
                 name:
                   type: string
-                  example: "My App"
+                  example: 'My App'
                 shopifyAppId:
                   type: number
                   example: 142561116161
                 shopifyClientId:
                   type: string
-                  example: "aa34d8ba161ff72be06e138db0f5777e"
+                  example: 'aa34d8ba161ff72be06e138db0f5777e'
       responses:
         '200':
           description: App updated successfully
@@ -4320,7 +4319,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid data for App. Please check the provided data."
+                    example: 'Invalid data for App. Please check the provided data.'
         '401':
           description: Unauthorized
           content:
@@ -4333,7 +4332,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access. Please provide a valid API key."
+                    example: 'Unauthorized access. Please provide a valid API key.'
         '404':
           description: Not Found
           content:
@@ -4346,7 +4345,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "App Id not found."
+                    example: 'App Id not found.'
         '500':
           description: Internal Server Error
           content:
@@ -4359,7 +4358,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "An unexpected error occurred. Please try again later."
+                    example: 'An unexpected error occurred. Please try again later.'
 
     # Delete an app
     delete:
@@ -4380,7 +4379,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "App deleted successfully."
+                    example: 'App deleted successfully.'
         '400':
           description: Bad Request
           content:
@@ -4393,7 +4392,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid data for App. Please check the provided data."
+                    example: 'Invalid data for App. Please check the provided data.'
         '401':
           description: Unauthorized
           content:
@@ -4406,7 +4405,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access. Please provide a valid API key."
+                    example: 'Unauthorized access. Please provide a valid API key.'
         '404':
           description: Not Found
           content:
@@ -4419,7 +4418,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "App Id not found."
+                    example: 'App Id not found.'
         '500':
           description: Internal Server Error
           content:
@@ -4432,8 +4431,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "An unexpected error occurred. Please try again later."
-
+                    example: 'An unexpected error occurred. Please try again later.'
 
   # Integrations
   /integrations/{organizationId}:
@@ -4464,7 +4462,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Integrations List Fetched successfully."
+                    example: 'Integrations List Fetched successfully.'
                   data:
                     type: array
                     items:
@@ -4481,7 +4479,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid data for Integration. Please check the provided data."
+                    example: 'Invalid data for Integration. Please check the provided data.'
         '401':
           description: Unauthorized
           content:
@@ -4494,7 +4492,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access. Please provide a valid API key."
+                    example: 'Unauthorized access. Please provide a valid API key.'
         '404':
           description: Not Found
           content:
@@ -4507,7 +4505,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Organization Id not found."
+                    example: 'Organization Id not found.'
         '500':
           description: Internal Server Error
           content:
@@ -4520,7 +4518,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "An unexpected error occurred. Please try again later."
+                    example: 'An unexpected error occurred. Please try again later.'
 
   /integrations:
     # Create an integration
@@ -4538,20 +4536,21 @@ paths:
               properties:
                 name:
                   type: string
-                  example: "My Integration"
+                  example: 'My Integration'
                 type:
                   type: string
                   enum:
                     - SHOPIFY
                     - KLAVIYO
                     - ZAPIER
-                  example: "SHOPIFY"
+                  example: 'SHOPIFY'
                 data:
                   type: object
-                  example: {
-                    "accessToken": "prtapi_eaf760b84b01f56228e266d699c42f8e",
-                    "partnerId": "3767830",
-                  }
+                  example:
+                    {
+                      'accessToken': 'prtapi_eaf760b84b01f56228e266d699c42f8e',
+                      'partnerId': '3767830',
+                    }
 
       responses:
         '201':
@@ -4566,7 +4565,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "App created successfully."
+                    example: 'App created successfully.'
                   data:
                     type: object
                     # schema:
@@ -4583,7 +4582,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid data for Integration. Please check the provided data."
+                    example: 'Invalid data for Integration. Please check the provided data.'
         '401':
           description: Unauthorized
           content:
@@ -4596,7 +4595,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access. Please provide a valid API key."
+                    example: 'Unauthorized access. Please provide a valid API key.'
         '500':
           description: Internal Server Error
           content:
@@ -4609,7 +4608,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "An unexpected error occurred. Please try again later."
+                    example: 'An unexpected error occurred. Please try again later.'
 
   /integrations/{integrationId}:
     parameters:
@@ -4619,7 +4618,7 @@ paths:
         schema:
           type: string
         description: Integration ID to perform operation
-    
+
     # Get an integration by ID
     get:
       summary: Get an integration
@@ -4639,7 +4638,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Integration Fetched successfully."
+                    example: 'Integration Fetched successfully.'
                   data:
                     type: object
                     $ref: '#/components/schemas/Integrations'
@@ -4655,7 +4654,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid data for Integration. Please check the provided data."
+                    example: 'Invalid data for Integration. Please check the provided data.'
         '401':
           description: Unauthorized
           content:
@@ -4668,7 +4667,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access. Please provide a valid API key."
+                    example: 'Unauthorized access. Please provide a valid API key.'
         '404':
           description: Not Found
           content:
@@ -4681,7 +4680,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Integration Id not found."
+                    example: 'Integration Id not found.'
         '500':
           description: Internal Server Error
           content:
@@ -4694,7 +4693,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "An unexpected error occurred. Please try again later."
+                    example: 'An unexpected error occurred. Please try again later.'
 
     # Update an integration
     put:
@@ -4711,20 +4710,21 @@ paths:
               properties:
                 name:
                   type: string
-                  example: "My Integration"
+                  example: 'My Integration'
                 type:
                   type: string
                   enum:
                     - SHOPIFY
                     - KLAVIYO
                     - ZAPIER
-                  example: "SHOPIFY"
+                  example: 'SHOPIFY'
                 data:
                   type: object
-                  example: {
-                    "accessToken": "prtapi_eaf760b84b01f56228e266d699c42f8e",
-                    "partnerId": "3767830",
-                  }
+                  example:
+                    {
+                      'accessToken': 'prtapi_eaf760b84b01f56228e266d699c42f8e',
+                      'partnerId': '3767830',
+                    }
       responses:
         '200':
           description: Integration updated successfully
@@ -4744,7 +4744,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid data for Integration. Please check the provided data."
+                    example: 'Invalid data for Integration. Please check the provided data.'
         '401':
           description: Unauthorized
           content:
@@ -4757,7 +4757,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access. Please provide a valid API key."
+                    example: 'Unauthorized access. Please provide a valid API key.'
         '404':
           description: Not Found
           content:
@@ -4770,7 +4770,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Integration Id not found."
+                    example: 'Integration Id not found.'
         '500':
           description: Internal Server Error
           content:
@@ -4783,7 +4783,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "An unexpected error occurred. Please try again later."
+                    example: 'An unexpected error occurred. Please try again later.'
 
     # Delete an integration
     delete:
@@ -4804,7 +4804,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Integration deleted successfully."
+                    example: 'Integration deleted successfully.'
         '400':
           description: Bad Request
           content:
@@ -4817,7 +4817,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid data for Integration. Please check the provided data."
+                    example: 'Invalid data for Integration. Please check the provided data.'
         '401':
           description: Unauthorized
           content:
@@ -4830,7 +4830,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access. Please provide a valid API key."
+                    example: 'Unauthorized access. Please provide a valid API key.'
         '404':
           description: Not Found
           content:
@@ -4843,7 +4843,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Integration Id not found."
+                    example: 'Integration Id not found.'
         '500':
           description: Internal Server Error
           content:
@@ -4856,7 +4856,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "An unexpected error occurred. Please try again later."
+                    example: 'An unexpected error occurred. Please try again later.'
 
   /integrations/connect/{integrationId}:
     post:
@@ -4870,7 +4870,7 @@ paths:
           required: true
           schema:
             type: string
-            example: "3767830"
+            example: '3767830'
       responses:
         '200':
           description: Integration connected successfully
@@ -4884,7 +4884,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Integration connected successfully."
+                    example: 'Integration connected successfully.'
                   data:
                     type: object
                     $ref: '#/components/schemas/Integrations'
@@ -4900,7 +4900,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid data for Integration. Please check the provided data."
+                    example: 'Invalid data for Integration. Please check the provided data.'
         '401':
           description: Unauthorized
           content:
@@ -4913,7 +4913,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access. Please provide a valid API key."
+                    example: 'Unauthorized access. Please provide a valid API key.'
         '404':
           description: Not Found
           content:
@@ -4926,7 +4926,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Integration Id not found."
+                    example: 'Integration Id not found.'
         '500':
           description: Internal Server Error
           content:
@@ -4939,7 +4939,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "An unexpected error occurred. Please try again later."
+                    example: 'An unexpected error occurred. Please try again later.'
 
   /integrations/disconnect/{integrationId}:
     post:
@@ -4953,7 +4953,7 @@ paths:
           required: true
           schema:
             type: string
-            example: "3767830"
+            example: '3767830'
       responses:
         '200':
           description: Integration disconnected successfully
@@ -4967,7 +4967,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Integration disconnected successfully."
+                    example: 'Integration disconnected successfully.'
         '400':
           description: Bad Request
           content:
@@ -4980,7 +4980,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid data for Integration. Please check the provided data."
+                    example: 'Invalid data for Integration. Please check the provided data.'
         '401':
           description: Unauthorized
           content:
@@ -4993,7 +4993,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access. Please provide a valid API key."
+                    example: 'Unauthorized access. Please provide a valid API key.'
         '404':
           description: Not Found
           content:
@@ -5006,7 +5006,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Integration Id not found."
+                    example: 'Integration Id not found.'
         '500':
           description: Internal Server Error
           content:
@@ -5019,4 +5019,4 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "An unexpected error occurred. Please try again later."
+                    example: 'An unexpected error occurred. Please try again later.'

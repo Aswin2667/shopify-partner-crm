@@ -6,6 +6,6 @@ import { LeadActivityService } from 'src/lead-activity/lead-activity.service';
 
 @Module({
   controllers: [LeadController],
-  providers: [LeadService,PrismaService,LeadActivityService],
+  providers: [LeadService, PrismaService, LeadActivityService],
 })
 export class LeadModule {}
