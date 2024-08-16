@@ -49,7 +49,7 @@ export class UserService {
       });
        // Emit USER_CREATED event
        if (existingUser) {
-        await this.eventQueue.add('USER_CREATED',upsertedUser);
+        await this.eventQueue.add('USER_CREATED', upsertedUser);
       }
       return {
         status: true,
