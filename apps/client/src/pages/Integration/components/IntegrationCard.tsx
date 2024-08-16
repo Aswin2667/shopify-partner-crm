@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { integrationAction } from "@/redux/integrationSlice";
 import DateHelper from "@/utils/DateHelper";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +13,7 @@ const IntegrationCard = ({ integration }: any) => {
   );
 
   const clickHandler = () => {
+    dispatch(integrationAction.setCurrentIntegration(integration));
     navigate(`/${currentOrganization.id}/${integration.id}`);
   };
   return (

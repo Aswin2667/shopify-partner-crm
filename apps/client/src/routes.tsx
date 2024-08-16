@@ -3,7 +3,7 @@ import Login from "./pages/auth/Login";
 import PageNotFount from "./pages/404/404";
 import OrganizationList from "./pages/organizations/OrganizationList";
 import RootLayout from "./components/RootLayout";
-import CreateIntegration from "./pages/Integration/CreateIntegration";
+import Integration from "./pages/Integration/Index";
 import IntegrationDetailScreen from "./pages/Integration/components/IntegrationDetailScreen";
 import IntegrationDashboard from "./pages/Integration/components/IntegrationDashboard";
 import IntegrationDashboardLayout from "./pages/Integration/components/IntegrationDashboardLayout";
@@ -19,6 +19,7 @@ import DashboardPage from "./pages/organizations/dashboard/page";
 import LeadDashboard from "./pages/leads/DashBoard";
 import LeadTable from "./pages/leads/table/LeadTable";
 import MailPage from "./pages/mail/page";
+import Project from "./pages/Project/components/Index";
 
 export const routes = createBrowserRouter([
   {
@@ -56,6 +57,29 @@ export const routes = createBrowserRouter([
             element: <MailPage />,
           },
           {
+            path: "leads",
+            children: [
+              {
+                index: true,
+                element: <LeadTable />,
+              },
+              {
+                path: ":leadId",
+
+                element: <LeadDashboard />,
+              },
+            ],
+          },
+          {
+            path: "projects",
+            children: [
+              {
+                index: true,
+                element: <Project />,
+              },
+            ],
+          },
+          {
             path: "workflows",
             children: [
               {
@@ -68,20 +92,6 @@ export const routes = createBrowserRouter([
               },
             ],
           },
-          {
-            path: "leads",
-            children: [
-              {
-                index:true,
-                element:<LeadTable />
-              },
-              {
-                path: ":leadId",
-                
-                element: <LeadDashboard />,
-              },
-            ],
-          },
         ],
       },
       {
@@ -89,7 +99,7 @@ export const routes = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <CreateIntegration />,
+            element: <Integration />,
           },
           {
             path: ":intergrationName",

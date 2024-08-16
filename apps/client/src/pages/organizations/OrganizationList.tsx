@@ -35,6 +35,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { organizationAction } from "@/redux/organizationSlice";
 import { useQueryEvents } from "@/hooks/useQueryEvents";
 import { StateFromReducersMapObject } from "@reduxjs/toolkit";
+import { integrationAction } from "@/redux/integrationSlice";
 
 const organizationSchema = z.object({
   name: z.string().min(1, "Organization name is required"),
@@ -211,6 +212,7 @@ export default function OrganizationList() {
 
   useEffect(() => {
     dispatch(organizationAction.setCurrentOrganization(null));
+    dispatch(integrationAction.reset());
   }, []);
 
   const { isLoading } = useQueryEvents(
@@ -242,7 +244,6 @@ export default function OrganizationList() {
       },
     }
   );
-
 
   React.useEffect(() => {
     const sessionData = sessionStorage.getItem("session");

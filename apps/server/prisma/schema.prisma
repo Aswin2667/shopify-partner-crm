@@ -39,17 +39,17 @@ model OrgMemberInvite {
 }
 
 model Organization {
-  id           String            @id @default(uuid())
-  name         String
-  logo         String?
-  description  String?
-  createdAt    BigInt
-  updatedAt    BigInt
-  deletedAt    BigInt
+  id          String          @id @default(uuid())
+  name        String
+  logo        String?
+  description String?
+  createdAt   BigInt          @default(autoincrement())
+  updatedAt   BigInt          @default(autoincrement())
+  deletedAt   BigInt
+  Project        Project[]
+  members     OrgMember[]
+  invites     OrgMemberInvite[]
   integrations Integration[]
-  members      OrgMember[]
-  invites      OrgMemberInvite[]
-  Projects     Projects[]
 }
 
 model OrgMember {
@@ -66,21 +66,19 @@ model OrgMember {
   @@unique([organizationId, userId])
 }
 
-model Projects {
-  id             String         @id @default(uuid())
-  slug           String         @unique
-  name           String
-  organizationId String
-  createdAt      BigInt
-  updatedAt      BigInt
-  deletedAt      BigInt?
-  version        AppVersion     @default(V2)
-  integrationId  String?
-  data           Json
-  type           String
-  leadProjects   LeadProjects[]
-  integration    Integration?   @relation(fields: [integrationId], references: [id])
-  organization   Organization   @relation(fields: [organizationId], references: [id])
+model Project {
+  id              String        @id @default(uuid())
+  name            String
+  type            String
+  data            Json
+  organization    Organization  @relation(fields: [organizationId], references: [id])
+  organizationId  String
+  createdAt       BigInt        @default(autoincrement())
+  updatedAt       BigInt        @default(autoincrement())
+  deletedAt       BigInt?
+  leadProject        LeadProject[]
+  integrationId   String?
+  integration     Integration?  @relation(fields: [integrationId], references: [id])
 }
 
 model LeadNotes {
@@ -96,34 +94,35 @@ model LeadNotes {
 }
 
 model Lead {
-  id             String         @id @default(uuid())
-  shopifyDomain  String         @unique
-  shopifyStoreId String         @unique
-  leadSource     String?
-  shopDetails    Json?
-  industry       String?
-  createdAt      BigInt
-  updatedAt      BigInt
-  deletedAt      BigInt
-  attachments    Attachment[]
-  contacts       Contact[]
-  leadActivities LeadActivity[]
-  leadNotes      LeadNotes[]
-  Projects       LeadProjects[]
+   id              String        @id @default(uuid())
+  shopifyDomain   String        @unique
+  shopifyStoreId  String        @unique
+  Project            LeadProject[]
+  leadSource      String?
+  shopDetails     Json?
+  industry        String?
+  createdAt       BigInt        @default(autoincrement())
+  updatedAt       BigInt        @default(autoincrement())
+  deletedAt       BigInt
+  leadActivities  LeadActivity[]
+  leadNotes       LeadNotes[]
+  contacts        Contact[]
+  attachments     Attachment[]
 }
 
-model LeadProjects {
-  id        String   @id @default(uuid())
-  leadId    String
-  projectId String
-  createdAt BigInt
-  updatedAt BigInt
-  deletedAt BigInt
-  status    String?
-  lead      Lead     @relation(fields: [leadId], references: [id])
-  project   Projects @relation(fields: [projectId], references: [id])
+model LeadProject {
+  id         String @id @default(uuid())
+  leadId     String
+  projectId      String
+  lead       Lead   @relation(fields: [leadId], references: [id])
+  project        Project   @relation(fields: [projectId], references: [id])
+  createdAt  BigInt @default(autoincrement())
+  updatedAt  BigInt @default(autoincrement())
+  deletedAt  BigInt
+  status     String?
 
-  @@unique([projectId, leadId])
+    @@unique([projectId, leadId])
+
 }
 
 model Contact {
@@ -202,10 +201,10 @@ model Integration {
   createdAt      BigInt
   updatedAt      BigInt
   deletedAt      BigInt
-  name           String
+   Project           Project[]
+   name           String
   organization   Organization @relation(fields: [organizationId], references: [id])
-  Projects       Projects[]
-}
+ }
 
 model Template {
   id        String @id @default(uuid())
