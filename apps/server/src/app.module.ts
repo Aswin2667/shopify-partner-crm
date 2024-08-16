@@ -25,6 +25,7 @@ import { IntegrationsService } from './integrations/integrations.service';
 
 import { BullModule, BullQueueEvents } from '@nestjs/bull';
 import { MailModule, MailService } from '@org/utils';
+import { ProjectModule } from './project/project.module';
 import * as path from 'path';
 import { LeadController } from './leads/lead.controller';
 import { LeadService } from './leads/lead.service';
@@ -58,6 +59,7 @@ import { LeadActivityService } from './lead-activity/lead-activity.service';
       name: 'events',
     }),
     MailModule,
+    ProjectModule,
   ],
   controllers: [
     UserController,
