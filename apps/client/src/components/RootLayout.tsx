@@ -5,6 +5,7 @@ import {
   Archive,
   ArchiveX,
   Building,
+  Folder,
   Inbox,
   LayoutDashboard,
   LayoutGrid,
@@ -177,9 +178,9 @@ export default function RootLayout() {
                 variant: "ghost",
               },
               {
-                title: "Archive",
+                title: "Media Library",
                 label: "",
-                icon: Archive,
+                icon: Folder,
                 variant: "ghost",
               },
             ]}

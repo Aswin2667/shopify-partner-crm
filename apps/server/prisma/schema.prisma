@@ -96,7 +96,9 @@ model LeadNotes {
 model Lead {
    id              String        @id @default(uuid())
   shopifyDomain   String        @unique
+  email          String
   shopifyStoreId  String        @unique
+  status           leadStatus   @default(POTENTIAL)
   Project            LeadProject[]
   leadSource      String?
   shopDetails     Json?
@@ -109,7 +111,15 @@ model Lead {
   contacts        Contact[]
   attachments     Attachment[]
 }
-
+enum leadStatus {
+POTENTIAL
+CUSTOMER
+INTERESTED
+NOT_INTERESTED
+BAD_FIT
+QUALIFIED
+CANCELED
+}
 model LeadProject {
   id         String @id @default(uuid())
   leadId     String

@@ -18,8 +18,9 @@ import ManageAccess from "./pages/organizations/ManageAccess";
 import DashboardPage from "./pages/organizations/dashboard/page";
 import LeadDashboard from "./pages/leads/DashBoard";
 import LeadTable from "./pages/leads/table/LeadTable";
-import MailPage from "./pages/mail/page";
 import Project from "./pages/Project/components/Index";
+import {MailPage} from "./pages/mail/page";
+import Activity from "./pages/leads/components/Activity";
 
 export const routes = createBrowserRouter([
   {
@@ -67,6 +68,24 @@ export const routes = createBrowserRouter([
                 path: ":leadId",
 
                 element: <LeadDashboard />,
+                children:[
+                  {
+                    index:true,
+                    element: <Activity />
+                  },
+                  {
+                    path: "emails",
+                    element: <MailPage />
+                  },
+                  {
+                    path: "calls",
+                    element: <>call</>
+                  },
+                  {
+                    path: "tasks",
+                    element: <>task</>
+                  }
+                ]
               },
             ],
           },

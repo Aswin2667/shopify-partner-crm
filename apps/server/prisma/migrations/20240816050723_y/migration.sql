@@ -1,0 +1,5 @@
+-- CreateEnum
+CREATE TYPE "leadStatus" AS ENUM ('POTENTIAL', 'BAD_FIT', 'QUALIFIED', 'CUSTOMER', 'INTERESTED', 'CANCELLED', 'NOT_INTERESTED');
+
+-- AlterTable
+ALTER TABLE "Lead" ADD COLUMN     "leadStatus" "leadStatus" NOT NULL DEFAULT 'POTENTIAL';

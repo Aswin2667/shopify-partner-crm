@@ -3,11 +3,10 @@ import {
   ChevronRight,
   Copy,
   CreditCard,
-  Mail,
   MoreVertical,
-  Search,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
 import {
   Card,
   CardContent,
@@ -28,11 +27,6 @@ import {
   PaginationItem,
 } from "@/components/ui/pagination";
 import { Separator } from "@/components/ui/separator";
-import Activity from "./components/Activity";
-import ActivityPopoverFilter from "./components/ActivityPopoverFilter";
-import { Input } from "@/components/ui/input";
-import DateRangePicker from "./components/date-range-picker";
-import EmailEditor from "./components/EmailEditor";
 import {
   Select,
   SelectContent,
@@ -41,7 +35,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Editor from "./components/EmailEditor";
+import { Outlet } from "react-router-dom";
+import Tabs from "./components/Tabs";
+import { toast } from "sonner";
 
 export default function LeadDashboard() {
   return (
@@ -53,22 +49,25 @@ export default function LeadDashboard() {
               <div className="grid gap-0.5">
                 <CardTitle className="group flex items-center gap-2 text-lg">
                   Pasta.myshopify.com
-                  <Button
-                    size="icon"
-                    variant="outline"
-                    className="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
-                  >
-                    <Copy className="h-3 w-3" />
+                  <Button size="icon" variant="outline" className="h-6 w-6 ">
+                    <Copy
+                      className="h-3 w-3"
+                      onClick={() => {
+                        toast("Shop Domin URL copied to clipboard", {
+                          duration: 800,
+                        });
+                      }}
+                    />
                     <span className="sr-only">Copy Order ID</span>
                   </Button>
                 </CardTitle>
-                <Select >
-                  <SelectTrigger className="max-w-fit  pt-0 pb-0 border-none">
-                    <SelectValue  />
+                <Select defaultValue="potential">
+                  <SelectTrigger className="max-w-fit pt-0 pb-0 border-none">
+                    <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem defaultChecked value="potential">Potential</SelectItem>
+                      <SelectItem value="potential">Potential</SelectItem>
                       <SelectItem value="Bad_Fit">Bad Fit</SelectItem>
                       <SelectItem value="qualified">Qualified</SelectItem>
                       <SelectItem value="interested">Interested</SelectItem>
@@ -93,58 +92,16 @@ export default function LeadDashboard() {
                 </DropdownMenu>
               </div>
             </CardHeader>
-            <CardContent className="p-6 text-sm">
-              <div className="grid gap-3">
-                <div className="font-semibold">Order Details</div>
-                <ul className="grid gap-3">
-                  <li className="flex items-center justify-between">
-                    <span className="text-muted-foreground">
-                      Glimmer Lamps x <span>2</span>
-                    </span>
-                    <span>$250.00</span>
-                  </li>
-                  <li className="flex items-center justify-between">
-                    <span className="text-muted-foreground">
-                      Aqua Filters x <span>1</span>
-                    </span>
-                    <span>$49.00</span>
-                  </li>
-                </ul>
-                <Separator className="my-2" />
-                <ul className="grid gap-3">
-                  <li className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Subtotal</span>
-                    <span>$299.00</span>
-                  </li>
-                  <li className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Shipping</span>
-                    <span>$5.00</span>
-                  </li>
-                  <li className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Tax</span>
-                    <span>$25.00</span>
-                  </li>
-                  <li className="flex items-center justify-between font-semibold">
-                    <span className="text-muted-foreground">Total</span>
-                    <span>$329.00</span>
-                  </li>
-                </ul>
-              </div>
+            <CardContent className="p-6 text-sm min-h-full">
               <Separator className="my-4" />
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 z-0">
                 <div className="grid gap-3">
-                  <div className="font-semibold">Shipping Information</div>
+                  <div className="font-semibold">Address Information</div>
                   <address className="grid gap-0.5 not-italic text-muted-foreground">
                     <span>Liam Johnson</span>
                     <span>1234 Main St.</span>
                     <span>Anytown, CA 12345</span>
                   </address>
-                </div>
-                <div className="grid auto-rows-max gap-3">
-                  <div className="font-semibold">Billing Information</div>
-                  <div className="text-muted-foreground">
-                    Same as shipping address
-                  </div>
                 </div>
               </div>
               <Separator className="my-4" />
@@ -157,11 +114,15 @@ export default function LeadDashboard() {
                   </div>
                   <div className="flex items-center justify-between">
                     <dt className="text-muted-foreground">Email</dt>
-                    <dd>{/* <a to="mailto:">liam@acme.com</a> */}</dd>
+                    <dd>
+                      <a href="mailto:">liam@acme.com</a>
+                    </dd>
                   </div>
                   <div className="flex items-center justify-between">
                     <dt className="text-muted-foreground">Phone</dt>
-                    <dd>{/* <a to="tel:">+1 234 567 890</a> */}</dd>
+                    <dd>
+                      <a href="tel:">+1 234 567 890</a>
+                    </dd>
                   </div>
                 </dl>
               </div>
@@ -204,28 +165,9 @@ export default function LeadDashboard() {
         </div>
         <Separator orientation="vertical" />
         <div className="w-3/4">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2">
-              <ActivityPopoverFilter />
-              <Button variant="outline" className="flex gap-2 items-center">
-                <Mail className="h-4 w-4" />
-                Add Note
-              </Button>
-              <Button variant="outline" className="flex gap-2 items-center">
-                <Mail className="h-4 w-4" />
-                Email
-              </Button>
-              <DateRangePicker />
-            </div>
-            <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search" className="pl-8" />
-            </div>
-          </div>
-          <Separator className="mb-5 mt-2" />
+          <Tabs />
           <div className="h-screen overflow-scroll p-5">
-            <Editor />
-            <Activity />
+            <Outlet />
           </div>
         </div>
       </main>

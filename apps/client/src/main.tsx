@@ -10,6 +10,7 @@ import ShadcnProvider from "./components/ShadcnProvider.tsx";
 import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store.ts";
 import { PersistGate } from "redux-persist/integration/react";
+import { Toaster as SonnerToaster } from "@/components/ui/sonner"
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <ShadcnProvider>
               <RouterProvider router={routes} />
             </ShadcnProvider>
+            <SonnerToaster />
             <Toaster />
           </GoogleOAuthProvider>
         </QueryClientProvider>

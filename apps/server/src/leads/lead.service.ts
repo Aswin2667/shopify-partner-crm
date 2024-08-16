@@ -29,6 +29,7 @@ export class LeadService {
           shopifyDomain: createLeadDto.myShopifyDomain,
           shopifyStoreId: randomUUID(),
           createdAt: DateHelper.getCurrentUnixTime(),
+          email: createLeadDto.email,
           updatedAt: 0,
           deletedAt: 0,
         },
