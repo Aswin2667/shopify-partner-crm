@@ -7,30 +7,34 @@ export class MailService {
 
   async sendUserConfirmation(userEmail: string, data: string) {
     try {
-      await this.mailerService.sendMail({
-        from: "bikecare.no.replay@gmail.com",
-        to: userEmail, // list of receivers
-        subject: 'Testing Nest MailerModule ✔', // Subject line
-        text: 'welcome', // plaintext body
-        html: '<b>welcome</b>', // HTML body content
-      }).then((res)=>{
-        console.log(res)
-      });
+      await this.mailerService
+        .sendMail({
+          from: 'bikecare.no.replay@gmail.com',
+          to: userEmail, // list of receivers
+          subject: 'Testing Nest MailerModule ✔', // Subject line
+          text: 'welcome', // plaintext body
+          html: '<b>welcome</b>', // HTML body content
+        })
+        .then((res) => {
+          console.log(res);
+        });
     } catch (error) {
       console.error('Error sending email:', error);
       throw new Error('Failed to send confirmation email.');
     }
   }
-  async sendMail(userEmail: string,template:string) {
+  async sendMail(userEmail: string, template: string) {
     try {
-      await this.mailerService.sendMail({
-        from: "bikecare.no.replay@gmail.com",
-        to: userEmail, // list of receivers
-        subject: 'Shopify Partner CRM Invitation', 
-        html: template
-      }).then((res)=>{
-        console.log(res)
-      });
+      await this.mailerService
+        .sendMail({
+          from: 'bikecare.no.replay@gmail.com',
+          to: userEmail, // list of receivers
+          subject: 'Shopify Partner CRM Invitation',
+          html: template,
+        })
+        .then((res) => {
+          console.log(res);
+        });
     } catch (error) {
       console.error('Error sending email:', error);
       throw new Error('Failed to send confirmation email.');
@@ -42,7 +46,7 @@ export class MailService {
         to: userEmail,
         subject: 'Reset your Password',
         template: './reset-password',
-        context: { 
+        context: {
           token,
         },
       });

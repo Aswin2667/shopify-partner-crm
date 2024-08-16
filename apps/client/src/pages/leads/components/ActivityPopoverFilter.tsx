@@ -26,9 +26,7 @@ export default function ActivityPopoverFilter() {
         <ScrollArea className="max-h-[300px] overflow-y-auto overflow-x-hidden">
           {[...Array(10)].map((_, i) => (
             <div key={i}>
-
               <Label className="flex h-8 w-full items-center gap-4 hover:bg-muted rounded-md  bg-background px-3 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1">
-                
                 <input type="checkbox" />
                 <div className="w-2 h-2 bg-red-400 rounded-full"></div>
                 <span>

@@ -97,7 +97,7 @@ services:
     container_name: s3
     networks:
       - app_network
-    
+
 volumes:
   redis_insight_volume_data:
   redis_volume_data:

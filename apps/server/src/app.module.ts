@@ -32,7 +32,6 @@ import { LeadService } from './leads/lead.service';
 import { PrismaService } from './config/prisma.service';
 import { LeadActivityService } from './lead-activity/lead-activity.service';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -70,7 +69,7 @@ import { LeadActivityService } from './lead-activity/lead-activity.service';
     TemplateController,
     S3Controller,
     IntegrationsController,
-    LeadController
+    LeadController,
   ],
   providers: [
     UserService,
@@ -83,7 +82,7 @@ import { LeadActivityService } from './lead-activity/lead-activity.service';
     IntegrationsService,
     LeadService,
     PrismaService,
-    LeadActivityService
+    LeadActivityService,
   ],
 })
 export class AppModule {

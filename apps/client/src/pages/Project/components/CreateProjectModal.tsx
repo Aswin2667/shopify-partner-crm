@@ -80,7 +80,7 @@ const CreateProjectModal: any = ({ open, setOpen }: Props) => {
               },
               organizationId: currentIntegration?.organizationId,
               integrationId: currentIntegration?.id,
-            })
+            }),
           )}
         >
           <div>

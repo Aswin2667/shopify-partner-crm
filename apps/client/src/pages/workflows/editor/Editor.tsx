@@ -35,8 +35,7 @@ const Editor = () => {
             tabIndex={0}
             data-orientation="horizontal"
             className="box-border scroll-auto duration-0 gap-[4px] flex flex-row min-w-0 leading-[15px]"
-          >
-          </div>
+          ></div>
         </div>
         <div className="box-border scroll-auto duration-0 items-center gap-[12px] flex flex-row shrink-0 justify-start leading-[15px]">
           <span className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300">
@@ -78,14 +77,14 @@ function Flow() {
     {
       id: "a",
       type: "input",
-      position:  { x: 500, y: 400 },
+      position: { x: 500, y: 400 },
       data: { label: "wire" },
     },
     { id: "c", position: { x: 700, y: 600 }, data: { label: "your ideas" } },
     {
       id: "d",
       type: "output",
-      position:  { x: 800, y: 700 },
+      position: { x: 800, y: 700 },
       data: { label: "with React Flow" },
     },
   ]);
@@ -95,12 +94,12 @@ function Flow() {
   ]);
   const onConnect: OnConnect = useCallback(
     (connection) => setEdges((edges) => addEdge(connection, edges)),
-    [setEdges]
+    [setEdges],
   );
   useEffect(() => {
-    console.log(nodes,edges)
-  }, [edges,nodes])
-  
+    console.log(nodes, edges);
+  }, [edges, nodes]);
+
   return (
     <ReactFlow
       nodes={nodes}

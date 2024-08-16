@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    currentOrganization: null,
-    organizations: [],
+  currentOrganization: null,
+  organizations: [],
 };
 
 const organizationSlice = createSlice({

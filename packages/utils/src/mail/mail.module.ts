@@ -11,7 +11,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
           user: 'bikecare.no.replay@gmail.com',
           pass: 'jucpohpxtwtztzcq',
         },
-      }
+      },
     }),
   ],
   providers: [MailService],

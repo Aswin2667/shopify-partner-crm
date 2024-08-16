@@ -8,7 +8,7 @@ import { DateHelper } from '@org/utils';
 export class LeadActivityService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createLeadActivityDto:any) {
+  async create(createLeadActivityDto: any) {
     return this.prisma.leadActivity.create({
       data: {
         type: createLeadActivityDto.type,
@@ -25,6 +25,4 @@ export class LeadActivityService {
   async findAllByLeadId() {
     return this.prisma.leadActivity.findMany();
   }
-
-
 }
