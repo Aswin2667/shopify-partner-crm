@@ -9,6 +9,7 @@ export class LeadActivityService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createLeadActivityDto: any) {
+    console.log(createLeadActivityDto);
     return this.prisma.leadActivity.create({
       data: {
         type: createLeadActivityDto.type,
@@ -22,7 +23,24 @@ export class LeadActivityService {
     });
   }
 
-  async findAllByLeadId() {
-    return this.prisma.leadActivity.findMany();
+  async findAllByLeadId(leadId:string) {
+    try {
+      const data = await this.prisma.leadActivity.findMany({
+        where:{
+          leadId: leadId
+        },
+        include:{
+          user: true,
+          note:true
+        }
+      });
+      return {
+        status:true,
+        message:"Activities fetched successfully.",
+        data
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 }

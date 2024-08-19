@@ -23,6 +23,7 @@ import { MailPage } from "./pages/mail/page";
 import Activity from "./pages/leads/components/Activity";
 import MediaLibrary from "./pages/media-library/MediaLibrary";
 import ContactsTable from "./pages/contacts/table/ContactsTable";
+import Notes from "./pages/leads/notes/Notes";
 
 export const routes = createBrowserRouter([
   {
@@ -86,6 +87,14 @@ export const routes = createBrowserRouter([
                   {
                     path: "tasks",
                     element: <>task</>,
+                  },
+                  {
+                    path: "notes",
+                    element: <Notes />,
+                  },
+                  {
+                    path: "messages",
+                    element: <>messages</>,
                   },
                 ],
               },

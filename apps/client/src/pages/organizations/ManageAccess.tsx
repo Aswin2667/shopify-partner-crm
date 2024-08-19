@@ -168,7 +168,7 @@ const ManageAccess = () => {
         {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
       </div>
       <br />
-      <ul className="max-w-[700px] divide-y divide-gray-200 dark:divide-gray-700">
+      <ul className="max-w-[700px] list-none divide-y divide-gray-200 dark:divide-gray-700">
         <li className="p-2">
           <div className="flex items-center max-h-[100px] space-x-4 rtl:space-x-reverse">
             <div className="flex-shrink-0 p-0">

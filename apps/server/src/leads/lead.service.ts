@@ -17,8 +17,16 @@ export class LeadService {
     private readonly prismaService: PrismaService,
     private readonly LeadActivityService: LeadActivityService,
   ) {}
-  async findAllByAppId(appId: string) {
-    return this.leads.filter((lead) => lead.appId === appId);
+  async findAllByIntegrationId(appId: string) {
+   try {
+      return await this.prismaService.lead.findMany({
+        where: {
+          
+        }
+      }) 
+   } catch (error) {
+    
+   }
   }
 
   async findOne(leadId: string) {
@@ -32,11 +40,14 @@ export class LeadService {
           shopifyDomain: createLeadDto.myShopifyDomain,
           shopifyStoreId: randomUUID(),
           createdAt: DateHelper.getCurrentUnixTime(),
-          email: createLeadDto.email,
+          leadSource:"Manually added",
           updatedAt: 0,
           deletedAt: 0,
+          organizationId: createLeadDto.organizationId,
+          integrationId: createLeadDto.integrationId,
         },
       });
+      console.log(createLeadDto)
       const activity = {
         type: 'LEAD_CREATED',
         data: { message: 'User manually created by' },

@@ -16,13 +16,13 @@ import { CreateLeadDto, UpdateLeadDto } from './dto/lead.dto';
 export class LeadController {
   constructor(private readonly leadService: LeadService) {}
 
-  @Get(':appId')
-  async findAllByAppId(@Param('appId') appId: string) {
+  @Get(':orgId')
+  async findAllByIntegrationId(@Param('orgId') appId: string) {
     try {
-      const leads = await this.leadService.findAllByAppId(appId);
+      const leads = await this.leadService.findAllByIntegrationId(appId);
       return {
         status: true,
-        message: 'Got Lead using the AppId',
+        message: 'Got Lead using the OrgId',
         data: leads,
       };
     } catch (error) {

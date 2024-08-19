@@ -53,6 +53,7 @@
     "react-router-dom": "^6.26.0",
     "redux-persist": "^6.0.0",
     "redux-persist-transform-encrypt": "^5.1.1",
+    "timeago-react": "^3.0.6",
     "uuid": "^10.0.0",
     "zod": "^3.23.8"
   }
