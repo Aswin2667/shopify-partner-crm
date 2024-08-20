@@ -40,6 +40,8 @@
     "axios": "^1.7.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "flowbite": "^2.5.1",
+    "flowbite-react": "^0.10.1",
     "google-auth-library": "^9.13.0",
     "jotai": "^2.9.3",
     "jwt-decode": "^4.0.0",

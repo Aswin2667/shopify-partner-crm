@@ -16,6 +16,7 @@ export class CreateLeadDto {
   userId: any;
   organizationId: any;
   integrationId: any;
+  status: any;
 }
 export class UpdateLeadDto {
   readonly name?: string;

@@ -22,6 +22,7 @@ export default function ProfileHoverCard({user}:any) {
         className="font-semibold p-0 mr-2 text-blue-600 dark:text-blue-500 hover:underline"
       >
         {user.name }
+        
       </Button>
     </HoverCardTrigger>
     <HoverCardContent className="w-fit">
