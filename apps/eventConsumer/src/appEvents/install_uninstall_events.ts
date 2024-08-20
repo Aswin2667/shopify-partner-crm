@@ -57,7 +57,7 @@ export class AppInstallsUninstallsEventsProcessor {
                         data: {
                             leadId: newLead.id,
                             data: {
-                                message: 'created by sync',
+                                message: 'New store installed ',
                                 string1 : leadStr,
                                 hash: hash
                             },

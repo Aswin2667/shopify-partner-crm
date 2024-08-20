@@ -6,7 +6,6 @@ module.exports = {
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
-     'node_modules/flowbite-react/lib/esm/**/*.js'
   ],
   prefix: "",
   theme: {
@@ -74,6 +73,6 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"),require('flowbite/plugin')],
+  plugins: [require("tailwindcss-animate")],
 
 };
