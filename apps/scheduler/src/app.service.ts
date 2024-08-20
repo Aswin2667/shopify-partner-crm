@@ -20,11 +20,11 @@ export class AppService {
     private readonly prismaService: PrismaService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private readonly eventEmitter: EventEmitter2, 
-    @InjectQueue('app_events') private readonly appEventsQueue: Queue,
+    @InjectQueue('install_uninstall_events') private readonly appEventsQueue: Queue,
   ) {}
 
   // Cron job that runs every 10 seconds
-  @Cron('*/10 * * * * *')
+  @Cron('*/5 * * * * *')
   async handleCron() {
     if (!this.cronEnabled) return; // Check if cron job is enabled
 

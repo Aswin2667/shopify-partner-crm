@@ -16,6 +16,7 @@ import { BullModule } from '@nestjs/bull';
     CacheManagerModule.register(),
     ScheduleModule.forRoot(),
     EventEmitterModule.forRoot(),
+    Cron1Module,
     BullModule.forRoot({
       redis: {
         host: 'localhost',
@@ -23,7 +24,7 @@ import { BullModule } from '@nestjs/bull';
       },
     }),
     BullModule.registerQueue({
-      name: 'app_events',
+      name: 'install_uninstall_events',
     }),
     // Cron1Module,
   ],

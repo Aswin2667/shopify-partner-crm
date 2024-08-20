@@ -94,9 +94,8 @@ model LeadNotes {
 }
 
 model Lead {
-   id              String        @id @default(uuid())
+  id              String        @id @default(uuid())
   shopifyDomain   String        @unique
-  email          String
   shopifyStoreId  String        @unique
   status           leadStatus   @default(POTENTIAL)
   Project            LeadProject[]
@@ -173,11 +172,11 @@ model LeadActivity {
   updatedAt BigInt
   createdAt BigInt
   deletedAt BigInt
-  userId    String
+  userId    String?
   noteId    String?
-  type      LeadActivityType
+  type      String
   lead      Lead             @relation(fields: [leadId], references: [id])
-  user      User             @relation(fields: [userId], references: [id])
+  user      User?             @relation(fields: [userId], references: [id])
   note      LeadNotes?        @relation(fields: [noteId],references: [id])
 
   @@index([leadId, userId])
