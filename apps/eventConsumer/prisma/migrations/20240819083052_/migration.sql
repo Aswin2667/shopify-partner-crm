@@ -99,7 +99,6 @@ CREATE TABLE "LeadNotes" (
 CREATE TABLE "Lead" (
     "id" TEXT NOT NULL,
     "shopifyDomain" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
     "shopifyStoreId" TEXT NOT NULL,
     "status" "leadStatus" NOT NULL DEFAULT 'POTENTIAL',
     "leadSource" TEXT,
@@ -108,8 +107,6 @@ CREATE TABLE "Lead" (
     "createdAt" BIGSERIAL NOT NULL,
     "updatedAt" BIGSERIAL NOT NULL,
     "deletedAt" BIGINT NOT NULL,
-    "integrationId" TEXT NOT NULL,
-    "organizationId" TEXT NOT NULL,
 
     CONSTRAINT "Lead_pkey" PRIMARY KEY ("id")
 );
@@ -170,9 +167,9 @@ CREATE TABLE "LeadActivity" (
     "updatedAt" BIGINT NOT NULL,
     "createdAt" BIGINT NOT NULL,
     "deletedAt" BIGINT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "userId" TEXT,
     "noteId" TEXT,
-    "type" "LeadActivityType" NOT NULL,
+    "type" TEXT NOT NULL,
 
     CONSTRAINT "LeadActivity_pkey" PRIMARY KEY ("id")
 );
@@ -272,12 +269,6 @@ ALTER TABLE "Project" ADD CONSTRAINT "Project_integrationId_fkey" FOREIGN KEY ("
 ALTER TABLE "LeadNotes" ADD CONSTRAINT "LeadNotes_leadId_fkey" FOREIGN KEY ("leadId") REFERENCES "Lead"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Lead" ADD CONSTRAINT "Lead_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Lead" ADD CONSTRAINT "Lead_integrationId_fkey" FOREIGN KEY ("integrationId") REFERENCES "Integration"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "LeadProject" ADD CONSTRAINT "LeadProject_leadId_fkey" FOREIGN KEY ("leadId") REFERENCES "Lead"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -293,7 +284,7 @@ ALTER TABLE "Attachment" ADD CONSTRAINT "Attachment_leadId_fkey" FOREIGN KEY ("l
 ALTER TABLE "LeadActivity" ADD CONSTRAINT "LeadActivity_leadId_fkey" FOREIGN KEY ("leadId") REFERENCES "Lead"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "LeadActivity" ADD CONSTRAINT "LeadActivity_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "LeadActivity" ADD CONSTRAINT "LeadActivity_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "LeadActivity" ADD CONSTRAINT "LeadActivity_noteId_fkey" FOREIGN KEY ("noteId") REFERENCES "LeadNotes"("id") ON DELETE SET NULL ON UPDATE CASCADE;

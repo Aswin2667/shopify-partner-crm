@@ -73,6 +73,7 @@ model Project {
   name           String
   type           String
   data           Json
+  isSynced       Boolean    @default(false)
   organization   Organization  @relation(fields: [organizationId], references: [id])
   organizationId String
   createdAt      BigInt        @default(autoincrement())
@@ -91,7 +92,7 @@ model LeadNotes {
   updatedAt    BigInt
   deletedAt    BigInt
   lead         Lead           @relation(fields: [leadId], references: [id])
-  user       User           @relation(fields: [userId], references: [id])
+  user         User           @relation(fields: [userId], references: [id])
   LeadActivity LeadActivity[]
   userId       String
 }
@@ -174,18 +175,18 @@ model Attachment {
 }
 
 model LeadActivity {
-  id        String           @id @default(uuid())
+  id        String     @id @default(uuid())
   leadId    String
   data      Json
   updatedAt BigInt
   createdAt BigInt
   deletedAt BigInt
-  userId    String
+  userId    String?
   noteId    String?
   type      LeadActivityType
-  lead      Lead             @relation(fields: [leadId], references: [id])
-  user      User             @relation(fields: [userId], references: [id])
-  note      LeadNotes?       @relation(fields: [noteId], references: [id])
+  lead      Lead       @relation(fields: [leadId], references: [id])
+  user      User?      @relation(fields: [userId], references: [id])
+  note      LeadNotes? @relation(fields: [noteId], references: [id])
 
   @@index([leadId, userId])
 }
@@ -245,6 +246,26 @@ enum LeadActivityType {
   TASK
   MEETING
   STATUS_CHANGE
+  RELATIONSHIP_INSTALLED
+  RELATIONSHIP_UNINSTALLED
+  CREDIT_APPLIED
+  CREDIT_FAILED
+  CREDIT_PENDING
+  ONE_TIME_CHARGE_ACCEPTED
+  ONE_TIME_CHARGE_ACTIVATED
+  ONE_TIME_CHARGE_DECLINED
+  ONE_TIME_CHARGE_EXPIRED
+  RELATIONSHIP_REACTIVATED
+  RELATIONSHIP_DEACTIVATED
+  SUBSCRIPTION_APPROACHING_CAPPED_AMOUNT
+  SUBSCRIPTION_CAPPED_AMOUNT_UPDATED
+  SUBSCRIPTION_CHARGE_ACCEPTED
+  SUBSCRIPTION_CHARGE_ACTIVATED
+  SUBSCRIPTION_CHARGE_CANCELED
+  SUBSCRIPTION_CHARGE_DECLINED
+  SUBSCRIPTION_CHARGE_EXPIRED
+  SUBSCRIPTION_CHARGE_FROZEN
+  SUBSCRIPTION_CHARGE_UNFROZEN
 }
 
 enum AuthenticationMethod {

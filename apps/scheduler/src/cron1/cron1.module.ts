@@ -1,22 +1,17 @@
-// src/app.module.ts
 import { Module } from '@nestjs/common';
-import { ScheduleModule } from '@nestjs/schedule';
-import { AppService } from './app.service';
-import { PrismaService } from './prisma.service';
+import { CreditEventsService } from './cron1.service';
 import { CacheManagerModule } from '@org/utils';
-import { AppController } from './app.controller';
+import { ScheduleModule } from '@nestjs/schedule';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { Cron1Module } from './cron1/cron1.module';
 import { BullModule } from '@nestjs/bull';
-
+import { PrismaService } from 'src/prisma.service';
 
 @Module({
- 
   imports: [
     CacheManagerModule.register(),
     ScheduleModule.forRoot(),
     EventEmitterModule.forRoot(),
-    // Cron1Module,
+    Cron1Module,
     BullModule.forRoot({
       redis: {
         host: 'localhost',
@@ -24,10 +19,9 @@ import { BullModule } from '@nestjs/bull';
       },
     }),
     BullModule.registerQueue({
-      name: 'install_uninstall_events',
+      name: 'credit_events',
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService, PrismaService],
- })
-export class AppModule {}
+  providers: [CreditEventsService, PrismaService]
+})
+export class Cron1Module {}

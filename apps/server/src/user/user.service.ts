@@ -51,8 +51,9 @@ export class UserService {
           deletedAt: 0,
         },
       });
-      // Emit USER_CREATED event
-      if (existingUser) {
+        // Emit USER_CREATED event
+       if (existingUser) {
+  
         await this.eventQueue.add('USER_CREATED', upsertedUser);
       }
       return {

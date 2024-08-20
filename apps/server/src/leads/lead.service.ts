@@ -24,7 +24,7 @@ export class LeadService {
           integrationId: appId,
         },orderBy:{
         createdAt: 'desc'
-        }
+         }
       }) 
    } catch (error) {
     

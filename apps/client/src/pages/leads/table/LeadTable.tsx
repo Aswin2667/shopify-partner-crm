@@ -12,6 +12,9 @@ import LeadBadge from "../components/LeadBadge";
 export default function LeadTable() {
   const [leads, setLeads] = React.useState([]);
   const { currentIntegration } = useSelector((state: any) => state.integration);
+
+  console.log(leads);
+
   const navigate = useNavigate();
   useEffect(() => {
     const fetchLeads = async () => {
