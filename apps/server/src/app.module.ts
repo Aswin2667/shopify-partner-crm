@@ -31,6 +31,9 @@ import { LeadController } from './leads/lead.controller';
 import { LeadService } from './leads/lead.service';
 import { PrismaService } from './config/prisma.service';
 import { LeadActivityService } from './lead-activity/lead-activity.service';
+import { LeadActivityController } from './lead-activity/lead-activity.controller';
+import { LeadNotesController } from './notes/notes.controller';
+import { LeadNotesService } from './notes/notes.service';
 
 @Module({
   imports: [
@@ -70,6 +73,8 @@ import { LeadActivityService } from './lead-activity/lead-activity.service';
     S3Controller,
     IntegrationsController,
     LeadController,
+    LeadActivityController,
+    LeadNotesController
   ],
   providers: [
     UserService,
@@ -83,6 +88,8 @@ import { LeadActivityService } from './lead-activity/lead-activity.service';
     LeadService,
     PrismaService,
     LeadActivityService,
+    LeadActivityService,
+    LeadNotesService
   ],
 })
 export class AppModule {

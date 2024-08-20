@@ -15,8 +15,8 @@ import { Separator } from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import LeadService from "@/services/LeadService";
 import { useToast } from "@/components/ui/use-toast";
+import ContactService from "@/services/ContactService";
 
 const schema = z.object({
   myShopifyDomain: z
@@ -39,11 +39,11 @@ export function DataTableToolbar() {
   const { toast } = useToast();
   const onSubmit = async (data: any) => {
     console.log(data);
-    const response = await LeadService.create({ ...data, userId });
+    const response = await ContactService.create({ ...data, userId });
     if (response.data.status) {
       toast({
-        title: "Lead Created",
-        description: "Lead created successfully",
+        title: "Contact Created",
+        description: "Contact created successfully",
         variant: "default",
         duration: 3000,
       });

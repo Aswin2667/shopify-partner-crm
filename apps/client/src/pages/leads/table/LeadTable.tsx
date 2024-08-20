@@ -11,19 +11,10 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -35,56 +26,50 @@ import {
 } from "@/components/ui/table";
 import { DataTablePagination } from "./components/data-table-pagination";
 import { DataTableToolbar } from "./components/data-table-toolbar";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import LeadService from "@/services/LeadService";
+import { toast } from "@/components/ui/use-toast";
+import DateHelper from "@/utils/DateHelper";
+import { useNavigate } from "react-router-dom";
 
 export default function LeadTable() {
+  const [leads, setLeads] = React.useState([]);
+  const { currentIntegration } = useSelector((state: any) => state.integration);
+
+  useEffect(() => {
+    const fetchLeads = async () => {
+      if (currentIntegration?.id) {
+        try {
+          const response: any = await LeadService.getByIntegrationId(currentIntegration.id);
+          if (response.status) {
+            setLeads(response.data.data);
+          } else {
+            toast({
+              title: response.message,
+              description: DateHelper.formatTimestamp(DateHelper.getCurrentUnixTime()),
+              duration: 1000,
+              variant: `${response.status ? "default" : "destructive"}`,
+            });
+          }
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error fetching leads:", error);
+        }
+      }
+    };
+
+    fetchLeads();
+  }, [currentIntegration]);
+
   return (
     <div className="p-5">
-      <DataTableDemo />
+      <DataTable data={leads} />
     </div>
   );
 }
 
-const data: Payment[] = [
-  {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@yahoo.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@hotmail.com",
-  },
-];
-
-export type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-};
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<any>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -108,6 +93,22 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: "shopifyDomain",
+    header: "Shopify Domain",
+    cell: ({ row }) =>  {
+      const navigate = useNavigate()
+      console.log(row)
+      return <div onClick={() => navigate(`${row.original?.id}`)}  className="w-[80px] hover:underline hover:text-blue-600 hover:cursor-pointer">{row.getValue("shopifyDomain")}</div>
+    },
+  },
+  {
+    accessorKey: "leadSource",
+    header: "Lead Source",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("leadSource")}</div>
+    ),
+  },
+  {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => (
@@ -115,44 +116,23 @@ export const columns: ColumnDef<Payment>[] = [
     ),
   },
   {
-    accessorKey: "email",
-    header: ({ column }) => {
+    accessorKey: "createdAt",
+    header:()=> <div className="text-center">Created At</div>,
+    cell: ({ row }) => {
+      const createdAt = parseInt(row.getValue("createdAt"));
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <div className="min-w-full text-center">
+          {DateHelper.formatTimestamp(createdAt)} {/* Assuming formatTimestamp is implemented */}
+        </div>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
+  }
 ];
 
-export function DataTableDemo() {
+export function DataTable({ data }: { data: any[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
@@ -178,10 +158,10 @@ export function DataTableDemo() {
     <div className="w-full">
       <div className="flex items-center justify-between min-w-full py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter domains..."
+          value={(table.getColumn("shopifyDomain")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("shopifyDomain")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -192,44 +172,30 @@ export function DataTableDemo() {
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(header.column.columnDef.header, header.getContext())}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
+                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>

@@ -44,13 +44,16 @@ import {
 import { Outlet } from "react-router-dom";
 import Tabs from "./components/Tabs";
 import { toast } from "sonner";
+import ExpandableContactCard from "./components/ExpandableContactCard";
+import OpurtunityExpandableCard from "./components/OpurtunityExpandableCard";
+import TaskExpandableCard from "./components/TaskExpandableCard";
 
 export default function LeadDashboard() {
   return (
-    <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-4">
-      <main className="flex flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-        <div className="w-1/4">
-          <Card className="border-0">
+    <div className="flex flex-col min-h-full sm:gap-4 sm:py-4 sm:pl-4 overflow-scroll">
+      <main className="flex flex-1 items-start gap-4 p-4 sm:px-6 h-screen overflow-scroll sm:py-0 md:gap-8">
+        <div className="w-1/4 h-screen overflow-scroll" >
+          <Card className="border-0 ">
             <CardHeader className="flex flex-row items-start bg-muted/50">
               <div className="grid gap-0.5">
                 <CardTitle className="group flex items-center gap-2 text-lg">
@@ -119,76 +122,23 @@ export default function LeadDashboard() {
                 </DropdownMenu>
               </div>
             </CardHeader>
-            <CardContent className="p-6 text-sm min-h-full">
+            {/* <CardContent className="text-sm min-h-full">
               <Separator className="my-4" />
-              <div className="grid grid-cols-2 gap-4 z-0">
-                <div className="grid gap-3">
-                  <div className="font-semibold">Address Information</div>
-                  <address className="grid gap-0.5 not-italic text-muted-foreground">
-                    <span>Liam Johnson</span>
-                    <span>1234 Main St.</span>
-                    <span>Anytown, CA 12345</span>
-                  </address>
-                </div>
-              </div>
+
               <Separator className="my-4" />
-              <div className="grid gap-3">
-                <div className="font-semibold">Customer Information</div>
-                <dl className="grid gap-3">
-                  <div className="flex items-center justify-between">
-                    <dt className="text-muted-foreground">Customer</dt>
-                    <dd>Liam Johnson</dd>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <dt className="text-muted-foreground">Email</dt>
-                    <dd>
-                      <a href="mailto:">liam@acme.com</a>
-                    </dd>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <dt className="text-muted-foreground">Phone</dt>
-                    <dd>
-                      <a href="tel:">+1 234 567 890</a>
-                    </dd>
-                  </div>
-                </dl>
-              </div>
-              <Separator className="my-4" />
-              <div className="grid gap-3">
-                <div className="font-semibold">Payment Information</div>
-                <dl className="grid gap-3">
-                  <div className="flex items-center justify-between">
-                    <dt className="flex items-center gap-1 text-muted-foreground">
-                      <CreditCard className="h-4 w-4" />
-                      Visa
-                    </dt>
-                    <dd>**** **** **** 4532</dd>
-                  </div>
-                </dl>
-              </div>
-            </CardContent>
+            </CardContent> */}
             <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
               <div className="text-xs text-muted-foreground">
                 Updated <time dateTime="2023-11-23">November 23, 2023</time>
               </div>
-              <Pagination className="ml-auto mr-0 w-auto">
-                <PaginationContent>
-                  <PaginationItem>
-                    <Button size="icon" variant="outline" className="h-6 w-6">
-                      <ChevronLeft className="h-3.5 w-3.5" />
-                      <span className="sr-only">Previous Order</span>
-                    </Button>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <Button size="icon" variant="outline" className="h-6 w-6">
-                      <ChevronRight className="h-3.5 w-3.5" />
-                      <span className="sr-only">Next Order</span>
-                    </Button>
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
             </CardFooter>
           </Card>
+          <Separator className="my-4" />
+          <ExpandableContactCard />
+          <Separator className="my-4" />
+          <TaskExpandableCard />
+          <Separator className="my-4" />
+          <OpurtunityExpandableCard />
         </div>
         <Separator orientation="vertical" />
         <div className="w-3/4">
