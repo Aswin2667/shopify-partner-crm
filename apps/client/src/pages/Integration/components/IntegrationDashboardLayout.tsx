@@ -10,15 +10,19 @@ import { useToast } from "@/components/ui/use-toast";
 import OrganizationService from "@/services/OrganizationService";
 import DateHelper from "@/utils/DateHelper";
 import { intergrationSideBarList } from "../utils/data";
+import { useDispatch, useSelector } from "react-redux";
+import { integrationAction } from "@/redux/integrationSlice";
 
 export default function IntegrationDashboardLayout() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { toast } = useToast();
 
   const { integrationId, organizationId } = useParams();
   const [loading, setLoading] = React.useState(true);
   const [organizations, setOrganizations] = React.useState([]);
   const [reload, setReload] = React.useState(false);
+  const { currentIntegration } = useSelector((state: any) => state.integration);
 
   const fetchOrganizations = async () => {
     try {
@@ -30,7 +34,7 @@ export default function IntegrationDashboardLayout() {
         toast({
           title: response.message,
           description: DateHelper.formatTimestamp(
-            DateHelper.getCurrentUnixTime()
+            DateHelper.getCurrentUnixTime(),
           ),
           duration: 1000,
           variant: `${response.status ? "default" : "destructive"}`,
@@ -43,7 +47,6 @@ export default function IntegrationDashboardLayout() {
     }
   };
 
-
   React.useEffect(() => {
     const sessionData = sessionStorage.getItem("session");
     if (!sessionData) {
@@ -54,6 +57,12 @@ export default function IntegrationDashboardLayout() {
       setLoading(false);
     }
   }, [navigate, reload]);
+
+  React.useEffect(() => {
+    if (currentIntegration && !integrationId) {
+      dispatch(integrationAction.setCurrentIntegration(null));
+    }
+  });
 
   if (integrationId && organizationId) {
     return <Outlet />;
@@ -140,8 +149,8 @@ export default function IntegrationDashboardLayout() {
           <UserNav />
         </header>
         {/* <div className="overflow-y-auto p"> */}
-              <Outlet />
-          {/* </div> */}
+        <Outlet />
+        {/* </div> */}
       </div>
     </div>
   );

@@ -15,7 +15,9 @@ export default class IntegrationService {
 
   public static async getAllIntegrations(orgId: string) {
     try {
-      const response = await axiosInstance.get(`${this.BASE_PATH}/${orgId}/all`);
+      const response = await axiosInstance.get(
+        `${this.BASE_PATH}/${orgId}/all`,
+      );
       return response.data;
     } catch (error) {
       console.error("Error fetching integrations:", error);

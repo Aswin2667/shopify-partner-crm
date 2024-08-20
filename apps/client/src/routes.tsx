@@ -1,10 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import Login from "./pages/auth/Login";
-import Inbox from "./pages/mail/Inbox";
 import PageNotFount from "./pages/404/404";
 import OrganizationList from "./pages/organizations/OrganizationList";
 import RootLayout from "./components/RootLayout";
-import CreateIntegration from "./pages/Integration/CreateIntegration";
+import Integration from "./pages/Integration/Index";
 import IntegrationDetailScreen from "./pages/Integration/components/IntegrationDetailScreen";
 import IntegrationDashboard from "./pages/Integration/components/IntegrationDashboard";
 import IntegrationDashboardLayout from "./pages/Integration/components/IntegrationDashboardLayout";
@@ -17,8 +16,13 @@ import SettingsNotificationsPage from "./pages/organizations/settings/notificati
 import SettingsDisplayPage from "./pages/organizations/settings/display/page";
 import ManageAccess from "./pages/organizations/ManageAccess";
 import DashboardPage from "./pages/organizations/dashboard/page";
-import LeadDashboard from "./pages/leads/components/DashBoard";
+import LeadDashboard from "./pages/leads/DashBoard";
 import LeadTable from "./pages/leads/table/LeadTable";
+import Project from "./pages/Project/components/Index";
+import { MailPage } from "./pages/mail/page";
+import Activity from "./pages/leads/components/Activity";
+import MediaLibrary from "./pages/media-library/MediaLibrary";
+import ContactsTable from "./pages/contacts/table/ContactsTable";
 
 export const routes = createBrowserRouter([
   {
@@ -53,7 +57,48 @@ export const routes = createBrowserRouter([
           },
           {
             path: "inbox",
-            element: <Inbox />,
+            element: <MailPage />,
+          },
+          {
+            path: "leads",
+            children: [
+              {
+                index: true,
+                element: <LeadTable />,
+              },
+              {
+                path: ":leadId",
+
+                element: <LeadDashboard />,
+                children: [
+                  {
+                    index: true,
+                    element: <Activity />,
+                  },
+                  {
+                    path: "emails",
+                    element: <MailPage />,
+                  },
+                  {
+                    path: "calls",
+                    element: <>call</>,
+                  },
+                  {
+                    path: "tasks",
+                    element: <>task</>,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            path: "projects",
+            children: [
+              {
+                index: true,
+                element: <Project />,
+              },
+            ],
           },
           {
             path: "workflows",
@@ -69,18 +114,12 @@ export const routes = createBrowserRouter([
             ],
           },
           {
-            path: "leads",
-            children: [
-              {
-                index:true,
-                element:<LeadTable />
-              },
-              {
-                path: ":leadId",
-                
-                element: <LeadDashboard />,
-              },
-            ],
+            path: "media library",
+            element: <MediaLibrary />,
+          },
+          {
+            path: "contacts",
+            element: <ContactsTable />,
           },
         ],
       },
@@ -89,7 +128,7 @@ export const routes = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <CreateIntegration />,
+            element: <Integration />,
           },
           {
             path: ":intergrationName",

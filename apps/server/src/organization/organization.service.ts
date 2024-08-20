@@ -25,24 +25,24 @@ export class OrganizationService {
           description: data.description,
           createdAt: DateHelper.getCurrentUnixTime(),
           updatedAt: 0,
-          logo:"https://www.shutterstock.com/shutterstock/photos/2330509313/display_1500/stock-photo-aerial-drone-view-of-shapes-of-cha-gorreana-tea-plantation-at-sao-miguel-azores-portugal-2330509313.jpg",
-          deletedAt:0
+          logo: 'https://www.shutterstock.com/shutterstock/photos/2330509313/display_1500/stock-photo-aerial-drone-view-of-shapes-of-cha-gorreana-tea-plantation-at-sao-miguel-azores-portugal-2330509313.jpg',
+          deletedAt: 0,
         },
-      })
-       await prisma.orgMember.create({
+      });
+      await prisma.orgMember.create({
         data: {
           organizationId: newOrganization.id,
           userId: data.userId,
           role: 'ADMIN',
           createdAt: DateHelper.getCurrentUnixTime(),
-          updatedAt:0,
-          deletedAt:0
-        }
-      })
+          updatedAt: 0,
+          deletedAt: 0,
+        },
+      });
       this.organizations.push(newOrganization);
       return newOrganization;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw new HttpException(
         'Failed to create organization.',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -54,15 +54,14 @@ export class OrganizationService {
     userId: string,
   ): Promise<{ organizations: any[]; integrationCount: number }> {
     try {
-      
       const userOrganizations = await prisma.orgMember.findMany({
-        where:{
-          userId:userId
+        where: {
+          userId: userId,
         },
-        include:{
-          organization:true
-        }
-      })
+        include: {
+          organization: true,
+        },
+      });
       return {
         organizations: userOrganizations,
         integrationCount: userOrganizations.length,

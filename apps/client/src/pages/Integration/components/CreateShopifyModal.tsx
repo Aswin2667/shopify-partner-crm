@@ -28,7 +28,7 @@ const CreateShopifyModal: React.FC = () => {
   const queryClient = useQueryClient();
 
   const { currentOrganization } = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
   const {
     register,
@@ -55,7 +55,6 @@ const CreateShopifyModal: React.FC = () => {
     },
   });
 
-
   return (
     <AlertDialogContent>
       <AlertDialogHeader>
@@ -76,7 +75,7 @@ const CreateShopifyModal: React.FC = () => {
             },
             organizationId: currentOrganization?.id,
             description: data.description,
-          })
+          }),
         )}
       >
         <div>

@@ -17,22 +17,22 @@ export default function IntegrationDashboard() {
   const { toast } = useToast();
 
   const { currentOrganization } = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
 
   const { integrations } = useSelector((state: any) => state.integration);
 
   const { isLoading } = useQueryEvents(
     useQuery({
-      queryKey: ["getAllIntegrations", currentOrganization.id],
+      queryKey: ["getAllIntegrations", currentOrganization?.id],
       queryFn: async () =>
-        await IntegrationService.getAllIntegrations(currentOrganization.id),
+        await IntegrationService.getAllIntegrations(currentOrganization?.id),
     }),
     {
       onSuccess: (data: any) =>
         dispatch(integrationAction.setIntegrations(data)),
       onError: (err: Error) => console.log("An error happened:", err.message),
-    }
+    },
   );
 
   return (
@@ -54,9 +54,7 @@ export default function IntegrationDashboard() {
             </p>
             <Button
               onClick={() =>
-                navigate(
-                  `/${currentOrganization?.id}/create-integration`
-                )
+                navigate(`/${currentOrganization?.id}/create-integration`)
               }
             >
               Create

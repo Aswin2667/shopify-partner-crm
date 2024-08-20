@@ -12,7 +12,7 @@ const OrganizationCard = ({ organization }: any) => {
     console.log(organization);
     navigate(`/${organization.organizationId}/dashboard`);
     dispatch(
-      organizationAction.setCurrentOrganization(organization.organization)
+      organizationAction.setCurrentOrganization(organization.organization),
     );
     // sessionStorage.setItem("organization", JSON.stringify(organization));
   };

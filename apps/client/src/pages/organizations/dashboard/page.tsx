@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { RecentSales } from "./components/recent-sales";
-import { Graph } from "./components/Graph";
+import Graph from "./components/Graph";
 
 export default function DashboardPage() {
   return (

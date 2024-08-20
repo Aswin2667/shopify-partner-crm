@@ -3,11 +3,11 @@ import {
   ChevronRightIcon,
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
-} from "@radix-ui/react-icons"
-import { Table } from "@tanstack/react-table"
-import { Button } from "@/components/ui/button"
+} from "@radix-ui/react-icons";
+import { Table } from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
 interface DataTablePaginationProps<TData> {
-  table: Table<TData>
+  table: Table<TData>;
 }
 
 export function DataTablePagination<TData>({
@@ -64,5 +64,5 @@ export function DataTablePagination<TData>({
         </div>
       </div>
     </div>
-  )
+  );
 }

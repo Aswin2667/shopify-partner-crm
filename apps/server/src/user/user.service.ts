@@ -1,4 +1,9 @@
-import { Injectable, HttpException, HttpStatus, ConsoleLogger } from '@nestjs/common';
+import {
+  Injectable,
+  HttpException,
+  HttpStatus,
+  ConsoleLogger,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/user.dto';
 import { DateHelper, MailService } from '@org/utils';
 import { OAuth2Client } from 'google-auth-library/build/src/auth/oauth2client';
@@ -6,16 +11,14 @@ import prisma from '../shared/utils/prisma';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bullmq';
 const client = new OAuth2Client(
-  "639566010681-lt4gkh6lf2v6s6nap66vfvjpueqaqgkm.apps.googleusercontent.com",
- "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"
+  '639566010681-lt4gkh6lf2v6s6nap66vfvjpueqaqgkm.apps.googleusercontent.com',
+  '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',
 );
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectQueue('events') private readonly eventQueue: Queue,
-  ) {}
-  async create(data:  Omit<any, "error" | "error_description" | "error_uri">) {
+  constructor(@InjectQueue('events') private readonly eventQueue: Queue) {}
+  async create(data: Omit<any, 'error' | 'error_description' | 'error_uri'>) {
     try {
       const user = await client.verifyIdToken({
         idToken: data.credential,
@@ -27,7 +30,7 @@ export class UserService {
           email: payload.email,
         },
       });
-      console.log(user)
+      console.log(user);
       const upsertedUser = await prisma.user.upsert({
         where: {
           email: payload.email,
@@ -44,11 +47,13 @@ export class UserService {
           avatarUrl: payload.picture,
           authenticationMethod: 'GOOGLE',
           createdAt: DateHelper.getCurrentUnixTime(),
+          updatedAt: 0,
           deletedAt: 0,
         },
       });
-       // Emit USER_CREATED event
+        // Emit USER_CREATED event
        if (existingUser) {
+  
         await this.eventQueue.add('USER_CREATED', upsertedUser);
       }
       return {

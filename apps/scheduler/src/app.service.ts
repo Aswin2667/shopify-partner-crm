@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+ import { Inject, Injectable } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import axios from 'axios';
 import { PrismaService } from './prisma.service';
@@ -7,7 +7,8 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { APP_INSTALLS_UNINSTALLS_QUERY } from './queries';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bullmq';
-
+ 
+ 
 @Injectable()
 export class AppService {
   private readonly SHOPIFY_GRAPHQL_URL = 'https://partners.shopify.com/3767841/api/2024-10/graphql.json';

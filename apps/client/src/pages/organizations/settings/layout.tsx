@@ -1,11 +1,11 @@
-import { Separator } from "@/components/ui/separator"
-import { SidebarNav } from "./components/sidebar-nav"
-import { Outlet } from "react-router-dom"
+import { Separator } from "@/components/ui/separator";
+import { SidebarNav } from "./components/sidebar-nav";
+import { Outlet } from "react-router-dom";
 
 export const metadata: any = {
   title: "Forms",
   description: "Advanced form example using react-hook-form and Zod.",
-}
+};
 
 const sidebarNavItems = [
   {
@@ -24,7 +24,7 @@ const sidebarNavItems = [
     title: "Display",
     href: "display",
   },
-]
+];
 
 export default function SettingsLayout() {
   return (
@@ -40,5 +40,5 @@ export default function SettingsLayout() {
         </div>
       </div>
     </>
-  )
+  );
 }

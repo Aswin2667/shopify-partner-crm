@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
+import * as React from "react";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
 import {
   Card,
@@ -9,7 +9,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -17,14 +17,14 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 const chartData = [
   { date: "2024-04-01", shopJar: 222, Retainful: 150 },
   { date: "2024-04-02", shopJar: 97, Retainful: 180 },
@@ -117,7 +117,7 @@ const chartData = [
   { date: "2024-06-28", shopJar: 149, Retainful: 200 },
   { date: "2024-06-29", shopJar: 103, Retainful: 160 },
   { date: "2024-06-30", shopJar: 446, Retainful: 400 },
-]
+];
 
 const chartConfig = {
   visitors: {
@@ -131,23 +131,23 @@ const chartConfig = {
     label: "Retainful",
     color: "hsl(var(--chart-2))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
-export function Graph() {
-  const [timeRange, setTimeRange] = React.useState("90d")
+export default function Graph() {
+  const [timeRange, setTimeRange] = React.useState("90d");
 
   const filteredData = chartData.filter((item) => {
-    const date = new Date(item.date)
-    const now = new Date()
-    let daysToSubtract = 90
+    const date = new Date(item.date);
+    const now = new Date();
+    let daysToSubtract = 90;
     if (timeRange === "30d") {
-      daysToSubtract = 30
+      daysToSubtract = 30;
     } else if (timeRange === "7d") {
-      daysToSubtract = 7
+      daysToSubtract = 7;
     }
-    now.setDate(now.getDate() - daysToSubtract)
-    return date >= now
-  })
+    now.setDate(now.getDate() - daysToSubtract);
+    return date >= now;
+  });
 
   return (
     <Card>
@@ -218,11 +218,11 @@ export function Graph() {
               tickMargin={8}
               minTickGap={32}
               tickFormatter={(value) => {
-                const date = new Date(value)
+                const date = new Date(value);
                 return date.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
-                })
+                });
               }}
             />
             <ChartTooltip
@@ -233,7 +233,7 @@ export function Graph() {
                     return new Date(value).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
-                    })
+                    });
                   }}
                   indicator="dot"
                 />
@@ -258,5 +258,5 @@ export function Graph() {
         </ChartContainer>
       </CardContent>
     </Card>
-  )
+  );
 }
