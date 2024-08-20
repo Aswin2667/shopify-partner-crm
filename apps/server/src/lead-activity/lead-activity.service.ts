@@ -32,6 +32,9 @@ export class LeadActivityService {
         include:{
           user: true,
           note:true
+        },
+        orderBy:{
+          createdAt: 'desc'
         }
       });
       return {

@@ -6,10 +6,11 @@ import {
 import { CreateLeadNoteDto, UpdateLeadNoteDto } from './dto/note.dto';
 import { PrismaService } from 'src/config/prisma.service';
 import { DateHelper } from '@org/utils';
+import { LeadActivityService } from 'src/lead-activity/lead-activity.service';
 
 @Injectable()
 export class LeadNotesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService,private leadActivityService: LeadActivityService) {}
 
   async create(createLeadNoteDto: CreateLeadNoteDto) {
     try {
@@ -23,6 +24,12 @@ export class LeadNotesService {
           deletedAt: 0,
         },
       });
+      this.leadActivityService.create({
+        type: 'NOTE_CREATED',
+        data: { message: 'Lead note created',data:createLeadNoteDto.data },
+        leadId: leadNote.leadId,
+        userId: createLeadNoteDto.userId,
+      })
       return {
         status: true,
         message: 'Lead note created successfully',

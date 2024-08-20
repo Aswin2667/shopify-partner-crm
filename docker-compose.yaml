@@ -37,6 +37,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    restart: always 
 
   postgres:
     image: ${POSTGRES_IMAGE:-postgres:latest}
@@ -54,6 +55,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    restart: always 
 
   redis_gui:
     image: ${REDIS_GUI_IMAGE:-redislabs/redisinsight:1.14.0}
@@ -69,6 +71,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    restart: always 
 
   pgadmin:
     image: dpage/pgadmin4
@@ -80,6 +83,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-password}
     volumes:
       - pgadmin-data:/var/lib/pgadmin
+    restart: always 
   s3:
     image: quay.io/minio/minio
     command: "server /data --console-address :9123"
@@ -97,6 +101,7 @@ services:
     container_name: s3
     networks:
       - app_network
+    restart: always 
 
 volumes:
   redis_insight_volume_data:
