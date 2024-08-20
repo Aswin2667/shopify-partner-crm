@@ -2,7 +2,7 @@
 
 export const APP_INSTALLS_UNINSTALLS_QUERY = (appId: string, lastOccurredAt: string | null) => `
   query appInstallsAndUninstalls {
-    app(id: "${appId}") {
+    app(id: "gid://partners/App/${appId}") {
       id
       events(
         first: 100

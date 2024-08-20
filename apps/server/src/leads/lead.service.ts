@@ -21,7 +21,7 @@ export class LeadService {
    try {
       return await this.prismaService.lead.findMany({
         where: {
-          
+          integrationId: appId,
         }
       }) 
    } catch (error) {

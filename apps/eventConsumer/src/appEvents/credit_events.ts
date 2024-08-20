@@ -35,6 +35,8 @@ export class CreditEventsProcessor {
             data: {
               shopifyDomain: shop.myshopifyDomain,
               shopifyStoreId: shop.id,
+              integrationId: '',
+              organizationId: '',
               createdAt: DateHelper.convertIsoToTimestamp(occurredAt),
               updatedAt: 0,
               deletedAt: 0,

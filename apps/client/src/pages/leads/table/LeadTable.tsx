@@ -37,6 +37,8 @@ export default function LeadTable() {
   const [leads, setLeads] = React.useState([]);
   const { currentIntegration } = useSelector((state: any) => state.integration);
 
+  console.log(leads);
+
   useEffect(() => {
     const fetchLeads = async () => {
       if (currentIntegration?.id) {

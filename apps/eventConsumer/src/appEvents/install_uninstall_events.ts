@@ -14,21 +14,25 @@ export class AppInstallsUninstallsEventsProcessor {
     async handleAppInstalledUninstalled(job: Job) {
         try {
             // Check Already Existing lead 
-            const leadsArray = job.data;
+            const { app, events } = job.data;
 
-            for (const lead of leadsArray) {
-                const { type, shop, occurredAt } = lead;
+            console.log('App: ', app)
+            console.log('Events: ', events)
+
+            for (const event of events) {
+                const { type, shop, occurredAt } = event;
+                const { integrationId, organizationId } = app;
                 
                 // Check Already Existing lead 
                 const existingLead = await this.prisma.lead.findFirst({
                     where: {
-                        shopifyDomain: shop.myshopifyDomain
+                        shopifyDomain: shop.myshopifyDomain,
                     }
                 });
 
                 const saltOrRounds = 10;
-                const hash = await bcrypt.hash(JSON.stringify(lead), saltOrRounds);
-                const leadStr = JSON.stringify(lead)
+                const hash = await bcrypt.hash(JSON.stringify(event), saltOrRounds);
+                const leadStr = JSON.stringify(event)
 
                 console.log(hash);
 
@@ -38,12 +42,14 @@ export class AppInstallsUninstallsEventsProcessor {
                         data: {
                             shopifyDomain: shop.myshopifyDomain,
                             shopifyStoreId: shop.id,
+                            integrationId: integrationId,
+                            organizationId: organizationId,
                             createdAt: DateHelper.convertIsoToTimestamp(occurredAt),
                             updatedAt: 0,
                             deletedAt: 0, 
                         }
                     });
-                    
+ 
                     console.log('New Lead Created:', newLead.id);
 
                     // create leadActivity for new lead

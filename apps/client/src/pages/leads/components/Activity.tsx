@@ -20,6 +20,7 @@ const Activity = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await LeadService.getActivityById(leadId);
+      console.log(response.data.data);
       setData(response.data.data);
     };
 
