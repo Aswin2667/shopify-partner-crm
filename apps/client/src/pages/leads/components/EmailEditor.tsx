@@ -8,9 +8,7 @@
 //   return <ReactQuill  className='w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600' theme="snow" value={value} onChange={setValue} />;
 // }
 
-
-
- import { useTheme } from "next-themes";
+import { useTheme } from "next-themes";
 import React, { useEffect, useRef, useState } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import "@uiw/react-md-editor/markdown-editor.css";
@@ -33,7 +31,9 @@ export default function Editor({ value, setValue }: any) {
       if (item.type.includes("image")) {
         const file = item.getAsFile();
         const imageUrl = `![Uploading ${file.name}...]()`;
-        const updatedValue = editorValue ? `${editorValue}\n${imageUrl}` : imageUrl;
+        const updatedValue = editorValue
+          ? `${editorValue}\n${imageUrl}`
+          : imageUrl;
         setValue(updatedValue);
         setEditorValue(updatedValue);
         await handleFile(file);
@@ -72,18 +72,21 @@ export default function Editor({ value, setValue }: any) {
   };
 
   return (
-    <div data-color-mode={"light"} onDrop={handleDrop}>
-      <br />
-      <MDEditor
-        onChange={handleEditorChange}
-        value={editorValue}
-        textareaProps={{
-          placeholder: "Enter comment",
-          // onPaste: handlePaste,
-          // onDrop: handleDrop,
-        }}
-        preview="edit"
-      />
-    </div>
+    // <div data-color-mode={"light"} onDrop={handleDrop}>
+    // <br />
+    <MDEditor
+      data-color-mode="light"
+      onDrop={handleDrop}
+      onChange={handleEditorChange}
+      value={editorValue}
+      textareaProps={{
+        placeholder: "Enter comment",
+        // onPaste: handlePaste,
+        // onDrop: handleDrop,
+      }}
+      // className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600"
+      preview="edit"
+    />
+    // </div>
   );
 }

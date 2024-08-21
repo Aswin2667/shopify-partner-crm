@@ -1,19 +1,20 @@
-import { ComponentProps } from "react"
-import {formatDistanceToNow} from "date-fns/formatDistanceToNow"
+import { ComponentProps } from "react";
+import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 
-import { cn } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Mail } from "../data"
-import { useMail } from "../use-mail"
-
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Mail } from "../data";
+import { useMail } from "../use-mail";
+import { NavLink, useParams } from "react-router-dom";
 
 interface MailListProps {
-  items: Mail[]
+  items: Mail[];
 }
 
 export function MailList({ items }: MailListProps) {
-  const [mail, setMail] = useMail()
+  const { organizationId, integrationId } = useParams();
+  const [mail, setMail] = useMail();
 
   return (
     <ScrollArea className="h-screen">
@@ -35,7 +36,12 @@ export function MailList({ items }: MailListProps) {
             <div className="flex w-full flex-col gap-1">
               <div className="flex items-center">
                 <div className="flex items-center gap-2">
-                  <div className="font-semibold">{item.name}</div>
+                  <NavLink
+                    className="font-semibold hover:text-blue-600 underline transition-all ease-linear"
+                    to={`/${organizationId}/${integrationId}/leads/${item.id}`}
+                  >
+                    {item.name}
+                  </NavLink>
                   {!item.read && (
                     <span className="flex h-2 w-2 rounded-full bg-blue-600" />
                   )}
@@ -71,19 +77,19 @@ export function MailList({ items }: MailListProps) {
         ))}
       </div>
     </ScrollArea>
-  )
+  );
 }
 
 function getBadgeVariantFromLabel(
   label: string
 ): ComponentProps<typeof Badge>["variant"] {
   if (["work"].includes(label.toLowerCase())) {
-    return "default"
+    return "default";
   }
 
   if (["personal"].includes(label.toLowerCase())) {
-    return "outline"
+    return "outline";
   }
 
-  return "secondary"
+  return "secondary";
 }

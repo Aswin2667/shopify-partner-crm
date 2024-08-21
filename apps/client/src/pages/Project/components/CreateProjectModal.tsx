@@ -46,6 +46,7 @@ const CreateProjectModal: any = ({ open, setOpen }: Props) => {
     mutationFn: async (data: any): Promise<any> =>
       await ProjectService.create(data),
     onSuccess: (response) => {
+      // TODO: fetch after posting project
       reset();
       setOpen(false);
       console.log(response);

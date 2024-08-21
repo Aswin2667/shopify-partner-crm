@@ -42,6 +42,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Editor from "./components/EmailEditor";
+import Compose from "../mail/components/Compose";
 
 export default function LeadDashboard() {
   return (
@@ -224,7 +225,8 @@ export default function LeadDashboard() {
           </div>
           <Separator className="mb-5 mt-2" />
           <div className="h-screen overflow-scroll p-5">
-            <Editor />
+            <Compose />
+            {/* <Editor /> */}
             <Activity />
           </div>
         </div>

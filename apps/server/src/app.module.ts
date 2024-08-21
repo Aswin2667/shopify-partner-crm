@@ -24,14 +24,14 @@ import { IntegrationsModule } from './integrations/integrations.module';
 import { IntegrationsService } from './integrations/integrations.service';
 
 import { BullModule, BullQueueEvents } from '@nestjs/bull';
-import { MailModule, MailService } from '@org/utils';
 import { ProjectModule } from './project/project.module';
 import * as path from 'path';
 import { LeadController } from './leads/lead.controller';
 import { LeadService } from './leads/lead.service';
 import { PrismaService } from './config/prisma.service';
 import { LeadActivityService } from './lead-activity/lead-activity.service';
-
+import { AuthModule } from './auth/auth.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -60,6 +60,7 @@ import { LeadActivityService } from './lead-activity/lead-activity.service';
     }),
     MailModule,
     ProjectModule,
+    AuthModule,
   ],
   controllers: [
     UserController,
@@ -70,7 +71,7 @@ import { LeadActivityService } from './lead-activity/lead-activity.service';
     TemplateController,
     S3Controller,
     IntegrationsController,
-    LeadController
+    LeadController,
   ],
   providers: [
     UserService,
@@ -83,7 +84,7 @@ import { LeadActivityService } from './lead-activity/lead-activity.service';
     IntegrationsService,
     LeadService,
     PrismaService,
-    LeadActivityService
+    LeadActivityService,
   ],
 })
 export class AppModule {
