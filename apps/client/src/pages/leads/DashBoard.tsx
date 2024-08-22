@@ -175,16 +175,12 @@ export default function LeadDashboard() {
           </Card>
           <Separator className="my-4" />
           <ExpandableContactCard />
-          <br />
-          <TaskExpandableCard />
-          <Separator className="my-4" />
-          <OpurtunityExpandableCard />
         </div>
         <Separator orientation="vertical" />
         <div className="w-3/4">
           <Tabs />
           <div className="h-screen overflow-scroll p-5">
-            <Compose />
+            {/* <Compose /> */}
             <Outlet />
           </div>
         </div>
