@@ -32,8 +32,27 @@ export class LeadService {
   }
 
   async findOne(leadId: string) {
-    return this.leads.find((lead) => lead.id === leadId);
+    try {
+      const lead = await this.prismaService.lead.findUnique({
+        where: {
+          id: leadId,
+        },
+      });
+      if (!lead) {
+        return null;
+      }
+      return lead
+    } catch (error) {
+       console.error('Error finding lead:', error);
+  
+      return {
+        status: false,
+        message: 'An error occurred while retrieving the lead',
+        data: null,
+      };
+    }
   }
+  
 
   async create(createLeadDto: CreateLeadDto) {
     try {
@@ -51,6 +70,15 @@ export class LeadService {
           integrationId: createLeadDto.integrationId,
         },
       });
+
+      // await this.prismaService.leadProject.create({
+      //   data: {
+      //     leadId: lead.id,
+      //     projectId: createLeadDto.projectId,
+      //     createdAt: DateHelper.getCurrentUnixTime(),
+      //     updatedAt:0,
+      //     deletedAt:0,
+      // }})
       console.log(createLeadDto)
       const activity = {
         type: 'LEAD_CREATED',

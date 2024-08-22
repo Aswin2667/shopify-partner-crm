@@ -62,21 +62,16 @@ export class OrgMemberInvitationsController {
     }
 
     try {
-      const invitations =
-        await this.orgMemberInvitationsService.getInvitationByOrgId(orgId);
-
-      if (!invitations.length) {
-        return {
-          status: false,
-          message: 'No invitations found for this organization',
-          data: null,
-        };
-      }
-
+      const members =
+        await this.orgMemberInvitationsService.getMemberByOrgId(orgId);
+      const pendingInvitations =
+        await this.orgMemberInvitationsService.getPendingInvitationByOrgId(
+          orgId,
+        );
       return {
         status: true,
         message: 'Invitations retrieved successfully',
-        data: invitations,
+        data: { members, pendingInvitations },
       };
     } catch (error) {
       console.error('Error fetching invitations:', error);

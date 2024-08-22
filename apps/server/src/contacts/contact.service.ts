@@ -5,7 +5,44 @@ import { DateHelper } from '@org/utils';
 
 @Injectable()
 export class ContactService {
+ 
   constructor(private readonly prisma: PrismaService) {}
+
+async findAllByIntegrationId(id: string) {
+  try {
+    const data = await this.prisma.contact.findMany({
+      where: {
+        integrationId: id,
+      },
+      include:{
+        lead: true
+      }
+    });
+
+    if (data.length === 0) {
+      return {
+        status: false,
+        message: 'No contacts found for the given integration ID',
+        data: [],
+      };
+    }
+
+    return {
+      status: true,
+      message: 'Contacts retrieved successfully',
+      data,
+    };
+  } catch (error) {
+    // Log the error for debugging purposes
+    console.error('Error retrieving contacts by integration ID:', error);
+
+    return {
+      status: false,
+      message: 'An error occurred while retrieving contacts',
+      data: null,
+    };
+  }
+}
 
   async create(data: CreateContactDto) {
     try {
@@ -14,6 +51,7 @@ export class ContactService {
           primaryEmail: data.email,
           updatedAt: 0,
           deletedAt: 0,
+           integrationId: data.integrationId,
           createdAt: DateHelper.getCurrentUnixTime(),
           leadId: data.leadId,
         },

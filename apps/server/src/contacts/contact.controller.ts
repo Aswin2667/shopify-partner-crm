@@ -16,6 +16,11 @@ export class ContactController {
   async findAllByLeadId(@Param('leadId') id: string) {
     return this.contactService.findAllByLeadId(id);
   }
+  @Get('get/:integrationId')
+  async findAllByIntegrationId(@Param('integrationId') id: string) {
+    console.log(id)
+    return this.contactService.findAllByIntegrationId(id);
+  }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateContactDto: UpdateContactDto) {

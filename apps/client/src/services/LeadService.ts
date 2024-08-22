@@ -25,7 +25,7 @@ class LeadService {
   public static async getByIntegrationId(integrationId:string) {
 
     try {
-      const response = await axiosInstance.get(`/leads/${integrationId}`);
+      const response = await axiosInstance.get(`/${this.BASE_URL}/${integrationId}`);
       return response;
     } catch (error) {
       console.error("Error during login:", error);
@@ -36,6 +36,15 @@ class LeadService {
   public static async getActivityById(id:string) {
     try {
       const response = await axiosInstance.get(`/lead-activity/${id}`);
+      return response;
+    } catch (error) {
+      console.error("Error during login:", error);
+      throw error;
+    } 
+  } 
+  public static async getLeadById(id:string) {
+    try {
+      const response = await axiosInstance.get(`/${this.BASE_URL}/get/${id}`);
       return response;
     } catch (error) {
       console.error("Error during login:", error);
