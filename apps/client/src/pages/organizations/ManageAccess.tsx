@@ -22,7 +22,7 @@ const ManageAccess = () => {
   const [error, setError] = useState("");
   const { organizationId } = useParams<{ organizationId: string }>();
   console.log(organizationId);
-  const userId = JSON.parse(sessionStorage.getItem("session")??"").id;
+  const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
   const handleInputChange = (e: any) => {
     setEmail(e.target.value);
     setError(""); // Clear error when the user starts typing
@@ -52,51 +52,50 @@ const ManageAccess = () => {
   };
 
   const removeEmail = (index: number) => {
-    setInvitedEmails((prevEmails) =>
-      prevEmails.filter((_, i) => i !== index)
-    );
+    setInvitedEmails((prevEmails) => prevEmails.filter((_, i) => i !== index));
   };
   const { toast } = useToast();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-  
+
     try {
-      // emailSchema.parse(email); 
-  
+      // emailSchema.parse(email);
+
       if (email && !invitedEmails.includes(email)) {
         setInvitedEmails((prevEmails) => [...prevEmails, email]);
       }
-        if (invitedEmails.length === 0 && !email) {
+      if (invitedEmails.length === 0 && !email) {
         setError("Please invite at least one email before submitting.");
         return;
       }
-  
-     const response = await OrganizationService.invite({
+
+      const response = await OrganizationService.invite({
         organizationId,
-        invitedBy:userId,
-        emails: [...invitedEmails, email].filter(Boolean), 
+        invitedBy: userId,
+        emails: [...invitedEmails, email].filter(Boolean),
         role: "MEMBER",
-        invite_sender_name: JSON.parse(sessionStorage.getItem("session")??"").name,
-        invite_sender_organization_name:"Retainful",
-        Product_Name:"Shopify crm",
-        action_url:"https://www.retainful.com",
-        name:"User"
+        invite_sender_name: JSON.parse(sessionStorage.getItem("session") ?? "")
+          .name,
+        invite_sender_organization_name: "Retainful",
+        Product_Name: "Shopify crm",
+        action_url: "https://www.retainful.com",
+        name: "User",
       });
-      if(response.status === 201){
+      if (response.status === 201) {
         toast({
           title: response.data.message,
           description: DateHelper.formatTimestamp(
-            DateHelper.getCurrentUnixTime()
+            DateHelper.getCurrentUnixTime(),
           ),
           duration: 1000,
           variant: `default`,
         });
-      }else{
+      } else {
         toast({
           title: response.data.message,
           description: DateHelper.formatTimestamp(
-            DateHelper.getCurrentUnixTime()
+            DateHelper.getCurrentUnixTime(),
           ),
           duration: 1000,
           variant: `destructive`,
@@ -112,7 +111,7 @@ const ManageAccess = () => {
       }
     }
   };
-  
+
   return (
     <div className="p-4">
       <div className="flex flex-col items-start space-y-4">
@@ -169,7 +168,7 @@ const ManageAccess = () => {
         {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
       </div>
       <br />
-      <ul className="max-w-[700px] divide-y divide-gray-200 dark:divide-gray-700">
+      <ul className="max-w-[700px] list-none divide-y divide-gray-200 dark:divide-gray-700">
         <li className="p-2">
           <div className="flex items-center max-h-[100px] space-x-4 rtl:space-x-reverse">
             <div className="flex-shrink-0 p-0">

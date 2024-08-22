@@ -20,11 +20,20 @@ import LeadDashboard from "./pages/leads/DashBoard";
 import LeadTable from "./pages/leads/table/LeadTable";
 import MailPage from "./pages/mail/Index";
 import Project from "./pages/Project/Index";
+import Activity from "./pages/leads/components/Activity";
+import MediaLibrary from "./pages/media-library/MediaLibrary";
+import ContactsTable from "./pages/contacts/table/ContactsTable";
+import Notes from "./pages/leads/notes/Notes";
 
 export const routes = createBrowserRouter([
   {
     path: "/",
     element: <OrganizationList />,
+    errorElement: <PageNotFount />,
+  },
+  {
+    path: "/invite",
+    element: <>invite</>,
     errorElement: <PageNotFount />,
   },
   {
@@ -67,6 +76,32 @@ export const routes = createBrowserRouter([
                 path: ":leadId",
 
                 element: <LeadDashboard />,
+                children: [
+                  {
+                    index: true,
+                    element: <Activity />,
+                  },
+                  {
+                    path: "emails",
+                    element: <MailPage />,
+                  },
+                  {
+                    path: "calls",
+                    element: <>call</>,
+                  },
+                  {
+                    path: "tasks",
+                    element: <>task</>,
+                  },
+                  {
+                    path: "notes",
+                    element: <Notes />,
+                  },
+                  {
+                    path: "messages",
+                    element: <>messages</>,
+                  },
+                ],
               },
             ],
           },
@@ -95,6 +130,14 @@ export const routes = createBrowserRouter([
                 element: <Editor />,
               },
             ],
+          },
+          {
+            path: "media library",
+            element: <MediaLibrary />,
+          },
+          {
+            path: "contacts",
+            element: <ContactsTable />,
           },
         ],
       },

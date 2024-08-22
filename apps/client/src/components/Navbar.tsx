@@ -26,7 +26,7 @@ const Navbar = ({ links, isCollapsed }: any) => {
                         variant: isActive ? "default" : "ghost",
                         size: "sm",
                       }),
-                      "justify-start"
+                      "justify-start",
                     )
                   }
                 >
@@ -52,7 +52,7 @@ const Navbar = ({ links, isCollapsed }: any) => {
                     variant: isActive ? "default" : "ghost",
                     size: "sm",
                   }),
-                  "justify-start"
+                  "justify-start",
                 )
               }
             >
@@ -63,14 +63,14 @@ const Navbar = ({ links, isCollapsed }: any) => {
                   className={cn(
                     "ml-auto",
                     link.variant === "default" &&
-                      "text-background dark:text-white"
+                      "text-background dark:text-white",
                   )}
                 >
                   {link.label}
                 </span>
               )}
             </NavLink>
-          )
+          ),
         )}
       </div>
     </div>

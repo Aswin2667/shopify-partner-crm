@@ -19,9 +19,15 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('/login')
-  async createUser(@Body() createUser: Omit<TokenResponse, "error" | "error_description" | "error_uri">) {
-    console.log(createUser)
-          return this.userService.create(createUser);
+  async createUser(
+    @Body()
+    createUser: Omit<
+      TokenResponse,
+      'error' | 'error_description' | 'error_uri'
+    >,
+  ) {
+    console.log(createUser);
+    return this.userService.create(createUser);
   }
 
   @Delete(':id')
