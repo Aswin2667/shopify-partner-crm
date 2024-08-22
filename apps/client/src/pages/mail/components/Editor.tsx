@@ -1,7 +1,8 @@
+import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "./custom.css";
-export default function EmailEditor({value,setValue}:any) {
+export default function EmailEditor({ value, setValue }: any) {
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -25,14 +26,6 @@ export default function EmailEditor({value,setValue}:any) {
       modules={modules}
       value={value}
       onChange={setValue}
-      style={{
-        marginBottom: "1rem",
-        borderRadius: "0.5rem",
-        borderWidth: "1px",
-        borderColor: "#E5E7EB",
-        width: "100%",
-        backgroundColor: "#F9FAFB",
-      }}
     />
   );
 }

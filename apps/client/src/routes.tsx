@@ -18,8 +18,8 @@ import ManageAccess from "./pages/organizations/ManageAccess";
 import DashboardPage from "./pages/organizations/dashboard/page";
 import LeadDashboard from "./pages/leads/DashBoard";
 import LeadTable from "./pages/leads/table/LeadTable";
-import Project from "./pages/Project/components/Index";
-import { MailPage } from "./pages/mail/page";
+import MailPage from "./pages/mail/Index";
+import Project from "./pages/Project/Index";
 import Activity from "./pages/leads/components/Activity";
 import MediaLibrary from "./pages/media-library/MediaLibrary";
 import Notes from "./pages/leads/notes/Notes";
@@ -116,6 +116,10 @@ export const routes = createBrowserRouter([
               {
                 index: true,
                 element: <Project />,
+              },
+              {
+                path: ":projectId",
+                element: <DashboardPage />,
               },
             ],
           },

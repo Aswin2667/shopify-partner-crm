@@ -41,6 +41,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Editor from "./components/EmailEditor";
+import Compose from "../mail/components/Compose";
 import { Outlet } from "react-router-dom";
 import Tabs from "./components/Tabs";
 import { toast } from "sonner";
@@ -53,7 +55,6 @@ import DateHelper from "@/utils/DateHelper";
 
 export default function LeadDashboard() {
   const [lead, setLead] = useState<any>({});
-
   const leadId = window.location.pathname.split("/")[4];
   useEffect(() => {
     const fetchData = async () => {
@@ -183,6 +184,7 @@ export default function LeadDashboard() {
         <div className="w-3/4">
           <Tabs />
           <div className="h-screen overflow-scroll p-5">
+            <Compose />
             <Outlet />
           </div>
         </div>

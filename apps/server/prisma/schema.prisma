@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  // url = "postgresql://postgres:postgres@localhost:5432/shopify_crm?schema=public"
 }
 
 model User {
@@ -197,21 +198,18 @@ model LeadActivity {
 
 model Email {
   id             String  @id @default(uuid())
+  to             String[]
+  cc             String[] @default([])
+  bcc            String[] @default([])
   subject        String?
+  body           String
   messageId      String
-  hasAttachments Boolean
-  unsubscribed   Boolean
-  failed         Boolean
-  skipped        Boolean
-  opened         Boolean
-  sent           Boolean
-  time           BigInt
-  cc             String?
-  bcc            String?
-  from           String
-  to             String
-  deletedAt      BigInt
-  userId         String
+  threadId       String 
+  historyId      String? 
+  labelIds       String[]
+  sentAt         BigInt
+  deletedAt      BigInt  
+  integrationId         String
 }
 
 model Integration {
