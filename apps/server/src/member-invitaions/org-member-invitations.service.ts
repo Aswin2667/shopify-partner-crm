@@ -76,7 +76,16 @@ export class OrgMemberInvitationsService {
     }
   }
 
-  async getInvitationByOrgId(orgId: string) {
+  async getMemberByOrgId(orgId: string) {
+    return await prisma.orgMember.findMany({
+      where: {
+        organizationId: orgId,
+      },include:{
+        user: true
+      }
+    });
+  }
+  async getPendingInvitationByOrgId(orgId: string) {
     return await prisma.orgMemberInvite.findMany({
       where: {
         organizationId: orgId,

@@ -60,7 +60,14 @@
 }
 
 *::-webkit-scrollbar {
-  width: 0.5rem;
+  width: 0rem;
+  height: 5px;
+}
+ul {
+  list-style-type: disc;
+}
+ol{
+  list-style-type: decimal
 }
 
 /* Custom scrollbar thumb */

@@ -28,4 +28,11 @@ export class DateHelper {
 
     return `At ${formattedDate} at ${formattedTime}`;
   }
+  public static  convertIsoToTimestamp(isoString) {
+    // Parse the ISO 8601 string to a DateTime object
+    const dateTime = DateTime.fromISO(isoString, { zone: 'utc' });
+    
+    return dateTime.toMillis() / 1000;
+}
+
 }

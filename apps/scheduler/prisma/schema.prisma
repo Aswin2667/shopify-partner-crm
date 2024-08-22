@@ -13,12 +13,14 @@ model User {
   authenticationMethod AuthenticationMethod
   name                 String?
   avatarUrl            String?
-  createdAt            BigInt               @default(autoincrement())
-  updatedAt            BigInt               @default(autoincrement())
+  createdAt            BigInt
+  updatedAt            BigInt
   deletedAt            BigInt
+  LeadActivity         LeadActivity[]
   orgMembers           OrgMember[]
   orgMemberInvites     OrgMemberInvite[]
   templates            Template[]
+  LeadNotes            LeadNotes[]
 }
 
 model OrgMemberInvite {
@@ -28,8 +30,8 @@ model OrgMemberInvite {
   role           OrgMemberRole @default(MEMBER)
   organizationId String
   inviterId      String
-  createdAt      BigInt        @default(autoincrement())
-  updatedAt      BigInt        @default(autoincrement())
+  createdAt      BigInt
+  updatedAt      BigInt
   deletedAt      BigInt
   inviter        User          @relation(fields: [inviterId], references: [id])
   organization   Organization  @relation(fields: [organizationId], references: [id])
@@ -45,10 +47,11 @@ model Organization {
   createdAt    BigInt            @default(autoincrement())
   updatedAt    BigInt            @default(autoincrement())
   deletedAt    BigInt
-  apps         Apps[]
-  integrations Integration[]
+  Project      Project[]
   members      OrgMember[]
   invites      OrgMemberInvite[]
+  integrations Integration[]
+  Lead         Lead[]
 }
 
 model OrgMember {
@@ -56,8 +59,8 @@ model OrgMember {
   organizationId String
   userId         String
   role           OrgMemberRole @default(MEMBER)
-  createdAt      BigInt        @default(autoincrement())
-  updatedAt      BigInt        @default(autoincrement())
+  createdAt      BigInt
+  updatedAt      BigInt
   deletedAt      BigInt
   organization   Organization  @relation(fields: [organizationId], references: [id])
   user           User          @relation(fields: [userId], references: [id])
@@ -65,60 +68,79 @@ model OrgMember {
   @@unique([organizationId, userId])
 }
 
-model Apps {
-  id             String       @id @default(uuid())
-  slug           String       @unique
+model Project {
+  id             String        @id @default(uuid())
   name           String
+  type           String
+  data           Json
+  isSynced       Boolean    @default(false)
+  organization   Organization  @relation(fields: [organizationId], references: [id])
   organizationId String
-  createdAt      BigInt       @default(autoincrement())
-  updatedAt      BigInt       @default(autoincrement())
+  createdAt      BigInt        @default(autoincrement())
+  updatedAt      BigInt        @default(autoincrement())
   deletedAt      BigInt?
-  version        AppVersion   @default(V2)
+  leadProject    LeadProject[]
   integrationId  String?
-  integration    Integration? @relation(fields: [integrationId], references: [id])
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  leadApps       LeadApps[]
+  integration    Integration?  @relation(fields: [integrationId], references: [id])
 }
 
 model LeadNotes {
-  id        String @id @default(uuid())
-  leadId    String
-  data      String
-  createdAt BigInt @default(autoincrement())
-  updatedAt BigInt @default(autoincrement())
-  deletedAt BigInt
-  lead      Lead   @relation(fields: [leadId], references: [id])
+  id           String         @id @default(uuid())
+  leadId       String
+  data         String
+  createdAt    BigInt
+  updatedAt    BigInt
+  deletedAt    BigInt
+  lead         Lead           @relation(fields: [leadId], references: [id])
+  user         User           @relation(fields: [userId], references: [id])
+  LeadActivity LeadActivity[]
+  userId       String
 }
 
 model Lead {
   id             String         @id @default(uuid())
   shopifyDomain  String         @unique
   shopifyStoreId String         @unique
+  status         leadStatus     @default(POTENTIAL)
+  Project        LeadProject[]
   leadSource     String?
   shopDetails    Json?
   industry       String?
   createdAt      BigInt         @default(autoincrement())
   updatedAt      BigInt         @default(autoincrement())
   deletedAt      BigInt
-  attachments    Attachment[]
-  contacts       Contact[]
   leadActivities LeadActivity[]
-  apps           LeadApps[]
   leadNotes      LeadNotes[]
+  contacts       Contact[]
+  attachments    Attachment[]
+  integrationId  String
+  organizationId String
+  organization   Organization   @relation(fields: [organizationId], references: [id])
+  integration    Integration    @relation(fields: [integrationId], references: [id])
 }
 
-model LeadApps {
+enum leadStatus {
+  POTENTIAL
+  CUSTOMER
+  INTERESTED
+  NOT_INTERESTED
+  BAD_FIT
+  QUALIFIED
+  CANCELED
+}
+
+model LeadProject {
   id        String  @id @default(uuid())
   leadId    String
-  appId     String
+  projectId String
+  lead      Lead    @relation(fields: [leadId], references: [id])
+  project   Project @relation(fields: [projectId], references: [id])
   createdAt BigInt  @default(autoincrement())
   updatedAt BigInt  @default(autoincrement())
   deletedAt BigInt
   status    String?
-  app       Apps    @relation(fields: [appId], references: [id])
-  lead      Lead    @relation(fields: [leadId], references: [id])
 
-  @@unique([appId, leadId])
+  @@unique([projectId, leadId])
 }
 
 model Contact {
@@ -133,8 +155,8 @@ model Contact {
   type           String?
   leadId         String?
   lastContacted  BigInt?
-  createdAt      BigInt  @default(autoincrement())
-  updatedAt      BigInt  @default(autoincrement())
+  createdAt      BigInt
+  updatedAt      BigInt
   deletedAt      BigInt
   lead           Lead?   @relation(fields: [leadId], references: [id])
 }
@@ -146,21 +168,27 @@ model Attachment {
   eTag           String
   attachmentName String
   leadId         String
-  createdAt      BigInt @default(autoincrement())
-  updatedAt      BigInt @default(autoincrement())
+  createdAt      BigInt
+  updatedAt      BigInt
   deletedAt      BigInt
   lead           Lead   @relation(fields: [leadId], references: [id])
 }
 
 model LeadActivity {
-  id        String @id @default(uuid())
+  id        String     @id @default(uuid())
   leadId    String
-  type      String
   data      Json
-  createdAt BigInt @default(autoincrement())
-  updatedAt BigInt @default(autoincrement())
+  updatedAt BigInt
+  createdAt BigInt
   deletedAt BigInt
-  lead      Lead   @relation(fields: [leadId], references: [id])
+  userId    String?
+  noteId    String?
+  type      LeadActivityType
+  lead      Lead       @relation(fields: [leadId], references: [id])
+  user      User?      @relation(fields: [userId], references: [id])
+  note      LeadNotes? @relation(fields: [noteId], references: [id])
+
+  @@index([leadId, userId])
 }
 
 model Email {
@@ -188,22 +216,56 @@ model Integration {
   data           Json
   description    String?
   type           String?
-  createdAt      BigInt       @default(autoincrement())
-  updatedAt      BigInt       @default(autoincrement())
+  createdAt      BigInt
+  updatedAt      BigInt
   deletedAt      BigInt
+  Project        Project[]
   name           String
-  apps           Apps[]
   organization   Organization @relation(fields: [organizationId], references: [id])
+  Lead           Lead[]
 }
 
 model Template {
   id        String @id @default(uuid())
   html      String
-  createdAt BigInt @default(autoincrement())
-  updatedAt BigInt @default(autoincrement())
+  createdAt BigInt
+  updatedAt BigInt
   deletedAt BigInt
   userId    String
   user      User   @relation(fields: [userId], references: [id])
+}
+
+enum LeadActivityType {
+  LEAD_CREATED
+  LEAD_UPDATED
+  NOTE_CREATED
+  NOTE_UPDATED
+  NOTE_DELETED
+  EMAIL
+  CALL
+  TASK
+  MEETING
+  STATUS_CHANGE
+  RELATIONSHIP_INSTALLED
+  RELATIONSHIP_UNINSTALLED
+  CREDIT_APPLIED
+  CREDIT_FAILED
+  CREDIT_PENDING
+  ONE_TIME_CHARGE_ACCEPTED
+  ONE_TIME_CHARGE_ACTIVATED
+  ONE_TIME_CHARGE_DECLINED
+  ONE_TIME_CHARGE_EXPIRED
+  RELATIONSHIP_REACTIVATED
+  RELATIONSHIP_DEACTIVATED
+  SUBSCRIPTION_APPROACHING_CAPPED_AMOUNT
+  SUBSCRIPTION_CAPPED_AMOUNT_UPDATED
+  SUBSCRIPTION_CHARGE_ACCEPTED
+  SUBSCRIPTION_CHARGE_ACTIVATED
+  SUBSCRIPTION_CHARGE_CANCELED
+  SUBSCRIPTION_CHARGE_DECLINED
+  SUBSCRIPTION_CHARGE_EXPIRED
+  SUBSCRIPTION_CHARGE_FROZEN
+  SUBSCRIPTION_CHARGE_UNFROZEN
 }
 
 enum AuthenticationMethod {

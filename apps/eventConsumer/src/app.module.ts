@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common';
 import { BullModule } from '@nestjs/bull';
 import { UserEventsProcessor } from './userEvents/user.event.processer';
-import { MailModule } from '@org/utils';
-@Module({
+ import {MailModule} from '@org/utils'
+import { AppInstallsUninstallsEventsProcessor } from './appEvents/install_uninstall_events';
+import { PrismaService } from './prisma.service';
+import { CreditEventsProcessor } from './appEvents/credit_events';
+  @Module({
   imports: [
     BullModule.forRoot({
       redis: {
@@ -10,11 +13,19 @@ import { MailModule } from '@org/utils';
         port: 6378,
       },
     }),
-    BullModule.registerQueue({
-      name: 'events',
-    }),
-    MailModule,
+     BullModule.registerQueue(
+      {
+      name: 'events', 
+      }, 
+      {
+        name: 'install_uninstall_events',
+      },
+      {
+        name: 'credit_events',
+      }
+  ),
+    MailModule
   ],
-  providers: [UserEventsProcessor],
+  providers: [UserEventsProcessor, AppInstallsUninstallsEventsProcessor, CreditEventsProcessor, PrismaService],
 })
 export class AppModule {}

@@ -42,7 +42,7 @@ export class IntegrationsService {
   async findAll(organizationId: string) {
     // Retrieve all integrations for a specific organization
     return prisma.integration.findMany({
-      where: { organizationId },
+      where: { organizationId, type: 'SHOPIFY' },
     });
   }
 
@@ -93,6 +93,23 @@ export class IntegrationsService {
       where: { id },
       data: { deletedAt: DateHelper.getCurrentUnixTime() },
     });
+  }
+
+  async getMailIntegration(organizationId: string) {
+    const integration = await prisma.integration.findFirst({
+      where: {
+        organizationId,
+        type: 'GMAIL',
+      },
+    });
+
+    if (!integration) {
+      throw new NotFoundException(
+        'Gmail Integration not found for this organization',
+      );
+    }
+
+    return integration;
   }
 
   // async connect(id: string, partnerId: string) {

@@ -61,6 +61,8 @@ export class IntegrationsController {
     return this.integrationsService.remove(id);
   }
 
+  
+
   // @Post('connect/:integrationId')
   // async connect(@Param('integrationId') id: string, @Body('partnerId') partnerId: string) {
   //   return this.integrationsService.connect(id, partnerId);
@@ -70,6 +72,11 @@ export class IntegrationsController {
   // async disconnect(@Param('integrationId') id: string, @Body('partnerId') partnerId: string) {
   //   return this.integrationsService.disconnect(id, partnerId);
   // }
+
+  @Get(':organizationId/gmail')
+  async mail(@Param('organizationId') organizationId: string) {
+    return this.integrationsService.getMailIntegration(organizationId);
+  }
 
   // Private helper method for validation
   private validateDto(schema: z.ZodType<any>, data: any) {

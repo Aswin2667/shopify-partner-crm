@@ -1,4 +1,7 @@
 -- CreateEnum
+CREATE TYPE "leadStatus" AS ENUM ('POTENTIAL', 'CUSTOMER', 'INTERESTED', 'NOT_INTERESTED', 'BAD_FIT', 'QUALIFIED', 'CANCELED');
+
+-- CreateEnum
 CREATE TYPE "LeadActivityType" AS ENUM ('LEAD_CREATED', 'LEAD_UPDATED', 'NOTE_CREATED', 'NOTE_UPDATED', 'NOTE_DELETED', 'EMAIL', 'CALL', 'TASK', 'MEETING', 'STATUS_CHANGE');
 
 -- CreateEnum
@@ -97,6 +100,7 @@ CREATE TABLE "Lead" (
     "id" TEXT NOT NULL,
     "shopifyDomain" TEXT NOT NULL,
     "shopifyStoreId" TEXT NOT NULL,
+    "status" "leadStatus" NOT NULL DEFAULT 'POTENTIAL',
     "leadSource" TEXT,
     "shopDetails" JSONB,
     "industry" TEXT,
@@ -163,9 +167,9 @@ CREATE TABLE "LeadActivity" (
     "updatedAt" BIGINT NOT NULL,
     "createdAt" BIGINT NOT NULL,
     "deletedAt" BIGINT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "userId" TEXT,
     "noteId" TEXT,
-    "type" "LeadActivityType" NOT NULL,
+    "type" TEXT NOT NULL,
 
     CONSTRAINT "LeadActivity_pkey" PRIMARY KEY ("id")
 );
@@ -280,7 +284,7 @@ ALTER TABLE "Attachment" ADD CONSTRAINT "Attachment_leadId_fkey" FOREIGN KEY ("l
 ALTER TABLE "LeadActivity" ADD CONSTRAINT "LeadActivity_leadId_fkey" FOREIGN KEY ("leadId") REFERENCES "Lead"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "LeadActivity" ADD CONSTRAINT "LeadActivity_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "LeadActivity" ADD CONSTRAINT "LeadActivity_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "LeadActivity" ADD CONSTRAINT "LeadActivity_noteId_fkey" FOREIGN KEY ("noteId") REFERENCES "LeadNotes"("id") ON DELETE SET NULL ON UPDATE CASCADE;

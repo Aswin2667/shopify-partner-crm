@@ -17,26 +17,69 @@ export class LeadService {
     private readonly prismaService: PrismaService,
     private readonly LeadActivityService: LeadActivityService,
   ) {}
-  async findAllByAppId(appId: string) {
-    return this.leads.filter((lead) => lead.appId === appId);
+  async findAllByIntegrationId(appId: string) {
+   try {
+      return await this.prismaService.lead.findMany({
+        where: {
+          integrationId: appId,
+        },orderBy:{
+        createdAt: 'desc'
+         }
+      }) 
+   } catch (error) {
+    
+   }
   }
 
   async findOne(leadId: string) {
-    return this.leads.find((lead) => lead.id === leadId);
+    try {
+      const lead = await this.prismaService.lead.findUnique({
+        where: {
+          id: leadId,
+        },
+      });
+      if (!lead) {
+        return null;
+      }
+      return lead
+    } catch (error) {
+       console.error('Error finding lead:', error);
+  
+      return {
+        status: false,
+        message: 'An error occurred while retrieving the lead',
+        data: null,
+      };
+    }
   }
+  
 
   async create(createLeadDto: CreateLeadDto) {
     try {
+      console.log("----------------------------------"+createLeadDto)
       const lead = await this.prismaService.lead.create({
         data: {
           shopifyDomain: createLeadDto.myShopifyDomain,
           shopifyStoreId: randomUUID(),
           createdAt: DateHelper.getCurrentUnixTime(),
-          email: createLeadDto.email,
+          leadSource:"Manually added",
+          status: createLeadDto.status,
           updatedAt: 0,
           deletedAt: 0,
+          organizationId: createLeadDto.organizationId,
+          integrationId: createLeadDto.integrationId,
         },
       });
+
+      // await this.prismaService.leadProject.create({
+      //   data: {
+      //     leadId: lead.id,
+      //     projectId: createLeadDto.projectId,
+      //     createdAt: DateHelper.getCurrentUnixTime(),
+      //     updatedAt:0,
+      //     deletedAt:0,
+      // }})
+      console.log(createLeadDto)
       const activity = {
         type: 'LEAD_CREATED',
         data: { message: 'User manually created by' },
