@@ -96,7 +96,6 @@ const reducerFn = (prevState: any, action: any) => {
 };
 
 const Compose = (props: Props): JSX.Element => {
-  const { integrationId } = useParams();
   const [mail, dispatch] = useReducer(
     reducerFn,
     initialArgs,
