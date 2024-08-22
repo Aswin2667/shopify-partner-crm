@@ -9,7 +9,7 @@ const IntegrationCard = ({ integration }: any) => {
   const dispatch = useDispatch();
 
   const { currentOrganization } = useSelector(
-    (state: any) => state.organization
+    (state: any) => state.organization,
   );
 
   const clickHandler = () => {

@@ -34,7 +34,7 @@ export default function IntegrationDashboardLayout() {
         toast({
           title: response.message,
           description: DateHelper.formatTimestamp(
-            DateHelper.getCurrentUnixTime()
+            DateHelper.getCurrentUnixTime(),
           ),
           duration: 1000,
           variant: `${response.status ? "default" : "destructive"}`,

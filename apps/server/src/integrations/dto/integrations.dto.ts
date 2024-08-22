@@ -8,7 +8,7 @@ export const IntegrationDataSchema = z.object({
 export const CreateIntegrationDto = z.object({
   name: z.string(),
   type: z.enum(['SHOPIFY', 'KLAVIYO', 'ZAPIER']).optional(),
-  data: z.any(),  // Handles any JSON data
+  data: z.any(), // Handles any JSON data
   organizationId: z.string(),
   description: z.string().optional(),
   createdAt: z.bigint().optional(),

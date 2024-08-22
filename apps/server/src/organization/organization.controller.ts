@@ -24,18 +24,18 @@ export class OrganizationController {
     @Body() createOrganizationDto: CreateOrganizationDto,
   ) {
     try {
-      console.log(createOrganizationDto)
+      console.log(createOrganizationDto);
       const organization = await this.organizationService.create(
         createOrganizationDto,
       );
-      
+
       return {
         status: true,
         message: 'Organization created successfully.',
         data: organization,
       };
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw new HttpException(
         error.message ||
           'An unexpected error occurred while creating the organization.',

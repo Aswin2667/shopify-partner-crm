@@ -13,9 +13,22 @@ import { LeadActivityService } from 'src/lead-activity/lead-activity.service';
 @Injectable()
 export class LeadService {
   private leads = [];
-  constructor(private readonly prismaService: PrismaService,private readonly LeadActivityService:LeadActivityService) {}
-  async findAllByAppId(appId: string) {
-    return this.leads.filter((lead) => lead.appId === appId);
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly LeadActivityService: LeadActivityService,
+  ) {}
+  async findAllByIntegrationId(appId: string) {
+   try {
+      return await this.prismaService.lead.findMany({
+        where: {
+          integrationId: appId,
+        },orderBy:{
+        createdAt: 'desc'
+         }
+      }) 
+   } catch (error) {
+    
+   }
   }
 
   async findOne(leadId: string) {
@@ -24,25 +37,31 @@ export class LeadService {
 
   async create(createLeadDto: CreateLeadDto) {
     try {
+      console.log("----------------------------------"+createLeadDto)
       const lead = await this.prismaService.lead.create({
         data: {
           shopifyDomain: createLeadDto.myShopifyDomain,
           shopifyStoreId: randomUUID(),
           createdAt: DateHelper.getCurrentUnixTime(),
+          leadSource:"Manually added",
+          status: createLeadDto.status,
           updatedAt: 0,
           deletedAt: 0,
+          organizationId: createLeadDto.organizationId,
+          integrationId: createLeadDto.integrationId,
         },
       });
+      console.log(createLeadDto)
       const activity = {
         type: 'LEAD_CREATED',
-        data: {message:"User manually created by"},
+        data: { message: 'User manually created by' },
         leadId: lead.id,
         userId: createLeadDto.userId,
-      }
-      await this.LeadActivityService.create(activity)
+      };
+      await this.LeadActivityService.create(activity);
       return lead;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new ConflictException(

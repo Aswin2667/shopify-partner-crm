@@ -236,13 +236,13 @@ export default function OrganizationList() {
         toast({
           title: error.message,
           description: DateHelper.formatTimestamp(
-            DateHelper.getCurrentUnixTime()
+            DateHelper.getCurrentUnixTime(),
           ),
           duration: 1000,
           variant: "destructive",
         });
       },
-    }
+    },
   );
 
   React.useEffect(() => {

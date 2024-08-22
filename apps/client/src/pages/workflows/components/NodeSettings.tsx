@@ -1,23 +1,21 @@
-"use client"
+"use client";
 
-import { Bird, Rabbit, Turtle } from "lucide-react"
+import { Bird, Rabbit, Turtle } from "lucide-react";
 
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function NodeSettings() {
   return (
-    <div
-      className="relative hidden flex-col items-start gap-8 md:flex"
-    >
+    <div className="relative hidden flex-col items-start gap-8 md:flex">
       <form className="grid w-full items-start gap-6">
         <fieldset className="grid gap-6 rounded-lg border p-4">
           <legend className="-ml-1 px-1 text-sm font-medium">Settings</legend>
@@ -123,5 +121,5 @@ export default function NodeSettings() {
         </fieldset>
       </form>
     </div>
-  )
+  );
 }

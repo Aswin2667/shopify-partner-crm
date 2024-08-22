@@ -1,15 +1,14 @@
-"use client"
+"use client";
 
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef } from "@tanstack/react-table";
 
-import { Checkbox } from "@/components/ui/checkbox"
+import { Checkbox } from "@/components/ui/checkbox";
 
-import { statuses } from "../data/data"
-import { Task } from "../data/schema"
-import { DataTableColumnHeader } from "./data-table-column-header"
-import { DataTableRowActions } from "./data-table-row-actions"
-import { useNavigate } from "react-router-dom"
-
+import { statuses } from "../data/data";
+import { Task } from "../data/schema";
+import { DataTableColumnHeader } from "./data-table-column-header";
+import { DataTableRowActions } from "./data-table-row-actions";
+import { useNavigate } from "react-router-dom";
 
 export const columns: ColumnDef<Task>[] = [
   {
@@ -42,9 +41,15 @@ export const columns: ColumnDef<Task>[] = [
       <DataTableColumnHeader column={column} title="Task" />
     ),
     cell: ({ row }) => {
-
-      const navigate = useNavigate()
-      return <div onClick={() => navigate(`editor/${row.getValue("id")}`)}  className="w-[80px] hover:underline hover:text-blue-600 hover:cursor-pointer">{row.getValue("id")}</div>
+      const navigate = useNavigate();
+      return (
+        <div
+          onClick={() => navigate(`editor/${row.getValue("id")}`)}
+          className="w-[80px] hover:underline hover:text-blue-600 hover:cursor-pointer"
+        >
+          {row.getValue("id")}
+        </div>
+      );
     },
     enableSorting: false,
     enableHiding: false,
@@ -55,14 +60,13 @@ export const columns: ColumnDef<Task>[] = [
       <DataTableColumnHeader column={column} title="Title" />
     ),
     cell: ({ row }) => {
-
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
             {row.getValue("title")}
           </span>
         </div>
-      )
+      );
     },
   },
   {
@@ -72,11 +76,11 @@ export const columns: ColumnDef<Task>[] = [
     ),
     cell: ({ row }) => {
       const status = statuses.find(
-        (status) => status.value === row.getValue("status")
-      )
+        (status) => status.value === row.getValue("status"),
+      );
 
       if (!status) {
-        return null
+        return null;
       }
 
       return (
@@ -86,14 +90,14 @@ export const columns: ColumnDef<Task>[] = [
           )}
           <span>{status.label}</span>
         </div>
-      )
+      );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      return value.includes(row.getValue(id));
     },
   },
   {
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,
   },
-]
+];

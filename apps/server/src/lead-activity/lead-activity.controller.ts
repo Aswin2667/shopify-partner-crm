@@ -19,8 +19,8 @@ export class LeadActivityController {
     return this.leadActivityService.create(createLeadActivityDto);
   }
 
-  @Get()
-  findAll() {
-    return this.leadActivityService.findAllByLeadId();
+  @Get(':leadId')
+  findAll(@Param('leadId') leadId: string) {
+    return this.leadActivityService.findAllByLeadId(leadId);
   }
 }

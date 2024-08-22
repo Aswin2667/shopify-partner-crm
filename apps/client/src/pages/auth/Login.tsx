@@ -8,7 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 export default function Login() {
   const navigate = useNavigate();
 
-  const {mutate:handleLogin} = useMutation({
+  const { mutate: handleLogin } = useMutation({
     mutationFn: async (tokenResponse: any): Promise<any> =>
       await userService.login(tokenResponse),
     onSuccess: (response) => {
@@ -17,9 +17,9 @@ export default function Login() {
         navigate("/");
       }
     },
-    onError: (error:any) => {
+    onError: (error: any) => {
       console.error("Login failed:", error?.response.data);
-    }
+    },
   });
 
   return (
