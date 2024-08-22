@@ -36,6 +36,7 @@ export class CreateContactDto {
   @IsOptional()
   @IsUUID()
   leadId?: string;
+  integrationId: any;
 }
 
 export class UpdateContactDto extends CreateContactDto {

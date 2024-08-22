@@ -33,4 +33,13 @@ export default class OrganizationService {
       throw error;
     }
   }
+  public static async getInvitations(organizationId: string | undefined) {
+    try {
+      const response =  await axiosInstance.get("/invitation/all?orgId=" + organizationId);
+      console.log(response)
+      return response
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }

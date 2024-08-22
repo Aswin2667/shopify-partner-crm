@@ -73,7 +73,7 @@ model Project {
   name           String
   type           String
   data           Json
-  isSynced       Boolean    @default(false)
+  isSynced       Boolean       @default(false)
   organization   Organization  @relation(fields: [organizationId], references: [id])
   organizationId String
   createdAt      BigInt        @default(autoincrement())
@@ -158,7 +158,10 @@ model Contact {
   createdAt      BigInt
   updatedAt      BigInt
   deletedAt      BigInt
-  lead           Lead?   @relation(fields: [leadId], references: [id])
+  integrationId  String
+  integration Integration @relation(fields: [integrationId], references: [id])
+
+  lead Lead? @relation(fields: [leadId], references: [id])
 }
 
 model Attachment {
@@ -175,7 +178,7 @@ model Attachment {
 }
 
 model LeadActivity {
-  id        String     @id @default(uuid())
+  id        String           @id @default(uuid())
   leadId    String
   data      Json
   updatedAt BigInt
@@ -184,9 +187,9 @@ model LeadActivity {
   userId    String?
   noteId    String?
   type      LeadActivityType
-  lead      Lead       @relation(fields: [leadId], references: [id])
-  user      User?      @relation(fields: [userId], references: [id])
-  note      LeadNotes? @relation(fields: [noteId], references: [id])
+  lead      Lead             @relation(fields: [leadId], references: [id])
+  user      User?            @relation(fields: [userId], references: [id])
+  note      LeadNotes?       @relation(fields: [noteId], references: [id])
 
   @@index([leadId, userId])
 }
@@ -223,6 +226,7 @@ model Integration {
   name           String
   organization   Organization @relation(fields: [organizationId], references: [id])
   Lead           Lead[]
+  Contact        Contact[]
 }
 
 model Template {

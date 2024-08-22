@@ -73,7 +73,7 @@ model Project {
   name           String
   type           String
   data           Json
-  isSynced       Boolean    @default(false)
+  isSynced       Boolean       @default(false)
   organization   Organization  @relation(fields: [organizationId], references: [id])
   organizationId String
   createdAt      BigInt        @default(autoincrement())
@@ -130,21 +130,23 @@ enum leadStatus {
 }
 
 model LeadProject {
-  id        String  @id @default(uuid())
-  leadId    String
-  projectId String
-  lead      Lead    @relation(fields: [leadId], references: [id])
-  project   Project @relation(fields: [projectId], references: [id])
-  createdAt BigInt  @default(autoincrement())
-  updatedAt BigInt  @default(autoincrement())
-  deletedAt BigInt
-  status    String?
+  id            String      @id @default(uuid())
+  leadId        String
+  projectId     String
+  integrationId String
+  integration   Integration @relation(fields: [integrationId], references: [id])
+  lead          Lead        @relation(fields: [leadId], references: [id])
+  project       Project     @relation(fields: [projectId], references: [id])
+  createdAt     BigInt      @default(autoincrement())
+  updatedAt     BigInt      @default(autoincrement())
+  deletedAt     BigInt
+  status        String?
 
   @@unique([projectId, leadId])
 }
 
 model Contact {
-  id             String  @id @default(uuid())
+  id             String      @id @default(uuid())
   firstName      String?
   lastName       String?
   primaryEmail   String?
@@ -158,7 +160,9 @@ model Contact {
   createdAt      BigInt
   updatedAt      BigInt
   deletedAt      BigInt
-  lead           Lead?   @relation(fields: [leadId], references: [id])
+  integrationId  String
+  integration    Integration @relation(fields: [integrationId], references: [id])
+  lead           Lead?       @relation(fields: [leadId], references: [id])
 }
 
 model Attachment {
@@ -175,7 +179,7 @@ model Attachment {
 }
 
 model LeadActivity {
-  id        String     @id @default(uuid())
+  id        String           @id @default(uuid())
   leadId    String
   data      Json
   updatedAt BigInt
@@ -184,9 +188,9 @@ model LeadActivity {
   userId    String?
   noteId    String?
   type      LeadActivityType
-  lead      Lead       @relation(fields: [leadId], references: [id])
-  user      User?      @relation(fields: [userId], references: [id])
-  note      LeadNotes? @relation(fields: [noteId], references: [id])
+  lead      Lead             @relation(fields: [leadId], references: [id])
+  user      User?            @relation(fields: [userId], references: [id])
+  note      LeadNotes?       @relation(fields: [noteId], references: [id])
 
   @@index([leadId, userId])
 }
@@ -211,7 +215,7 @@ model Email {
 }
 
 model Integration {
-  id             String       @id @default(uuid())
+  id             String        @id @default(uuid())
   organizationId String
   data           Json
   description    String?
@@ -221,8 +225,10 @@ model Integration {
   deletedAt      BigInt
   Project        Project[]
   name           String
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  organization   Organization  @relation(fields: [organizationId], references: [id])
   Lead           Lead[]
+  Contact        Contact[]
+  LeadProject    LeadProject[]
 }
 
 model Template {

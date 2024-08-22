@@ -22,8 +22,9 @@ import Project from "./pages/Project/components/Index";
 import { MailPage } from "./pages/mail/page";
 import Activity from "./pages/leads/components/Activity";
 import MediaLibrary from "./pages/media-library/MediaLibrary";
-import ContactsTable from "./pages/contacts/table/ContactsTable";
 import Notes from "./pages/leads/notes/Notes";
+import ContactTable from "./pages/contacts/table/ContactTable";
+import CustomFiled from "./pages/organizations/settings/customFields/CustomFiled";
 
 export const routes = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ export const routes = createBrowserRouter([
         path: ":integrationId",
         element: <RootLayout />,
         children: [
+          {
+            index: true,
+            element: <DashboardPage />,
+          },
           {
             path: "dashboard",
             element: <DashboardPage />,
@@ -133,7 +138,44 @@ export const routes = createBrowserRouter([
           },
           {
             path: "contacts",
-            element: <ContactsTable />,
+            element: <ContactTable />,
+          },
+          {
+            path: "settings",
+            element: <SettingsLayout />,
+            children: [
+              {
+                index: true,
+                element: <SettingsProfilePage />,
+              },
+              {
+                 path: "profile",
+                element: <SettingsProfilePage />,
+              },
+              {
+                path: "appearance",
+                element: <SettingsAppearancePage />,
+              },
+              {
+                path: "notifications",
+                element: <SettingsNotificationsPage />,
+              },
+              {
+                path: "display",
+                element: <SettingsDisplayPage />,
+              },
+              {
+                path: "integration",
+                element: <Integration />,
+              },
+              {
+                path: "custom-fields",
+                element: <CustomFiled />,
+              },{
+                path: "manage-access",
+                element: <ManageAccess />,
+              },
+            ],
           },
         ],
       },
@@ -150,33 +192,7 @@ export const routes = createBrowserRouter([
           },
         ],
       },
-      {
-        path: "settings",
-        element: <SettingsLayout />,
-        children: [
-          {
-            index: true,
-            path: "profile",
-            element: <SettingsProfilePage />,
-          },
-          {
-            path: "appearance",
-            element: <SettingsAppearancePage />,
-          },
-          {
-            path: "notifications",
-            element: <SettingsNotificationsPage />,
-          },
-          {
-            path: "display",
-            element: <SettingsDisplayPage />,
-          },
-        ],
-      },
-      {
-        path: "manage-access",
-        element: <ManageAccess />,
-      },
+      
     ],
   },
 ]);

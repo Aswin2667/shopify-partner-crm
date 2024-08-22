@@ -36,6 +36,7 @@ import {
 import ContactService from "@/services/ContactService";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSelector } from "react-redux";
 
 // Zod schema for validation
 const contactSchema = z.object({
@@ -48,6 +49,8 @@ type FormData = z.infer<typeof contactSchema>;
 const ExpandableContactCard = () => {
   const [contacts, setContacts] = useState([]);
   const leadId = window.location.pathname.split("/")[4];
+  const { currentIntegration } = useSelector((state: any) => state.integration);
+
   const {
     control,
     handleSubmit,
@@ -74,7 +77,7 @@ const ExpandableContactCard = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      await ContactService.create({ ...data, leadId });
+      await ContactService.create({ ...data, leadId, integrationId: currentIntegration?.id });
       fetchContacts();
       reset(); // Clear form data
       toast.success("Contact added successfully");
