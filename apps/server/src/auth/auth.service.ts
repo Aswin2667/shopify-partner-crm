@@ -44,9 +44,8 @@ export class AuthService {
           },
         },
       );
-      console.log(tokenResponse.data);
       const { access_token, refresh_token, id_token } = tokenResponse.data;
-
+      
       // Decode ID token to get user info
       const userInfoResponse = await axios.get(
         `https://www.googleapis.com/oauth2/v2/userinfo`,

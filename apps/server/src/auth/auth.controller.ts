@@ -19,7 +19,7 @@ export class AuthController {
     @Res() res: Response,
   ) {
     try {
-      const organizationId = redirect_url.split('/').reverse()[2];
+      const organizationId = redirect_url.split('/').filter(Boolean)[2];
       const { accessToken, refreshToken } =
         await this.authService.handleOAuthCallback(code, organizationId);
       // Send tokens to client or store them temporarily in session
