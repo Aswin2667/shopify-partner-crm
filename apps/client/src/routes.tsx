@@ -24,6 +24,7 @@ import Activity from "./pages/leads/components/Activity";
 import MediaLibrary from "./pages/media-library/MediaLibrary";
 import ContactsTable from "./pages/contacts/table/ContactsTable";
 import Notes from "./pages/leads/notes/Notes";
+import LeadMail from "./pages/leads/components/LeadMail";
 
 export const routes = createBrowserRouter([
   {
@@ -83,7 +84,7 @@ export const routes = createBrowserRouter([
                   },
                   {
                     path: "emails",
-                    element: <MailPage />,
+                    element: <LeadMail />,
                   },
                   {
                     path: "calls",

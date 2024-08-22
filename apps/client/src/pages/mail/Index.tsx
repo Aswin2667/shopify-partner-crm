@@ -18,12 +18,14 @@ export default function MailPage() {
       queryKey: ["getGmailIntegration4Org"],
       queryFn: async () =>
         await IntegrationService.getGmailIntegration(organizationId || ""),
-      enabled: !gmail,
+      // enabled: !gmail,
     }),
     {
       onSuccess: (data) =>
         dispatch(integrationAction.setGmailIntegration(data)),
-      onError: (error) => console.error(error),
+      onError: (error: any) =>
+        error.response.data.statusCode === 404 &&
+        dispatch(integrationAction.setGmailIntegration(null)),
     }
   );
 

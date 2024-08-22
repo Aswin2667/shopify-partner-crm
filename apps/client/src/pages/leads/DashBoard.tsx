@@ -143,7 +143,6 @@ export default function LeadDashboard() {
         <div className="w-3/4">
           <Tabs />
           <div className="h-screen overflow-scroll p-5">
-            <Compose />
             <Outlet />
           </div>
         </div>
