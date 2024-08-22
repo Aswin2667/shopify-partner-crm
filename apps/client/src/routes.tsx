@@ -23,6 +23,7 @@ import Project from "./pages/Project/Index";
 import Activity from "./pages/leads/components/Activity";
 import MediaLibrary from "./pages/media-library/MediaLibrary";
 import Notes from "./pages/leads/notes/Notes";
+import LeadMail from "./pages/leads/components/LeadMail";
 import ContactTable from "./pages/contacts/table/ContactTable";
 import CustomFiled from "./pages/organizations/settings/customFields/CustomFiled";
 
@@ -88,7 +89,7 @@ export const routes = createBrowserRouter([
                   },
                   {
                     path: "emails",
-                    element: <MailPage />,
+                    element: <LeadMail />,
                   },
                   {
                     path: "calls",
