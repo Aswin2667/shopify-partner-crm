@@ -74,6 +74,7 @@ CREATE TABLE "Project" (
     "name" TEXT NOT NULL,
     "type" TEXT NOT NULL,
     "data" JSONB NOT NULL,
+    "isSynced" BOOLEAN NOT NULL DEFAULT false,
     "organizationId" TEXT NOT NULL,
     "createdAt" BIGSERIAL NOT NULL,
     "updatedAt" BIGSERIAL NOT NULL,
@@ -180,21 +181,18 @@ CREATE TABLE "LeadActivity" (
 -- CreateTable
 CREATE TABLE "Email" (
     "id" TEXT NOT NULL,
+    "to" TEXT[],
+    "cc" TEXT[] DEFAULT ARRAY[]::TEXT[],
+    "bcc" TEXT[] DEFAULT ARRAY[]::TEXT[],
     "subject" TEXT,
+    "body" TEXT NOT NULL,
     "messageId" TEXT NOT NULL,
-    "hasAttachments" BOOLEAN NOT NULL,
-    "unsubscribed" BOOLEAN NOT NULL,
-    "failed" BOOLEAN NOT NULL,
-    "skipped" BOOLEAN NOT NULL,
-    "opened" BOOLEAN NOT NULL,
-    "sent" BOOLEAN NOT NULL,
-    "time" BIGINT NOT NULL,
-    "cc" TEXT,
-    "bcc" TEXT,
-    "from" TEXT NOT NULL,
-    "to" TEXT NOT NULL,
+    "threadId" TEXT NOT NULL,
+    "historyId" TEXT,
+    "labelIds" TEXT[],
+    "sentAt" BIGINT NOT NULL,
     "deletedAt" BIGINT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "integrationId" TEXT NOT NULL,
 
     CONSTRAINT "Email_pkey" PRIMARY KEY ("id")
 );
