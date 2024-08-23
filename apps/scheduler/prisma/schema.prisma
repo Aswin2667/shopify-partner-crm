@@ -133,6 +133,8 @@ model LeadProject {
   id        String  @id @default(uuid())
   leadId    String
   projectId String
+  integrationId String
+  organizationId String
   lead      Lead    @relation(fields: [leadId], references: [id])
   project   Project @relation(fields: [projectId], references: [id])
   createdAt BigInt  @default(autoincrement())

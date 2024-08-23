@@ -1,98 +1,156 @@
-import { Process, Processor } from "@nestjs/bull";
-import { PrismaService } from "src/prisma.service";
-import { Job } from "bullmq";
-import { DateHelper } from "@org/utils";
-import * as bcrypt from 'bcrypt'
-
+import { Process, Processor } from '@nestjs/bull';
+import { PrismaService } from 'src/prisma.service';
+import { Job } from 'bullmq';
+import { DateHelper } from '@org/utils';
 
 @Processor('install_uninstall_events')
 export class AppInstallsUninstallsEventsProcessor {
+  constructor(private readonly prisma: PrismaService) {}
 
-    constructor(private readonly prisma: PrismaService) {}
+  @Process('APP_INSTALLED_UNINSTALLED')
+  async handleAppInstalledUninstalled(job: Job) {
+    await this.processEvents(job);
+  }
 
-    @Process('APP_INSTALLED_UNINSTALLED')
-    async handleAppInstalledUninstalled(job: Job) {
-        try {
-            // Check Already Existing lead 
-            const { app, events } = job.data;
+  @Process('APP_INSTALLED_UNINSTALLED_AFTER')
+  async handleAppInstalledUninstalledAfter(job: Job) {
+    await this.processEvents(job);
+  }
 
-            console.log('App: ', app)
-            console.log('Events: ', events)
+  private async processEvents(job: Job) {
+    try {
+      const { app, events } = job.data;
 
-            for (const event of events) {
-                const { type, shop, occurredAt } = event;
-                const { integrationId, organizationId } = app;
-                
-                // Check Already Existing lead 
-                const existingLead = await this.prisma.lead.findFirst({
-                    where: {
-                        shopifyDomain: shop.myshopifyDomain,
-                    }
-                });
+      console.log('App: ', app);
+      console.log('Events: ', events);
 
-                const saltOrRounds = 10;
-                const hash = await bcrypt.hash(JSON.stringify(event), saltOrRounds);
-                const leadStr = JSON.stringify(event)
+      for (const event of events) {
+        const { type, shop, occurredAt } = event;
+        const { appId, projectId, integrationId, organizationId } = app;
+        console.log(projectId);
 
-                console.log(hash);
+        // Ensure unique event processing
+        const eventIdentifier = `${shop.myshopifyDomain}-${shop.id}-${occurredAt}`;
+        const existingEvent = await this.prisma.leadActivity.findFirst({
+          where: {
+            data: {
+              path: ['payload', 'shop', 'id'],
+              equals: shop.id,
+            },
+            createdAt: DateHelper.convertIsoToTimestamp(occurredAt),
+            lead: {
+              shopifyDomain: shop.myshopifyDomain,
+              shopifyStoreId: shop.id,
+            },
+            type,
+          },
+        });
 
-    
-                if (!existingLead) {
-                    const newLead = await this.prisma.lead.create({
-                        data: {
-                            shopifyDomain: shop.myshopifyDomain,
-                            shopifyStoreId: shop.id,
-                            integrationId: integrationId,
-                            organizationId: organizationId,
-                            createdAt: DateHelper.convertIsoToTimestamp(occurredAt),
-                            updatedAt: 0,
-                            deletedAt: 0, 
-                        }
-                    });
- 
-                    console.log('New Lead Created:', newLead.id);
+        if (!existingEvent) {
+          // Check if lead exists
+          const existingLead = await this.prisma.lead.findFirst({
+            where: {
+              shopifyDomain: shop.myshopifyDomain,
+              shopifyStoreId: shop.id,
+              integrationId: integrationId,
+            },
+          });
 
-                    // create leadActivity for new lead
-                    await this.prisma.leadActivity.create({
-                        data: {
-                            leadId: newLead.id,
-                            data: {
-                                message: 'created by sync',
-                                string1 : leadStr,
-                                hash: hash
-                            },
-                            type: type,
-                            createdAt: DateHelper.convertIsoToTimestamp(occurredAt),
-                            updatedAt: 0,
-                            deletedAt: 0,
-                        }
-                    })
+          if (!existingLead) {
+            const newLead = await this.prisma.lead.create({
+              data: {
+                shopifyDomain: shop.myshopifyDomain,
+                shopifyStoreId: shop.id,
+                integrationId: integrationId,
+                organizationId: organizationId,
+                createdAt: DateHelper.convertIsoToTimestamp(occurredAt),
+                updatedAt: 0,
+                deletedAt: 0,
+              },
+            });
 
-                } else {
-                    console.log('Existing lead found:', existingLead.id);
+            console.log('New Lead Created:', newLead.id);
 
-                    await this.prisma.leadActivity.create({
-                        data: {
-                            leadId: existingLead.id,
-                            data: {
-                                message: 'created by sync',
-                                string1 : leadStr,
-                                hash: hash
-                            },
-                            type: type,
-                            createdAt: DateHelper.convertIsoToTimestamp(occurredAt),
-                            updatedAt: 0,
-                            deletedAt: 0,
-                        }
-                    })
+            // Create leadProject for this appId with integrationId
+            const newLeadProject = await this.prisma.leadProject.create({
+              data: {
+                leadId: newLead.id,
+                projectId,
+                integrationId: integrationId,
+                organizationId: organizationId,
+                createdAt: DateHelper.convertIsoToTimestamp(occurredAt),
+                updatedAt: 0,
+                deletedAt: 0,
+              },
+            });
 
-                }
-    
-            }         
-        } catch (error) {
-            console.log(error)
-        } 
-}
+            console.log('LeadProject Created: ', newLeadProject.id);
 
+            // Create leadActivity for new lead
+            await this.prisma.leadActivity.create({
+              data: {
+                leadId: newLead.id,
+                type: type,
+                data: {
+                  message:
+                    type === 'RELATIONSHIP_INSTALLED'
+                      ? 'App Installed by new store: '
+                      : 'App Uninstalled by store: ',
+                  payload: event,
+                },
+                createdAt: DateHelper.convertIsoToTimestamp(occurredAt),
+                updatedAt: 0,
+                deletedAt: 0,
+              },
+            });
+          } else {
+            console.log('Existing lead found:', existingLead.id);
 
+            const existingleadProject = await this.prisma.leadProject.findFirst({
+              where: {
+                leadId: existingLead.id,
+                projectId,
+              },
+            });
+
+            if (!existingleadProject) {
+              const anotherLeadProject = await this.prisma.leadProject.create({
+                data: {
+                  leadId: existingLead.id,
+                  projectId,
+                  integrationId: integrationId,
+                  organizationId: organizationId,
+                  createdAt: DateHelper.convertIsoToTimestamp(occurredAt),
+                  updatedAt: 0,
+                  deletedAt: 0,
+                },
+              });
+              console.log('Another Lead Project: ', anotherLeadProject.id);
+            }
+
+            await this.prisma.leadActivity.create({
+              data: {
+                leadId: existingLead.id,
+                type: type,
+                data: {
+                  message:
+                    type === 'RELATIONSHIP_UNINSTALLED'
+                      ? 'App Uninstalled by store: '
+                      : 'App Installed by store: ',
+                  payload: event,
+                },
+                createdAt: DateHelper.convertIsoToTimestamp(occurredAt),
+                updatedAt: 0,
+                deletedAt: 0,
+              },
+            });
+          }
+        } else {
+          console.log('Duplicate event found, skipping processing.');
+        }
+      }
+    } catch (error) {
+      console.error('Error processing events:', error);
+    }
+  }
 }
