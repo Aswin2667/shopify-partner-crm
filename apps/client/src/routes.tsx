@@ -32,6 +32,11 @@ export const routes = createBrowserRouter([
     errorElement: <PageNotFount />,
   },
   {
+    path: "/invite",
+    element: <>invite</>,
+    errorElement: <PageNotFount />,
+  },
+  {
     path: "/login",
     element: <Login />,
     index: true,
