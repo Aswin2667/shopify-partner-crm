@@ -64,8 +64,7 @@ export default function LeadDashboard() {
     };
 
     fetchData();
-  });
-  console.log(leadId);
+  },[]);
   return (
     <div className="flex flex-col min-h-full sm:gap-4 sm:py-4 sm:pl-4 overflow-scroll">
       <main className="flex flex-1 items-start gap-4 p-4 sm:px-6 h-screen overflow-scroll sm:py-0 md:gap-8">

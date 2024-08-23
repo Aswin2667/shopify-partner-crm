@@ -26,6 +26,7 @@
     "packages/*"
   ],
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.637.0",
     "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/bull": "^10.2.0",
     "@nestjs/event-emitter": "^2.0.4",
@@ -45,8 +46,8 @@
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
-    "gmail-api-sync": "^1.2.10",
     "crypto": "^1.0.1",
+    "gmail-api-sync": "^1.2.10",
     "google-auth-library": "^9.13.0",
     "googleapis": "^142.0.0",
     "jotai": "^2.9.3",

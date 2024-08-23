@@ -37,6 +37,7 @@ import { LeadNotesController } from './notes/notes.controller';
 import { LeadNotesService } from './notes/notes.service';
 import { ContactController } from './contacts/contact.controller';
 import { ContactService } from './contacts/contact.service';
+import { LeadStatusModule } from './LeadStatus/lead-status.module';
 
 @Module({
   imports: [
@@ -66,6 +67,7 @@ import { ContactService } from './contacts/contact.service';
     MailModule,
     ProjectModule,
     AuthModule,
+    LeadStatusModule
   ],
   controllers: [
     UserController,

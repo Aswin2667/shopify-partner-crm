@@ -26,6 +26,10 @@ import Notes from "./pages/leads/notes/Notes";
 import LeadMail from "./pages/leads/components/LeadMail";
 import ContactTable from "./pages/contacts/table/ContactTable";
 import CustomFiled from "./pages/organizations/settings/customFields/CustomFiled";
+import Templates from "./pages/organizations/settings/templates/Templates";
+import TemplateCreatePage from "./pages/organizations/settings/templates/TemplateCreatePage";
+import Invitation from "./pages/auth/Invitation";
+import LeadStatus from "./pages/organizations/settings/leadStatus/LeadStatus";
 
 export const routes = createBrowserRouter([
   {
@@ -35,7 +39,7 @@ export const routes = createBrowserRouter([
   },
   {
     path: "/invite",
-    element: <>invite</>,
+    element: <Invitation />,
     errorElement: <PageNotFount />,
   },
   {
@@ -179,6 +183,17 @@ export const routes = createBrowserRouter([
               },{
                 path: "manage-access",
                 element: <ManageAccess />,
+              },
+              {
+                path: "templates",
+                element: <Templates />,
+              },
+              {
+                path: "create-template",
+                element: <TemplateCreatePage />,
+              },{
+                path: "status",
+                element: <LeadStatus />,
               },
             ],
           },

@@ -63,7 +63,6 @@ export class LeadService {
           shopifyStoreId: randomUUID(),
           createdAt: DateHelper.getCurrentUnixTime(),
           leadSource:"Manually added",
-          status: createLeadDto.status,
           updatedAt: 0,
           deletedAt: 0,
           organizationId: createLeadDto.organizationId,
