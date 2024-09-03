@@ -22,6 +22,7 @@ import { z } from "zod";
 import OrganizationService from "@/services/OrganizationService";
 import { useToast } from "@/components/ui/use-toast";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const emailSchema = z.string().email({ message: "Invalid email address" });
 
@@ -78,7 +79,7 @@ const ManageAccess = () => {
     setInvitedEmails((prevEmails) => prevEmails.filter((_, i) => i !== index));
   };
   const { toast } = useToast();
-
+  const {currentOrganization} = useSelector((state: any) => state.organization)
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -100,9 +101,9 @@ const ManageAccess = () => {
         role: "MEMBER",
         invite_sender_name: JSON.parse(sessionStorage.getItem("session") ?? "")
           .name,
-        invite_sender_organization_name: "Retainful",
+        invite_sender_organization_name: currentOrganization.name,
         Product_Name: "Shopify crm",
-        action_url: "https://www.retainful.com",
+        action_url: "",
         name: "User",
       });
       if (response.status === 201) {
@@ -228,12 +229,7 @@ const ManageAccess = () => {
                           className="flex items-center justify-between space-x-4 p-0 m-2"
                         >
                           <div className="flex items-center space-x-4 p-0">
-                            <Avatar>
-                              <AvatarImage src={member.user.avatarUrl} />
-                              <AvatarFallback>
-                                {member.user.email}
-                              </AvatarFallback>
-                            </Avatar>
+                             <img src={member.user.avatarUrl} className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full" referrerPolicy="no-referrer" alt="Avatar" />
                             <div>
                               <p className="text-sm font-medium leading-none p-0">
                                 {member.user.name}

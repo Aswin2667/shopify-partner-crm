@@ -6,6 +6,8 @@ export default class DateHelper {
   }
   public static formatTimestamp(utcTimestamp: number) {
     // Convert the UTC timestamp to milliseconds
+    if(!utcTimestamp||utcTimestamp==undefined) return ''
+
     const date = new Date(utcTimestamp * 1000);
 
     const dateFormatter = new Intl.DateTimeFormat("en-US", {

@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/lodash.template": "^4.5.3",
     "@types/luxon": "^3.4.2",
     "@types/multer": "^1.4.11",
     "@types/uuid": "^10.0.0",
@@ -26,6 +27,7 @@
     "packages/*"
   ],
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.637.0",
     "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/bull": "^10.2.0",
     "@nestjs/event-emitter": "^2.0.4",
@@ -45,13 +47,13 @@
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
-    "gmail-api-sync": "^1.2.10",
     "crypto": "^1.0.1",
+    "gmail-api-sync": "^1.2.10",
     "google-auth-library": "^9.13.0",
     "googleapis": "^142.0.0",
     "jotai": "^2.9.3",
     "jwt-decode": "^4.0.0",
-    "lodash": "^4.17.21",
+    "lodash.template": "^4.5.0",
     "lucide-react": "^0.427.0",
     "minio": "^8.0.1",
     "nest-winston": "^1.9.7",

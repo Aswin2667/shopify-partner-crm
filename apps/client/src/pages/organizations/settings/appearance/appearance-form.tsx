@@ -158,7 +158,7 @@ export function AppearanceForm() {
         />
 
         <Button type="submit">Update preferences</Button>
-      </form>z
+      </form>
     </Form>
   );
 }

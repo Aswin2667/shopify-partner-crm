@@ -10,17 +10,22 @@ export class LeadActivityService {
 
   async create(createLeadActivityDto: any) {
     console.log(createLeadActivityDto);
-    return this.prisma.leadActivity.create({
-      data: {
-        type: createLeadActivityDto.type,
-        data: createLeadActivityDto.data,
-        leadId: createLeadActivityDto.leadId,
-        userId: createLeadActivityDto.userId,
-        createdAt: DateHelper.getCurrentUnixTime(),
-        updatedAt: 0,
-        deletedAt: 0,
-      },
-    });
+    try {
+      const activity = await this.prisma.leadActivity.create({
+        data: {
+          type: createLeadActivityDto.type,
+          data: createLeadActivityDto.data,
+          leadId: createLeadActivityDto.leadId,
+          userId: createLeadActivityDto.userId,
+          createdAt: DateHelper.getCurrentUnixTime(),
+          updatedAt: 0,
+          deletedAt: 0,
+        },
+      });
+      return activity
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async findAllByLeadId(leadId:string) {

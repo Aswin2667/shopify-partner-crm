@@ -16,12 +16,12 @@ import image from '../../../assets/shopify-logo.svg'
 
 const Activity = () => {
   const [data, setData] = useState([]);
-  const leadId = window.location.pathname.split("/")[4];
+  const leadId = window.location.pathname.split("/")[3];
   console.log(leadId);
   useEffect(() => {
     const fetchData = async () => {
       const response = await LeadService.getActivityById(leadId);
-      console.log(response.data.data);
+      console.log(response.data);
       setData(response.data.data);
     };
 

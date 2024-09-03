@@ -34,6 +34,7 @@ const schema = z.object({
   description: z.string().optional(),
 });
 
+// TODO: Remove this cOMPONENT
 export function DataTableToolbar({ leads }: any) {
   const [open, setOpen] = useState(false);
 
