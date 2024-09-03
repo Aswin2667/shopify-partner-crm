@@ -3,7 +3,7 @@ import Login from "./pages/auth/Login";
 import PageNotFount from "./pages/404/404";
 import OrganizationList from "./pages/organizations/OrganizationList";
 import RootLayout from "./components/RootLayout";
-import Integration from "./pages/Integration/Index";
+import CreateIntegration from "./pages/Integration/Index";
 import IntegrationDetailScreen from "./pages/Integration/components/IntegrationDetailScreen";
 import IntegrationDashboard from "./pages/Integration/components/IntegrationDashboard";
 import IntegrationDashboardLayout from "./pages/Integration/components/IntegrationDashboardLayout";
@@ -45,159 +45,304 @@ export const routes = createBrowserRouter([
   },
   {
     path: "/:organizationId",
-    element: <IntegrationDashboardLayout />,
+    element: <RootLayout />,
     children: [
       {
-        path: "dashboard",
-        element: <IntegrationDashboard />,
+        index: true,
+        element: <DashboardPage />,
       },
       {
         path: "dashboard",
-        element: <IntegrationDashboard />,
+        element: <DashboardPage />,
       },
       {
-        path: ":integrationId",
-        element: <RootLayout />,
+        path: "inbox",
+        element: <MailPage />,
+      },
+      {
+        path: "leads",
         children: [
           {
             index: true,
-            element: <DashboardPage />,
+            element: <LeadTable />,
           },
           {
-            path: "dashboard",
-            element: <DashboardPage />,
-          },
-          {
-            path: "inbox",
-            element: <MailPage />,
-          },
-          {
-            path: "leads",
+            path: ":leadId",
+            element: <LeadDashboard />,
             children: [
               {
                 index: true,
-                element: <LeadTable />,
+                element: <Activity />,
               },
               {
-                path: ":leadId",
-
-                element: <LeadDashboard />,
+                path: "emails",
+                element: <LeadMail />,
+              },
+              {
+                path: "calls",
+                element: <>call</>,
+              },
+              {
+                path: "tasks",
+                element: <>task</>,
+              },
+              {
+                path: "notes",
+                element: <Notes />,
+              },
+              {
+                path: "messages",
+                element: <>messages</>,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: "projects",
+        children: [
+          {
+            index: true,
+            element: <Project />,
+          },
+          {
+            path: ":projectId",
+            element: <DashboardPage />,
+          },
+        ],
+      },
+      {
+        path: "workflows",
+        children: [
+          {
+            index: true,
+            element: <WorkflowTable />,
+          },
+          {
+            path: "editor/:id",
+            element: <Editor />,
+          },
+        ],
+      },
+      {
+        path: "media library",
+        element: <MediaLibrary />,
+      },
+      {
+        path: "contacts",
+        element: <ContactTable />,
+      },
+      {
+        path: "settings",
+        element: <SettingsLayout />,
+        children: [
+          {
+            index: true,
+            element: <SettingsProfilePage />,
+          },
+          {
+            path: "profile",
+            element: <SettingsProfilePage />,
+          },
+          {
+            path: "appearance",
+            element: <SettingsAppearancePage />,
+          },
+          {
+            path: "notifications",
+            element: <SettingsNotificationsPage />,
+          },
+          {
+            path: "display",
+            element: <SettingsDisplayPage />,
+          },
+          {
+            path: "integration",
+            children: [
+              {
+                index: true,
+                element: <IntegrationDashboard />,
+              },
+              {
+                path: "create",
                 children: [
                   {
                     index: true,
-                    element: <Activity />,
+                    element: <CreateIntegration />,
                   },
                   {
-                    path: "emails",
-                    element: <LeadMail />,
-                  },
-                  {
-                    path: "calls",
-                    element: <>call</>,
-                  },
-                  {
-                    path: "tasks",
-                    element: <>task</>,
-                  },
-                  {
-                    path: "notes",
-                    element: <Notes />,
-                  },
-                  {
-                    path: "messages",
-                    element: <>messages</>,
+                    path: ":integrationType",
+                    element: <IntegrationDetailScreen />,
                   },
                 ],
               },
             ],
           },
           {
-            path: "projects",
-            children: [
-              {
-                index: true,
-                element: <Project />,
-              },
-              {
-                path: ":projectId",
-                element: <DashboardPage />,
-              },
-            ],
+            path: "custom-fields",
+            element: <CustomFiled />,
           },
           {
-            path: "workflows",
-            children: [
-              {
-                index: true,
-                element: <WorkflowTable />,
-              },
-              {
-                path: "editor/:id",
-                element: <Editor />,
-              },
-            ],
-          },
-          {
-            path: "media library",
-            element: <MediaLibrary />,
-          },
-          {
-            path: "contacts",
-            element: <ContactTable />,
-          },
-          {
-            path: "settings",
-            element: <SettingsLayout />,
-            children: [
-              {
-                index: true,
-                element: <SettingsProfilePage />,
-              },
-              {
-                 path: "profile",
-                element: <SettingsProfilePage />,
-              },
-              {
-                path: "appearance",
-                element: <SettingsAppearancePage />,
-              },
-              {
-                path: "notifications",
-                element: <SettingsNotificationsPage />,
-              },
-              {
-                path: "display",
-                element: <SettingsDisplayPage />,
-              },
-              {
-                path: "integration",
-                element: <Integration />,
-              },
-              {
-                path: "custom-fields",
-                element: <CustomFiled />,
-              },{
-                path: "manage-access",
-                element: <ManageAccess />,
-              },
-            ],
+            path: "manage-access",
+            element: <ManageAccess />,
           },
         ],
       },
-      {
-        path: "create-integration",
-        children: [
-          {
-            index: true,
-            element: <Integration />,
-          },
-          {
-            path: ":intergrationName",
-            element: <IntegrationDetailScreen />,
-          },
-        ],
-      },
-      
     ],
   },
 ]);
+
+// element: <IntegrationDashboardLayout />,
+// children: [
+//   {
+//     path: "dashboard",
+//     element: <IntegrationDashboard />,
+//   },
+//   {
+//     path: "dashboard",
+//     element: <IntegrationDashboard />,
+//   },
+//   {
+//     path: ":integrationId",
+//     element: <RootLayout />,
+//     children: [
+//       {
+//         index: true,
+//         element: <DashboardPage />,
+//       },
+//       {
+//         path: "dashboard",
+//         element: <DashboardPage />,
+//       },
+//       {
+//         path: "inbox",
+//         element: <MailPage />,
+//       },
+//       {
+//         path: "leads",
+//         children: [
+//           {
+//             index: true,
+//             element: <LeadTable />,
+//           },
+//           {
+//             path: ":leadId",
+
+//             element: <LeadDashboard />,
+//             children: [
+//               {
+//                 index: true,
+//                 element: <Activity />,
+//               },
+//               {
+//                 path: "emails",
+//                 element: <LeadMail />,
+//               },
+//               {
+//                 path: "calls",
+//                 element: <>call</>,
+//               },
+//               {
+//                 path: "tasks",
+//                 element: <>task</>,
+//               },
+//               {
+//                 path: "notes",
+//                 element: <Notes />,
+//               },
+//               {
+//                 path: "messages",
+//                 element: <>messages</>,
+//               },
+//             ],
+//           },
+//         ],
+//       },
+//       {
+//         path: "projects",
+//         children: [
+//           {
+//             index: true,
+//             element: <Project />,
+//           },
+//           {
+//             path: ":projectId",
+//             element: <DashboardPage />,
+//           },
+//         ],
+//       },
+//       {
+//         path: "workflows",
+//         children: [
+//           {
+//             index: true,
+//             element: <WorkflowTable />,
+//           },
+//           {
+//             path: "editor/:id",
+//             element: <Editor />,
+//           },
+//         ],
+//       },
+//       {
+//         path: "media library",
+//         element: <MediaLibrary />,
+//       },
+//       {
+//         path: "contacts",
+//         element: <ContactTable />,
+//       },
+//       {
+//         path: "settings",
+//         element: <SettingsLayout />,
+//         children: [
+//           {
+//             index: true,
+//             element: <SettingsProfilePage />,
+//           },
+//           {
+//             path: "profile",
+//             element: <SettingsProfilePage />,
+//           },
+//           {
+//             path: "appearance",
+//             element: <SettingsAppearancePage />,
+//           },
+//           {
+//             path: "notifications",
+//             element: <SettingsNotificationsPage />,
+//           },
+//           {
+//             path: "display",
+//             element: <SettingsDisplayPage />,
+//           },
+//           {
+//             path: "integration",
+//             element: <Integration />,
+//           },
+//           {
+//             path: "custom-fields",
+//             element: <CustomFiled />,
+//           },
+//           {
+//             path: "manage-access",
+//             element: <ManageAccess />,
+//           },
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     path: "create-integration",
+//     children: [
+//       {
+//         index: true,
+//         element: <Integration />,
+//       },
+//       {
+//         path: ":integrationType",
+//         element: <IntegrationDetailScreen />,
+//       },
+//     ],
+//   },
+// ],

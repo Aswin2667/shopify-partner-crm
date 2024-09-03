@@ -1,5 +1,5 @@
 export type IntegrationItem = {
-  image: string;
-  title: string;
+  logo: string;
+  name: string;
   description: string;
 };

@@ -13,6 +13,9 @@ CREATE TYPE "OrgMemberRole" AS ENUM ('ADMIN', 'MEMBER');
 -- CreateEnum
 CREATE TYPE "AppVersion" AS ENUM ('V2', 'V3');
 
+-- CreateEnum
+CREATE TYPE "IntegrationType" AS ENUM ('GMAIL', 'SHOPIFY', 'MAIL_GUN', 'SEND_GRID');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -140,11 +143,12 @@ CREATE TABLE "Contact" (
     "secondaryPhNo" TEXT,
     "industry" TEXT,
     "type" TEXT,
-    "leadId" TEXT,
+    "leadId" TEXT NOT NULL,
     "lastContacted" BIGINT,
     "createdAt" BIGINT NOT NULL,
     "updatedAt" BIGINT NOT NULL,
     "deletedAt" BIGINT NOT NULL,
+    "organizationId" TEXT NOT NULL,
     "integrationId" TEXT NOT NULL,
 
     CONSTRAINT "Contact_pkey" PRIMARY KEY ("id")
@@ -205,11 +209,12 @@ CREATE TABLE "Integration" (
     "organizationId" TEXT NOT NULL,
     "data" JSONB NOT NULL,
     "description" TEXT,
-    "type" TEXT,
+    "type" "IntegrationType" NOT NULL,
     "createdAt" BIGINT NOT NULL,
     "updatedAt" BIGINT NOT NULL,
     "deletedAt" BIGINT NOT NULL,
     "name" TEXT NOT NULL,
+    "isSingular" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Integration_pkey" PRIMARY KEY ("id")
 );
@@ -249,6 +254,9 @@ CREATE UNIQUE INDEX "LeadProject_projectId_leadId_key" ON "LeadProject"("project
 
 -- CreateIndex
 CREATE INDEX "LeadActivity_leadId_userId_idx" ON "LeadActivity"("leadId", "userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Integration_organizationId_type_isSingular_key" ON "Integration"("organizationId", "type", "isSingular");
 
 -- AddForeignKey
 ALTER TABLE "OrgMemberInvite" ADD CONSTRAINT "OrgMemberInvite_inviterId_fkey" FOREIGN KEY ("inviterId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -290,10 +298,13 @@ ALTER TABLE "LeadProject" ADD CONSTRAINT "LeadProject_leadId_fkey" FOREIGN KEY (
 ALTER TABLE "LeadProject" ADD CONSTRAINT "LeadProject_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Contact" ADD CONSTRAINT "Contact_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Contact" ADD CONSTRAINT "Contact_integrationId_fkey" FOREIGN KEY ("integrationId") REFERENCES "Integration"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Contact" ADD CONSTRAINT "Contact_leadId_fkey" FOREIGN KEY ("leadId") REFERENCES "Lead"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Contact" ADD CONSTRAINT "Contact_leadId_fkey" FOREIGN KEY ("leadId") REFERENCES "Lead"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Attachment" ADD CONSTRAINT "Attachment_leadId_fkey" FOREIGN KEY ("leadId") REFERENCES "Lead"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -9,7 +9,7 @@ const Notes = () => {
   const [value, setValue] = useState("");
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(false);
-  const leadId = window.location.pathname.split("/")[4];
+  const leadId = window.location.pathname.split("/")[3];
 
   const fetchNotes = async () => {
     try {

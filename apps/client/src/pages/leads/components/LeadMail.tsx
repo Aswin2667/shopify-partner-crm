@@ -7,6 +7,7 @@ const LeadMail = (props: Props) => {
   return (
     <div>
       <Compose />
+      hi
     </div>
   );
 };

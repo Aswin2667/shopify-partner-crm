@@ -117,9 +117,9 @@ const Compose = (props: Props): JSX.Element => {
       bcc: mail.bcc.value,
       subject: mail.subject,
       body: mail.body,
-      refreshToken: gmail.data.refreshToken,
-      accessToken: gmail.data.accessToken,
-      gmailIntegrationId: gmail.id,
+      refreshToken: gmail?.data.refreshToken,
+      accessToken: gmail?.data.accessToken,
+      gmailIntegrationId: gmail?.id,
     };
 
     console.log(mailContext);
@@ -182,10 +182,12 @@ const Compose = (props: Props): JSX.Element => {
       <div className="px-3 py-2 border-y flex items-center gap-4">
         <h6 className="text-gray-500">From</h6>
         <div className="flex items-center gap-2">
-          <InitialsAvatar
-            name={gmail?.data.name}
-            className="w-5 h-5 bg-black text-white flex items-center justify-center rounded-full text-xs"
-          />
+          {gmail?.data.name && (
+            <InitialsAvatar
+              name={gmail?.data.name}
+              className="w-5 h-5 bg-black text-white flex items-center justify-center rounded-full text-xs"
+            />
+          )}
           <h6 className="capitalize text-base">{gmail?.data.name}</h6>
           <h6 className="text-gray-500 text-[13px]">{gmail?.data.email}</h6>
         </div>

@@ -5,13 +5,13 @@ import { Home, PackagePlus, Users, Settings } from "lucide-react";
 
 export const integrations: IntegrationItem[] = [
   {
-    image: gmail,
-    title: "Gmail",
+    logo: gmail,
+    name: "Gmail",
     description: "Email integration with Gmail",
   },
   {
-    image: shopify,
-    title: "Shopify",
+    logo: shopify,
+    name: "Shopify",
     description: "Shopify integration",
   },
 ];

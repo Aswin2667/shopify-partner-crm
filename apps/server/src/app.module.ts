@@ -37,6 +37,8 @@ import { LeadNotesController } from './notes/notes.controller';
 import { LeadNotesService } from './notes/notes.service';
 import { ContactController } from './contacts/contact.controller';
 import { ContactService } from './contacts/contact.service';
+import { IntegrationModule } from './integration/integration.module';
+import { Service } from './.service';
 
 @Module({
   imports: [
@@ -66,6 +68,7 @@ import { ContactService } from './contacts/contact.service';
     MailModule,
     ProjectModule,
     AuthModule,
+    IntegrationModule,
   ],
   controllers: [
     UserController,
@@ -75,7 +78,7 @@ import { ContactService } from './contacts/contact.service';
     OrgMemberController,
     TemplateController,
     S3Controller,
-    IntegrationsController,
+    // IntegrationsController,
     LeadController,
     LeadActivityController,
     LeadNotesController,
@@ -89,13 +92,14 @@ import { ContactService } from './contacts/contact.service';
     OrgMemberService,
     TemplateService,
     S3Service,
-    IntegrationsService,
+    // IntegrationsService,
     LeadService,
     PrismaService,
     LeadActivityService,
     LeadActivityService,
     LeadNotesService,
-    ContactService
+    ContactService,
+    Service
   ],
 })
 export class AppModule {

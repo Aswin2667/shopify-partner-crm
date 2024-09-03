@@ -1,0 +1,304 @@
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  // url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:postgres@localhost:5432/shopify_crm?schema=public"
+}
+
+model User {
+  id                   String               @id @default(uuid())
+  email                String               @unique
+  authenticationMethod AuthenticationMethod
+  name                 String?
+  avatarUrl            String?
+  createdAt            BigInt
+  updatedAt            BigInt
+  deletedAt            BigInt
+  LeadActivity         LeadActivity[]
+  orgMembers           OrgMember[]
+  orgMemberInvites     OrgMemberInvite[]
+  templates            Template[]
+  LeadNotes            LeadNotes[]
+}
+
+model OrgMemberInvite {
+  id             String        @id @default(uuid())
+  token          String        @unique
+  email          String
+  role           OrgMemberRole @default(MEMBER)
+  organizationId String
+  inviterId      String
+  createdAt      BigInt
+  updatedAt      BigInt
+  deletedAt      BigInt
+  inviter        User          @relation(fields: [inviterId], references: [id])
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+
+  @@unique([organizationId, email])
+}
+
+model Organization {
+  id           String            @id @default(uuid())
+  name         String
+  logo         String?
+  description  String?
+  createdAt    BigInt            @default(autoincrement())
+  updatedAt    BigInt            @default(autoincrement())
+  deletedAt    BigInt
+  Project      Project[]
+  members      OrgMember[]
+  invites      OrgMemberInvite[]
+  integrations Integration[]
+  Lead         Lead[]
+  contact      Contact[]
+}
+
+model OrgMember {
+  id             String        @id @default(uuid())
+  organizationId String
+  userId         String
+  role           OrgMemberRole @default(MEMBER)
+  createdAt      BigInt
+  updatedAt      BigInt
+  deletedAt      BigInt
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+  user           User          @relation(fields: [userId], references: [id])
+
+  @@unique([organizationId, userId])
+}
+
+model Project {
+  id             String        @id @default(uuid())
+  name           String
+  type           String
+  data           Json
+  isSynced       Boolean       @default(false)
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+  organizationId String
+  createdAt      BigInt        @default(autoincrement())
+  updatedAt      BigInt        @default(autoincrement())
+  deletedAt      BigInt?
+  leadProject    LeadProject[]
+  integrationId  String?
+  integration    Integration?  @relation(fields: [integrationId], references: [id])
+}
+
+model LeadNotes {
+  id           String         @id @default(uuid())
+  leadId       String
+  data         String
+  createdAt    BigInt
+  updatedAt    BigInt
+  deletedAt    BigInt
+  lead         Lead           @relation(fields: [leadId], references: [id])
+  user         User           @relation(fields: [userId], references: [id])
+  LeadActivity LeadActivity[]
+  userId       String
+}
+
+model Lead {
+  id             String         @id @default(uuid())
+  shopifyDomain  String         @unique
+  shopifyStoreId String         @unique
+  status         leadStatus     @default(POTENTIAL)
+  Project        LeadProject[]
+  leadSource     String?
+  shopDetails    Json?
+  industry       String?
+  createdAt      BigInt         @default(autoincrement())
+  updatedAt      BigInt         @default(autoincrement())
+  deletedAt      BigInt
+  leadActivities LeadActivity[]
+  leadNotes      LeadNotes[]
+  contacts       Contact[]
+  attachments    Attachment[]
+  integrationId  String
+  organizationId String
+  organization   Organization   @relation(fields: [organizationId], references: [id])
+  integration    Integration    @relation(fields: [integrationId], references: [id])
+}
+
+enum leadStatus {
+  POTENTIAL
+  CUSTOMER
+  INTERESTED
+  NOT_INTERESTED
+  BAD_FIT
+  QUALIFIED
+  CANCELED
+}
+
+model LeadProject {
+  id            String      @id @default(uuid())
+  leadId        String
+  projectId     String
+  integrationId String
+  integration   Integration @relation(fields: [integrationId], references: [id])
+  lead          Lead        @relation(fields: [leadId], references: [id])
+  project       Project     @relation(fields: [projectId], references: [id])
+  createdAt     BigInt      @default(autoincrement())
+  updatedAt     BigInt      @default(autoincrement())
+  deletedAt     BigInt
+  status        String?
+
+  @@unique([projectId, leadId])
+}
+
+model Contact {
+  id             String       @id @default(uuid())
+  firstName      String?
+  lastName       String?
+  primaryEmail   String?
+  secondaryEmail String?
+  primaryPhNo    String?
+  secondaryPhNo  String?
+  industry       String?
+  type           String?
+  leadId         String
+  lastContacted  BigInt?
+  createdAt      BigInt
+  updatedAt      BigInt
+  deletedAt      BigInt
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  integrationId  String
+  integration    Integration  @relation(fields: [integrationId], references: [id])
+  lead           Lead         @relation(fields: [leadId], references: [id])
+}
+
+model Attachment {
+  id             String @id @default(uuid())
+  attachmentUrl  String
+  attachmentType String
+  eTag           String
+  attachmentName String
+  leadId         String
+  createdAt      BigInt
+  updatedAt      BigInt
+  deletedAt      BigInt
+  lead           Lead   @relation(fields: [leadId], references: [id])
+}
+
+model LeadActivity {
+  id        String           @id @default(uuid())
+  leadId    String
+  data      Json
+  updatedAt BigInt
+  createdAt BigInt
+  deletedAt BigInt
+  userId    String?
+  noteId    String?
+  type      LeadActivityType
+  lead      Lead             @relation(fields: [leadId], references: [id])
+  user      User?            @relation(fields: [userId], references: [id])
+  note      LeadNotes?       @relation(fields: [noteId], references: [id])
+
+  @@index([leadId, userId])
+}
+
+model Email {
+  id            String   @id @default(uuid())
+  to            String[]
+  cc            String[] @default([])
+  bcc           String[] @default([])
+  subject       String?
+  body          String
+  messageId     String
+  threadId      String
+  historyId     String?
+  labelIds      String[]
+  sentAt        BigInt
+  deletedAt     BigInt
+  integrationId String
+}
+
+model Integration {
+  id             String          @id @default(uuid())
+  organizationId String
+  data           Json
+  description    String?
+  type           IntegrationType
+  createdAt      BigInt
+  updatedAt      BigInt
+  deletedAt      BigInt
+  name           String
+  isSingular     Boolean         @default(false) // Add the isSingular field
+
+  Project      Project[]
+  organization Organization  @relation(fields: [organizationId], references: [id])
+  Lead         Lead[]
+  Contact      Contact[]
+  LeadProject  LeadProject[]
+
+  // @@unique([organizationId, type, isSingular], name: "UniqueIntegrationPerOrgAndType")
+}
+
+model Template {
+  id        String @id @default(uuid())
+  html      String
+  createdAt BigInt
+  updatedAt BigInt
+  deletedAt BigInt
+  userId    String
+  user      User   @relation(fields: [userId], references: [id])
+}
+
+enum LeadActivityType {
+  LEAD_CREATED
+  LEAD_UPDATED
+  NOTE_CREATED
+  NOTE_UPDATED
+  NOTE_DELETED
+  EMAIL
+  CALL
+  TASK
+  MEETING
+  STATUS_CHANGE
+  RELATIONSHIP_INSTALLED
+  RELATIONSHIP_UNINSTALLED
+  CREDIT_APPLIED
+  CREDIT_FAILED
+  CREDIT_PENDING
+  ONE_TIME_CHARGE_ACCEPTED
+  ONE_TIME_CHARGE_ACTIVATED
+  ONE_TIME_CHARGE_DECLINED
+  ONE_TIME_CHARGE_EXPIRED
+  RELATIONSHIP_REACTIVATED
+  RELATIONSHIP_DEACTIVATED
+  SUBSCRIPTION_APPROACHING_CAPPED_AMOUNT
+  SUBSCRIPTION_CAPPED_AMOUNT_UPDATED
+  SUBSCRIPTION_CHARGE_ACCEPTED
+  SUBSCRIPTION_CHARGE_ACTIVATED
+  SUBSCRIPTION_CHARGE_CANCELED
+  SUBSCRIPTION_CHARGE_DECLINED
+  SUBSCRIPTION_CHARGE_EXPIRED
+  SUBSCRIPTION_CHARGE_FROZEN
+  SUBSCRIPTION_CHARGE_UNFROZEN
+}
+
+enum AuthenticationMethod {
+  GOOGLE
+  MAGIC_LINK
+}
+
+enum OrgMemberRole {
+  ADMIN
+  MEMBER
+}
+
+enum AppVersion {
+  V2
+  V3
+}
+
+enum IntegrationType {
+  GMAIL
+  SHOPIFY
+  MAIL_GUN
+  SEND_GRID
+}

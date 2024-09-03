@@ -20,6 +20,7 @@ export class AuthService {
     code: string,
     organizationId: string,
   ): Promise<{ accessToken: string; refreshToken: string | null }> {
+    console.log(code);
     try {
       const integrationExists = await this.prisma.integration.findFirst({
         where: {
@@ -44,8 +45,9 @@ export class AuthService {
           },
         },
       );
+      console.log(tokenResponse.data);
       const { access_token, refresh_token, id_token } = tokenResponse.data;
-      
+
       // Decode ID token to get user info
       const userInfoResponse = await axios.get(
         `https://www.googleapis.com/oauth2/v2/userinfo`,

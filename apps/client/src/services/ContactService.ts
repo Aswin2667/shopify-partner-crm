@@ -3,6 +3,7 @@ import axiosInstance from "@/utils/_axios";
 class ContactService {
     static BASE_PATH: string = '/contacts';
 
+    // TODO: Remove currentIntegration Method
     public static async getByIntegrationId(id: any) {
         try {
             const response = await axiosInstance.get(this.BASE_PATH+'/get/'+id);

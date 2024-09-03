@@ -1,0 +1,7 @@
+.git
+.env
+prisma/migrations
+node_modules
+package-lock.json
+.turbo
+

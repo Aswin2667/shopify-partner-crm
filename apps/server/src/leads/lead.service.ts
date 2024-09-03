@@ -18,17 +18,25 @@ export class LeadService {
     private readonly LeadActivityService: LeadActivityService,
   ) {}
   async findAllByIntegrationId(appId: string) {
-   try {
+    try {
       return await this.prismaService.lead.findMany({
         where: {
-          integrationId: appId,
-        },orderBy:{
-        createdAt: 'desc'
-         }
-      }) 
-   } catch (error) {
-    
-   }
+          // integrationId: appId,
+          organizationId: appId,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        include: {
+          integration: {
+            select: {
+              name: true,
+              type: true,
+            },
+          },
+        },
+      });
+    } catch (error) {}
   }
 
   async findOne(leadId: string) {
@@ -37,14 +45,22 @@ export class LeadService {
         where: {
           id: leadId,
         },
+        include: {
+          integration: {
+            select: {
+              name: true,
+              type: true,
+            },
+          },
+        },
       });
       if (!lead) {
         return null;
       }
-      return lead
+      return lead;
     } catch (error) {
-       console.error('Error finding lead:', error);
-  
+      console.error('Error finding lead:', error);
+
       return {
         status: false,
         message: 'An error occurred while retrieving the lead',
@@ -52,17 +68,16 @@ export class LeadService {
       };
     }
   }
-  
 
   async create(createLeadDto: CreateLeadDto) {
     try {
-      console.log("----------------------------------"+createLeadDto)
+      console.log('----------------------------------' + createLeadDto);
       const lead = await this.prismaService.lead.create({
         data: {
           shopifyDomain: createLeadDto.myShopifyDomain,
           shopifyStoreId: randomUUID(),
           createdAt: DateHelper.getCurrentUnixTime(),
-          leadSource:"Manually added",
+          leadSource: 'Manually added',
           status: createLeadDto.status,
           updatedAt: 0,
           deletedAt: 0,
@@ -79,7 +94,7 @@ export class LeadService {
       //     updatedAt:0,
       //     deletedAt:0,
       // }})
-      console.log(createLeadDto)
+      console.log(createLeadDto);
       const activity = {
         type: 'LEAD_CREATED',
         data: { message: 'User manually created by' },

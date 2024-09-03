@@ -43,7 +43,7 @@ import {
 } from "@/components/ui/select";
 import Editor from "./components/EmailEditor";
 import Compose from "../mail/components/Compose";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import Tabs from "./components/Tabs";
 import { toast } from "sonner";
 import ExpandableContactCard from "./components/ExpandableContactCard";
@@ -55,17 +55,16 @@ import DateHelper from "@/utils/DateHelper";
 
 export default function LeadDashboard() {
   const [lead, setLead] = useState<any>({});
-  const leadId = window.location.pathname.split("/")[4];
+  const { leadId } = useParams();
   useEffect(() => {
     const fetchData = async () => {
-      const response = await LeadService.getLeadById(leadId);
+      const response = await LeadService.getLeadById(leadId as string);
       setLead(response.data.data);
       console.log(response.data.data);
     };
 
     fetchData();
-  });
-  console.log(leadId);
+  }, [leadId]);
   return (
     <div className="flex flex-col min-h-full sm:gap-4 sm:py-4 sm:pl-4 overflow-scroll">
       <main className="flex flex-1 items-start gap-4 p-4 sm:px-6 h-screen overflow-scroll sm:py-0 md:gap-8">
@@ -174,7 +173,7 @@ export default function LeadDashboard() {
             </CardFooter>
           </Card>
           <Separator className="my-4" />
-          <ExpandableContactCard />
+          <ExpandableContactCard integrationId={lead.integrationId} />
         </div>
         <Separator orientation="vertical" />
         <div className="w-3/4">

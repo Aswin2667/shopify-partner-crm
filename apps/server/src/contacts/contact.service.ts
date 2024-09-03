@@ -5,53 +5,54 @@ import { DateHelper } from '@org/utils';
 
 @Injectable()
 export class ContactService {
- 
   constructor(private readonly prisma: PrismaService) {}
 
-async findAllByIntegrationId(id: string) {
-  try {
-    const data = await this.prisma.contact.findMany({
-      where: {
-        integrationId: id,
-      },
-      include:{
-        lead: true
-      }
-    });
+  async findAllByOrganizationId(id: string) {
+    try {
+      const data = await this.prisma.contact.findMany({
+        where: {
+          organizationId: id,
+        },
+        include: {
+          lead: true,
+        },
+      });
 
-    if (data.length === 0) {
+      if (data.length === 0) {
+        return {
+          status: false,
+          message: 'No contacts found for the given organization ID',
+          data: [],
+        };
+      }
+
+      return {
+        status: true,
+        message: 'Contacts retrieved successfully',
+        data,
+      };
+    } catch (error) {
+      // Log the error for debugging purposes
+      console.error('Error retrieving contacts by organization ID:', error);
+
       return {
         status: false,
-        message: 'No contacts found for the given integration ID',
-        data: [],
+        message: 'An error occurred while retrieving contacts',
+        data: null,
       };
     }
-
-    return {
-      status: true,
-      message: 'Contacts retrieved successfully',
-      data,
-    };
-  } catch (error) {
-    // Log the error for debugging purposes
-    console.error('Error retrieving contacts by integration ID:', error);
-
-    return {
-      status: false,
-      message: 'An error occurred while retrieving contacts',
-      data: null,
-    };
   }
-}
 
   async create(data: CreateContactDto) {
     try {
+      console.log(data);
       const contact = await this.prisma.contact.create({
         data: {
           primaryEmail: data.email,
           updatedAt: 0,
           deletedAt: 0,
-           integrationId: data.integrationId,
+          integrationId: data.integrationId,
+          organizationId: data.organizationId,
           createdAt: DateHelper.getCurrentUnixTime(),
           leadId: data.leadId,
         },

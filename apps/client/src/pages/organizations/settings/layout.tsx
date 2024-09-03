@@ -25,16 +25,16 @@ const sidebarNavItems = [
     href: "display",
   },
   {
-    title: "Integratins",
+    title: "Integrations",
     href: "integration",
   },
   {
     title: "Custom Fields",
-    href: "custom-fields"
+    href: "custom-fields",
   },
   {
     title: "Manage Access",
-    href: "manage-access"
+    href: "manage-access",
   },
 ];
 

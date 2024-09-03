@@ -30,13 +30,20 @@ import ThemeToggle from "./ThemeToggle";
 import { Outlet } from "react-router-dom";
 import { UserNav } from "./ui/userNav";
 import Loader from "./Loader";
+import { useQueryEvents } from "@/hooks/useQueryEvents";
+import { useQuery } from "@tanstack/react-query";
+import IntegrationService from "@/services/IntegrationService";
+import { useDispatch } from "react-redux";
+import { integrationAction } from "@/redux/integrationSlice";
 
+const defaultLayout = [17, 32];
 export default function RootLayout() {
-  const defaultLayout = [17, 32];
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { organizationId } = useParams();
   const [isCollapsed, setIsCollapsed] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
   const navCollapsedSize = undefined;
-  const navigate = useNavigate();
 
   const organizations = [
     {
@@ -77,6 +84,19 @@ export default function RootLayout() {
     },
   ];
 
+  useQueryEvents(
+    useQuery({
+      queryKey: ["getAllIntegrations", organizationId],
+      queryFn: async () =>
+        await IntegrationService.getAllIntegrationsByOrgId(organizationId as string),
+    }),
+    {
+      onSuccess: (response: any) =>
+        dispatch(integrationAction.setIntegrations(response)),
+      onError: (error: any) => console.log(error),
+    }
+  );
+
   React.useEffect(() => {
     const sessionData = sessionStorage.getItem("session");
     if (!sessionData) {
@@ -95,7 +115,7 @@ export default function RootLayout() {
       direction="horizontal"
       onLayout={(sizes: number[]) => {
         document.cookie = `react-resizable-panels:layout:mail=${JSON.stringify(
-          sizes,
+          sizes
         )}`;
       }}
       className="min-h-screen items-stretch"
@@ -109,25 +129,25 @@ export default function RootLayout() {
         onCollapse={() => {
           setIsCollapsed(true);
           document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-            true,
+            true
           )}`;
         }}
         onResize={() => {
           setIsCollapsed(false);
           document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-            false,
+            false
           )}`;
         }}
         className={cn(
           isCollapsed
             ? "min-w-[50px] transition-all duration-300 ease-in-out "
-            : "h-screen sticky top-0",
+            : "h-screen sticky top-0"
         )}
       >
         <div
           className={cn(
             "flex h-[52px] items-center justify-center",
-            isCollapsed ? "h-[52px]" : "px-2",
+            isCollapsed ? "h-[52px]" : "px-2"
           )}
         >
           <OrgSwitcher
@@ -191,12 +211,12 @@ export default function RootLayout() {
             <Navbar
               isCollapsed={isCollapsed}
               links={[
-                {
-                  title: "Integration",
-                  label: "8",
-                  icon: ShoppingCart,
-                  variant: "ghost",
-                },
+                // {
+                //   title: "Integration",
+                //   label: "8",
+                //   icon: ShoppingCart,
+                //   variant: "ghost",
+                // },
                 {
                   title: "Settings",
                   label: "21",
