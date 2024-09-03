@@ -12,8 +12,6 @@ export class ProjectService {
         name: createProjectDto.name,
         type: createProjectDto.type,
         data: createProjectDto.data,
-        creAppId: "crmappid",
-        appApiKey: "crmappapikey",
         integrationId: createProjectDto.integrationId,
         organizationId: createProjectDto.organizationId,
         createdAt: DateHelper.getCurrentUnixTime(),

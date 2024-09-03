@@ -2,18 +2,19 @@ import { Process, Processor } from '@nestjs/bull';
 import { PrismaService } from 'src/prisma.service';
 import { Job } from 'bullmq';
 import { DateHelper } from '@org/utils';
+import { AppInstallsUninstallsEventsDto } from './dto/event.dto';
 
 @Processor('install_uninstall_events')
 export class AppInstallsUninstallsEventsProcessor {
   constructor(private readonly prisma: PrismaService) {}
 
   @Process('APP_INSTALLED_UNINSTALLED')
-  async handleAppInstalledUninstalled(job: Job) {
+  async handleAppInstalledUninstalled(job: Job<AppInstallsUninstallsEventsDto>) {
     await this.processEvents(job);
   }
 
   @Process('APP_INSTALLED_UNINSTALLED_AFTER')
-  async handleAppInstalledUninstalledAfter(job: Job) {
+  async handleAppInstalledUninstalledAfter(job: Job<AppInstallsUninstallsEventsDto>) {
     await this.processEvents(job);
   }
 
@@ -94,8 +95,8 @@ export class AppInstallsUninstallsEventsProcessor {
                 data: {
                   message:
                     type === 'RELATIONSHIP_INSTALLED'
-                      ? `${name} Installed by our store:   ${shop.myshopifyDomain}`
-                      : `${name} Uninstalled by our store:   ${shop.myshopifyDomain}`,
+                      ? `${name} Installed by store:   ${shop.myshopifyDomain}`
+                      : `${name} Uninstalled by store:   ${shop.myshopifyDomain}`,
                   payload: event,
                 },
                 createdAt: DateHelper.convertIsoToTimestamp(occurredAt),
@@ -134,8 +135,8 @@ export class AppInstallsUninstallsEventsProcessor {
                 data: {
                   message:
                     type === 'RELATIONSHIP_UNINSTALLED'
-                      ? `${name} Uninstalled by our store:   ${shop.myshopifyDomain}`
-                      : `${name} Installed by our store:   ${shop.myshopifyDomain}`,
+                      ? `${name} Uninstalled by store:   ${shop.myshopifyDomain}`
+                      : `${name} Installed by store:   ${shop.myshopifyDomain}`,
                   payload: event,
                 },
                 createdAt: DateHelper.convertIsoToTimestamp(occurredAt),

@@ -74,8 +74,6 @@ model Project {
   name           String
   type           String
   data           Json
-  creAppId       String
-  appApiKey      String
   isSynced       Boolean       @default(false)
   organization   Organization  @relation(fields: [organizationId], references: [id])
   organizationId String
