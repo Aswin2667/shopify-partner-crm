@@ -8,8 +8,8 @@ import { cn } from "../lib/utils";
 import { NavLink } from "react-router-dom";
 
 const Navbar = ({ links, isCollapsed }: any) => {
-  const url = window.location.pathname.split('/')[3];
-  console.log(url)
+  const url = window.location.pathname.split("/")[3];
+  console.log(url);
   return (
     <div
       data-collapsed={isCollapsed}
@@ -25,10 +25,13 @@ const Navbar = ({ links, isCollapsed }: any) => {
                   className={({ isActive }) =>
                     cn(
                       buttonVariants({
-                        variant: isActive || url==="" && link.title === "Dashboard" ? "default" : "ghost",
+                        variant:
+                          isActive || (url === "" && link.title === "Dashboard")
+                            ? "default"
+                            : "ghost",
                         size: "sm",
                       }),
-                      "justify-start",
+                      "justify-start"
                     )
                   }
                 >
@@ -47,14 +50,18 @@ const Navbar = ({ links, isCollapsed }: any) => {
             </Tooltip>
           ) : (
             <NavLink
-              to={link.title.toLowerCase()+"/"}
+              to={link.title.toLowerCase() + "/"}
               className={({ isActive }) =>
                 cn(
                   buttonVariants({
-                    variant: isActive || url==="" && link.title === "Dashboard" ? "default" : "ghost",
+                    variant:
+                      isActive || url === link.title.toLowerCase()
+                        ? // isActive || (url === "" && link.title === "Dashboard")
+                          "default"
+                        : "ghost",
                     size: "sm",
                   }),
-                  "justify-start",
+                  "justify-start"
                 )
               }
             >
@@ -65,14 +72,14 @@ const Navbar = ({ links, isCollapsed }: any) => {
                   className={cn(
                     "ml-auto",
                     link.variant === "default" &&
-                      "text-background dark:text-white",
+                      "text-background dark:text-white"
                   )}
                 >
                   {link.label}
                 </span>
               )}
             </NavLink>
-          ),
+          )
         )}
       </div>
     </div>

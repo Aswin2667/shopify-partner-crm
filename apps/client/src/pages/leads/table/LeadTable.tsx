@@ -1,32 +1,35 @@
 import * as React from "react";
-import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import LeadService from "@/services/LeadService";
 import { toast } from "@/components/ui/use-toast";
 import DateHelper from "@/utils/DateHelper";
-import { useNavigate } from "react-router-dom";
-import imge from '../../../assets/shopify-logo.svg'
+import { useNavigate, useParams } from "react-router-dom";
+import imge from "../../../assets/shopify-logo.svg";
 import TablePagination from "./components/data-table-pagination";
 import { DataTableToolbar } from "./components/data-table-toolbar";
 import LeadBadge from "../components/LeadBadge";
 export default function LeadTable() {
+  const { organizationId } = useParams();
   const [leads, setLeads] = React.useState([]);
-  const { currentIntegration } = useSelector((state: any) => state.integration);
 
   console.log(leads);
 
   const navigate = useNavigate();
   useEffect(() => {
     const fetchLeads = async () => {
-      if (currentIntegration?.id) {
+      if (organizationId) {
         try {
-          const response: any = await LeadService.getByIntegrationId(currentIntegration.id);
+          const response: any = await LeadService.getByIntegrationId(
+            organizationId as string
+          );
           if (response.status) {
             setLeads(response.data.data);
           } else {
             toast({
               title: response.message,
-              description: DateHelper.formatTimestamp(DateHelper.getCurrentUnixTime()),
+              description: DateHelper.formatTimestamp(
+                DateHelper.getCurrentUnixTime()
+              ),
               duration: 1000,
               variant: `${response.status ? "default" : "destructive"}`,
             });
@@ -39,11 +42,11 @@ export default function LeadTable() {
     };
 
     fetchLeads();
-  }, [currentIntegration]);
+  }, [organizationId]);
 
   return (
     <div className="p-5">
-       <div className="relative overflow-scroll h-screen bg-white  dark:bg-black sm:rounded-lg">
+    <div className="relative overflow-scroll h-screen bg-white  dark:bg-black sm:rounded-lg">
      <DataTableToolbar leads={leads}/>
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-200">
@@ -132,14 +135,7 @@ export default function LeadTable() {
             })}
           </tbody>
         </table>
-      </div>
-      <nav
-        className="flex flex-col w-full items-start justify-center p-4 space-y-3 md:flex-row md:items-center md:space-y-0"
-        aria-label="Table navigation"
-      >
-        <TablePagination />
-      </nav>
-    </div>
+       </div>
     </div>
   );
 }

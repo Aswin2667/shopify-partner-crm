@@ -20,6 +20,7 @@ export class AuthService {
     code: string,
     organizationId: string,
   ): Promise<{ accessToken: string; refreshToken: string | null }> {
+    console.log(code);
     try {
       const integrationExists = await this.prisma.integration.findFirst({
         where: {

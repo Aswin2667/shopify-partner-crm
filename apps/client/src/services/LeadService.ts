@@ -22,6 +22,7 @@ class LeadService {
     }
   }
 
+  // TODO: Remove currentIntegration Method
   public static async getByIntegrationId(integrationId:string) {
 
     try {

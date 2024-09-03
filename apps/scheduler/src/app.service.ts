@@ -14,14 +14,15 @@ export class AppService {
     private readonly prismaService: PrismaService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private readonly eventEmitter: EventEmitter2,
-    @InjectQueue('install_uninstall_events') private readonly appEventsQueue: Queue,
+    @InjectQueue('install_uninstall_events')
+    private readonly appEventsQueue: Queue,
   ) {}
 
   // Cron job that runs every 10 seconds
   @Cron('*/5 * * * * *')
   async handleCron() {
     console.log('Running cron job every 10 seconds...');
-    
+
     const apps: [] = await this.prismaService.$queryRaw`
       SELECT 
         i."id" AS "integrationId",
@@ -38,14 +39,16 @@ export class AppService {
       WHERE 
         p."isSynced" = false`;
 
-    await Promise.all(apps.map(async (app) => {
-      console.log("Promise.all")
-      const events = await this.fetchAndStoreData(app);
-      if (events && events.length) {
-        const payload = { app, events };
-        await this.appEventsQueue.add('APP_INSTALLED_UNINSTALLED', payload);
-      }
-    }));
+    await Promise.all(
+      apps.map(async (app) => {
+        console.log('Promise.all');
+        const events = await this.fetchAndStoreData(app);
+        if (events && events.length) {
+          const payload = { app, events };
+          await this.appEventsQueue.add('APP_INSTALLED_UNINSTALLED', payload);
+        }
+      }),
+    );
   }
 
   async fetchAndStoreData(app) {
@@ -55,15 +58,17 @@ export class AppService {
     const lastShopifyDomainKey = `shopifyDomain_${appId}`;
 
     // Retrieve the last occurredAt and shopifyDomain values from Redis
-    const lastOccurredAt = await this.cacheManager.get<string>(lastOccurredAtKey);
-    const lastShopifyDomain = await this.cacheManager.get<string>(lastShopifyDomainKey);
+    const lastOccurredAt =
+      await this.cacheManager.get<string>(lastOccurredAtKey);
+    const lastShopifyDomain =
+      await this.cacheManager.get<string>(lastShopifyDomainKey);
 
     // Query from another separate file
     const query = APP_INSTALLS_UNINSTALLS_QUERY(appId, lastOccurredAt);
 
     try {
       const response = await axios.post(
-        `https://partners.shopify.com/${partnerId}/api/2024-10/graphql.json`,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+        `https://partners.shopify.com/${partnerId}/api/2024-10/graphql.json`,
         { query },
         {
           headers: {
@@ -80,20 +85,27 @@ export class AppService {
         let oldestOccurredAt = lastOccurredAt;
         let oldestShopifyDomain = lastShopifyDomain;
 
-        const eventResponses = events.map(edge => edge.node);
+        const eventResponses = events.map((edge) => edge.node);
         const filteredEvents = [];
 
         for (const event of eventResponses) {
           const occurredAt = event.occurredAt;
           const shopifyDomain = event.shop.myshopifyDomain;
 
-          if (oldestOccurredAt && oldestShopifyDomain &&
+          if (
+            oldestOccurredAt &&
+            oldestShopifyDomain &&
             (new Date(occurredAt) < new Date(oldestOccurredAt) ||
-              (occurredAt === oldestOccurredAt && shopifyDomain !== oldestShopifyDomain))) {
+              (occurredAt === oldestOccurredAt &&
+                shopifyDomain !== oldestShopifyDomain))
+          ) {
             filteredEvents.push(event);
           }
 
-          if (!oldestOccurredAt || new Date(occurredAt) < new Date(oldestOccurredAt)) {
+          if (
+            !oldestOccurredAt ||
+            new Date(occurredAt) < new Date(oldestOccurredAt)
+          ) {
             oldestOccurredAt = occurredAt;
             oldestShopifyDomain = shopifyDomain;
           }
@@ -107,7 +119,9 @@ export class AppService {
 
         // If the oldest occurredAt is the same as the lastOccurredAt, mark the app as synced
         if (lastOccurredAt === oldestOccurredAt) {
-          console.log('No new events found since the last check. Marking app as synced.');
+          console.log(
+            'No new events found since the last check. Marking app as synced.',
+          );
           await this.updateProjectSyncStatus(appId, true);
         }
 

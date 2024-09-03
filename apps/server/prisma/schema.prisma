@@ -43,7 +43,7 @@ model OrgMemberInvite {
 model Organization {
   id           String            @id @default(uuid())
   name         String
-  logo         String?
+  logo         String? 
   description  String?
   createdAt    BigInt            @default(autoincrement())
   updatedAt    BigInt            @default(autoincrement())
@@ -53,6 +53,7 @@ model Organization {
   invites      OrgMemberInvite[]
   integrations Integration[]
   Lead         Lead[]
+  contact      Contact[]
   Template     Template[]
   LeadStatus   LeadStatus[]
 }
@@ -101,7 +102,7 @@ model LeadNotes {
 }
 
 model Lead {
-  id             String         @id @default(uuid())
+  id             String         @id @default(uuid()) 
   shopifyDomain  String         @unique
   shopifyStoreId String         @unique
   statusId       String?
@@ -149,14 +150,16 @@ model Contact {
   secondaryPhNo  String?
   industry       String?
   type           String?
-  leadId         String?
+  leadId         String
   lastContacted  BigInt?
   createdAt      BigInt
   updatedAt      BigInt
   deletedAt      BigInt
+  organizationId String
+  organization   Organization   @relation(fields: [organizationId], references: [id])
   integrationId  String
   integration    Integration @relation(fields: [integrationId], references: [id])
-  lead           Lead?       @relation(fields: [leadId], references: [id])
+  lead           Lead       @relation(fields: [leadId], references: [id])
 }
 
 model Attachment {
@@ -210,16 +213,20 @@ model Integration {
   organizationId String
   data           Json
   description    String?
-  type           String?
+  type           IntegrationType
   createdAt      BigInt
   updatedAt      BigInt
   deletedAt      BigInt
-  Project        Project[]
   name           String
+  isSingular     Boolean       @default(false) // Add the isSingular field
+  
+  Project        Project[]
   organization   Organization  @relation(fields: [organizationId], references: [id])
   Lead           Lead[]
   Contact        Contact[]
   LeadProject    LeadProject[]
+
+  // @@unique([organizationId, type, isSingular], name: "UniqueIntegrationPerOrgAndType")
 }
 
 model Template {
@@ -293,4 +300,11 @@ enum OrgMemberRole {
 enum AppVersion {
   V2
   V3
+}
+
+enum IntegrationType {
+  GMAIL
+  SHOPIFY
+  MAIL_GUN
+  SEND_GRID
 }

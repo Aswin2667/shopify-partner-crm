@@ -13,7 +13,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import IntegrationService from "@/services/IntegrationService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const organizationSchema = z.object({
@@ -26,10 +26,8 @@ const organizationSchema = z.object({
 const CreateShopifyModal: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { organizationId } = useParams();
 
-  const { currentOrganization } = useSelector(
-    (state: any) => state.organization,
-  );
   const {
     register,
     handleSubmit,
@@ -42,13 +40,12 @@ const CreateShopifyModal: React.FC = () => {
   const { mutate: createIntergration } = useMutation({
     mutationFn: async (data: any): Promise<any> =>
       await IntegrationService.create(data),
-    // TODO: optimize by updating redux with respose data instead of making new request
-    onSuccess: (response) => {
+    onSuccess: () => {
       reset();
       queryClient.invalidateQueries({
-        queryKey: ["getAllIntegrations", currentOrganization.id],
+        queryKey: ["getAllIntegrations", organizationId],
       });
-      navigate(`/${currentOrganization?.id}/dashboard`);
+      navigate(`/${organizationId}/dashboard`);
     },
     onError: (error: any) => {
       console.error("Login failed:", error?.response.data);
@@ -66,6 +63,24 @@ const CreateShopifyModal: React.FC = () => {
 
       <form
         onSubmit={handleSubmit((data: any) =>
+          // {
+          //   "type": "GMAILL",
+          //   "config": {
+          //     "organizationId": "e90f5c75-f1da-4473-bddc-cfebe0e5d2e5",
+          //     "data": {
+          //       "clientId": "cliendID1",
+          //       "clientSecret": "clientSecretID1",
+          //       "refreshToken": "refreshTokenID1"
+          //     },
+          //     "description": "note",
+          //     "type": "GMAIL",
+          //     "createdAt": 0,
+          //     "updatedAt": 0,
+          //     "deletedAt": 0,
+          //     "name": "test1",
+          //     "isSingular": true
+          //   }
+          // }
           createIntergration({
             name: data.name,
             type: "SHOPIFY",
@@ -73,9 +88,9 @@ const CreateShopifyModal: React.FC = () => {
               partnerId: data.partnerId,
               accessToken: data.accessToken,
             },
-            organizationId: currentOrganization?.id,
+            organizationId: organizationId,
             description: data.description,
-          }),
+          })
         )}
       >
         <div>

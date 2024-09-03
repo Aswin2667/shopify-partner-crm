@@ -12,15 +12,15 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import ProfileHoverCard from "@/components/HoverCard";
-import image from '../../../assets/shopify-logo.svg'
+import image from "../../../assets/shopify-logo.svg";
 
 const Activity = () => {
   const [data, setData] = useState([]);
-  const leadId = window.location.pathname.split("/")[4];
+  const leadId = window.location.pathname.split("/").pop();
   console.log(leadId);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await LeadService.getActivityById(leadId);
+      const response = await LeadService.getActivityById(leadId as string);
       console.log(response.data.data);
       setData(response.data.data);
     };
@@ -33,9 +33,9 @@ const Activity = () => {
       {data.map((activity: any) => {
         if (activity.type === "LEAD_CREATED") {
           return leadCreated(activity);
-        }else if(activity.type === "NOTE_CREATED"){
+        } else if (activity.type === "NOTE_CREATED") {
           return leadNoteCreated(activity);
-        }else if(activity.type === "RELATIONSHIP_INSTALLED"){
+        } else if (activity.type === "RELATIONSHIP_INSTALLED") {
           return leadRelationShipInstalled(activity);
         }
       })}
@@ -418,7 +418,7 @@ function leadCreated(activity: any): any {
   );
 }
 
-function leadNoteCreated(activity: any): any {  
+function leadNoteCreated(activity: any): any {
   const { user } = activity;
   console.log(JSON.stringify(activity))
   return (      
@@ -445,14 +445,14 @@ function leadNoteCreated(activity: any): any {
           <ProfileHoverCard user={user} />
           added a note
         </div>
+        <div
+          dangerouslySetInnerHTML={{ __html: activity.data.data }}
+          className="p-3 text-xs italic font-normal text-gray-500 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300"
+        ></div>
       </div>
-      <div
-        dangerouslySetInnerHTML={{ __html: activity.data.data }}
-        className="p-3 text-xs italic font-normal text-gray-500 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300"
-      ></div>
-    </div>
-  </li>
-  )}
+    </li>
+  );
+}
 
   function leadRelationShipInstalled(activity: any): any {
     const { user } = activity;
@@ -475,6 +475,6 @@ function leadNoteCreated(activity: any): any {
         {activity.data.message + " "}
         {/* <ProfileHoverCard user={user} /> */}
       </div>
-    </div>
-  </li>
-  }
+    </li>
+  );
+}

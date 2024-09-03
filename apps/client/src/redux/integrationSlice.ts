@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+const initialState: any = {
+  presentIntegrations: [],
   integrations: [],
   currentIntegration: null,
   gmail: null,
@@ -10,6 +11,9 @@ const integrationSlice = createSlice({
   name: "integration",
   initialState,
   reducers: {
+    setPresentIntegrations: (state, action) => {
+      state.presentIntegrations = action.payload;
+    },
     setIntegrations: (state, action) => {
       state.integrations = action.payload;
     },

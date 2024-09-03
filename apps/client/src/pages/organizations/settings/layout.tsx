@@ -29,7 +29,7 @@ const sidebarNavItems = [
     href: "display",
   },
   {
-    title: "Integratins",
+    title: "Integrations",
     href: "integration",
   },
   {
