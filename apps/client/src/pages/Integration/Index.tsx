@@ -16,8 +16,16 @@ const Integration: React.FC = () => {
     (state: any) => state.integration
   );
 
-  console.log(integrations);
-  console.log(presentIntegrations);
+  const singularIntegrationTypes = new Set(
+    integrations
+      .filter((integration: any) => integration.isSingular)
+      .map((integration: any) => integration.type)
+  );
+
+  const filteredPresentIntegrations = presentIntegrations.filter(
+    (presentIntegration: any) =>
+      !singularIntegrationTypes.has(presentIntegration.type)
+  );
 
   useQueryEvents(
     useQuery({
@@ -51,16 +59,14 @@ const Integration: React.FC = () => {
         style={{ backgroundImage: `url(${download})` }}
       >
         <ul className="flex list-none items-center justify-center gap-8">
-          {presentIntegrations
-            ?.slice(0, 2)
-            .map((item: any, index: number) => (
-              <IntegrationItem
-                key={index}
-                logo={item.logo}
-                name={item.name}
-                description={item.description}
-              />
-            ))}
+          {filteredPresentIntegrations.map((item: any, index: number) => (
+            <IntegrationItem
+              key={index}
+              logo={item.logo}
+              name={item.name}
+              description={item.description}
+            />
+          ))}
         </ul>
       </div>
     </div>

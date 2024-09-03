@@ -12,32 +12,14 @@ export default function MailPage() {
   const dispatch = useDispatch();
   const { organizationId } = useParams();
 
-  const { gmail } = useSelector((state: any) => state.integration);
+  const { integrations } = useSelector((state: any) => state.integration);
 
-  const { isFetching } = useQueryEvents(
-    useQuery({
-      queryKey: ["getGmailIntegration4Org"],
-      queryFn: async () =>
-        await IntegrationService.getGmailIntegration(organizationId || ""),
-      // enabled: !gmail,
-      retry: 1,
-    }),
-    {
-      onSuccess: (data) =>
-        dispatch(integrationAction.setGmailIntegration(data)),
-      onError: (error: any) =>
-        error?.response.data.statusCode === 404 &&
-        dispatch(integrationAction.setGmailIntegration(null)),
-    }
+  const gmailIntegrations = integrations.filter(
+    (integration: any) => integration.type === "GMAIL"
   );
-
-  if (isFetching) {
-    return <h1>fetching</h1>;
-  }
-
   return (
     <div className="p-4">
-      {gmail ? (
+      {gmailIntegrations ? (
         <Mail
           accounts={accounts}
           mails={mails}

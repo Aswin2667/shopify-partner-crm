@@ -20,13 +20,15 @@ export class AuthController {
   async googleCallback(
     @Query('code') code: string,
     @Query('state') redirect_url: string,
+    @Query('type') typee: string,
     @Res() res: Response,
   ) {
     try {
       console.log(redirect_url);
+      console.log(typee);
       const type: any = redirect_url.split('/').filter(Boolean).pop();
       console.log(type);
-      this.integrationService.connectToIntegration(type.toUpperCase(), {
+      this.integrationService.connectToIntegration(type.toUpperCase() as any, {
         code,
         redirect_url,
       });

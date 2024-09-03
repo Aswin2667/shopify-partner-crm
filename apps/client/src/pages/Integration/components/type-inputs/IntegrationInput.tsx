@@ -1,7 +1,9 @@
 import React from "react";
 import ShopifyInput from "./ShopifyInput";
+import MailGunInput from "./MailGunInput";
+import SendGridInput from "./SendGridInput";
 
-export type IntegrationInputType = "SHOPIFY" | "MAIL_GUN" | "SEND_GRID";
+export type IntegrationInputType = "SHOPIFY" | "MAILGUN" | "SENDGRID";
 
 type Props = {
   type: IntegrationInputType;
@@ -11,8 +13,8 @@ type Props = {
 const IntegrationInput = ({ type, dispatch }: Props) => {
   const Inputs = {
     SHOPIFY: <ShopifyInput dispatch={dispatch} />,
-    MAIL_GUN: <>MAIL_GUN</>,
-    SEND_GRID: <>SEND_GRID</>,
+    MAILGUN: <MailGunInput dispatch={dispatch} />,
+    SENDGRID: <SendGridInput dispatch={dispatch} />,
   };
   return Inputs[type];
 };

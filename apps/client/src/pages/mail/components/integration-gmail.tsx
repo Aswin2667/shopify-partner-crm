@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 type Props = {};
 
 const IntegrateGmail = (props: Props) => {
-  const currentUrl = encodeURIComponent(window.location.href);
-  const redirectUri = `http://localhost:8080/auth/google/callback`;
+  const navigate = useNavigate();
+  const { organizationId } = useParams();
 
   console.log(encodeURIComponent(window.location.href));
   return (
@@ -17,14 +18,13 @@ const IntegrateGmail = (props: Props) => {
         <p className="text-sm text-muted-foreground">
           You can start by Integrating your Gmail account
         </p>
-        <a
-          href={`https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${import.meta.env.VITE_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=openid%20https://mail.google.com/%20https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&access_type=offline&state=${currentUrl}`}
-          // &prompt=consent
-          className="bg-[#2b62f0] text-white text-sm rounded-full 
-        px-3 py-1 font-semibold hover:bg-[#3062e0] flex items-center gap-2"
+        <Button
+          onClick={() =>
+            navigate(`/${organizationId}/settings/integration/create/gmail`)
+          }
         >
-          Sign in with Google
-        </a>
+          Connect
+        </Button>
       </div>
     </div>
   );
