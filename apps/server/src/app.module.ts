@@ -24,13 +24,14 @@ import { IntegrationsModule } from './integrations/integrations.module';
 import { IntegrationsService } from './integrations/integrations.service';
 
 import { BullModule, BullQueueEvents } from '@nestjs/bull';
-import { MailModule, MailService } from '@org/utils';
 import { ProjectModule } from './project/project.module';
 import * as path from 'path';
 import { LeadController } from './leads/lead.controller';
 import { LeadService } from './leads/lead.service';
 import { PrismaService } from './config/prisma.service';
 import { LeadActivityService } from './lead-activity/lead-activity.service';
+import { AuthModule } from './auth/auth.module';
+import { MailModule } from './mail/mail.module';
 import { LeadActivityController } from './lead-activity/lead-activity.controller';
 import { LeadNotesController } from './notes/notes.controller';
 import { LeadNotesService } from './notes/notes.service';
@@ -64,6 +65,7 @@ import { ContactService } from './contacts/contact.service';
     }),
     MailModule,
     ProjectModule,
+    AuthModule,
   ],
   controllers: [
     UserController,

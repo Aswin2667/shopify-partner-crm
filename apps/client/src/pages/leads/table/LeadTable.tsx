@@ -43,7 +43,7 @@ export default function LeadTable() {
 
   return (
     <div className="p-5">
-       <div className="relative overflow-hidden bg-white  dark:bg-black sm:rounded-lg">
+       <div className="relative overflow-scroll h-screen bg-white  dark:bg-black sm:rounded-lg">
      <DataTableToolbar leads={leads}/>
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-200">

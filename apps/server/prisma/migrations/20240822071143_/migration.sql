@@ -74,6 +74,7 @@ CREATE TABLE "Project" (
     "name" TEXT NOT NULL,
     "type" TEXT NOT NULL,
     "data" JSONB NOT NULL,
+    "isSynced" BOOLEAN NOT NULL DEFAULT false,
     "organizationId" TEXT NOT NULL,
     "createdAt" BIGSERIAL NOT NULL,
     "updatedAt" BIGSERIAL NOT NULL,
@@ -119,6 +120,11 @@ CREATE TABLE "LeadProject" (
     "id" TEXT NOT NULL,
     "leadId" TEXT NOT NULL,
     "projectId" TEXT NOT NULL,
+<<<<<<<< Updated upstream:apps/server/prisma/migrations/20240822071143_/migration.sql
+    "integrationId" TEXT NOT NULL,
+========
+    "integrationId" TEXT,
+>>>>>>>> Stashed changes:apps/server/prisma/migrations/20240823092823_/migration.sql
     "createdAt" BIGSERIAL NOT NULL,
     "updatedAt" BIGSERIAL NOT NULL,
     "deletedAt" BIGINT NOT NULL,
@@ -143,6 +149,7 @@ CREATE TABLE "Contact" (
     "createdAt" BIGINT NOT NULL,
     "updatedAt" BIGINT NOT NULL,
     "deletedAt" BIGINT NOT NULL,
+    "integrationId" TEXT NOT NULL,
 
     CONSTRAINT "Contact_pkey" PRIMARY KEY ("id")
 );
@@ -180,21 +187,18 @@ CREATE TABLE "LeadActivity" (
 -- CreateTable
 CREATE TABLE "Email" (
     "id" TEXT NOT NULL,
+    "to" TEXT[],
+    "cc" TEXT[] DEFAULT ARRAY[]::TEXT[],
+    "bcc" TEXT[] DEFAULT ARRAY[]::TEXT[],
     "subject" TEXT,
+    "body" TEXT NOT NULL,
     "messageId" TEXT NOT NULL,
-    "hasAttachments" BOOLEAN NOT NULL,
-    "unsubscribed" BOOLEAN NOT NULL,
-    "failed" BOOLEAN NOT NULL,
-    "skipped" BOOLEAN NOT NULL,
-    "opened" BOOLEAN NOT NULL,
-    "sent" BOOLEAN NOT NULL,
-    "time" BIGINT NOT NULL,
-    "cc" TEXT,
-    "bcc" TEXT,
-    "from" TEXT NOT NULL,
-    "to" TEXT NOT NULL,
+    "threadId" TEXT NOT NULL,
+    "historyId" TEXT,
+    "labelIds" TEXT[],
+    "sentAt" BIGINT NOT NULL,
     "deletedAt" BIGINT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "integrationId" TEXT NOT NULL,
 
     CONSTRAINT "Email_pkey" PRIMARY KEY ("id")
 );
@@ -281,10 +285,20 @@ ALTER TABLE "Lead" ADD CONSTRAINT "Lead_organizationId_fkey" FOREIGN KEY ("organ
 ALTER TABLE "Lead" ADD CONSTRAINT "Lead_integrationId_fkey" FOREIGN KEY ("integrationId") REFERENCES "Integration"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+<<<<<<<< Updated upstream:apps/server/prisma/migrations/20240822071143_/migration.sql
+ALTER TABLE "LeadProject" ADD CONSTRAINT "LeadProject_integrationId_fkey" FOREIGN KEY ("integrationId") REFERENCES "Integration"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+========
+ALTER TABLE "LeadProject" ADD CONSTRAINT "LeadProject_integrationId_fkey" FOREIGN KEY ("integrationId") REFERENCES "Integration"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+>>>>>>>> Stashed changes:apps/server/prisma/migrations/20240823092823_/migration.sql
+
+-- AddForeignKey
 ALTER TABLE "LeadProject" ADD CONSTRAINT "LeadProject_leadId_fkey" FOREIGN KEY ("leadId") REFERENCES "Lead"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "LeadProject" ADD CONSTRAINT "LeadProject_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Contact" ADD CONSTRAINT "Contact_integrationId_fkey" FOREIGN KEY ("integrationId") REFERENCES "Integration"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Contact" ADD CONSTRAINT "Contact_leadId_fkey" FOREIGN KEY ("leadId") REFERENCES "Lead"("id") ON DELETE SET NULL ON UPDATE CASCADE;

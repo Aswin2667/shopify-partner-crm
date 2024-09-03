@@ -18,12 +18,14 @@ import ManageAccess from "./pages/organizations/ManageAccess";
 import DashboardPage from "./pages/organizations/dashboard/page";
 import LeadDashboard from "./pages/leads/DashBoard";
 import LeadTable from "./pages/leads/table/LeadTable";
-import Project from "./pages/Project/components/Index";
-import { MailPage } from "./pages/mail/page";
+import MailPage from "./pages/mail/Index";
+import Project from "./pages/Project/Index";
 import Activity from "./pages/leads/components/Activity";
 import MediaLibrary from "./pages/media-library/MediaLibrary";
-import ContactsTable from "./pages/contacts/table/ContactsTable";
 import Notes from "./pages/leads/notes/Notes";
+import LeadMail from "./pages/leads/components/LeadMail";
+import ContactTable from "./pages/contacts/table/ContactTable";
+import CustomFiled from "./pages/organizations/settings/customFields/CustomFiled";
 
 export const routes = createBrowserRouter([
   {
@@ -58,6 +60,10 @@ export const routes = createBrowserRouter([
         element: <RootLayout />,
         children: [
           {
+            index: true,
+            element: <DashboardPage />,
+          },
+          {
             path: "dashboard",
             element: <DashboardPage />,
           },
@@ -83,7 +89,7 @@ export const routes = createBrowserRouter([
                   },
                   {
                     path: "emails",
-                    element: <MailPage />,
+                    element: <LeadMail />,
                   },
                   {
                     path: "calls",
@@ -112,6 +118,10 @@ export const routes = createBrowserRouter([
                 index: true,
                 element: <Project />,
               },
+              {
+                path: ":projectId",
+                element: <DashboardPage />,
+              },
             ],
           },
           {
@@ -133,7 +143,44 @@ export const routes = createBrowserRouter([
           },
           {
             path: "contacts",
-            element: <ContactsTable />,
+            element: <ContactTable />,
+          },
+          {
+            path: "settings",
+            element: <SettingsLayout />,
+            children: [
+              {
+                index: true,
+                element: <SettingsProfilePage />,
+              },
+              {
+                 path: "profile",
+                element: <SettingsProfilePage />,
+              },
+              {
+                path: "appearance",
+                element: <SettingsAppearancePage />,
+              },
+              {
+                path: "notifications",
+                element: <SettingsNotificationsPage />,
+              },
+              {
+                path: "display",
+                element: <SettingsDisplayPage />,
+              },
+              {
+                path: "integration",
+                element: <Integration />,
+              },
+              {
+                path: "custom-fields",
+                element: <CustomFiled />,
+              },{
+                path: "manage-access",
+                element: <ManageAccess />,
+              },
+            ],
           },
         ],
       },
@@ -150,33 +197,7 @@ export const routes = createBrowserRouter([
           },
         ],
       },
-      {
-        path: "settings",
-        element: <SettingsLayout />,
-        children: [
-          {
-            index: true,
-            path: "profile",
-            element: <SettingsProfilePage />,
-          },
-          {
-            path: "appearance",
-            element: <SettingsAppearancePage />,
-          },
-          {
-            path: "notifications",
-            element: <SettingsNotificationsPage />,
-          },
-          {
-            path: "display",
-            element: <SettingsDisplayPage />,
-          },
-        ],
-      },
-      {
-        path: "manage-access",
-        element: <ManageAccess />,
-      },
+      
     ],
   },
 ]);
