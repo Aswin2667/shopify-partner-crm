@@ -1,0 +1,6 @@
+export const INTEGRATION_TYPES = {
+  SHOPIFY: "SHOPIFY",
+  MAILGUN: "MAIL_GUN",
+  SENDGRID: "SEND_GRID",
+  GMAIL: "GMAIL",
+};

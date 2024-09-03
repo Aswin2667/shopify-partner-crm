@@ -1,5 +1,5 @@
 import { IntegrationType } from "@org/integrations";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { HiOutlineExternalLink } from "react-icons/hi";
 
 type Props = {
@@ -9,11 +9,17 @@ type Props = {
   onClick?: () => void;
 };
 
-const currentUrl = encodeURIComponent(window.location.href);
+// const currentUrl = encodeURIComponent(window.location.href);
 const redirectUri = `http://localhost:8080/auth/google/callback`;
 // const redirectUri = `http://localhost:8080/integration/connect/auth`;
+// console.log(currentUrl);
 
 const LinkButton: React.FC<Props> = ({ title, type, onClick }: Props) => {
+  const [currentUrl, setCurrentUrl] = useState("");
+  useEffect(() => {
+    setCurrentUrl(encodeURIComponent(window.location.href));
+  }, [window.location.href]);
+  console.log(currentUrl);
   return (
     <div className="flex">
       {type ? (

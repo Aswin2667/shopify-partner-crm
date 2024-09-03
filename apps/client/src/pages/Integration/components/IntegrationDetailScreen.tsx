@@ -19,8 +19,9 @@ const IntegrationDetailScreen: React.FC = () => {
   );
   const integration: IntegrationData = presentIntegrations.find(
     (integration: IntegrationData) =>
-      integration.type === integrationType?.toUpperCase()
+      integration.name.toLowerCase() === integrationType
   );
+  console.log(integration);
 
   return (
     <>

@@ -8,6 +8,8 @@ export enum IntegrationType {
 export const INTEGRATION_SINGULARITY = {
   GMAIL: false, // Gmail integrations are not singular (multiple per organization)
   SHOPIFY: true, // Shopify integration is singular (one per organization)
+  SEND_GRID: false, // SendGrid integration is not singular (multiple per organization)
+  MAIL_GUN: false, // Mailgun integration is not singular (multiple per organization)
 };
 
 export type IntegrationData = {

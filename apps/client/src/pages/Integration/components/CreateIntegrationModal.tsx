@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import IntegrationService from "@/services/IntegrationService";
 import ReduxHelper from "@/utils/ReduxHelper";
@@ -27,6 +27,7 @@ import { IntegrationType } from "@org/integrations";
 import IntegrationInput, {
   IntegrationInputType,
 } from "./type-inputs/IntegrationInput";
+import { INTEGRATION_TYPES } from "./type-inputs/type";
 
 const initialArg = {
   name: { value: "", error: "" },
@@ -90,6 +91,7 @@ const reducerFn = (prevState: any, action: any) => {
 };
 
 const CreateIntegrationModal = ({ open, setOpen }: any) => {
+  const navigate = useNavigate();
   const { organizationId, integrationType } = useParams();
 
   const [integration, dispatch] = useReducer(
@@ -103,6 +105,7 @@ const CreateIntegrationModal = ({ open, setOpen }: any) => {
     onSuccess: () => {
       dispatch({ type: "reset" });
       setOpen(false);
+      navigate(`/${organizationId}/settings/integration`);
     },
     onError: (error: any) => {
       console.error("Creation failed:", error?.response.data);
@@ -123,7 +126,9 @@ const CreateIntegrationModal = ({ open, setOpen }: any) => {
     const IntegrationData: any = {
       name: integration.name.value,
       description: integration.description.value,
-      type: integrationType?.toUpperCase(),
+      type: INTEGRATION_TYPES[
+        integrationType?.toUpperCase() as keyof typeof INTEGRATION_TYPES
+      ],
       data: integration.data.value,
       organizationId,
     };
