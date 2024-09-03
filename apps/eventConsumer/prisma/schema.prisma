@@ -206,7 +206,7 @@ model Email {
   sentAt        BigInt
   deletedAt     BigInt
   integrationId String
-}
+ }
 
 model Integration {
   id             String        @id @default(uuid())
@@ -219,14 +219,12 @@ model Integration {
   deletedAt      BigInt
   name           String
   isSingular     Boolean       @default(false) // Add the isSingular field
-  
   Project        Project[]
-  organization   Organization  @relation(fields: [organizationId], references: [id])
+   organization   Organization  @relation(fields: [organizationId], references: [id])
   Lead           Lead[]
   Contact        Contact[]
   LeadProject    LeadProject[]
 
-  // @@unique([organizationId, type, isSingular], name: "UniqueIntegrationPerOrgAndType")
 }
 
 model Template {

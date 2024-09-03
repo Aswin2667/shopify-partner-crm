@@ -125,17 +125,17 @@ model Lead {
 }
 
 model LeadProject {
-  id            String      @id @default(uuid())
-  leadId        String
-  projectId     String
+  id        String  @id @default(uuid())
+  leadId    String
+  projectId String
   integrationId String
-  integration   Integration @relation(fields: [integrationId], references: [id])
-  lead          Lead        @relation(fields: [leadId], references: [id])
-  project       Project     @relation(fields: [projectId], references: [id])
-  createdAt     BigInt      @default(autoincrement())
-  updatedAt     BigInt      @default(autoincrement())
-  deletedAt     BigInt
-  status        String?
+  organizationId String
+  lead      Lead    @relation(fields: [leadId], references: [id])
+  project   Project @relation(fields: [projectId], references: [id])
+  createdAt BigInt  @default(autoincrement())
+  updatedAt BigInt  @default(autoincrement())
+  deletedAt BigInt
+  status    String?
 
   @@unique([projectId, leadId])
 }
