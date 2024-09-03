@@ -11,6 +11,7 @@ import {
   LayoutGrid,
   MessagesSquare,
   Search,
+  Settings,
   ShoppingCart,
   User,
   Users2,
@@ -220,7 +221,7 @@ export default function RootLayout() {
                 {
                   title: "Settings",
                   label: "21",
-                  icon: Archive,
+                  icon: Settings,
                   variant: "ghost",
                 },
               ]}

@@ -180,18 +180,19 @@ export const routes = createBrowserRouter([
                   },
                 ],
               },
-              {
-                path: "templates",
-                element: <Templates />,
-              },
-              {
-                path: "create-template",
-                element: <TemplateCreatePage />,
-              },{
-                path: "status",
-                element: <LeadStatus />,
-              },
             ],
+          },
+          {
+            path: "templates",
+            element: <Templates />,
+          },
+          {
+            path: "create-template",
+            element: <TemplateCreatePage />,
+          },
+          {
+            path: "status",
+            element: <LeadStatus />,
           },
           {
             path: "custom-fields",
@@ -206,4 +207,3 @@ export const routes = createBrowserRouter([
     ],
   },
 ]);
-

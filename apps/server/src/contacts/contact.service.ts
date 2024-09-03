@@ -59,6 +59,7 @@ export class ContactService {
       });
       return { status: true, message: 'Contact created', data: contact };
     } catch (error) {
+      console.log(error)
       throw new Error('Failed to create contact');
     }
   }

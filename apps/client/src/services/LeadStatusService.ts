@@ -2,6 +2,9 @@ import axiosInstance from "@/utils/_axios";
 
  
 export default class LeadStatusService {
+    static updateStatus(id: any, updatedStatus: any) {
+      throw new Error("Method not implemented.");
+    }
     private static readonly BASE_PATH = "/lead-status";
     public static async getAllByOrgId(orgId: string) {
       try {

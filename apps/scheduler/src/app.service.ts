@@ -45,6 +45,7 @@ export class AppService {
         const events = await this.fetchAndStoreData(app);
         if (events && events.length) {
           const payload = { app, events };
+          console.log('Payload: ', payload);
           await this.appEventsQueue.add('APP_INSTALLED_UNINSTALLED', payload);
         }
       }),
@@ -52,6 +53,7 @@ export class AppService {
   }
 
   async fetchAndStoreData(app) {
+    console.log(app);
     const { appId, partnerId, accessToken } = app;
 
     const lastOccurredAtKey = `lastOccurredAt_${appId}`;
@@ -65,7 +67,7 @@ export class AppService {
 
     // Query from another separate file
     const query = APP_INSTALLS_UNINSTALLS_QUERY(appId, lastOccurredAt);
-
+    console.log("------------"+partnerId)
     try {
       const response = await axios.post(
         `https://partners.shopify.com/${partnerId}/api/2024-10/graphql.json`,

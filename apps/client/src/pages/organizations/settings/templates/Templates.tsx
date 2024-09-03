@@ -112,13 +112,14 @@ const Templates = () => {
   };
   return (
     <div className="overflow-x-auto">
-      <button
+      <Button
         type="button"
         onClick={() => navigate("../create-template")}
-        className="flex items-center justify-center px-4 py-2 text-sm font-medium dark:text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
       >
         Add new Template
-      </button>
+      </Button>
+   <br />
+   <br />
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-200 max-h-[600px]">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-900 dark:text-gray-400">
           <tr>

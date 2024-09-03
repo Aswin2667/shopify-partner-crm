@@ -35,7 +35,7 @@ const ShopifyInput = ({ dispatch }: Props) => {
       <div>
         <label className="block mb-2 text-sm font-medium">Access Token</label>
         <input
-          type="number"
+          type="text"
           className="bg-gray-50 border border-gray-300 rounded-lg block w-full p-2.5"
           placeholder="e.g. 123456"
           onChange={(e) =>

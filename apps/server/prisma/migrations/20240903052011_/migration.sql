@@ -1,7 +1,4 @@
 -- CreateEnum
-CREATE TYPE "leadStatus" AS ENUM ('POTENTIAL', 'CUSTOMER', 'INTERESTED', 'NOT_INTERESTED', 'BAD_FIT', 'QUALIFIED', 'CANCELED');
-
--- CreateEnum
 CREATE TYPE "LeadActivityType" AS ENUM ('LEAD_CREATED', 'LEAD_UPDATED', 'NOTE_CREATED', 'NOTE_UPDATED', 'NOTE_DELETED', 'EMAIL', 'CALL', 'TASK', 'MEETING', 'STATUS_CHANGE', 'RELATIONSHIP_INSTALLED', 'RELATIONSHIP_UNINSTALLED', 'CREDIT_APPLIED', 'CREDIT_FAILED', 'CREDIT_PENDING', 'ONE_TIME_CHARGE_ACCEPTED', 'ONE_TIME_CHARGE_ACTIVATED', 'ONE_TIME_CHARGE_DECLINED', 'ONE_TIME_CHARGE_EXPIRED', 'RELATIONSHIP_REACTIVATED', 'RELATIONSHIP_DEACTIVATED', 'SUBSCRIPTION_APPROACHING_CAPPED_AMOUNT', 'SUBSCRIPTION_CAPPED_AMOUNT_UPDATED', 'SUBSCRIPTION_CHARGE_ACCEPTED', 'SUBSCRIPTION_CHARGE_ACTIVATED', 'SUBSCRIPTION_CHARGE_CANCELED', 'SUBSCRIPTION_CHARGE_DECLINED', 'SUBSCRIPTION_CHARGE_EXPIRED', 'SUBSCRIPTION_CHARGE_FROZEN', 'SUBSCRIPTION_CHARGE_UNFROZEN');
 
 -- CreateEnum
@@ -105,7 +102,7 @@ CREATE TABLE "Lead" (
     "id" TEXT NOT NULL,
     "shopifyDomain" TEXT NOT NULL,
     "shopifyStoreId" TEXT NOT NULL,
-    "status" "leadStatus" NOT NULL DEFAULT 'POTENTIAL',
+    "statusId" TEXT,
     "leadSource" TEXT,
     "shopDetails" JSONB,
     "industry" TEXT,
@@ -223,12 +220,27 @@ CREATE TABLE "Integration" (
 CREATE TABLE "Template" (
     "id" TEXT NOT NULL,
     "html" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "createdAt" BIGINT NOT NULL,
+    "isEnabled" BOOLEAN NOT NULL,
+    "updatedAt" BIGINT NOT NULL,
+    "deletedAt" BIGINT NOT NULL,
+    "userId" TEXT,
+    "orgId" TEXT,
+
+    CONSTRAINT "Template_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "LeadStatus" (
+    "id" TEXT NOT NULL,
+    "status" TEXT NOT NULL,
     "createdAt" BIGINT NOT NULL,
     "updatedAt" BIGINT NOT NULL,
     "deletedAt" BIGINT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
 
-    CONSTRAINT "Template_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "LeadStatus_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -255,9 +267,6 @@ CREATE UNIQUE INDEX "LeadProject_projectId_leadId_key" ON "LeadProject"("project
 -- CreateIndex
 CREATE INDEX "LeadActivity_leadId_userId_idx" ON "LeadActivity"("leadId", "userId");
 
--- CreateIndex
-CREATE UNIQUE INDEX "Integration_organizationId_type_isSingular_key" ON "Integration"("organizationId", "type", "isSingular");
-
 -- AddForeignKey
 ALTER TABLE "OrgMemberInvite" ADD CONSTRAINT "OrgMemberInvite_inviterId_fkey" FOREIGN KEY ("inviterId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -281,6 +290,9 @@ ALTER TABLE "LeadNotes" ADD CONSTRAINT "LeadNotes_leadId_fkey" FOREIGN KEY ("lea
 
 -- AddForeignKey
 ALTER TABLE "LeadNotes" ADD CONSTRAINT "LeadNotes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Lead" ADD CONSTRAINT "Lead_statusId_fkey" FOREIGN KEY ("statusId") REFERENCES "LeadStatus"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Lead" ADD CONSTRAINT "Lead_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -322,4 +334,10 @@ ALTER TABLE "LeadActivity" ADD CONSTRAINT "LeadActivity_noteId_fkey" FOREIGN KEY
 ALTER TABLE "Integration" ADD CONSTRAINT "Integration_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Template" ADD CONSTRAINT "Template_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Template" ADD CONSTRAINT "Template_orgId_fkey" FOREIGN KEY ("orgId") REFERENCES "Organization"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Template" ADD CONSTRAINT "Template_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "LeadStatus" ADD CONSTRAINT "LeadStatus_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

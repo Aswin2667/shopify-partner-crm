@@ -71,19 +71,18 @@ export class LeadService {
 
   async create(createLeadDto: CreateLeadDto) {
     try {
-      console.log('----------------------------------' + createLeadDto);
+      console.log('----------------------------------' + JSON.stringify(createLeadDto));
       const lead = await this.prismaService.lead.create({
         data: {
           shopifyDomain: createLeadDto.myShopifyDomain,
           shopifyStoreId: randomUUID(),
           createdAt: DateHelper.getCurrentUnixTime(),
           leadSource: 'Manually added',
-          status: createLeadDto.status,
+          // status: createLeadDto.status,
           updatedAt: 0,
           deletedAt: 0,
           organizationId: createLeadDto.organizationId,
-          integrationId: createLeadDto.integrationId,
-        },
+         }
       });
 
       // await this.prismaService.leadProject.create({

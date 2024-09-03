@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  // url = "postgresql://postgres:postgres@localhost:5432/shopify_crm?schema=public"
 }
 
 model User {
@@ -42,7 +43,7 @@ model OrgMemberInvite {
 model Organization {
   id           String            @id @default(uuid())
   name         String
-  logo         String?
+  logo         String? 
   description  String?
   createdAt    BigInt            @default(autoincrement())
   updatedAt    BigInt            @default(autoincrement())
@@ -52,6 +53,9 @@ model Organization {
   invites      OrgMemberInvite[]
   integrations Integration[]
   Lead         Lead[]
+  contact      Contact[]
+  Template     Template[]
+  LeadStatus   LeadStatus[]
 }
 
 model OrgMember {
@@ -73,7 +77,7 @@ model Project {
   name           String
   type           String
   data           Json
-  isSynced       Boolean    @default(false)
+  isSynced       Boolean       @default(false)
   organization   Organization  @relation(fields: [organizationId], references: [id])
   organizationId String
   createdAt      BigInt        @default(autoincrement())
@@ -98,10 +102,11 @@ model LeadNotes {
 }
 
 model Lead {
-  id             String         @id @default(uuid())
+  id             String         @id @default(uuid()) 
   shopifyDomain  String         @unique
   shopifyStoreId String         @unique
-  status         leadStatus     @default(POTENTIAL)
+  statusId       String?
+  status         LeadStatus?    @relation(fields: [statusId], references: [id])
   Project        LeadProject[]
   leadSource     String?
   shopDetails    Json?
@@ -113,38 +118,30 @@ model Lead {
   leadNotes      LeadNotes[]
   contacts       Contact[]
   attachments    Attachment[]
-  integrationId  String
+  integrationId  String?
   organizationId String
   organization   Organization   @relation(fields: [organizationId], references: [id])
-  integration    Integration    @relation(fields: [integrationId], references: [id])
-}
-
-enum leadStatus {
-  POTENTIAL
-  CUSTOMER
-  INTERESTED
-  NOT_INTERESTED
-  BAD_FIT
-  QUALIFIED
-  CANCELED
+  integration    Integration?    @relation(fields: [integrationId], references: [id])
 }
 
 model LeadProject {
-  id        String  @id @default(uuid())
-  leadId    String
-  projectId String
-  lead      Lead    @relation(fields: [leadId], references: [id])
-  project   Project @relation(fields: [projectId], references: [id])
-  createdAt BigInt  @default(autoincrement())
-  updatedAt BigInt  @default(autoincrement())
-  deletedAt BigInt
-  status    String?
+  id            String      @id @default(uuid())
+  leadId        String
+  projectId     String
+  integrationId String
+  integration   Integration @relation(fields: [integrationId], references: [id])
+  lead          Lead        @relation(fields: [leadId], references: [id])
+  project       Project     @relation(fields: [projectId], references: [id])
+  createdAt     BigInt      @default(autoincrement())
+  updatedAt     BigInt      @default(autoincrement())
+  deletedAt     BigInt
+  status        String?
 
   @@unique([projectId, leadId])
 }
 
 model Contact {
-  id             String  @id @default(uuid())
+  id             String      @id @default(uuid())
   firstName      String?
   lastName       String?
   primaryEmail   String?
@@ -153,12 +150,16 @@ model Contact {
   secondaryPhNo  String?
   industry       String?
   type           String?
-  leadId         String?
+  leadId         String
   lastContacted  BigInt?
   createdAt      BigInt
   updatedAt      BigInt
   deletedAt      BigInt
-  lead           Lead?   @relation(fields: [leadId], references: [id])
+  organizationId String
+  organization   Organization   @relation(fields: [organizationId], references: [id])
+  integrationId  String
+  integration    Integration @relation(fields: [integrationId], references: [id])
+  lead           Lead       @relation(fields: [leadId], references: [id])
 }
 
 model Attachment {
@@ -175,7 +176,7 @@ model Attachment {
 }
 
 model LeadActivity {
-  id        String     @id @default(uuid())
+  id        String           @id @default(uuid())
   leadId    String
   data      Json
   updatedAt BigInt
@@ -184,55 +185,73 @@ model LeadActivity {
   userId    String?
   noteId    String?
   type      LeadActivityType
-  lead      Lead       @relation(fields: [leadId], references: [id])
-  user      User?      @relation(fields: [userId], references: [id])
-  note      LeadNotes? @relation(fields: [noteId], references: [id])
+  lead      Lead             @relation(fields: [leadId], references: [id])
+  user      User?            @relation(fields: [userId], references: [id])
+  note      LeadNotes?       @relation(fields: [noteId], references: [id])
 
   @@index([leadId, userId])
 }
 
 model Email {
-  id             String  @id @default(uuid())
-  subject        String?
-  messageId      String
-  hasAttachments Boolean
-  unsubscribed   Boolean
-  failed         Boolean
-  skipped        Boolean
-  opened         Boolean
-  sent           Boolean
-  time           BigInt
-  cc             String?
-  bcc            String?
-  from           String
-  to             String
-  deletedAt      BigInt
-  userId         String
+  id            String   @id @default(uuid())
+  to            String[]
+  cc            String[] @default([])
+  bcc           String[] @default([])
+  subject       String?
+  body          String
+  messageId     String
+  threadId      String
+  historyId     String?
+  labelIds      String[]
+  sentAt        BigInt
+  deletedAt     BigInt
+  integrationId String
 }
 
 model Integration {
-  id             String       @id @default(uuid())
+  id             String        @id @default(uuid())
   organizationId String
   data           Json
   description    String?
-  type           String?
+  type           IntegrationType
   createdAt      BigInt
   updatedAt      BigInt
   deletedAt      BigInt
-  Project        Project[]
   name           String
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  isSingular     Boolean       @default(false) // Add the isSingular field
+  
+  Project        Project[]
+  organization   Organization  @relation(fields: [organizationId], references: [id])
   Lead           Lead[]
+  Contact        Contact[]
+  LeadProject    LeadProject[]
+
+  // @@unique([organizationId, type, isSingular], name: "UniqueIntegrationPerOrgAndType")
 }
 
 model Template {
-  id        String @id @default(uuid())
-  html      String
-  createdAt BigInt
-  updatedAt BigInt
-  deletedAt BigInt
-  userId    String
-  user      User   @relation(fields: [userId], references: [id])
+  id           String        @id @default(uuid())
+  html         String
+  name         String
+  createdAt    BigInt
+  isEnabled    Boolean
+  updatedAt    BigInt
+  deletedAt    BigInt
+  userId       String?
+  orgId        String?
+  organization Organization? @relation(fields: [orgId], references: [id])
+  user         User?         @relation(fields: [userId], references: [id])
+}
+
+model LeadStatus {
+  id             String       @id @default(uuid())
+  status         String
+  createdAt      BigInt
+  updatedAt      BigInt
+  deletedAt      BigInt
+  Lead           Lead[]
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
 }
 
 enum LeadActivityType {
@@ -281,4 +300,11 @@ enum OrgMemberRole {
 enum AppVersion {
   V2
   V3
+}
+
+enum IntegrationType {
+  GMAIL
+  SHOPIFY
+  MAIL_GUN
+  SEND_GRID
 }

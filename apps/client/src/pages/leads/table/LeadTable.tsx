@@ -137,5 +137,6 @@ export default function LeadTable() {
         </table>
        </div>
     </div>
+    </div>
   );
 }

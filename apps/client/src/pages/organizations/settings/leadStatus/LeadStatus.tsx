@@ -3,33 +3,80 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Pen, Trash } from "lucide-react";
 import StatusCreateModal from "./StatusCreateModal";
+import StatusUpdateModal from "./StatusUpdateModal";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import LeadStatusService from "@/services/LeadStatusService";
 import { useSelector } from "react-redux";
 import DateHelper from "@/utils/DateHelper";
-
 
 const LeadStatus = () => {
   const [status, setStatus] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-const { currentOrganization } = useSelector(
-  (state: any) => state.organization
-)
+  const [selectedStatus, setSelectedStatus] = useState(null);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const { currentOrganization } = useSelector(
+    (state: any) => state.organization
+  );
+
   useEffect(() => {
     const fetchLeadStatus = async () => {
       try {
-        const response = await LeadStatusService.getAllByOrgId(currentOrganization?.id)
-        console.log(response?.data)
+        const response = await LeadStatusService.getAllByOrgId(currentOrganization?.id);
+        console.log(response?.data);
         setStatus(response?.data.data);
-      } catch (err:any) {
+      } catch (err: any) {
         setError(err.message || "Something went wrong.");
-       } finally {
+      } finally {
         setLoading(false);
       }
     };
 
     fetchLeadStatus();
-  }, []);
+  }, [currentOrganization?.id]);
+
+  const handleUpdateClick = (item: any) => {
+    setSelectedStatus(item);
+    setIsUpdateModalOpen(true);
+  };
+
+  const handleDeleteClick = (item: any) => {
+    setSelectedStatus(item);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleUpdate = async (updatedStatus: any) => {
+    // Update the status with the API
+    try {
+      await LeadStatusService.updateStatus(selectedStatus.id, updatedStatus);
+      // Update the local state
+      setStatus((prev:any) =>
+        prev.map((status) =>
+          status.id === selectedStatus.id ? updatedStatus : status
+        )
+      );
+    } catch (err: any) {
+      console.error("Failed to update status:", err);
+    }
+    setIsUpdateModalOpen(false);
+  };
+
+  const handleDelete = async () => {
+    // Delete the status with the API
+    try {
+      await LeadStatusService.deleteStatus(selectedStatus.id);
+      // Update the local state
+      setStatus((prev) =>
+        prev.filter((status) => status.id !== selectedStatus.id)
+      );
+    } catch (err: any) {
+      console.error("Failed to delete status:", err);
+    }
+    setIsDeleteModalOpen(false);
+  };
+
   if (error) {
     return <div>Error: {error}</div>; // Display the error message
   }
@@ -49,11 +96,11 @@ const { currentOrganization } = useSelector(
               Created At
             </th>
             <th scope="col" className="px-6 py-3 text-center">Actions</th>
-           </tr>
+          </tr>
         </thead>
         <tbody>
           {status.length > 0 ? (
-            status.map((item:any) => (
+            status.map((item: any) => (
               <tr
                 key={item.id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -64,10 +111,18 @@ const { currentOrganization } = useSelector(
                 >
                   {item.status}
                 </th>
-                 <td className="px-6 py-4">{DateHelper.formatTimestamp(item.createdAt)}</td>
-                 <td className="px-6 py-4 flex items-center justify-center gap-5">
-                  <Pen className="h-4 w-4 cursor-pointer text-green-600 " />
-                  <Trash className="h-4 w-4 cursor-pointer text-red-700" />
+                <td className="px-6 py-4">
+                  {DateHelper.formatTimestamp(item.createdAt)}
+                </td>
+                <td className="px-6 py-4 flex items-center justify-center gap-5">
+                  <Pen
+                    className="h-4 w-4 cursor-pointer text-green-600"
+                    onClick={() => handleUpdateClick(item)}
+                  />
+                  <Trash
+                    className="h-4 w-4 cursor-pointer text-red-700"
+                    onClick={() => handleDeleteClick(item)}
+                  />
                 </td>
               </tr>
             ))
@@ -80,6 +135,23 @@ const { currentOrganization } = useSelector(
           )}
         </tbody>
       </table>
+
+      {isUpdateModalOpen && (
+        <StatusUpdateModal
+          isOpen={isUpdateModalOpen}
+          onClose={() => setIsUpdateModalOpen(false)}
+          status={selectedStatus}
+          onUpdate={handleUpdate}
+        />
+      )}
+
+      {isDeleteModalOpen && (
+        <ConfirmDeleteModal
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          onDelete={handleDelete}
+        />
+      )}
     </div>
   );
 };

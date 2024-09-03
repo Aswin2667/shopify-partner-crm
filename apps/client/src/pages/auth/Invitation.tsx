@@ -22,6 +22,7 @@ const navigate = useNavigate()
         .get(`http://localhost:8080/invitation/verify?token=${token}`)
         .then((response) => {
           setTokenDetails(response.data.data);
+          console.log(response.data.data);
         })
         .catch((error) => {
           setError("Token expired or not found");
@@ -47,6 +48,7 @@ const navigate = useNavigate()
     try {
         const response = await axios.get(`http://localhost:8080/invitation/accept?token=${token}`);
         console.log(response.data);
+        alert("Accepted");
     } catch (error) {
         console.log(error);
     }

@@ -17,7 +17,7 @@ const MediaLibrary = () => {
     forcePathStyle: true, // Required for MinIO
   });
 
-  const onFileChange = (event) => {
+  const onFileChange = (event: { target: { files: any[]; }; }) => {
     setFile(event.target.files[0]);
   };
 
