@@ -76,6 +76,8 @@ model Project {
   isSynced       Boolean    @default(false)
   organization   Organization  @relation(fields: [organizationId], references: [id])
   organizationId String
+  creAppId       String
+  appApiKey      String
   createdAt      BigInt        @default(autoincrement())
   updatedAt      BigInt        @default(autoincrement())
   deletedAt      BigInt?

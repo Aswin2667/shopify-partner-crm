@@ -74,6 +74,8 @@ model Project {
   name           String
   type           String
   data           Json
+  creAppId       String
+  appApiKey      String
   isSynced       Boolean       @default(false)
   organization   Organization  @relation(fields: [organizationId], references: [id])
   organizationId String
@@ -102,6 +104,8 @@ model Lead {
   id             String         @id @default(uuid())
   shopifyDomain  String         @unique
   shopifyStoreId String         @unique
+  accessToken    String?
+  email          String?
   status         leadStatus     @default(POTENTIAL)
   Project        LeadProject[]
   leadSource     String?

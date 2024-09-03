@@ -4,6 +4,8 @@ export const CreateProjectDto = z.object({
   id: z.string().uuid().optional(),
   name: z.string().min(1),
   type: z.string().min(1),
+  creAppId: z.string().min(1),
+  appApiKey: z.string().min(1),
   data: z.any(), // Accept any valid JSON object
   organizationId: z.string().uuid(),
   integrationId: z.string().uuid().optional(),

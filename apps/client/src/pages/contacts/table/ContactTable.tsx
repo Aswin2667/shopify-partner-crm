@@ -101,7 +101,7 @@ export default function ContactTable() {
                       {contact.primaryEmail || 'N/A'}
                     </td>
                     <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {contact.lead.shopifyDomain || 'N/A'}
+                      {/* {contact.lead.shopifyDomain || 'N/A'} */}
                     </td>
                     <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                       {contact.primaryPhNo || 'N/A'}

@@ -26,6 +26,7 @@ export class AppService {
         i.data->>'partnerId' AS "partnerId",
         i.data->>'accessToken' AS "accessToken",
         p.data->>'appId' AS "appId",
+        p."name" AS "name",
         p."id" AS "projectId"
       FROM 
         "Integration" i
@@ -60,6 +61,7 @@ export class AppService {
         i.data->>'partnerId' AS "partnerId",
         i.data->>'accessToken' AS "accessToken",
         p.data->>'appId' AS "appId",
+        p."name" AS "name",
         p."id" AS "projectId"
       FROM 
         "Integration" i
@@ -83,3 +85,4 @@ export class AppService {
 
 
 }
+

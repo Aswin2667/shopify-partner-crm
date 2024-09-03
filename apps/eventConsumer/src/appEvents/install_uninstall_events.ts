@@ -26,7 +26,7 @@ export class AppInstallsUninstallsEventsProcessor {
 
       for (const event of events) {
         const { type, shop, occurredAt } = event;
-        const { appId, projectId, integrationId, organizationId } = app;
+        const { appId, name, projectId, integrationId, organizationId } = app;
         console.log(projectId);
 
         // Ensure unique event processing
@@ -53,6 +53,7 @@ export class AppInstallsUninstallsEventsProcessor {
               shopifyDomain: shop.myshopifyDomain,
               shopifyStoreId: shop.id,
               integrationId: integrationId,
+
             },
           });
 
@@ -77,7 +78,6 @@ export class AppInstallsUninstallsEventsProcessor {
                 leadId: newLead.id,
                 projectId,
                 integrationId: integrationId,
-                organizationId: organizationId,
                 createdAt: DateHelper.convertIsoToTimestamp(occurredAt),
                 updatedAt: 0,
                 deletedAt: 0,
@@ -94,8 +94,8 @@ export class AppInstallsUninstallsEventsProcessor {
                 data: {
                   message:
                     type === 'RELATIONSHIP_INSTALLED'
-                      ? 'App Installed by new store: '
-                      : 'App Uninstalled by store: ',
+                      ? `${name} Installed by our store:   ${shop.myshopifyDomain}`
+                      : `${name} Uninstalled by our store:   ${shop.myshopifyDomain}`,
                   payload: event,
                 },
                 createdAt: DateHelper.convertIsoToTimestamp(occurredAt),
@@ -119,7 +119,6 @@ export class AppInstallsUninstallsEventsProcessor {
                   leadId: existingLead.id,
                   projectId,
                   integrationId: integrationId,
-                  organizationId: organizationId,
                   createdAt: DateHelper.convertIsoToTimestamp(occurredAt),
                   updatedAt: 0,
                   deletedAt: 0,
@@ -135,8 +134,8 @@ export class AppInstallsUninstallsEventsProcessor {
                 data: {
                   message:
                     type === 'RELATIONSHIP_UNINSTALLED'
-                      ? 'App Uninstalled by store: '
-                      : 'App Installed by store: ',
+                      ? `${name} Uninstalled by our store:   ${shop.myshopifyDomain}`
+                      : `${name} Installed by our store:   ${shop.myshopifyDomain}`,
                   payload: event,
                 },
                 createdAt: DateHelper.convertIsoToTimestamp(occurredAt),

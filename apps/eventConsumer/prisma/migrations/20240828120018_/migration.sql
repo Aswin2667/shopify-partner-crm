@@ -1,6 +1,7 @@
 /*
   Warnings:
 
+  - You are about to drop the column `integrationId` on the `Contact` table. All the data in the column will be lost.
   - You are about to drop the column `body` on the `Email` table. All the data in the column will be lost.
   - You are about to drop the column `historyId` on the `Email` table. All the data in the column will be lost.
   - You are about to drop the column `integrationId` on the `Email` table. All the data in the column will be lost.
@@ -17,11 +18,18 @@
   - Added the required column `unsubscribed` to the `Email` table without a default value. This is not possible if the table is not empty.
   - Added the required column `userId` to the `Email` table without a default value. This is not possible if the table is not empty.
   - Added the required column `organizationId` to the `LeadProject` table without a default value. This is not possible if the table is not empty.
-  - Made the column `integrationId` on table `LeadProject` required. This step will fail if there are existing NULL values in that column.
+  - Added the required column `appApiKey` to the `Project` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `creAppId` to the `Project` table without a default value. This is not possible if the table is not empty.
 
 */
 -- DropForeignKey
+ALTER TABLE "Contact" DROP CONSTRAINT "Contact_integrationId_fkey";
+
+-- DropForeignKey
 ALTER TABLE "LeadProject" DROP CONSTRAINT "LeadProject_integrationId_fkey";
+
+-- AlterTable
+ALTER TABLE "Contact" DROP COLUMN "integrationId";
 
 -- AlterTable
 ALTER TABLE "Email" DROP COLUMN "body",
@@ -49,5 +57,8 @@ ALTER COLUMN "bcc" DROP DEFAULT,
 ALTER COLUMN "bcc" SET DATA TYPE TEXT;
 
 -- AlterTable
-ALTER TABLE "LeadProject" ADD COLUMN     "organizationId" TEXT NOT NULL,
-ALTER COLUMN "integrationId" SET NOT NULL;
+ALTER TABLE "LeadProject" ADD COLUMN     "organizationId" TEXT NOT NULL;
+
+-- AlterTable
+ALTER TABLE "Project" ADD COLUMN     "appApiKey" TEXT NOT NULL,
+ADD COLUMN     "creAppId" TEXT NOT NULL;

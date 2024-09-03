@@ -23,38 +23,38 @@
 //   }
 
 //   fragment creditEventDetails on AppEvent {
-//     ... on CreditApplied {
-//       type
-//       shop {
-//         id
-//         myshopifyDomain
-//         avatarUrl
-//         name
-//         __typename
-//       }
-//       occurredAt
-//     }
-//     ... on CreditFailed {
-//       type
-//       shop {
-//         id
-//         myshopifyDomain
-//         avatarUrl
-//         name
-//         __typename
-//       }
-//       occurredAt
-//     }
-//     ... on CreditPending {
-//       type
-//       shop {
-//         id
-//         myshopifyDomain
-//         avatarUrl
-//         name
-//         __typename
-//       }
-//       occurredAt
-//     }
+    // ... on CreditApplied {
+    //   type
+    //   shop {
+    //     id
+    //     myshopifyDomain
+    //     avatarUrl
+    //     name
+    //     __typename
+    //   }
+    //   occurredAt
+    // }
+    // ... on CreditFailed {
+    //   type
+    //   shop {
+    //     id
+    //     myshopifyDomain
+    //     avatarUrl
+    //     name
+    //     __typename
+    //   }
+    //   occurredAt
+    // }
+    // ... on CreditPending {
+    //   type
+    //   shop {
+    //     id
+    //     myshopifyDomain
+    //     avatarUrl
+    //     name
+    //     __typename
+    //   }
+    //   occurredAt
+    // }
 //   }
 // `;

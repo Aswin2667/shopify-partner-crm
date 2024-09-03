@@ -2,7 +2,7 @@
 CREATE TYPE "leadStatus" AS ENUM ('POTENTIAL', 'CUSTOMER', 'INTERESTED', 'NOT_INTERESTED', 'BAD_FIT', 'QUALIFIED', 'CANCELED');
 
 -- CreateEnum
-CREATE TYPE "LeadActivityType" AS ENUM ('LEAD_CREATED', 'LEAD_UPDATED', 'NOTE_CREATED', 'NOTE_UPDATED', 'NOTE_DELETED', 'EMAIL', 'CALL', 'TASK', 'MEETING', 'STATUS_CHANGE');
+CREATE TYPE "LeadActivityType" AS ENUM ('LEAD_CREATED', 'LEAD_UPDATED', 'NOTE_CREATED', 'NOTE_UPDATED', 'NOTE_DELETED', 'EMAIL', 'CALL', 'TASK', 'MEETING', 'STATUS_CHANGE', 'RELATIONSHIP_INSTALLED', 'RELATIONSHIP_UNINSTALLED', 'CREDIT_APPLIED', 'CREDIT_FAILED', 'CREDIT_PENDING', 'ONE_TIME_CHARGE_ACCEPTED', 'ONE_TIME_CHARGE_ACTIVATED', 'ONE_TIME_CHARGE_DECLINED', 'ONE_TIME_CHARGE_EXPIRED', 'RELATIONSHIP_REACTIVATED', 'RELATIONSHIP_DEACTIVATED', 'SUBSCRIPTION_APPROACHING_CAPPED_AMOUNT', 'SUBSCRIPTION_CAPPED_AMOUNT_UPDATED', 'SUBSCRIPTION_CHARGE_ACCEPTED', 'SUBSCRIPTION_CHARGE_ACTIVATED', 'SUBSCRIPTION_CHARGE_CANCELED', 'SUBSCRIPTION_CHARGE_DECLINED', 'SUBSCRIPTION_CHARGE_EXPIRED', 'SUBSCRIPTION_CHARGE_FROZEN', 'SUBSCRIPTION_CHARGE_UNFROZEN');
 
 -- CreateEnum
 CREATE TYPE "AuthenticationMethod" AS ENUM ('GOOGLE', 'MAGIC_LINK');
@@ -74,6 +74,7 @@ CREATE TABLE "Project" (
     "name" TEXT NOT NULL,
     "type" TEXT NOT NULL,
     "data" JSONB NOT NULL,
+    "isSynced" BOOLEAN NOT NULL DEFAULT false,
     "organizationId" TEXT NOT NULL,
     "createdAt" BIGSERIAL NOT NULL,
     "updatedAt" BIGSERIAL NOT NULL,
@@ -91,6 +92,7 @@ CREATE TABLE "LeadNotes" (
     "createdAt" BIGINT NOT NULL,
     "updatedAt" BIGINT NOT NULL,
     "deletedAt" BIGINT NOT NULL,
+    "userId" TEXT NOT NULL,
 
     CONSTRAINT "LeadNotes_pkey" PRIMARY KEY ("id")
 );
@@ -107,6 +109,8 @@ CREATE TABLE "Lead" (
     "createdAt" BIGSERIAL NOT NULL,
     "updatedAt" BIGSERIAL NOT NULL,
     "deletedAt" BIGINT NOT NULL,
+    "integrationId" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
 
     CONSTRAINT "Lead_pkey" PRIMARY KEY ("id")
 );
@@ -116,6 +120,7 @@ CREATE TABLE "LeadProject" (
     "id" TEXT NOT NULL,
     "leadId" TEXT NOT NULL,
     "projectId" TEXT NOT NULL,
+    "integrationId" TEXT NOT NULL,
     "createdAt" BIGSERIAL NOT NULL,
     "updatedAt" BIGSERIAL NOT NULL,
     "deletedAt" BIGINT NOT NULL,
@@ -140,6 +145,7 @@ CREATE TABLE "Contact" (
     "createdAt" BIGINT NOT NULL,
     "updatedAt" BIGINT NOT NULL,
     "deletedAt" BIGINT NOT NULL,
+    "integrationId" TEXT NOT NULL,
 
     CONSTRAINT "Contact_pkey" PRIMARY KEY ("id")
 );
@@ -169,7 +175,7 @@ CREATE TABLE "LeadActivity" (
     "deletedAt" BIGINT NOT NULL,
     "userId" TEXT,
     "noteId" TEXT,
-    "type" TEXT NOT NULL,
+    "type" "LeadActivityType" NOT NULL,
 
     CONSTRAINT "LeadActivity_pkey" PRIMARY KEY ("id")
 );
@@ -177,21 +183,18 @@ CREATE TABLE "LeadActivity" (
 -- CreateTable
 CREATE TABLE "Email" (
     "id" TEXT NOT NULL,
+    "to" TEXT[],
+    "cc" TEXT[] DEFAULT ARRAY[]::TEXT[],
+    "bcc" TEXT[] DEFAULT ARRAY[]::TEXT[],
     "subject" TEXT,
+    "body" TEXT NOT NULL,
     "messageId" TEXT NOT NULL,
-    "hasAttachments" BOOLEAN NOT NULL,
-    "unsubscribed" BOOLEAN NOT NULL,
-    "failed" BOOLEAN NOT NULL,
-    "skipped" BOOLEAN NOT NULL,
-    "opened" BOOLEAN NOT NULL,
-    "sent" BOOLEAN NOT NULL,
-    "time" BIGINT NOT NULL,
-    "cc" TEXT,
-    "bcc" TEXT,
-    "from" TEXT NOT NULL,
-    "to" TEXT NOT NULL,
+    "threadId" TEXT NOT NULL,
+    "historyId" TEXT,
+    "labelIds" TEXT[],
+    "sentAt" BIGINT NOT NULL,
     "deletedAt" BIGINT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "integrationId" TEXT NOT NULL,
 
     CONSTRAINT "Email_pkey" PRIMARY KEY ("id")
 );
@@ -269,10 +272,25 @@ ALTER TABLE "Project" ADD CONSTRAINT "Project_integrationId_fkey" FOREIGN KEY ("
 ALTER TABLE "LeadNotes" ADD CONSTRAINT "LeadNotes_leadId_fkey" FOREIGN KEY ("leadId") REFERENCES "Lead"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "LeadNotes" ADD CONSTRAINT "LeadNotes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Lead" ADD CONSTRAINT "Lead_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Lead" ADD CONSTRAINT "Lead_integrationId_fkey" FOREIGN KEY ("integrationId") REFERENCES "Integration"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "LeadProject" ADD CONSTRAINT "LeadProject_integrationId_fkey" FOREIGN KEY ("integrationId") REFERENCES "Integration"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "LeadProject" ADD CONSTRAINT "LeadProject_leadId_fkey" FOREIGN KEY ("leadId") REFERENCES "Lead"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "LeadProject" ADD CONSTRAINT "LeadProject_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Contact" ADD CONSTRAINT "Contact_integrationId_fkey" FOREIGN KEY ("integrationId") REFERENCES "Integration"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Contact" ADD CONSTRAINT "Contact_leadId_fkey" FOREIGN KEY ("leadId") REFERENCES "Lead"("id") ON DELETE SET NULL ON UPDATE CASCADE;
