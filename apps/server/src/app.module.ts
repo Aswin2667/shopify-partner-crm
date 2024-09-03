@@ -39,6 +39,7 @@ import { ContactController } from './contacts/contact.controller';
 import { ContactService } from './contacts/contact.service';
 import { IntegrationModule } from './integration/integration.module';
 import { Service } from './.service';
+import { LeadStatusModule } from './LeadStatus/lead-status.module';
 
 @Module({
   imports: [
@@ -69,6 +70,7 @@ import { Service } from './.service';
     ProjectModule,
     AuthModule,
     IntegrationModule,
+    LeadStatusModule
   ],
   controllers: [
     UserController,

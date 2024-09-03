@@ -189,7 +189,7 @@ const Compose = (props: Props): JSX.Element => {
             />
           )}
           <h6 className="capitalize text-base">{gmail?.data.name}</h6>
-          <h6 className="text-gray-500 text-[13px]">{gmail?.data.email}</h6>
+          <h6 className="text-gray-500 text-[13px]">{gmail?.data.email}</h6> 
         </div>
       </div>
       {/* To */}

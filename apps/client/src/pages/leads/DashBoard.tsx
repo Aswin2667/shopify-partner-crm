@@ -62,7 +62,6 @@ export default function LeadDashboard() {
       setLead(response.data.data);
       console.log(response.data.data);
     };
-
     fetchData();
   }, [leadId]);
   return (
