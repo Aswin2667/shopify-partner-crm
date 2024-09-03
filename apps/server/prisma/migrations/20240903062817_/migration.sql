@@ -1,7 +1,4 @@
 -- CreateEnum
-CREATE TYPE "leadStatus" AS ENUM ('POTENTIAL', 'CUSTOMER', 'INTERESTED', 'NOT_INTERESTED', 'BAD_FIT', 'QUALIFIED', 'CANCELED');
-
--- CreateEnum
 CREATE TYPE "LeadActivityType" AS ENUM ('LEAD_CREATED', 'LEAD_UPDATED', 'NOTE_CREATED', 'NOTE_UPDATED', 'NOTE_DELETED', 'EMAIL', 'CALL', 'TASK', 'MEETING', 'STATUS_CHANGE', 'RELATIONSHIP_INSTALLED', 'RELATIONSHIP_UNINSTALLED', 'CREDIT_APPLIED', 'CREDIT_FAILED', 'CREDIT_PENDING', 'ONE_TIME_CHARGE_ACCEPTED', 'ONE_TIME_CHARGE_ACTIVATED', 'ONE_TIME_CHARGE_DECLINED', 'ONE_TIME_CHARGE_EXPIRED', 'RELATIONSHIP_REACTIVATED', 'RELATIONSHIP_DEACTIVATED', 'SUBSCRIPTION_APPROACHING_CAPPED_AMOUNT', 'SUBSCRIPTION_CAPPED_AMOUNT_UPDATED', 'SUBSCRIPTION_CHARGE_ACCEPTED', 'SUBSCRIPTION_CHARGE_ACTIVATED', 'SUBSCRIPTION_CHARGE_CANCELED', 'SUBSCRIPTION_CHARGE_DECLINED', 'SUBSCRIPTION_CHARGE_EXPIRED', 'SUBSCRIPTION_CHARGE_FROZEN', 'SUBSCRIPTION_CHARGE_UNFROZEN');
 
 -- CreateEnum
@@ -12,6 +9,9 @@ CREATE TYPE "OrgMemberRole" AS ENUM ('ADMIN', 'MEMBER');
 
 -- CreateEnum
 CREATE TYPE "AppVersion" AS ENUM ('V2', 'V3');
+
+-- CreateEnum
+CREATE TYPE "IntegrationType" AS ENUM ('GMAIL', 'SHOPIFY', 'MAIL_GUN', 'SEND_GRID');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -76,8 +76,6 @@ CREATE TABLE "Project" (
     "data" JSONB NOT NULL,
     "isSynced" BOOLEAN NOT NULL DEFAULT false,
     "organizationId" TEXT NOT NULL,
-    "creAppId" TEXT NOT NULL,
-    "appApiKey" TEXT NOT NULL,
     "createdAt" BIGSERIAL NOT NULL,
     "updatedAt" BIGSERIAL NOT NULL,
     "deletedAt" BIGINT,
@@ -104,14 +102,14 @@ CREATE TABLE "Lead" (
     "id" TEXT NOT NULL,
     "shopifyDomain" TEXT NOT NULL,
     "shopifyStoreId" TEXT NOT NULL,
-    "status" "leadStatus" NOT NULL DEFAULT 'POTENTIAL',
+    "statusId" TEXT,
     "leadSource" TEXT,
     "shopDetails" JSONB,
     "industry" TEXT,
     "createdAt" BIGSERIAL NOT NULL,
     "updatedAt" BIGSERIAL NOT NULL,
     "deletedAt" BIGINT NOT NULL,
-    "integrationId" TEXT NOT NULL,
+    "integrationId" TEXT,
     "organizationId" TEXT NOT NULL,
 
     CONSTRAINT "Lead_pkey" PRIMARY KEY ("id")
@@ -123,7 +121,6 @@ CREATE TABLE "LeadProject" (
     "leadId" TEXT NOT NULL,
     "projectId" TEXT NOT NULL,
     "integrationId" TEXT NOT NULL,
-    "organizationId" TEXT NOT NULL,
     "createdAt" BIGSERIAL NOT NULL,
     "updatedAt" BIGSERIAL NOT NULL,
     "deletedAt" BIGINT NOT NULL,
@@ -143,11 +140,13 @@ CREATE TABLE "Contact" (
     "secondaryPhNo" TEXT,
     "industry" TEXT,
     "type" TEXT,
-    "leadId" TEXT,
+    "leadId" TEXT NOT NULL,
     "lastContacted" BIGINT,
     "createdAt" BIGINT NOT NULL,
     "updatedAt" BIGINT NOT NULL,
     "deletedAt" BIGINT NOT NULL,
+    "organizationId" TEXT NOT NULL,
+    "integrationId" TEXT NOT NULL,
 
     CONSTRAINT "Contact_pkey" PRIMARY KEY ("id")
 );
@@ -185,21 +184,18 @@ CREATE TABLE "LeadActivity" (
 -- CreateTable
 CREATE TABLE "Email" (
     "id" TEXT NOT NULL,
+    "to" TEXT[],
+    "cc" TEXT[] DEFAULT ARRAY[]::TEXT[],
+    "bcc" TEXT[] DEFAULT ARRAY[]::TEXT[],
     "subject" TEXT,
+    "body" TEXT NOT NULL,
     "messageId" TEXT NOT NULL,
-    "hasAttachments" BOOLEAN NOT NULL,
-    "unsubscribed" BOOLEAN NOT NULL,
-    "failed" BOOLEAN NOT NULL,
-    "skipped" BOOLEAN NOT NULL,
-    "opened" BOOLEAN NOT NULL,
-    "sent" BOOLEAN NOT NULL,
-    "time" BIGINT NOT NULL,
-    "cc" TEXT,
-    "bcc" TEXT,
-    "from" TEXT NOT NULL,
-    "to" TEXT NOT NULL,
+    "threadId" TEXT NOT NULL,
+    "historyId" TEXT,
+    "labelIds" TEXT[],
+    "sentAt" BIGINT NOT NULL,
     "deletedAt" BIGINT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "integrationId" TEXT NOT NULL,
 
     CONSTRAINT "Email_pkey" PRIMARY KEY ("id")
 );
@@ -210,11 +206,12 @@ CREATE TABLE "Integration" (
     "organizationId" TEXT NOT NULL,
     "data" JSONB NOT NULL,
     "description" TEXT,
-    "type" TEXT,
+    "type" "IntegrationType" NOT NULL,
     "createdAt" BIGINT NOT NULL,
     "updatedAt" BIGINT NOT NULL,
     "deletedAt" BIGINT NOT NULL,
     "name" TEXT NOT NULL,
+    "isSingular" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Integration_pkey" PRIMARY KEY ("id")
 );
@@ -223,12 +220,27 @@ CREATE TABLE "Integration" (
 CREATE TABLE "Template" (
     "id" TEXT NOT NULL,
     "html" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "createdAt" BIGINT NOT NULL,
+    "isEnabled" BOOLEAN NOT NULL,
+    "updatedAt" BIGINT NOT NULL,
+    "deletedAt" BIGINT NOT NULL,
+    "userId" TEXT,
+    "orgId" TEXT,
+
+    CONSTRAINT "Template_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "LeadStatus" (
+    "id" TEXT NOT NULL,
+    "status" TEXT NOT NULL,
     "createdAt" BIGINT NOT NULL,
     "updatedAt" BIGINT NOT NULL,
     "deletedAt" BIGINT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL,
 
-    CONSTRAINT "Template_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "LeadStatus_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -280,10 +292,16 @@ ALTER TABLE "LeadNotes" ADD CONSTRAINT "LeadNotes_leadId_fkey" FOREIGN KEY ("lea
 ALTER TABLE "LeadNotes" ADD CONSTRAINT "LeadNotes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Lead" ADD CONSTRAINT "Lead_statusId_fkey" FOREIGN KEY ("statusId") REFERENCES "LeadStatus"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Lead" ADD CONSTRAINT "Lead_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Lead" ADD CONSTRAINT "Lead_integrationId_fkey" FOREIGN KEY ("integrationId") REFERENCES "Integration"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Lead" ADD CONSTRAINT "Lead_integrationId_fkey" FOREIGN KEY ("integrationId") REFERENCES "Integration"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "LeadProject" ADD CONSTRAINT "LeadProject_integrationId_fkey" FOREIGN KEY ("integrationId") REFERENCES "Integration"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "LeadProject" ADD CONSTRAINT "LeadProject_leadId_fkey" FOREIGN KEY ("leadId") REFERENCES "Lead"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -292,7 +310,13 @@ ALTER TABLE "LeadProject" ADD CONSTRAINT "LeadProject_leadId_fkey" FOREIGN KEY (
 ALTER TABLE "LeadProject" ADD CONSTRAINT "LeadProject_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Contact" ADD CONSTRAINT "Contact_leadId_fkey" FOREIGN KEY ("leadId") REFERENCES "Lead"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Contact" ADD CONSTRAINT "Contact_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Contact" ADD CONSTRAINT "Contact_integrationId_fkey" FOREIGN KEY ("integrationId") REFERENCES "Integration"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Contact" ADD CONSTRAINT "Contact_leadId_fkey" FOREIGN KEY ("leadId") REFERENCES "Lead"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Attachment" ADD CONSTRAINT "Attachment_leadId_fkey" FOREIGN KEY ("leadId") REFERENCES "Lead"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -310,4 +334,10 @@ ALTER TABLE "LeadActivity" ADD CONSTRAINT "LeadActivity_noteId_fkey" FOREIGN KEY
 ALTER TABLE "Integration" ADD CONSTRAINT "Integration_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Template" ADD CONSTRAINT "Template_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Template" ADD CONSTRAINT "Template_orgId_fkey" FOREIGN KEY ("orgId") REFERENCES "Organization"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Template" ADD CONSTRAINT "Template_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "LeadStatus" ADD CONSTRAINT "LeadStatus_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

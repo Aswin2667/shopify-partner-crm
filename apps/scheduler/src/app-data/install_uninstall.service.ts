@@ -39,7 +39,7 @@ export class Install_uninstall_dataService {
       const data = response.data.data;
       const events = data?.app?.events?.edges || [];
 
-      console.log('Received events data:', data);
+      // console.log('Received events data:', data);
   
       if (events.length) {
         let oldestOccurredAt = lastOccurredAt;
@@ -85,12 +85,12 @@ export class Install_uninstall_dataService {
             await this.cacheManager.set(backupShopifyDomainKey, oldestShopifyDomain);
           }
 
-          console.log('Filtered Events Length:', filteredEvents.length);
-          console.log('Filtered Event Details:', filteredEvents);
+          // console.log('Filtered Events Length:', filteredEvents.length);
+          // console.log('Filtered Event Details:', filteredEvents);
   
           return filteredEvents;
         } else {
-          console.log('No new events found. Marking app as synced.');
+          // console.log('No new events found. Marking app as synced.');
           await this.updateProjectSyncStatus(appId, true);
   
           if (lastOccurredAt) {
@@ -107,7 +107,7 @@ export class Install_uninstall_dataService {
           return null;
         }
       } else {
-        console.log('No events found. Marking app as synced.');
+        // console.log('No events found. Marking app as synced.');
         await this.updateProjectSyncStatus(appId, true);
 
         if (lastOccurredAt) {
@@ -157,7 +157,7 @@ export class Install_uninstall_dataService {
       const data = response.data.data;
       const events = data?.app?.events?.edges || [];
 
-      console.log('Received events data after lastOccurredAt:', data);
+      // console.log('Received events data after lastOccurredAt:', data);
 
       if (events.length) {
         const eventResponses = events.map(edge => edge.node);
@@ -174,13 +174,13 @@ export class Install_uninstall_dataService {
             await this.cacheManager.set(lastOccurredAtKey, latestOccurredAt);
           }
 
-          console.log('Filtered new events:', newEvents);
-          console.log('Latest event occurred At:', latestOccurredAt);
+          // console.log('Filtered new events:', newEvents);
+          // console.log('Latest event occurred At:', latestOccurredAt);
 
           return newEvents;
 
         } else {
-          console.log('No new events after filtering ...');
+          // console.log('No new events after filtering ...');
           return null;
         }
 

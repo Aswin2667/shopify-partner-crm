@@ -17,7 +17,7 @@ export class AppService {
 
   @Cron('*/5 * * * * *')
   async handleCron() {
-    console.log('Running cron job every 5 seconds...');
+    // console.log('Running cron job every 5 seconds...');
 
     const apps: [] = await prisma.$queryRaw`
       SELECT 
@@ -37,7 +37,7 @@ export class AppService {
       WHERE 
         p."isSynced" = false`;
 
-    console.log('Apps to be processed:', apps);
+    // console.log('Apps to be processed:', apps);
 
     await Promise.all(apps.map(async (app) => {
       const events = await this.installUninstallService.fetchAndStoreData(app);
@@ -52,7 +52,7 @@ export class AppService {
 
   @Cron('*/5 * * * * *')
   async handleCron2() {
-    console.log('Running cron job every 5 seconds...');
+    // console.log('Running cron job every 5 seconds...');
 
     const apps: [] = await prisma.$queryRaw`
       SELECT 
@@ -71,7 +71,7 @@ export class AppService {
         i."id" = p."integrationId"
 `;
 
-    console.log('Apps to be processed:', apps);
+    // console.log('Apps to be processed:', apps);
 
     await Promise.all(apps.map(async (app) => {
       const events = await this.installUninstallService.fetchEventsAfterLastOccurredAt(app);
