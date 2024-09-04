@@ -6,7 +6,6 @@ import RootLayout from "./components/RootLayout";
 import CreateIntegration from "./pages/Integration/Index";
 import IntegrationDetailScreen from "./pages/Integration/components/IntegrationDetailScreen";
 import IntegrationDashboard from "./pages/Integration/components/IntegrationDashboard";
-import IntegrationDashboardLayout from "./pages/Integration/components/IntegrationDashboardLayout";
 import WorkflowTable from "./pages/workflows/table/WorkflowTable";
 import Editor from "./pages/workflows/editor/Editor";
 import SettingsLayout from "./pages/organizations/settings/layout";
@@ -30,6 +29,8 @@ import Templates from "./pages/organizations/settings/templates/Templates";
 import TemplateCreatePage from "./pages/organizations/settings/templates/TemplateCreatePage";
 import Invitation from "./pages/auth/Invitation";
 import LeadStatus from "./pages/organizations/settings/leadStatus/LeadStatus";
+import ProjectSettings from "./pages/Project/settings/page";
+import CliAccesTokens from "./pages/Project/settings/CliAccessTokens";
 
 export const routes = createBrowserRouter([
   {
@@ -111,7 +112,18 @@ export const routes = createBrowserRouter([
           },
           {
             path: ":projectId",
-            element: <DashboardPage />,
+            element: <ProjectSettings />,
+            children:[
+            {
+              index: true,
+              path:"tokens",
+              element: <CliAccesTokens/>,
+            },
+            {
+              path:"webhooks",
+              element: <>webhooks</>,
+            }
+            ]
           },
         ],
       },
