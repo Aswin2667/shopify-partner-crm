@@ -7,13 +7,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import image from "../../../assets/shopify-logo.svg";
 import { DataTableToolbar } from "./components/data-table-toolbar";
 import LeadBadge from "../components/LeadBadge";
-import { DataTablePagination } from "./components/test";
+import { DataTablePagination } from "./components/data-table-pagination";
 
 const LeadTable: React.FC = () => {
   const { organizationId } = useParams();
   const [leads, setLeads] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(15);
   const [totalItems, setTotalItems] = useState<number>(0);
 
   const navigate = useNavigate();
@@ -59,9 +59,9 @@ const LeadTable: React.FC = () => {
 
   return (
     <div className="p-4 h-screen flex flex-col overflow-auto">
-      <div className="relative overflow-hidden flex-1 bg-white dark:bg-black sm:rounded-lg flex flex-col items-between">
+      <div className="relative overflow-hidden h-screen flex-1 bg-white dark:bg-black sm:rounded-lg flex flex-col items-between">
         <DataTableToolbar leads={leads} />
-        <div className="overflow-auto h-[750px]">
+        <div className="overflow-auto mb-4 max-h-[700px]">
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-200">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-900 dark:text-gray-400">
@@ -74,15 +74,27 @@ const LeadTable: React.FC = () => {
                         className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         aria-label="Select all"
                       />
-                      <label htmlFor="checkbox-all" className="sr-only">Select all</label>
+                      <label htmlFor="checkbox-all" className="sr-only">
+                        Select all
+                      </label>
                     </div>
                   </th>
-                  <th scope="col" className="px-4 py-3">Product</th>
-                  <th scope="col" className="px-4 py-3">Status</th>
-                  <th scope="col" className="px-4 py-3">Sales</th>
-                  <th scope="col" className="px-4 py-3">Revenue</th>
-                  <th scope="col" className="px-4 py-3 text-center">Created At</th>
-                </tr>
+                  <th scope="col" className="px-4 py-3">
+                    Product
+                  </th>
+                  <th scope="col" className="px-4 py-3">
+                    Status
+                  </th>
+                  <th scope="col" className="px-4 py-3">
+                    Sales
+                  </th>
+                  <th scope="col" className="px-4 py-3">
+                    Revenue
+                  </th>
+                  <th scope="col" className="px-4 py-3 text-center">
+                    Created At
+                  </th>
+                 </tr>
               </thead>
               <tbody>
                 {currentLeads.map((lead) => (
@@ -98,8 +110,13 @@ const LeadTable: React.FC = () => {
                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           aria-label={`Select lead ${lead.id}`}
                         />
-                        <label htmlFor={`checkbox-table-${lead.id}`} className="sr-only">Select lead {lead.id}</label>
-                      </div>
+                        <label
+                          htmlFor={`checkbox-table-${lead.id}`}
+                          className="sr-only"
+                        >
+                          Select lead {lead.id}
+                        </label>
+                       </div>
                     </td>
                     <th
                       scope="row"
@@ -136,15 +153,14 @@ const LeadTable: React.FC = () => {
             </table>
           </div>
         </div>
-     
-          <DataTablePagination
-            currentPage={currentPage}
-            itemsPerPage={itemsPerPage}
-            totalItems={totalItems}
-            onPageChange={handlePageChange}
-            onItemsPerPageChange={handleItemsPerPageChange}
-           />
-      </div>
+        <DataTablePagination
+          currentPage={currentPage}
+          itemsPerPage={itemsPerPage}
+          totalItems={totalItems}
+          onPageChange={handlePageChange}
+          onItemsPerPageChange={handleItemsPerPageChange}
+        />
+       </div>
     </div>
   );
 };

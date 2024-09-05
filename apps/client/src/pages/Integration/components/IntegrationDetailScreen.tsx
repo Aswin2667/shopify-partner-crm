@@ -5,7 +5,6 @@ import close from "../../../assets/closeio.png";
 import { RiArrowLeftRightFill } from "react-icons/ri";
 import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import LinkButton from "@/components/ui/link-button";
-import CreateShopifyModal from "./CreateShopifyModal";
 import { useSelector } from "react-redux";
 import { IntegrationData } from "@org/integrations";
 import CreateIntegrationModal from "./CreateIntegrationModal";
@@ -26,6 +25,7 @@ const IntegrationDetailScreen: React.FC = () => {
   return (
     <>
       <div className="space-y-10 flex flex-col items-center">
+        {/* BreadCrumbs */}
         <div className="border-b p-5 w-full">
           <Link
             to=".."
@@ -100,7 +100,6 @@ const IntegrationCard = ({ logo = close, title = "Close" }) => {
 // import { integrationsList } from "../utils/data";
 // import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
 // import LinkButton from "@/components/ui/link-button";
-// import CreateShopifyModal from "./CreateShopifyModal";
 
 // const IntegrationDetailScreen: React.FC = () => {
 //   const { integrationType } = useParams();
@@ -155,7 +154,6 @@ const IntegrationCard = ({ logo = close, title = "Close" }) => {
 //           )}
 //         </div>
 //       </div>
-//       <CreateShopifyModal />
 //     </>
 //   );
 // };

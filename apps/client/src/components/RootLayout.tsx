@@ -45,7 +45,7 @@ export default function RootLayout() {
 
   useQueryEvents(
     useQuery({
-      queryKey: ["getAllIntegrations", organizationId],
+      queryKey: ["getAllIntegrationsPresentInOrg", organizationId],
       queryFn: async () =>
         await IntegrationService.getAllIntegrationsByOrgId(organizationId as string),
     }),

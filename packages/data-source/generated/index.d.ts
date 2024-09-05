@@ -83,6 +83,11 @@ export type Integration = $Result.DefaultSelection<Prisma.$IntegrationPayload>
  * 
  */
 export type Template = $Result.DefaultSelection<Prisma.$TemplatePayload>
+/**
+ * Model LeadStatus
+ * 
+ */
+export type LeadStatus = $Result.DefaultSelection<Prisma.$LeadStatusPayload>
 
 /**
  * Enums
@@ -102,19 +107,6 @@ export const OrgMemberRole: {
 };
 
 export type OrgMemberRole = (typeof OrgMemberRole)[keyof typeof OrgMemberRole]
-
-
-export const leadStatus: {
-  POTENTIAL: 'POTENTIAL',
-  CUSTOMER: 'CUSTOMER',
-  INTERESTED: 'INTERESTED',
-  NOT_INTERESTED: 'NOT_INTERESTED',
-  BAD_FIT: 'BAD_FIT',
-  QUALIFIED: 'QUALIFIED',
-  CANCELED: 'CANCELED'
-};
-
-export type leadStatus = (typeof leadStatus)[keyof typeof leadStatus]
 
 
 export const LeadActivityType: {
@@ -171,10 +163,6 @@ export const AuthenticationMethod: typeof $Enums.AuthenticationMethod
 export type OrgMemberRole = $Enums.OrgMemberRole
 
 export const OrgMemberRole: typeof $Enums.OrgMemberRole
-
-export type leadStatus = $Enums.leadStatus
-
-export const leadStatus: typeof $Enums.leadStatus
 
 export type LeadActivityType = $Enums.LeadActivityType
 
@@ -445,6 +433,16 @@ export class PrismaClient<
     * ```
     */
   get template(): Prisma.TemplateDelegate<ExtArgs>;
+
+  /**
+   * `prisma.leadStatus`: Exposes CRUD operations for the **LeadStatus** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LeadStatuses
+    * const leadStatuses = await prisma.leadStatus.findMany()
+    * ```
+    */
+  get leadStatus(): Prisma.LeadStatusDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -935,7 +933,8 @@ export namespace Prisma {
     LeadActivity: 'LeadActivity',
     Email: 'Email',
     Integration: 'Integration',
-    Template: 'Template'
+    Template: 'Template',
+    LeadStatus: 'LeadStatus'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -951,7 +950,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "orgMemberInvite" | "organization" | "orgMember" | "project" | "leadNotes" | "lead" | "leadProject" | "contact" | "attachment" | "leadActivity" | "email" | "integration" | "template"
+      modelProps: "user" | "orgMemberInvite" | "organization" | "orgMember" | "project" | "leadNotes" | "lead" | "leadProject" | "contact" | "attachment" | "leadActivity" | "email" | "integration" | "template" | "leadStatus"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1935,6 +1934,76 @@ export namespace Prisma {
           }
         }
       }
+      LeadStatus: {
+        payload: Prisma.$LeadStatusPayload<ExtArgs>
+        fields: Prisma.LeadStatusFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LeadStatusFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadStatusPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LeadStatusFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadStatusPayload>
+          }
+          findFirst: {
+            args: Prisma.LeadStatusFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadStatusPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LeadStatusFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadStatusPayload>
+          }
+          findMany: {
+            args: Prisma.LeadStatusFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadStatusPayload>[]
+          }
+          create: {
+            args: Prisma.LeadStatusCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadStatusPayload>
+          }
+          createMany: {
+            args: Prisma.LeadStatusCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LeadStatusCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadStatusPayload>[]
+          }
+          delete: {
+            args: Prisma.LeadStatusDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadStatusPayload>
+          }
+          update: {
+            args: Prisma.LeadStatusUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadStatusPayload>
+          }
+          deleteMany: {
+            args: Prisma.LeadStatusDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LeadStatusUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.LeadStatusUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeadStatusPayload>
+          }
+          aggregate: {
+            args: Prisma.LeadStatusAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLeadStatus>
+          }
+          groupBy: {
+            args: Prisma.LeadStatusGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LeadStatusGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LeadStatusCountArgs<ExtArgs>
+            result: $Utils.Optional<LeadStatusCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2169,6 +2238,8 @@ export namespace Prisma {
     integrations: number
     Lead: number
     contact: number
+    Template: number
+    LeadStatus: number
   }
 
   export type OrganizationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2178,6 +2249,8 @@ export namespace Prisma {
     integrations?: boolean | OrganizationCountOutputTypeCountIntegrationsArgs
     Lead?: boolean | OrganizationCountOutputTypeCountLeadArgs
     contact?: boolean | OrganizationCountOutputTypeCountContactArgs
+    Template?: boolean | OrganizationCountOutputTypeCountTemplateArgs
+    LeadStatus?: boolean | OrganizationCountOutputTypeCountLeadStatusArgs
   }
 
   // Custom InputTypes
@@ -2231,6 +2304,20 @@ export namespace Prisma {
    */
   export type OrganizationCountOutputTypeCountContactArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ContactWhereInput
+  }
+
+  /**
+   * OrganizationCountOutputType without action
+   */
+  export type OrganizationCountOutputTypeCountTemplateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TemplateWhereInput
+  }
+
+  /**
+   * OrganizationCountOutputType without action
+   */
+  export type OrganizationCountOutputTypeCountLeadStatusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadStatusWhereInput
   }
 
 
@@ -2418,6 +2505,37 @@ export namespace Prisma {
    */
   export type IntegrationCountOutputTypeCountLeadProjectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LeadProjectWhereInput
+  }
+
+
+  /**
+   * Count Type LeadStatusCountOutputType
+   */
+
+  export type LeadStatusCountOutputType = {
+    Lead: number
+  }
+
+  export type LeadStatusCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Lead?: boolean | LeadStatusCountOutputTypeCountLeadArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * LeadStatusCountOutputType without action
+   */
+  export type LeadStatusCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadStatusCountOutputType
+     */
+    select?: LeadStatusCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * LeadStatusCountOutputType without action
+   */
+  export type LeadStatusCountOutputTypeCountLeadArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadWhereInput
   }
 
 
@@ -4804,6 +4922,8 @@ export namespace Prisma {
     integrations?: boolean | Organization$integrationsArgs<ExtArgs>
     Lead?: boolean | Organization$LeadArgs<ExtArgs>
     contact?: boolean | Organization$contactArgs<ExtArgs>
+    Template?: boolean | Organization$TemplateArgs<ExtArgs>
+    LeadStatus?: boolean | Organization$LeadStatusArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["organization"]>
 
@@ -4834,6 +4954,8 @@ export namespace Prisma {
     integrations?: boolean | Organization$integrationsArgs<ExtArgs>
     Lead?: boolean | Organization$LeadArgs<ExtArgs>
     contact?: boolean | Organization$contactArgs<ExtArgs>
+    Template?: boolean | Organization$TemplateArgs<ExtArgs>
+    LeadStatus?: boolean | Organization$LeadStatusArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OrganizationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4847,6 +4969,8 @@ export namespace Prisma {
       integrations: Prisma.$IntegrationPayload<ExtArgs>[]
       Lead: Prisma.$LeadPayload<ExtArgs>[]
       contact: Prisma.$ContactPayload<ExtArgs>[]
+      Template: Prisma.$TemplatePayload<ExtArgs>[]
+      LeadStatus: Prisma.$LeadStatusPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5226,6 +5350,8 @@ export namespace Prisma {
     integrations<T extends Organization$integrationsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$integrationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IntegrationPayload<ExtArgs>, T, "findMany"> | Null>
     Lead<T extends Organization$LeadArgs<ExtArgs> = {}>(args?: Subset<T, Organization$LeadArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany"> | Null>
     contact<T extends Organization$contactArgs<ExtArgs> = {}>(args?: Subset<T, Organization$contactArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findMany"> | Null>
+    Template<T extends Organization$TemplateArgs<ExtArgs> = {}>(args?: Subset<T, Organization$TemplateArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemplatePayload<ExtArgs>, T, "findMany"> | Null>
+    LeadStatus<T extends Organization$LeadStatusArgs<ExtArgs> = {}>(args?: Subset<T, Organization$LeadStatusArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadStatusPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5693,6 +5819,46 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ContactScalarFieldEnum | ContactScalarFieldEnum[]
+  }
+
+  /**
+   * Organization.Template
+   */
+  export type Organization$TemplateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Template
+     */
+    select?: TemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemplateInclude<ExtArgs> | null
+    where?: TemplateWhereInput
+    orderBy?: TemplateOrderByWithRelationInput | TemplateOrderByWithRelationInput[]
+    cursor?: TemplateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TemplateScalarFieldEnum | TemplateScalarFieldEnum[]
+  }
+
+  /**
+   * Organization.LeadStatus
+   */
+  export type Organization$LeadStatusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadStatus
+     */
+    select?: LeadStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadStatusInclude<ExtArgs> | null
+    where?: LeadStatusWhereInput
+    orderBy?: LeadStatusOrderByWithRelationInput | LeadStatusOrderByWithRelationInput[]
+    cursor?: LeadStatusWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeadStatusScalarFieldEnum | LeadStatusScalarFieldEnum[]
   }
 
   /**
@@ -6743,6 +6909,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     type: string | null
+    cliAccessToken: string | null
     isSynced: boolean | null
     organizationId: string | null
     createdAt: bigint | null
@@ -6755,6 +6922,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     type: string | null
+    cliAccessToken: string | null
     isSynced: boolean | null
     organizationId: string | null
     createdAt: bigint | null
@@ -6768,6 +6936,7 @@ export namespace Prisma {
     name: number
     type: number
     data: number
+    cliAccessToken: number
     isSynced: number
     organizationId: number
     createdAt: number
@@ -6794,6 +6963,7 @@ export namespace Prisma {
     id?: true
     name?: true
     type?: true
+    cliAccessToken?: true
     isSynced?: true
     organizationId?: true
     createdAt?: true
@@ -6806,6 +6976,7 @@ export namespace Prisma {
     id?: true
     name?: true
     type?: true
+    cliAccessToken?: true
     isSynced?: true
     organizationId?: true
     createdAt?: true
@@ -6819,6 +6990,7 @@ export namespace Prisma {
     name?: true
     type?: true
     data?: true
+    cliAccessToken?: true
     isSynced?: true
     organizationId?: true
     createdAt?: true
@@ -6919,12 +7091,13 @@ export namespace Prisma {
     name: string
     type: string
     data: JsonValue
+    cliAccessToken: string | null
     isSynced: boolean
     organizationId: string
     createdAt: bigint
     updatedAt: bigint
     deletedAt: bigint | null
-    integrationId: string | null
+    integrationId: string
     _count: ProjectCountAggregateOutputType | null
     _avg: ProjectAvgAggregateOutputType | null
     _sum: ProjectSumAggregateOutputType | null
@@ -6951,6 +7124,7 @@ export namespace Prisma {
     name?: boolean
     type?: boolean
     data?: boolean
+    cliAccessToken?: boolean
     isSynced?: boolean
     organizationId?: boolean
     createdAt?: boolean
@@ -6959,7 +7133,7 @@ export namespace Prisma {
     integrationId?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     leadProject?: boolean | Project$leadProjectArgs<ExtArgs>
-    integration?: boolean | Project$integrationArgs<ExtArgs>
+    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
@@ -6968,6 +7142,7 @@ export namespace Prisma {
     name?: boolean
     type?: boolean
     data?: boolean
+    cliAccessToken?: boolean
     isSynced?: boolean
     organizationId?: boolean
     createdAt?: boolean
@@ -6975,7 +7150,7 @@ export namespace Prisma {
     deletedAt?: boolean
     integrationId?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    integration?: boolean | Project$integrationArgs<ExtArgs>
+    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectScalar = {
@@ -6983,6 +7158,7 @@ export namespace Prisma {
     name?: boolean
     type?: boolean
     data?: boolean
+    cliAccessToken?: boolean
     isSynced?: boolean
     organizationId?: boolean
     createdAt?: boolean
@@ -6994,12 +7170,12 @@ export namespace Prisma {
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     leadProject?: boolean | Project$leadProjectArgs<ExtArgs>
-    integration?: boolean | Project$integrationArgs<ExtArgs>
+    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    integration?: boolean | Project$integrationArgs<ExtArgs>
+    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
   }
 
   export type $ProjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7007,19 +7183,20 @@ export namespace Prisma {
     objects: {
       organization: Prisma.$OrganizationPayload<ExtArgs>
       leadProject: Prisma.$LeadProjectPayload<ExtArgs>[]
-      integration: Prisma.$IntegrationPayload<ExtArgs> | null
+      integration: Prisma.$IntegrationPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
       type: string
       data: Prisma.JsonValue
+      cliAccessToken: string | null
       isSynced: boolean
       organizationId: string
       createdAt: bigint
       updatedAt: bigint
       deletedAt: bigint | null
-      integrationId: string | null
+      integrationId: string
     }, ExtArgs["result"]["project"]>
     composites: {}
   }
@@ -7386,7 +7563,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     leadProject<T extends Project$leadProjectArgs<ExtArgs> = {}>(args?: Subset<T, Project$leadProjectArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadProjectPayload<ExtArgs>, T, "findMany"> | Null>
-    integration<T extends Project$integrationArgs<ExtArgs> = {}>(args?: Subset<T, Project$integrationArgs<ExtArgs>>): Prisma__IntegrationClient<$Result.GetResult<Prisma.$IntegrationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    integration<T extends IntegrationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, IntegrationDefaultArgs<ExtArgs>>): Prisma__IntegrationClient<$Result.GetResult<Prisma.$IntegrationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7420,6 +7597,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Project", 'String'>
     readonly type: FieldRef<"Project", 'String'>
     readonly data: FieldRef<"Project", 'Json'>
+    readonly cliAccessToken: FieldRef<"Project", 'String'>
     readonly isSynced: FieldRef<"Project", 'Boolean'>
     readonly organizationId: FieldRef<"Project", 'String'>
     readonly createdAt: FieldRef<"Project", 'BigInt'>
@@ -7761,21 +7939,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LeadProjectScalarFieldEnum | LeadProjectScalarFieldEnum[]
-  }
-
-  /**
-   * Project.integration
-   */
-  export type Project$integrationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Integration
-     */
-    select?: IntegrationSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: IntegrationInclude<ExtArgs> | null
-    where?: IntegrationWhereInput
   }
 
   /**
@@ -8852,7 +9015,7 @@ export namespace Prisma {
     id: string | null
     shopifyDomain: string | null
     shopifyStoreId: string | null
-    status: $Enums.leadStatus | null
+    statusId: string | null
     leadSource: string | null
     industry: string | null
     createdAt: bigint | null
@@ -8866,7 +9029,7 @@ export namespace Prisma {
     id: string | null
     shopifyDomain: string | null
     shopifyStoreId: string | null
-    status: $Enums.leadStatus | null
+    statusId: string | null
     leadSource: string | null
     industry: string | null
     createdAt: bigint | null
@@ -8880,7 +9043,7 @@ export namespace Prisma {
     id: number
     shopifyDomain: number
     shopifyStoreId: number
-    status: number
+    statusId: number
     leadSource: number
     shopDetails: number
     industry: number
@@ -8909,7 +9072,7 @@ export namespace Prisma {
     id?: true
     shopifyDomain?: true
     shopifyStoreId?: true
-    status?: true
+    statusId?: true
     leadSource?: true
     industry?: true
     createdAt?: true
@@ -8923,7 +9086,7 @@ export namespace Prisma {
     id?: true
     shopifyDomain?: true
     shopifyStoreId?: true
-    status?: true
+    statusId?: true
     leadSource?: true
     industry?: true
     createdAt?: true
@@ -8937,7 +9100,7 @@ export namespace Prisma {
     id?: true
     shopifyDomain?: true
     shopifyStoreId?: true
-    status?: true
+    statusId?: true
     leadSource?: true
     shopDetails?: true
     industry?: true
@@ -9039,14 +9202,14 @@ export namespace Prisma {
     id: string
     shopifyDomain: string
     shopifyStoreId: string
-    status: $Enums.leadStatus
+    statusId: string | null
     leadSource: string | null
     shopDetails: JsonValue | null
     industry: string | null
     createdAt: bigint
     updatedAt: bigint
     deletedAt: bigint
-    integrationId: string
+    integrationId: string | null
     organizationId: string
     _count: LeadCountAggregateOutputType | null
     _avg: LeadAvgAggregateOutputType | null
@@ -9073,7 +9236,7 @@ export namespace Prisma {
     id?: boolean
     shopifyDomain?: boolean
     shopifyStoreId?: boolean
-    status?: boolean
+    statusId?: boolean
     leadSource?: boolean
     shopDetails?: boolean
     industry?: boolean
@@ -9082,13 +9245,14 @@ export namespace Prisma {
     deletedAt?: boolean
     integrationId?: boolean
     organizationId?: boolean
+    status?: boolean | Lead$statusArgs<ExtArgs>
     Project?: boolean | Lead$ProjectArgs<ExtArgs>
     leadActivities?: boolean | Lead$leadActivitiesArgs<ExtArgs>
     leadNotes?: boolean | Lead$leadNotesArgs<ExtArgs>
     contacts?: boolean | Lead$contactsArgs<ExtArgs>
     attachments?: boolean | Lead$attachmentsArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
+    integration?: boolean | Lead$integrationArgs<ExtArgs>
     _count?: boolean | LeadCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lead"]>
 
@@ -9096,7 +9260,7 @@ export namespace Prisma {
     id?: boolean
     shopifyDomain?: boolean
     shopifyStoreId?: boolean
-    status?: boolean
+    statusId?: boolean
     leadSource?: boolean
     shopDetails?: boolean
     industry?: boolean
@@ -9105,15 +9269,16 @@ export namespace Prisma {
     deletedAt?: boolean
     integrationId?: boolean
     organizationId?: boolean
+    status?: boolean | Lead$statusArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
+    integration?: boolean | Lead$integrationArgs<ExtArgs>
   }, ExtArgs["result"]["lead"]>
 
   export type LeadSelectScalar = {
     id?: boolean
     shopifyDomain?: boolean
     shopifyStoreId?: boolean
-    status?: boolean
+    statusId?: boolean
     leadSource?: boolean
     shopDetails?: boolean
     industry?: boolean
@@ -9125,43 +9290,46 @@ export namespace Prisma {
   }
 
   export type LeadInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    status?: boolean | Lead$statusArgs<ExtArgs>
     Project?: boolean | Lead$ProjectArgs<ExtArgs>
     leadActivities?: boolean | Lead$leadActivitiesArgs<ExtArgs>
     leadNotes?: boolean | Lead$leadNotesArgs<ExtArgs>
     contacts?: boolean | Lead$contactsArgs<ExtArgs>
     attachments?: boolean | Lead$attachmentsArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
+    integration?: boolean | Lead$integrationArgs<ExtArgs>
     _count?: boolean | LeadCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LeadIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    status?: boolean | Lead$statusArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
+    integration?: boolean | Lead$integrationArgs<ExtArgs>
   }
 
   export type $LeadPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Lead"
     objects: {
+      status: Prisma.$LeadStatusPayload<ExtArgs> | null
       Project: Prisma.$LeadProjectPayload<ExtArgs>[]
       leadActivities: Prisma.$LeadActivityPayload<ExtArgs>[]
       leadNotes: Prisma.$LeadNotesPayload<ExtArgs>[]
       contacts: Prisma.$ContactPayload<ExtArgs>[]
       attachments: Prisma.$AttachmentPayload<ExtArgs>[]
       organization: Prisma.$OrganizationPayload<ExtArgs>
-      integration: Prisma.$IntegrationPayload<ExtArgs>
+      integration: Prisma.$IntegrationPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       shopifyDomain: string
       shopifyStoreId: string
-      status: $Enums.leadStatus
+      statusId: string | null
       leadSource: string | null
       shopDetails: Prisma.JsonValue | null
       industry: string | null
       createdAt: bigint
       updatedAt: bigint
       deletedAt: bigint
-      integrationId: string
+      integrationId: string | null
       organizationId: string
     }, ExtArgs["result"]["lead"]>
     composites: {}
@@ -9527,13 +9695,14 @@ export namespace Prisma {
    */
   export interface Prisma__LeadClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    status<T extends Lead$statusArgs<ExtArgs> = {}>(args?: Subset<T, Lead$statusArgs<ExtArgs>>): Prisma__LeadStatusClient<$Result.GetResult<Prisma.$LeadStatusPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     Project<T extends Lead$ProjectArgs<ExtArgs> = {}>(args?: Subset<T, Lead$ProjectArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadProjectPayload<ExtArgs>, T, "findMany"> | Null>
     leadActivities<T extends Lead$leadActivitiesArgs<ExtArgs> = {}>(args?: Subset<T, Lead$leadActivitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadActivityPayload<ExtArgs>, T, "findMany"> | Null>
     leadNotes<T extends Lead$leadNotesArgs<ExtArgs> = {}>(args?: Subset<T, Lead$leadNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadNotesPayload<ExtArgs>, T, "findMany"> | Null>
     contacts<T extends Lead$contactsArgs<ExtArgs> = {}>(args?: Subset<T, Lead$contactsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findMany"> | Null>
     attachments<T extends Lead$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Lead$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany"> | Null>
     organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    integration<T extends IntegrationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, IntegrationDefaultArgs<ExtArgs>>): Prisma__IntegrationClient<$Result.GetResult<Prisma.$IntegrationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    integration<T extends Lead$integrationArgs<ExtArgs> = {}>(args?: Subset<T, Lead$integrationArgs<ExtArgs>>): Prisma__IntegrationClient<$Result.GetResult<Prisma.$IntegrationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9566,7 +9735,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Lead", 'String'>
     readonly shopifyDomain: FieldRef<"Lead", 'String'>
     readonly shopifyStoreId: FieldRef<"Lead", 'String'>
-    readonly status: FieldRef<"Lead", 'leadStatus'>
+    readonly statusId: FieldRef<"Lead", 'String'>
     readonly leadSource: FieldRef<"Lead", 'String'>
     readonly shopDetails: FieldRef<"Lead", 'Json'>
     readonly industry: FieldRef<"Lead", 'String'>
@@ -9893,6 +10062,21 @@ export namespace Prisma {
   }
 
   /**
+   * Lead.status
+   */
+  export type Lead$statusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadStatus
+     */
+    select?: LeadStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadStatusInclude<ExtArgs> | null
+    where?: LeadStatusWhereInput
+  }
+
+  /**
    * Lead.Project
    */
   export type Lead$ProjectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9990,6 +10174,21 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * Lead.integration
+   */
+  export type Lead$integrationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Integration
+     */
+    select?: IntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IntegrationInclude<ExtArgs> | null
+    where?: IntegrationWhereInput
   }
 
   /**
@@ -16389,28 +16588,37 @@ export namespace Prisma {
   export type TemplateMinAggregateOutputType = {
     id: string | null
     html: string | null
+    name: string | null
     createdAt: bigint | null
+    isEnabled: boolean | null
     updatedAt: bigint | null
     deletedAt: bigint | null
     userId: string | null
+    orgId: string | null
   }
 
   export type TemplateMaxAggregateOutputType = {
     id: string | null
     html: string | null
+    name: string | null
     createdAt: bigint | null
+    isEnabled: boolean | null
     updatedAt: bigint | null
     deletedAt: bigint | null
     userId: string | null
+    orgId: string | null
   }
 
   export type TemplateCountAggregateOutputType = {
     id: number
     html: number
+    name: number
     createdAt: number
+    isEnabled: number
     updatedAt: number
     deletedAt: number
     userId: number
+    orgId: number
     _all: number
   }
 
@@ -16430,28 +16638,37 @@ export namespace Prisma {
   export type TemplateMinAggregateInputType = {
     id?: true
     html?: true
+    name?: true
     createdAt?: true
+    isEnabled?: true
     updatedAt?: true
     deletedAt?: true
     userId?: true
+    orgId?: true
   }
 
   export type TemplateMaxAggregateInputType = {
     id?: true
     html?: true
+    name?: true
     createdAt?: true
+    isEnabled?: true
     updatedAt?: true
     deletedAt?: true
     userId?: true
+    orgId?: true
   }
 
   export type TemplateCountAggregateInputType = {
     id?: true
     html?: true
+    name?: true
     createdAt?: true
+    isEnabled?: true
     updatedAt?: true
     deletedAt?: true
     userId?: true
+    orgId?: true
     _all?: true
   }
 
@@ -16544,10 +16761,13 @@ export namespace Prisma {
   export type TemplateGroupByOutputType = {
     id: string
     html: string
+    name: string
     createdAt: bigint
+    isEnabled: boolean
     updatedAt: bigint
     deletedAt: bigint
-    userId: string
+    userId: string | null
+    orgId: string | null
     _count: TemplateCountAggregateOutputType | null
     _avg: TemplateAvgAggregateOutputType | null
     _sum: TemplateSumAggregateOutputType | null
@@ -16572,51 +16792,68 @@ export namespace Prisma {
   export type TemplateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     html?: boolean
+    name?: boolean
     createdAt?: boolean
+    isEnabled?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
     userId?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    orgId?: boolean
+    organization?: boolean | Template$organizationArgs<ExtArgs>
+    user?: boolean | Template$userArgs<ExtArgs>
   }, ExtArgs["result"]["template"]>
 
   export type TemplateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     html?: boolean
+    name?: boolean
     createdAt?: boolean
+    isEnabled?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
     userId?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    orgId?: boolean
+    organization?: boolean | Template$organizationArgs<ExtArgs>
+    user?: boolean | Template$userArgs<ExtArgs>
   }, ExtArgs["result"]["template"]>
 
   export type TemplateSelectScalar = {
     id?: boolean
     html?: boolean
+    name?: boolean
     createdAt?: boolean
+    isEnabled?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
     userId?: boolean
+    orgId?: boolean
   }
 
   export type TemplateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    organization?: boolean | Template$organizationArgs<ExtArgs>
+    user?: boolean | Template$userArgs<ExtArgs>
   }
   export type TemplateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    organization?: boolean | Template$organizationArgs<ExtArgs>
+    user?: boolean | Template$userArgs<ExtArgs>
   }
 
   export type $TemplatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Template"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
+      organization: Prisma.$OrganizationPayload<ExtArgs> | null
+      user: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       html: string
+      name: string
       createdAt: bigint
+      isEnabled: boolean
       updatedAt: bigint
       deletedAt: bigint
-      userId: string
+      userId: string | null
+      orgId: string | null
     }, ExtArgs["result"]["template"]>
     composites: {}
   }
@@ -16981,7 +17218,8 @@ export namespace Prisma {
    */
   export interface Prisma__TemplateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    organization<T extends Template$organizationArgs<ExtArgs> = {}>(args?: Subset<T, Template$organizationArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    user<T extends Template$userArgs<ExtArgs> = {}>(args?: Subset<T, Template$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17013,10 +17251,13 @@ export namespace Prisma {
   interface TemplateFieldRefs {
     readonly id: FieldRef<"Template", 'String'>
     readonly html: FieldRef<"Template", 'String'>
+    readonly name: FieldRef<"Template", 'String'>
     readonly createdAt: FieldRef<"Template", 'BigInt'>
+    readonly isEnabled: FieldRef<"Template", 'Boolean'>
     readonly updatedAt: FieldRef<"Template", 'BigInt'>
     readonly deletedAt: FieldRef<"Template", 'BigInt'>
     readonly userId: FieldRef<"Template", 'String'>
+    readonly orgId: FieldRef<"Template", 'String'>
   }
     
 
@@ -17335,6 +17576,36 @@ export namespace Prisma {
   }
 
   /**
+   * Template.organization
+   */
+  export type Template$organizationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Organization
+     */
+    select?: OrganizationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrganizationInclude<ExtArgs> | null
+    where?: OrganizationWhereInput
+  }
+
+  /**
+   * Template.user
+   */
+  export type Template$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
    * Template without action
    */
   export type TemplateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17346,6 +17617,1019 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: TemplateInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LeadStatus
+   */
+
+  export type AggregateLeadStatus = {
+    _count: LeadStatusCountAggregateOutputType | null
+    _avg: LeadStatusAvgAggregateOutputType | null
+    _sum: LeadStatusSumAggregateOutputType | null
+    _min: LeadStatusMinAggregateOutputType | null
+    _max: LeadStatusMaxAggregateOutputType | null
+  }
+
+  export type LeadStatusAvgAggregateOutputType = {
+    createdAt: number | null
+    updatedAt: number | null
+    deletedAt: number | null
+  }
+
+  export type LeadStatusSumAggregateOutputType = {
+    createdAt: bigint | null
+    updatedAt: bigint | null
+    deletedAt: bigint | null
+  }
+
+  export type LeadStatusMinAggregateOutputType = {
+    id: string | null
+    status: string | null
+    createdAt: bigint | null
+    updatedAt: bigint | null
+    deletedAt: bigint | null
+    organizationId: string | null
+  }
+
+  export type LeadStatusMaxAggregateOutputType = {
+    id: string | null
+    status: string | null
+    createdAt: bigint | null
+    updatedAt: bigint | null
+    deletedAt: bigint | null
+    organizationId: string | null
+  }
+
+  export type LeadStatusCountAggregateOutputType = {
+    id: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    deletedAt: number
+    organizationId: number
+    _all: number
+  }
+
+
+  export type LeadStatusAvgAggregateInputType = {
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type LeadStatusSumAggregateInputType = {
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type LeadStatusMinAggregateInputType = {
+    id?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    organizationId?: true
+  }
+
+  export type LeadStatusMaxAggregateInputType = {
+    id?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    organizationId?: true
+  }
+
+  export type LeadStatusCountAggregateInputType = {
+    id?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    organizationId?: true
+    _all?: true
+  }
+
+  export type LeadStatusAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeadStatus to aggregate.
+     */
+    where?: LeadStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadStatuses to fetch.
+     */
+    orderBy?: LeadStatusOrderByWithRelationInput | LeadStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LeadStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LeadStatuses
+    **/
+    _count?: true | LeadStatusCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LeadStatusAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LeadStatusSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LeadStatusMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LeadStatusMaxAggregateInputType
+  }
+
+  export type GetLeadStatusAggregateType<T extends LeadStatusAggregateArgs> = {
+        [P in keyof T & keyof AggregateLeadStatus]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLeadStatus[P]>
+      : GetScalarType<T[P], AggregateLeadStatus[P]>
+  }
+
+
+
+
+  export type LeadStatusGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadStatusWhereInput
+    orderBy?: LeadStatusOrderByWithAggregationInput | LeadStatusOrderByWithAggregationInput[]
+    by: LeadStatusScalarFieldEnum[] | LeadStatusScalarFieldEnum
+    having?: LeadStatusScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LeadStatusCountAggregateInputType | true
+    _avg?: LeadStatusAvgAggregateInputType
+    _sum?: LeadStatusSumAggregateInputType
+    _min?: LeadStatusMinAggregateInputType
+    _max?: LeadStatusMaxAggregateInputType
+  }
+
+  export type LeadStatusGroupByOutputType = {
+    id: string
+    status: string
+    createdAt: bigint
+    updatedAt: bigint
+    deletedAt: bigint
+    organizationId: string
+    _count: LeadStatusCountAggregateOutputType | null
+    _avg: LeadStatusAvgAggregateOutputType | null
+    _sum: LeadStatusSumAggregateOutputType | null
+    _min: LeadStatusMinAggregateOutputType | null
+    _max: LeadStatusMaxAggregateOutputType | null
+  }
+
+  type GetLeadStatusGroupByPayload<T extends LeadStatusGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LeadStatusGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LeadStatusGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LeadStatusGroupByOutputType[P]>
+            : GetScalarType<T[P], LeadStatusGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LeadStatusSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    organizationId?: boolean
+    Lead?: boolean | LeadStatus$LeadArgs<ExtArgs>
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+    _count?: boolean | LeadStatusCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["leadStatus"]>
+
+  export type LeadStatusSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    organizationId?: boolean
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["leadStatus"]>
+
+  export type LeadStatusSelectScalar = {
+    id?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    organizationId?: boolean
+  }
+
+  export type LeadStatusInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Lead?: boolean | LeadStatus$LeadArgs<ExtArgs>
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+    _count?: boolean | LeadStatusCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type LeadStatusIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+
+  export type $LeadStatusPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LeadStatus"
+    objects: {
+      Lead: Prisma.$LeadPayload<ExtArgs>[]
+      organization: Prisma.$OrganizationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      status: string
+      createdAt: bigint
+      updatedAt: bigint
+      deletedAt: bigint
+      organizationId: string
+    }, ExtArgs["result"]["leadStatus"]>
+    composites: {}
+  }
+
+  type LeadStatusGetPayload<S extends boolean | null | undefined | LeadStatusDefaultArgs> = $Result.GetResult<Prisma.$LeadStatusPayload, S>
+
+  type LeadStatusCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<LeadStatusFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: LeadStatusCountAggregateInputType | true
+    }
+
+  export interface LeadStatusDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LeadStatus'], meta: { name: 'LeadStatus' } }
+    /**
+     * Find zero or one LeadStatus that matches the filter.
+     * @param {LeadStatusFindUniqueArgs} args - Arguments to find a LeadStatus
+     * @example
+     * // Get one LeadStatus
+     * const leadStatus = await prisma.leadStatus.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LeadStatusFindUniqueArgs>(args: SelectSubset<T, LeadStatusFindUniqueArgs<ExtArgs>>): Prisma__LeadStatusClient<$Result.GetResult<Prisma.$LeadStatusPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one LeadStatus that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {LeadStatusFindUniqueOrThrowArgs} args - Arguments to find a LeadStatus
+     * @example
+     * // Get one LeadStatus
+     * const leadStatus = await prisma.leadStatus.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LeadStatusFindUniqueOrThrowArgs>(args: SelectSubset<T, LeadStatusFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LeadStatusClient<$Result.GetResult<Prisma.$LeadStatusPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first LeadStatus that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadStatusFindFirstArgs} args - Arguments to find a LeadStatus
+     * @example
+     * // Get one LeadStatus
+     * const leadStatus = await prisma.leadStatus.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LeadStatusFindFirstArgs>(args?: SelectSubset<T, LeadStatusFindFirstArgs<ExtArgs>>): Prisma__LeadStatusClient<$Result.GetResult<Prisma.$LeadStatusPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first LeadStatus that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadStatusFindFirstOrThrowArgs} args - Arguments to find a LeadStatus
+     * @example
+     * // Get one LeadStatus
+     * const leadStatus = await prisma.leadStatus.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LeadStatusFindFirstOrThrowArgs>(args?: SelectSubset<T, LeadStatusFindFirstOrThrowArgs<ExtArgs>>): Prisma__LeadStatusClient<$Result.GetResult<Prisma.$LeadStatusPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more LeadStatuses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadStatusFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LeadStatuses
+     * const leadStatuses = await prisma.leadStatus.findMany()
+     * 
+     * // Get first 10 LeadStatuses
+     * const leadStatuses = await prisma.leadStatus.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const leadStatusWithIdOnly = await prisma.leadStatus.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LeadStatusFindManyArgs>(args?: SelectSubset<T, LeadStatusFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadStatusPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a LeadStatus.
+     * @param {LeadStatusCreateArgs} args - Arguments to create a LeadStatus.
+     * @example
+     * // Create one LeadStatus
+     * const LeadStatus = await prisma.leadStatus.create({
+     *   data: {
+     *     // ... data to create a LeadStatus
+     *   }
+     * })
+     * 
+     */
+    create<T extends LeadStatusCreateArgs>(args: SelectSubset<T, LeadStatusCreateArgs<ExtArgs>>): Prisma__LeadStatusClient<$Result.GetResult<Prisma.$LeadStatusPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many LeadStatuses.
+     * @param {LeadStatusCreateManyArgs} args - Arguments to create many LeadStatuses.
+     * @example
+     * // Create many LeadStatuses
+     * const leadStatus = await prisma.leadStatus.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LeadStatusCreateManyArgs>(args?: SelectSubset<T, LeadStatusCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LeadStatuses and returns the data saved in the database.
+     * @param {LeadStatusCreateManyAndReturnArgs} args - Arguments to create many LeadStatuses.
+     * @example
+     * // Create many LeadStatuses
+     * const leadStatus = await prisma.leadStatus.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LeadStatuses and only return the `id`
+     * const leadStatusWithIdOnly = await prisma.leadStatus.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LeadStatusCreateManyAndReturnArgs>(args?: SelectSubset<T, LeadStatusCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadStatusPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a LeadStatus.
+     * @param {LeadStatusDeleteArgs} args - Arguments to delete one LeadStatus.
+     * @example
+     * // Delete one LeadStatus
+     * const LeadStatus = await prisma.leadStatus.delete({
+     *   where: {
+     *     // ... filter to delete one LeadStatus
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LeadStatusDeleteArgs>(args: SelectSubset<T, LeadStatusDeleteArgs<ExtArgs>>): Prisma__LeadStatusClient<$Result.GetResult<Prisma.$LeadStatusPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one LeadStatus.
+     * @param {LeadStatusUpdateArgs} args - Arguments to update one LeadStatus.
+     * @example
+     * // Update one LeadStatus
+     * const leadStatus = await prisma.leadStatus.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LeadStatusUpdateArgs>(args: SelectSubset<T, LeadStatusUpdateArgs<ExtArgs>>): Prisma__LeadStatusClient<$Result.GetResult<Prisma.$LeadStatusPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more LeadStatuses.
+     * @param {LeadStatusDeleteManyArgs} args - Arguments to filter LeadStatuses to delete.
+     * @example
+     * // Delete a few LeadStatuses
+     * const { count } = await prisma.leadStatus.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LeadStatusDeleteManyArgs>(args?: SelectSubset<T, LeadStatusDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LeadStatuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadStatusUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LeadStatuses
+     * const leadStatus = await prisma.leadStatus.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LeadStatusUpdateManyArgs>(args: SelectSubset<T, LeadStatusUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one LeadStatus.
+     * @param {LeadStatusUpsertArgs} args - Arguments to update or create a LeadStatus.
+     * @example
+     * // Update or create a LeadStatus
+     * const leadStatus = await prisma.leadStatus.upsert({
+     *   create: {
+     *     // ... data to create a LeadStatus
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LeadStatus we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LeadStatusUpsertArgs>(args: SelectSubset<T, LeadStatusUpsertArgs<ExtArgs>>): Prisma__LeadStatusClient<$Result.GetResult<Prisma.$LeadStatusPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of LeadStatuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadStatusCountArgs} args - Arguments to filter LeadStatuses to count.
+     * @example
+     * // Count the number of LeadStatuses
+     * const count = await prisma.leadStatus.count({
+     *   where: {
+     *     // ... the filter for the LeadStatuses we want to count
+     *   }
+     * })
+    **/
+    count<T extends LeadStatusCountArgs>(
+      args?: Subset<T, LeadStatusCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LeadStatusCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LeadStatus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadStatusAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LeadStatusAggregateArgs>(args: Subset<T, LeadStatusAggregateArgs>): Prisma.PrismaPromise<GetLeadStatusAggregateType<T>>
+
+    /**
+     * Group by LeadStatus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeadStatusGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LeadStatusGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LeadStatusGroupByArgs['orderBy'] }
+        : { orderBy?: LeadStatusGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LeadStatusGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLeadStatusGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LeadStatus model
+   */
+  readonly fields: LeadStatusFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LeadStatus.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LeadStatusClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    Lead<T extends LeadStatus$LeadArgs<ExtArgs> = {}>(args?: Subset<T, LeadStatus$LeadArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany"> | Null>
+    organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LeadStatus model
+   */ 
+  interface LeadStatusFieldRefs {
+    readonly id: FieldRef<"LeadStatus", 'String'>
+    readonly status: FieldRef<"LeadStatus", 'String'>
+    readonly createdAt: FieldRef<"LeadStatus", 'BigInt'>
+    readonly updatedAt: FieldRef<"LeadStatus", 'BigInt'>
+    readonly deletedAt: FieldRef<"LeadStatus", 'BigInt'>
+    readonly organizationId: FieldRef<"LeadStatus", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LeadStatus findUnique
+   */
+  export type LeadStatusFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadStatus
+     */
+    select?: LeadStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadStatus to fetch.
+     */
+    where: LeadStatusWhereUniqueInput
+  }
+
+  /**
+   * LeadStatus findUniqueOrThrow
+   */
+  export type LeadStatusFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadStatus
+     */
+    select?: LeadStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadStatus to fetch.
+     */
+    where: LeadStatusWhereUniqueInput
+  }
+
+  /**
+   * LeadStatus findFirst
+   */
+  export type LeadStatusFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadStatus
+     */
+    select?: LeadStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadStatus to fetch.
+     */
+    where?: LeadStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadStatuses to fetch.
+     */
+    orderBy?: LeadStatusOrderByWithRelationInput | LeadStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeadStatuses.
+     */
+    cursor?: LeadStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeadStatuses.
+     */
+    distinct?: LeadStatusScalarFieldEnum | LeadStatusScalarFieldEnum[]
+  }
+
+  /**
+   * LeadStatus findFirstOrThrow
+   */
+  export type LeadStatusFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadStatus
+     */
+    select?: LeadStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadStatus to fetch.
+     */
+    where?: LeadStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadStatuses to fetch.
+     */
+    orderBy?: LeadStatusOrderByWithRelationInput | LeadStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeadStatuses.
+     */
+    cursor?: LeadStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeadStatuses.
+     */
+    distinct?: LeadStatusScalarFieldEnum | LeadStatusScalarFieldEnum[]
+  }
+
+  /**
+   * LeadStatus findMany
+   */
+  export type LeadStatusFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadStatus
+     */
+    select?: LeadStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which LeadStatuses to fetch.
+     */
+    where?: LeadStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeadStatuses to fetch.
+     */
+    orderBy?: LeadStatusOrderByWithRelationInput | LeadStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LeadStatuses.
+     */
+    cursor?: LeadStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeadStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeadStatuses.
+     */
+    skip?: number
+    distinct?: LeadStatusScalarFieldEnum | LeadStatusScalarFieldEnum[]
+  }
+
+  /**
+   * LeadStatus create
+   */
+  export type LeadStatusCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadStatus
+     */
+    select?: LeadStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadStatusInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LeadStatus.
+     */
+    data: XOR<LeadStatusCreateInput, LeadStatusUncheckedCreateInput>
+  }
+
+  /**
+   * LeadStatus createMany
+   */
+  export type LeadStatusCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LeadStatuses.
+     */
+    data: LeadStatusCreateManyInput | LeadStatusCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LeadStatus createManyAndReturn
+   */
+  export type LeadStatusCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadStatus
+     */
+    select?: LeadStatusSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many LeadStatuses.
+     */
+    data: LeadStatusCreateManyInput | LeadStatusCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadStatusIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LeadStatus update
+   */
+  export type LeadStatusUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadStatus
+     */
+    select?: LeadStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadStatusInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LeadStatus.
+     */
+    data: XOR<LeadStatusUpdateInput, LeadStatusUncheckedUpdateInput>
+    /**
+     * Choose, which LeadStatus to update.
+     */
+    where: LeadStatusWhereUniqueInput
+  }
+
+  /**
+   * LeadStatus updateMany
+   */
+  export type LeadStatusUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LeadStatuses.
+     */
+    data: XOR<LeadStatusUpdateManyMutationInput, LeadStatusUncheckedUpdateManyInput>
+    /**
+     * Filter which LeadStatuses to update
+     */
+    where?: LeadStatusWhereInput
+  }
+
+  /**
+   * LeadStatus upsert
+   */
+  export type LeadStatusUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadStatus
+     */
+    select?: LeadStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadStatusInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LeadStatus to update in case it exists.
+     */
+    where: LeadStatusWhereUniqueInput
+    /**
+     * In case the LeadStatus found by the `where` argument doesn't exist, create a new LeadStatus with this data.
+     */
+    create: XOR<LeadStatusCreateInput, LeadStatusUncheckedCreateInput>
+    /**
+     * In case the LeadStatus was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LeadStatusUpdateInput, LeadStatusUncheckedUpdateInput>
+  }
+
+  /**
+   * LeadStatus delete
+   */
+  export type LeadStatusDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadStatus
+     */
+    select?: LeadStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadStatusInclude<ExtArgs> | null
+    /**
+     * Filter which LeadStatus to delete.
+     */
+    where: LeadStatusWhereUniqueInput
+  }
+
+  /**
+   * LeadStatus deleteMany
+   */
+  export type LeadStatusDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeadStatuses to delete
+     */
+    where?: LeadStatusWhereInput
+  }
+
+  /**
+   * LeadStatus.Lead
+   */
+  export type LeadStatus$LeadArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Lead
+     */
+    select?: LeadSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
+    where?: LeadWhereInput
+    orderBy?: LeadOrderByWithRelationInput | LeadOrderByWithRelationInput[]
+    cursor?: LeadWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeadScalarFieldEnum | LeadScalarFieldEnum[]
+  }
+
+  /**
+   * LeadStatus without action
+   */
+  export type LeadStatusDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadStatus
+     */
+    select?: LeadStatusSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadStatusInclude<ExtArgs> | null
   }
 
 
@@ -17423,6 +18707,7 @@ export namespace Prisma {
     name: 'name',
     type: 'type',
     data: 'data',
+    cliAccessToken: 'cliAccessToken',
     isSynced: 'isSynced',
     organizationId: 'organizationId',
     createdAt: 'createdAt',
@@ -17451,7 +18736,7 @@ export namespace Prisma {
     id: 'id',
     shopifyDomain: 'shopifyDomain',
     shopifyStoreId: 'shopifyStoreId',
-    status: 'status',
+    statusId: 'statusId',
     leadSource: 'leadSource',
     shopDetails: 'shopDetails',
     industry: 'industry',
@@ -17569,13 +18854,28 @@ export namespace Prisma {
   export const TemplateScalarFieldEnum: {
     id: 'id',
     html: 'html',
+    name: 'name',
     createdAt: 'createdAt',
+    isEnabled: 'isEnabled',
     updatedAt: 'updatedAt',
     deletedAt: 'deletedAt',
-    userId: 'userId'
+    userId: 'userId',
+    orgId: 'orgId'
   };
 
   export type TemplateScalarFieldEnum = (typeof TemplateScalarFieldEnum)[keyof typeof TemplateScalarFieldEnum]
+
+
+  export const LeadStatusScalarFieldEnum: {
+    id: 'id',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt',
+    organizationId: 'organizationId'
+  };
+
+  export type LeadStatusScalarFieldEnum = (typeof LeadStatusScalarFieldEnum)[keyof typeof LeadStatusScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -17698,20 +18998,6 @@ export namespace Prisma {
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
-   * Reference to a field of type 'leadStatus'
-   */
-  export type EnumleadStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'leadStatus'>
-    
-
-
-  /**
-   * Reference to a field of type 'leadStatus[]'
-   */
-  export type ListEnumleadStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'leadStatus[]'>
     
 
 
@@ -17956,6 +19242,8 @@ export namespace Prisma {
     integrations?: IntegrationListRelationFilter
     Lead?: LeadListRelationFilter
     contact?: ContactListRelationFilter
+    Template?: TemplateListRelationFilter
+    LeadStatus?: LeadStatusListRelationFilter
   }
 
   export type OrganizationOrderByWithRelationInput = {
@@ -17972,6 +19260,8 @@ export namespace Prisma {
     integrations?: IntegrationOrderByRelationAggregateInput
     Lead?: LeadOrderByRelationAggregateInput
     contact?: ContactOrderByRelationAggregateInput
+    Template?: TemplateOrderByRelationAggregateInput
+    LeadStatus?: LeadStatusOrderByRelationAggregateInput
   }
 
   export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
@@ -17991,6 +19281,8 @@ export namespace Prisma {
     integrations?: IntegrationListRelationFilter
     Lead?: LeadListRelationFilter
     contact?: ContactListRelationFilter
+    Template?: TemplateListRelationFilter
+    LeadStatus?: LeadStatusListRelationFilter
   }, "id">
 
   export type OrganizationOrderByWithAggregationInput = {
@@ -18100,15 +19392,16 @@ export namespace Prisma {
     name?: StringFilter<"Project"> | string
     type?: StringFilter<"Project"> | string
     data?: JsonFilter<"Project">
+    cliAccessToken?: StringNullableFilter<"Project"> | string | null
     isSynced?: BoolFilter<"Project"> | boolean
     organizationId?: StringFilter<"Project"> | string
     createdAt?: BigIntFilter<"Project"> | bigint | number
     updatedAt?: BigIntFilter<"Project"> | bigint | number
     deletedAt?: BigIntNullableFilter<"Project"> | bigint | number | null
-    integrationId?: StringNullableFilter<"Project"> | string | null
+    integrationId?: StringFilter<"Project"> | string
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     leadProject?: LeadProjectListRelationFilter
-    integration?: XOR<IntegrationNullableRelationFilter, IntegrationWhereInput> | null
+    integration?: XOR<IntegrationRelationFilter, IntegrationWhereInput>
   }
 
   export type ProjectOrderByWithRelationInput = {
@@ -18116,12 +19409,13 @@ export namespace Prisma {
     name?: SortOrder
     type?: SortOrder
     data?: SortOrder
+    cliAccessToken?: SortOrderInput | SortOrder
     isSynced?: SortOrder
     organizationId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
-    integrationId?: SortOrderInput | SortOrder
+    integrationId?: SortOrder
     organization?: OrganizationOrderByWithRelationInput
     leadProject?: LeadProjectOrderByRelationAggregateInput
     integration?: IntegrationOrderByWithRelationInput
@@ -18135,15 +19429,16 @@ export namespace Prisma {
     name?: StringFilter<"Project"> | string
     type?: StringFilter<"Project"> | string
     data?: JsonFilter<"Project">
+    cliAccessToken?: StringNullableFilter<"Project"> | string | null
     isSynced?: BoolFilter<"Project"> | boolean
     organizationId?: StringFilter<"Project"> | string
     createdAt?: BigIntFilter<"Project"> | bigint | number
     updatedAt?: BigIntFilter<"Project"> | bigint | number
     deletedAt?: BigIntNullableFilter<"Project"> | bigint | number | null
-    integrationId?: StringNullableFilter<"Project"> | string | null
+    integrationId?: StringFilter<"Project"> | string
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     leadProject?: LeadProjectListRelationFilter
-    integration?: XOR<IntegrationNullableRelationFilter, IntegrationWhereInput> | null
+    integration?: XOR<IntegrationRelationFilter, IntegrationWhereInput>
   }, "id">
 
   export type ProjectOrderByWithAggregationInput = {
@@ -18151,12 +19446,13 @@ export namespace Prisma {
     name?: SortOrder
     type?: SortOrder
     data?: SortOrder
+    cliAccessToken?: SortOrderInput | SortOrder
     isSynced?: SortOrder
     organizationId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
-    integrationId?: SortOrderInput | SortOrder
+    integrationId?: SortOrder
     _count?: ProjectCountOrderByAggregateInput
     _avg?: ProjectAvgOrderByAggregateInput
     _max?: ProjectMaxOrderByAggregateInput
@@ -18172,12 +19468,13 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Project"> | string
     type?: StringWithAggregatesFilter<"Project"> | string
     data?: JsonWithAggregatesFilter<"Project">
+    cliAccessToken?: StringNullableWithAggregatesFilter<"Project"> | string | null
     isSynced?: BoolWithAggregatesFilter<"Project"> | boolean
     organizationId?: StringWithAggregatesFilter<"Project"> | string
     createdAt?: BigIntWithAggregatesFilter<"Project"> | bigint | number
     updatedAt?: BigIntWithAggregatesFilter<"Project"> | bigint | number
     deletedAt?: BigIntNullableWithAggregatesFilter<"Project"> | bigint | number | null
-    integrationId?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    integrationId?: StringWithAggregatesFilter<"Project"> | string
   }
 
   export type LeadNotesWhereInput = {
@@ -18260,37 +19557,39 @@ export namespace Prisma {
     id?: StringFilter<"Lead"> | string
     shopifyDomain?: StringFilter<"Lead"> | string
     shopifyStoreId?: StringFilter<"Lead"> | string
-    status?: EnumleadStatusFilter<"Lead"> | $Enums.leadStatus
+    statusId?: StringNullableFilter<"Lead"> | string | null
     leadSource?: StringNullableFilter<"Lead"> | string | null
     shopDetails?: JsonNullableFilter<"Lead">
     industry?: StringNullableFilter<"Lead"> | string | null
     createdAt?: BigIntFilter<"Lead"> | bigint | number
     updatedAt?: BigIntFilter<"Lead"> | bigint | number
     deletedAt?: BigIntFilter<"Lead"> | bigint | number
-    integrationId?: StringFilter<"Lead"> | string
+    integrationId?: StringNullableFilter<"Lead"> | string | null
     organizationId?: StringFilter<"Lead"> | string
+    status?: XOR<LeadStatusNullableRelationFilter, LeadStatusWhereInput> | null
     Project?: LeadProjectListRelationFilter
     leadActivities?: LeadActivityListRelationFilter
     leadNotes?: LeadNotesListRelationFilter
     contacts?: ContactListRelationFilter
     attachments?: AttachmentListRelationFilter
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
-    integration?: XOR<IntegrationRelationFilter, IntegrationWhereInput>
+    integration?: XOR<IntegrationNullableRelationFilter, IntegrationWhereInput> | null
   }
 
   export type LeadOrderByWithRelationInput = {
     id?: SortOrder
     shopifyDomain?: SortOrder
     shopifyStoreId?: SortOrder
-    status?: SortOrder
+    statusId?: SortOrderInput | SortOrder
     leadSource?: SortOrderInput | SortOrder
     shopDetails?: SortOrderInput | SortOrder
     industry?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    integrationId?: SortOrder
+    integrationId?: SortOrderInput | SortOrder
     organizationId?: SortOrder
+    status?: LeadStatusOrderByWithRelationInput
     Project?: LeadProjectOrderByRelationAggregateInput
     leadActivities?: LeadActivityOrderByRelationAggregateInput
     leadNotes?: LeadNotesOrderByRelationAggregateInput
@@ -18307,36 +19606,37 @@ export namespace Prisma {
     AND?: LeadWhereInput | LeadWhereInput[]
     OR?: LeadWhereInput[]
     NOT?: LeadWhereInput | LeadWhereInput[]
-    status?: EnumleadStatusFilter<"Lead"> | $Enums.leadStatus
+    statusId?: StringNullableFilter<"Lead"> | string | null
     leadSource?: StringNullableFilter<"Lead"> | string | null
     shopDetails?: JsonNullableFilter<"Lead">
     industry?: StringNullableFilter<"Lead"> | string | null
     createdAt?: BigIntFilter<"Lead"> | bigint | number
     updatedAt?: BigIntFilter<"Lead"> | bigint | number
     deletedAt?: BigIntFilter<"Lead"> | bigint | number
-    integrationId?: StringFilter<"Lead"> | string
+    integrationId?: StringNullableFilter<"Lead"> | string | null
     organizationId?: StringFilter<"Lead"> | string
+    status?: XOR<LeadStatusNullableRelationFilter, LeadStatusWhereInput> | null
     Project?: LeadProjectListRelationFilter
     leadActivities?: LeadActivityListRelationFilter
     leadNotes?: LeadNotesListRelationFilter
     contacts?: ContactListRelationFilter
     attachments?: AttachmentListRelationFilter
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
-    integration?: XOR<IntegrationRelationFilter, IntegrationWhereInput>
+    integration?: XOR<IntegrationNullableRelationFilter, IntegrationWhereInput> | null
   }, "id" | "shopifyDomain" | "shopifyStoreId">
 
   export type LeadOrderByWithAggregationInput = {
     id?: SortOrder
     shopifyDomain?: SortOrder
     shopifyStoreId?: SortOrder
-    status?: SortOrder
+    statusId?: SortOrderInput | SortOrder
     leadSource?: SortOrderInput | SortOrder
     shopDetails?: SortOrderInput | SortOrder
     industry?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    integrationId?: SortOrder
+    integrationId?: SortOrderInput | SortOrder
     organizationId?: SortOrder
     _count?: LeadCountOrderByAggregateInput
     _avg?: LeadAvgOrderByAggregateInput
@@ -18352,14 +19652,14 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Lead"> | string
     shopifyDomain?: StringWithAggregatesFilter<"Lead"> | string
     shopifyStoreId?: StringWithAggregatesFilter<"Lead"> | string
-    status?: EnumleadStatusWithAggregatesFilter<"Lead"> | $Enums.leadStatus
+    statusId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     leadSource?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     shopDetails?: JsonNullableWithAggregatesFilter<"Lead">
     industry?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     createdAt?: BigIntWithAggregatesFilter<"Lead"> | bigint | number
     updatedAt?: BigIntWithAggregatesFilter<"Lead"> | bigint | number
     deletedAt?: BigIntWithAggregatesFilter<"Lead"> | bigint | number
-    integrationId?: StringWithAggregatesFilter<"Lead"> | string
+    integrationId?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     organizationId?: StringWithAggregatesFilter<"Lead"> | string
   }
 
@@ -18914,20 +20214,28 @@ export namespace Prisma {
     NOT?: TemplateWhereInput | TemplateWhereInput[]
     id?: StringFilter<"Template"> | string
     html?: StringFilter<"Template"> | string
+    name?: StringFilter<"Template"> | string
     createdAt?: BigIntFilter<"Template"> | bigint | number
+    isEnabled?: BoolFilter<"Template"> | boolean
     updatedAt?: BigIntFilter<"Template"> | bigint | number
     deletedAt?: BigIntFilter<"Template"> | bigint | number
-    userId?: StringFilter<"Template"> | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
+    userId?: StringNullableFilter<"Template"> | string | null
+    orgId?: StringNullableFilter<"Template"> | string | null
+    organization?: XOR<OrganizationNullableRelationFilter, OrganizationWhereInput> | null
+    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
   }
 
   export type TemplateOrderByWithRelationInput = {
     id?: SortOrder
     html?: SortOrder
+    name?: SortOrder
     createdAt?: SortOrder
+    isEnabled?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    userId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    orgId?: SortOrderInput | SortOrder
+    organization?: OrganizationOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
 
@@ -18937,20 +20245,27 @@ export namespace Prisma {
     OR?: TemplateWhereInput[]
     NOT?: TemplateWhereInput | TemplateWhereInput[]
     html?: StringFilter<"Template"> | string
+    name?: StringFilter<"Template"> | string
     createdAt?: BigIntFilter<"Template"> | bigint | number
+    isEnabled?: BoolFilter<"Template"> | boolean
     updatedAt?: BigIntFilter<"Template"> | bigint | number
     deletedAt?: BigIntFilter<"Template"> | bigint | number
-    userId?: StringFilter<"Template"> | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
+    userId?: StringNullableFilter<"Template"> | string | null
+    orgId?: StringNullableFilter<"Template"> | string | null
+    organization?: XOR<OrganizationNullableRelationFilter, OrganizationWhereInput> | null
+    user?: XOR<UserNullableRelationFilter, UserWhereInput> | null
   }, "id">
 
   export type TemplateOrderByWithAggregationInput = {
     id?: SortOrder
     html?: SortOrder
+    name?: SortOrder
     createdAt?: SortOrder
+    isEnabled?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    userId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    orgId?: SortOrderInput | SortOrder
     _count?: TemplateCountOrderByAggregateInput
     _avg?: TemplateAvgOrderByAggregateInput
     _max?: TemplateMaxOrderByAggregateInput
@@ -18964,10 +20279,78 @@ export namespace Prisma {
     NOT?: TemplateScalarWhereWithAggregatesInput | TemplateScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Template"> | string
     html?: StringWithAggregatesFilter<"Template"> | string
+    name?: StringWithAggregatesFilter<"Template"> | string
     createdAt?: BigIntWithAggregatesFilter<"Template"> | bigint | number
+    isEnabled?: BoolWithAggregatesFilter<"Template"> | boolean
     updatedAt?: BigIntWithAggregatesFilter<"Template"> | bigint | number
     deletedAt?: BigIntWithAggregatesFilter<"Template"> | bigint | number
-    userId?: StringWithAggregatesFilter<"Template"> | string
+    userId?: StringNullableWithAggregatesFilter<"Template"> | string | null
+    orgId?: StringNullableWithAggregatesFilter<"Template"> | string | null
+  }
+
+  export type LeadStatusWhereInput = {
+    AND?: LeadStatusWhereInput | LeadStatusWhereInput[]
+    OR?: LeadStatusWhereInput[]
+    NOT?: LeadStatusWhereInput | LeadStatusWhereInput[]
+    id?: StringFilter<"LeadStatus"> | string
+    status?: StringFilter<"LeadStatus"> | string
+    createdAt?: BigIntFilter<"LeadStatus"> | bigint | number
+    updatedAt?: BigIntFilter<"LeadStatus"> | bigint | number
+    deletedAt?: BigIntFilter<"LeadStatus"> | bigint | number
+    organizationId?: StringFilter<"LeadStatus"> | string
+    Lead?: LeadListRelationFilter
+    organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
+  }
+
+  export type LeadStatusOrderByWithRelationInput = {
+    id?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    organizationId?: SortOrder
+    Lead?: LeadOrderByRelationAggregateInput
+    organization?: OrganizationOrderByWithRelationInput
+  }
+
+  export type LeadStatusWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LeadStatusWhereInput | LeadStatusWhereInput[]
+    OR?: LeadStatusWhereInput[]
+    NOT?: LeadStatusWhereInput | LeadStatusWhereInput[]
+    status?: StringFilter<"LeadStatus"> | string
+    createdAt?: BigIntFilter<"LeadStatus"> | bigint | number
+    updatedAt?: BigIntFilter<"LeadStatus"> | bigint | number
+    deletedAt?: BigIntFilter<"LeadStatus"> | bigint | number
+    organizationId?: StringFilter<"LeadStatus"> | string
+    Lead?: LeadListRelationFilter
+    organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
+  }, "id">
+
+  export type LeadStatusOrderByWithAggregationInput = {
+    id?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    organizationId?: SortOrder
+    _count?: LeadStatusCountOrderByAggregateInput
+    _avg?: LeadStatusAvgOrderByAggregateInput
+    _max?: LeadStatusMaxOrderByAggregateInput
+    _min?: LeadStatusMinOrderByAggregateInput
+    _sum?: LeadStatusSumOrderByAggregateInput
+  }
+
+  export type LeadStatusScalarWhereWithAggregatesInput = {
+    AND?: LeadStatusScalarWhereWithAggregatesInput | LeadStatusScalarWhereWithAggregatesInput[]
+    OR?: LeadStatusScalarWhereWithAggregatesInput[]
+    NOT?: LeadStatusScalarWhereWithAggregatesInput | LeadStatusScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LeadStatus"> | string
+    status?: StringWithAggregatesFilter<"LeadStatus"> | string
+    createdAt?: BigIntWithAggregatesFilter<"LeadStatus"> | bigint | number
+    updatedAt?: BigIntWithAggregatesFilter<"LeadStatus"> | bigint | number
+    deletedAt?: BigIntWithAggregatesFilter<"LeadStatus"> | bigint | number
+    organizationId?: StringWithAggregatesFilter<"LeadStatus"> | string
   }
 
   export type UserCreateInput = {
@@ -19163,6 +20546,8 @@ export namespace Prisma {
     integrations?: IntegrationCreateNestedManyWithoutOrganizationInput
     Lead?: LeadCreateNestedManyWithoutOrganizationInput
     contact?: ContactCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateInput = {
@@ -19179,6 +20564,8 @@ export namespace Prisma {
     integrations?: IntegrationUncheckedCreateNestedManyWithoutOrganizationInput
     Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUpdateInput = {
@@ -19195,6 +20582,8 @@ export namespace Prisma {
     integrations?: IntegrationUpdateManyWithoutOrganizationNestedInput
     Lead?: LeadUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateInput = {
@@ -19211,6 +20600,8 @@ export namespace Prisma {
     integrations?: IntegrationUncheckedUpdateManyWithoutOrganizationNestedInput
     Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationCreateManyInput = {
@@ -19316,13 +20707,14 @@ export namespace Prisma {
     name: string
     type: string
     data: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: string | null
     isSynced?: boolean
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt?: bigint | number | null
     organization: OrganizationCreateNestedOneWithoutProjectInput
     leadProject?: LeadProjectCreateNestedManyWithoutProjectInput
-    integration?: IntegrationCreateNestedOneWithoutProjectInput
+    integration: IntegrationCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateInput = {
@@ -19330,12 +20722,13 @@ export namespace Prisma {
     name: string
     type: string
     data: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: string | null
     isSynced?: boolean
     organizationId: string
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt?: bigint | number | null
-    integrationId?: string | null
+    integrationId: string
     leadProject?: LeadProjectUncheckedCreateNestedManyWithoutProjectInput
   }
 
@@ -19344,13 +20737,14 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     isSynced?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     organization?: OrganizationUpdateOneRequiredWithoutProjectNestedInput
     leadProject?: LeadProjectUpdateManyWithoutProjectNestedInput
-    integration?: IntegrationUpdateOneWithoutProjectNestedInput
+    integration?: IntegrationUpdateOneRequiredWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
@@ -19358,12 +20752,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     isSynced?: BoolFieldUpdateOperationsInput | boolean
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    integrationId?: StringFieldUpdateOperationsInput | string
     leadProject?: LeadProjectUncheckedUpdateManyWithoutProjectNestedInput
   }
 
@@ -19372,12 +20767,13 @@ export namespace Prisma {
     name: string
     type: string
     data: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: string | null
     isSynced?: boolean
     organizationId: string
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt?: bigint | number | null
-    integrationId?: string | null
+    integrationId: string
   }
 
   export type ProjectUpdateManyMutationInput = {
@@ -19385,6 +20781,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     isSynced?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -19396,12 +20793,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     isSynced?: BoolFieldUpdateOperationsInput | boolean
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    integrationId?: StringFieldUpdateOperationsInput | string
   }
 
   export type LeadNotesCreateInput = {
@@ -19480,34 +20878,34 @@ export namespace Prisma {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
+    status?: LeadStatusCreateNestedOneWithoutLeadInput
     Project?: LeadProjectCreateNestedManyWithoutLeadInput
     leadActivities?: LeadActivityCreateNestedManyWithoutLeadInput
     leadNotes?: LeadNotesCreateNestedManyWithoutLeadInput
     contacts?: ContactCreateNestedManyWithoutLeadInput
     attachments?: AttachmentCreateNestedManyWithoutLeadInput
     organization: OrganizationCreateNestedOneWithoutLeadInput
-    integration: IntegrationCreateNestedOneWithoutLeadInput
+    integration?: IntegrationCreateNestedOneWithoutLeadInput
   }
 
   export type LeadUncheckedCreateInput = {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
+    statusId?: string | null
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
-    integrationId: string
+    integrationId?: string | null
     organizationId: string
     Project?: LeadProjectUncheckedCreateNestedManyWithoutLeadInput
     leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutLeadInput
@@ -19520,34 +20918,34 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: LeadStatusUpdateOneWithoutLeadNestedInput
     Project?: LeadProjectUpdateManyWithoutLeadNestedInput
     leadActivities?: LeadActivityUpdateManyWithoutLeadNestedInput
     leadNotes?: LeadNotesUpdateManyWithoutLeadNestedInput
     contacts?: ContactUpdateManyWithoutLeadNestedInput
     attachments?: AttachmentUpdateManyWithoutLeadNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutLeadNestedInput
-    integration?: IntegrationUpdateOneRequiredWithoutLeadNestedInput
+    integration?: IntegrationUpdateOneWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
+    statusId?: NullableStringFieldUpdateOperationsInput | string | null
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    integrationId?: StringFieldUpdateOperationsInput | string
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     Project?: LeadProjectUncheckedUpdateManyWithoutLeadNestedInput
     leadActivities?: LeadActivityUncheckedUpdateManyWithoutLeadNestedInput
@@ -19560,14 +20958,14 @@ export namespace Prisma {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
+    statusId?: string | null
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
-    integrationId: string
+    integrationId?: string | null
     organizationId: string
   }
 
@@ -19575,7 +20973,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19588,14 +20985,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
+    statusId?: NullableStringFieldUpdateOperationsInput | string | null
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    integrationId?: StringFieldUpdateOperationsInput | string
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -20188,52 +21585,69 @@ export namespace Prisma {
   export type TemplateCreateInput = {
     id?: string
     html: string
+    name: string
     createdAt: bigint | number
+    isEnabled: boolean
     updatedAt: bigint | number
     deletedAt: bigint | number
-    user: UserCreateNestedOneWithoutTemplatesInput
+    organization?: OrganizationCreateNestedOneWithoutTemplateInput
+    user?: UserCreateNestedOneWithoutTemplatesInput
   }
 
   export type TemplateUncheckedCreateInput = {
     id?: string
     html: string
+    name: string
     createdAt: bigint | number
+    isEnabled: boolean
     updatedAt: bigint | number
     deletedAt: bigint | number
-    userId: string
+    userId?: string | null
+    orgId?: string | null
   }
 
   export type TemplateUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     html?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isEnabled?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    user?: UserUpdateOneRequiredWithoutTemplatesNestedInput
+    organization?: OrganizationUpdateOneWithoutTemplateNestedInput
+    user?: UserUpdateOneWithoutTemplatesNestedInput
   }
 
   export type TemplateUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     html?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isEnabled?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    orgId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TemplateCreateManyInput = {
     id?: string
     html: string
+    name: string
     createdAt: bigint | number
+    isEnabled: boolean
     updatedAt: bigint | number
     deletedAt: bigint | number
-    userId: string
+    userId?: string | null
+    orgId?: string | null
   }
 
   export type TemplateUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     html?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isEnabled?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
   }
@@ -20241,10 +21655,79 @@ export namespace Prisma {
   export type TemplateUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     html?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isEnabled?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    orgId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type LeadStatusCreateInput = {
+    id?: string
+    status: string
+    createdAt: bigint | number
+    updatedAt: bigint | number
+    deletedAt: bigint | number
+    Lead?: LeadCreateNestedManyWithoutStatusInput
+    organization: OrganizationCreateNestedOneWithoutLeadStatusInput
+  }
+
+  export type LeadStatusUncheckedCreateInput = {
+    id?: string
+    status: string
+    createdAt: bigint | number
+    updatedAt: bigint | number
+    deletedAt: bigint | number
+    organizationId: string
+    Lead?: LeadUncheckedCreateNestedManyWithoutStatusInput
+  }
+
+  export type LeadStatusUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    userId?: StringFieldUpdateOperationsInput | string
+    Lead?: LeadUpdateManyWithoutStatusNestedInput
+    organization?: OrganizationUpdateOneRequiredWithoutLeadStatusNestedInput
+  }
+
+  export type LeadStatusUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    Lead?: LeadUncheckedUpdateManyWithoutStatusNestedInput
+  }
+
+  export type LeadStatusCreateManyInput = {
+    id?: string
+    status: string
+    createdAt: bigint | number
+    updatedAt: bigint | number
+    deletedAt: bigint | number
+    organizationId: string
+  }
+
+  export type LeadStatusUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type LeadStatusUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    organizationId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -20561,6 +22044,12 @@ export namespace Prisma {
     none?: ContactWhereInput
   }
 
+  export type LeadStatusListRelationFilter = {
+    every?: LeadStatusWhereInput
+    some?: LeadStatusWhereInput
+    none?: LeadStatusWhereInput
+  }
+
   export type ProjectOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -20574,6 +22063,10 @@ export namespace Prisma {
   }
 
   export type ContactOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LeadStatusOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -20710,9 +22203,9 @@ export namespace Prisma {
     none?: LeadProjectWhereInput
   }
 
-  export type IntegrationNullableRelationFilter = {
-    is?: IntegrationWhereInput | null
-    isNot?: IntegrationWhereInput | null
+  export type IntegrationRelationFilter = {
+    is?: IntegrationWhereInput
+    isNot?: IntegrationWhereInput
   }
 
   export type LeadProjectOrderByRelationAggregateInput = {
@@ -20724,6 +22217,7 @@ export namespace Prisma {
     name?: SortOrder
     type?: SortOrder
     data?: SortOrder
+    cliAccessToken?: SortOrder
     isSynced?: SortOrder
     organizationId?: SortOrder
     createdAt?: SortOrder
@@ -20742,6 +22236,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     type?: SortOrder
+    cliAccessToken?: SortOrder
     isSynced?: SortOrder
     organizationId?: SortOrder
     createdAt?: SortOrder
@@ -20754,6 +22249,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     type?: SortOrder
+    cliAccessToken?: SortOrder
     isSynced?: SortOrder
     organizationId?: SortOrder
     createdAt?: SortOrder
@@ -20863,13 +22359,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deletedAt?: SortOrder
   }
-
-  export type EnumleadStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.leadStatus | EnumleadStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.leadStatus[] | ListEnumleadStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.leadStatus[] | ListEnumleadStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumleadStatusFilter<$PrismaModel> | $Enums.leadStatus
-  }
   export type JsonNullableFilter<$PrismaModel = never> = 
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -20893,15 +22382,20 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type LeadStatusNullableRelationFilter = {
+    is?: LeadStatusWhereInput | null
+    isNot?: LeadStatusWhereInput | null
+  }
+
   export type AttachmentListRelationFilter = {
     every?: AttachmentWhereInput
     some?: AttachmentWhereInput
     none?: AttachmentWhereInput
   }
 
-  export type IntegrationRelationFilter = {
-    is?: IntegrationWhereInput
-    isNot?: IntegrationWhereInput
+  export type IntegrationNullableRelationFilter = {
+    is?: IntegrationWhereInput | null
+    isNot?: IntegrationWhereInput | null
   }
 
   export type AttachmentOrderByRelationAggregateInput = {
@@ -20912,7 +22406,7 @@ export namespace Prisma {
     id?: SortOrder
     shopifyDomain?: SortOrder
     shopifyStoreId?: SortOrder
-    status?: SortOrder
+    statusId?: SortOrder
     leadSource?: SortOrder
     shopDetails?: SortOrder
     industry?: SortOrder
@@ -20933,7 +22427,7 @@ export namespace Prisma {
     id?: SortOrder
     shopifyDomain?: SortOrder
     shopifyStoreId?: SortOrder
-    status?: SortOrder
+    statusId?: SortOrder
     leadSource?: SortOrder
     industry?: SortOrder
     createdAt?: SortOrder
@@ -20947,7 +22441,7 @@ export namespace Prisma {
     id?: SortOrder
     shopifyDomain?: SortOrder
     shopifyStoreId?: SortOrder
-    status?: SortOrder
+    statusId?: SortOrder
     leadSource?: SortOrder
     industry?: SortOrder
     createdAt?: SortOrder
@@ -20961,16 +22455,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-  }
-
-  export type EnumleadStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.leadStatus | EnumleadStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.leadStatus[] | ListEnumleadStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.leadStatus[] | ListEnumleadStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumleadStatusWithAggregatesFilter<$PrismaModel> | $Enums.leadStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumleadStatusFilter<$PrismaModel>
-    _max?: NestedEnumleadStatusFilter<$PrismaModel>
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
     | PatchUndefined<
@@ -21369,13 +22853,21 @@ export namespace Prisma {
     _max?: NestedEnumIntegrationTypeFilter<$PrismaModel>
   }
 
+  export type OrganizationNullableRelationFilter = {
+    is?: OrganizationWhereInput | null
+    isNot?: OrganizationWhereInput | null
+  }
+
   export type TemplateCountOrderByAggregateInput = {
     id?: SortOrder
     html?: SortOrder
+    name?: SortOrder
     createdAt?: SortOrder
+    isEnabled?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
     userId?: SortOrder
+    orgId?: SortOrder
   }
 
   export type TemplateAvgOrderByAggregateInput = {
@@ -21387,22 +22879,67 @@ export namespace Prisma {
   export type TemplateMaxOrderByAggregateInput = {
     id?: SortOrder
     html?: SortOrder
+    name?: SortOrder
     createdAt?: SortOrder
+    isEnabled?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
     userId?: SortOrder
+    orgId?: SortOrder
   }
 
   export type TemplateMinOrderByAggregateInput = {
     id?: SortOrder
     html?: SortOrder
+    name?: SortOrder
     createdAt?: SortOrder
+    isEnabled?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
     userId?: SortOrder
+    orgId?: SortOrder
   }
 
   export type TemplateSumOrderByAggregateInput = {
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type LeadStatusCountOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    organizationId?: SortOrder
+  }
+
+  export type LeadStatusAvgOrderByAggregateInput = {
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type LeadStatusMaxOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    organizationId?: SortOrder
+  }
+
+  export type LeadStatusMinOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    organizationId?: SortOrder
+  }
+
+  export type LeadStatusSumOrderByAggregateInput = {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -21712,6 +23249,20 @@ export namespace Prisma {
     connect?: ContactWhereUniqueInput | ContactWhereUniqueInput[]
   }
 
+  export type TemplateCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<TemplateCreateWithoutOrganizationInput, TemplateUncheckedCreateWithoutOrganizationInput> | TemplateCreateWithoutOrganizationInput[] | TemplateUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: TemplateCreateOrConnectWithoutOrganizationInput | TemplateCreateOrConnectWithoutOrganizationInput[]
+    createMany?: TemplateCreateManyOrganizationInputEnvelope
+    connect?: TemplateWhereUniqueInput | TemplateWhereUniqueInput[]
+  }
+
+  export type LeadStatusCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<LeadStatusCreateWithoutOrganizationInput, LeadStatusUncheckedCreateWithoutOrganizationInput> | LeadStatusCreateWithoutOrganizationInput[] | LeadStatusUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: LeadStatusCreateOrConnectWithoutOrganizationInput | LeadStatusCreateOrConnectWithoutOrganizationInput[]
+    createMany?: LeadStatusCreateManyOrganizationInputEnvelope
+    connect?: LeadStatusWhereUniqueInput | LeadStatusWhereUniqueInput[]
+  }
+
   export type ProjectUncheckedCreateNestedManyWithoutOrganizationInput = {
     create?: XOR<ProjectCreateWithoutOrganizationInput, ProjectUncheckedCreateWithoutOrganizationInput> | ProjectCreateWithoutOrganizationInput[] | ProjectUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutOrganizationInput | ProjectCreateOrConnectWithoutOrganizationInput[]
@@ -21752,6 +23303,20 @@ export namespace Prisma {
     connectOrCreate?: ContactCreateOrConnectWithoutOrganizationInput | ContactCreateOrConnectWithoutOrganizationInput[]
     createMany?: ContactCreateManyOrganizationInputEnvelope
     connect?: ContactWhereUniqueInput | ContactWhereUniqueInput[]
+  }
+
+  export type TemplateUncheckedCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<TemplateCreateWithoutOrganizationInput, TemplateUncheckedCreateWithoutOrganizationInput> | TemplateCreateWithoutOrganizationInput[] | TemplateUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: TemplateCreateOrConnectWithoutOrganizationInput | TemplateCreateOrConnectWithoutOrganizationInput[]
+    createMany?: TemplateCreateManyOrganizationInputEnvelope
+    connect?: TemplateWhereUniqueInput | TemplateWhereUniqueInput[]
+  }
+
+  export type LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<LeadStatusCreateWithoutOrganizationInput, LeadStatusUncheckedCreateWithoutOrganizationInput> | LeadStatusCreateWithoutOrganizationInput[] | LeadStatusUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: LeadStatusCreateOrConnectWithoutOrganizationInput | LeadStatusCreateOrConnectWithoutOrganizationInput[]
+    createMany?: LeadStatusCreateManyOrganizationInputEnvelope
+    connect?: LeadStatusWhereUniqueInput | LeadStatusWhereUniqueInput[]
   }
 
   export type ProjectUpdateManyWithoutOrganizationNestedInput = {
@@ -21838,6 +23403,34 @@ export namespace Prisma {
     deleteMany?: ContactScalarWhereInput | ContactScalarWhereInput[]
   }
 
+  export type TemplateUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<TemplateCreateWithoutOrganizationInput, TemplateUncheckedCreateWithoutOrganizationInput> | TemplateCreateWithoutOrganizationInput[] | TemplateUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: TemplateCreateOrConnectWithoutOrganizationInput | TemplateCreateOrConnectWithoutOrganizationInput[]
+    upsert?: TemplateUpsertWithWhereUniqueWithoutOrganizationInput | TemplateUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: TemplateCreateManyOrganizationInputEnvelope
+    set?: TemplateWhereUniqueInput | TemplateWhereUniqueInput[]
+    disconnect?: TemplateWhereUniqueInput | TemplateWhereUniqueInput[]
+    delete?: TemplateWhereUniqueInput | TemplateWhereUniqueInput[]
+    connect?: TemplateWhereUniqueInput | TemplateWhereUniqueInput[]
+    update?: TemplateUpdateWithWhereUniqueWithoutOrganizationInput | TemplateUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: TemplateUpdateManyWithWhereWithoutOrganizationInput | TemplateUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: TemplateScalarWhereInput | TemplateScalarWhereInput[]
+  }
+
+  export type LeadStatusUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<LeadStatusCreateWithoutOrganizationInput, LeadStatusUncheckedCreateWithoutOrganizationInput> | LeadStatusCreateWithoutOrganizationInput[] | LeadStatusUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: LeadStatusCreateOrConnectWithoutOrganizationInput | LeadStatusCreateOrConnectWithoutOrganizationInput[]
+    upsert?: LeadStatusUpsertWithWhereUniqueWithoutOrganizationInput | LeadStatusUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: LeadStatusCreateManyOrganizationInputEnvelope
+    set?: LeadStatusWhereUniqueInput | LeadStatusWhereUniqueInput[]
+    disconnect?: LeadStatusWhereUniqueInput | LeadStatusWhereUniqueInput[]
+    delete?: LeadStatusWhereUniqueInput | LeadStatusWhereUniqueInput[]
+    connect?: LeadStatusWhereUniqueInput | LeadStatusWhereUniqueInput[]
+    update?: LeadStatusUpdateWithWhereUniqueWithoutOrganizationInput | LeadStatusUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: LeadStatusUpdateManyWithWhereWithoutOrganizationInput | LeadStatusUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: LeadStatusScalarWhereInput | LeadStatusScalarWhereInput[]
+  }
+
   export type ProjectUncheckedUpdateManyWithoutOrganizationNestedInput = {
     create?: XOR<ProjectCreateWithoutOrganizationInput, ProjectUncheckedCreateWithoutOrganizationInput> | ProjectCreateWithoutOrganizationInput[] | ProjectUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutOrganizationInput | ProjectCreateOrConnectWithoutOrganizationInput[]
@@ -21920,6 +23513,34 @@ export namespace Prisma {
     update?: ContactUpdateWithWhereUniqueWithoutOrganizationInput | ContactUpdateWithWhereUniqueWithoutOrganizationInput[]
     updateMany?: ContactUpdateManyWithWhereWithoutOrganizationInput | ContactUpdateManyWithWhereWithoutOrganizationInput[]
     deleteMany?: ContactScalarWhereInput | ContactScalarWhereInput[]
+  }
+
+  export type TemplateUncheckedUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<TemplateCreateWithoutOrganizationInput, TemplateUncheckedCreateWithoutOrganizationInput> | TemplateCreateWithoutOrganizationInput[] | TemplateUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: TemplateCreateOrConnectWithoutOrganizationInput | TemplateCreateOrConnectWithoutOrganizationInput[]
+    upsert?: TemplateUpsertWithWhereUniqueWithoutOrganizationInput | TemplateUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: TemplateCreateManyOrganizationInputEnvelope
+    set?: TemplateWhereUniqueInput | TemplateWhereUniqueInput[]
+    disconnect?: TemplateWhereUniqueInput | TemplateWhereUniqueInput[]
+    delete?: TemplateWhereUniqueInput | TemplateWhereUniqueInput[]
+    connect?: TemplateWhereUniqueInput | TemplateWhereUniqueInput[]
+    update?: TemplateUpdateWithWhereUniqueWithoutOrganizationInput | TemplateUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: TemplateUpdateManyWithWhereWithoutOrganizationInput | TemplateUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: TemplateScalarWhereInput | TemplateScalarWhereInput[]
+  }
+
+  export type LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<LeadStatusCreateWithoutOrganizationInput, LeadStatusUncheckedCreateWithoutOrganizationInput> | LeadStatusCreateWithoutOrganizationInput[] | LeadStatusUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: LeadStatusCreateOrConnectWithoutOrganizationInput | LeadStatusCreateOrConnectWithoutOrganizationInput[]
+    upsert?: LeadStatusUpsertWithWhereUniqueWithoutOrganizationInput | LeadStatusUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: LeadStatusCreateManyOrganizationInputEnvelope
+    set?: LeadStatusWhereUniqueInput | LeadStatusWhereUniqueInput[]
+    disconnect?: LeadStatusWhereUniqueInput | LeadStatusWhereUniqueInput[]
+    delete?: LeadStatusWhereUniqueInput | LeadStatusWhereUniqueInput[]
+    connect?: LeadStatusWhereUniqueInput | LeadStatusWhereUniqueInput[]
+    update?: LeadStatusUpdateWithWhereUniqueWithoutOrganizationInput | LeadStatusUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: LeadStatusUpdateManyWithWhereWithoutOrganizationInput | LeadStatusUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: LeadStatusScalarWhereInput | LeadStatusScalarWhereInput[]
   }
 
   export type OrganizationCreateNestedOneWithoutMembersInput = {
@@ -22010,12 +23631,10 @@ export namespace Prisma {
     deleteMany?: LeadProjectScalarWhereInput | LeadProjectScalarWhereInput[]
   }
 
-  export type IntegrationUpdateOneWithoutProjectNestedInput = {
+  export type IntegrationUpdateOneRequiredWithoutProjectNestedInput = {
     create?: XOR<IntegrationCreateWithoutProjectInput, IntegrationUncheckedCreateWithoutProjectInput>
     connectOrCreate?: IntegrationCreateOrConnectWithoutProjectInput
     upsert?: IntegrationUpsertWithoutProjectInput
-    disconnect?: IntegrationWhereInput | boolean
-    delete?: IntegrationWhereInput | boolean
     connect?: IntegrationWhereUniqueInput
     update?: XOR<XOR<IntegrationUpdateToOneWithWhereWithoutProjectInput, IntegrationUpdateWithoutProjectInput>, IntegrationUncheckedUpdateWithoutProjectInput>
   }
@@ -22104,6 +23723,12 @@ export namespace Prisma {
     deleteMany?: LeadActivityScalarWhereInput | LeadActivityScalarWhereInput[]
   }
 
+  export type LeadStatusCreateNestedOneWithoutLeadInput = {
+    create?: XOR<LeadStatusCreateWithoutLeadInput, LeadStatusUncheckedCreateWithoutLeadInput>
+    connectOrCreate?: LeadStatusCreateOrConnectWithoutLeadInput
+    connect?: LeadStatusWhereUniqueInput
+  }
+
   export type LeadProjectCreateNestedManyWithoutLeadInput = {
     create?: XOR<LeadProjectCreateWithoutLeadInput, LeadProjectUncheckedCreateWithoutLeadInput> | LeadProjectCreateWithoutLeadInput[] | LeadProjectUncheckedCreateWithoutLeadInput[]
     connectOrCreate?: LeadProjectCreateOrConnectWithoutLeadInput | LeadProjectCreateOrConnectWithoutLeadInput[]
@@ -22186,8 +23811,14 @@ export namespace Prisma {
     connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
   }
 
-  export type EnumleadStatusFieldUpdateOperationsInput = {
-    set?: $Enums.leadStatus
+  export type LeadStatusUpdateOneWithoutLeadNestedInput = {
+    create?: XOR<LeadStatusCreateWithoutLeadInput, LeadStatusUncheckedCreateWithoutLeadInput>
+    connectOrCreate?: LeadStatusCreateOrConnectWithoutLeadInput
+    upsert?: LeadStatusUpsertWithoutLeadInput
+    disconnect?: LeadStatusWhereInput | boolean
+    delete?: LeadStatusWhereInput | boolean
+    connect?: LeadStatusWhereUniqueInput
+    update?: XOR<XOR<LeadStatusUpdateToOneWithWhereWithoutLeadInput, LeadStatusUpdateWithoutLeadInput>, LeadStatusUncheckedUpdateWithoutLeadInput>
   }
 
   export type LeadProjectUpdateManyWithoutLeadNestedInput = {
@@ -22268,10 +23899,12 @@ export namespace Prisma {
     update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutLeadInput, OrganizationUpdateWithoutLeadInput>, OrganizationUncheckedUpdateWithoutLeadInput>
   }
 
-  export type IntegrationUpdateOneRequiredWithoutLeadNestedInput = {
+  export type IntegrationUpdateOneWithoutLeadNestedInput = {
     create?: XOR<IntegrationCreateWithoutLeadInput, IntegrationUncheckedCreateWithoutLeadInput>
     connectOrCreate?: IntegrationCreateOrConnectWithoutLeadInput
     upsert?: IntegrationUpsertWithoutLeadInput
+    disconnect?: IntegrationWhereInput | boolean
+    delete?: IntegrationWhereInput | boolean
     connect?: IntegrationWhereUniqueInput
     update?: XOR<XOR<IntegrationUpdateToOneWithWhereWithoutLeadInput, IntegrationUpdateWithoutLeadInput>, IntegrationUncheckedUpdateWithoutLeadInput>
   }
@@ -22716,18 +24349,92 @@ export namespace Prisma {
     deleteMany?: LeadProjectScalarWhereInput | LeadProjectScalarWhereInput[]
   }
 
+  export type OrganizationCreateNestedOneWithoutTemplateInput = {
+    create?: XOR<OrganizationCreateWithoutTemplateInput, OrganizationUncheckedCreateWithoutTemplateInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutTemplateInput
+    connect?: OrganizationWhereUniqueInput
+  }
+
   export type UserCreateNestedOneWithoutTemplatesInput = {
     create?: XOR<UserCreateWithoutTemplatesInput, UserUncheckedCreateWithoutTemplatesInput>
     connectOrCreate?: UserCreateOrConnectWithoutTemplatesInput
     connect?: UserWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutTemplatesNestedInput = {
+  export type OrganizationUpdateOneWithoutTemplateNestedInput = {
+    create?: XOR<OrganizationCreateWithoutTemplateInput, OrganizationUncheckedCreateWithoutTemplateInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutTemplateInput
+    upsert?: OrganizationUpsertWithoutTemplateInput
+    disconnect?: OrganizationWhereInput | boolean
+    delete?: OrganizationWhereInput | boolean
+    connect?: OrganizationWhereUniqueInput
+    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutTemplateInput, OrganizationUpdateWithoutTemplateInput>, OrganizationUncheckedUpdateWithoutTemplateInput>
+  }
+
+  export type UserUpdateOneWithoutTemplatesNestedInput = {
     create?: XOR<UserCreateWithoutTemplatesInput, UserUncheckedCreateWithoutTemplatesInput>
     connectOrCreate?: UserCreateOrConnectWithoutTemplatesInput
     upsert?: UserUpsertWithoutTemplatesInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTemplatesInput, UserUpdateWithoutTemplatesInput>, UserUncheckedUpdateWithoutTemplatesInput>
+  }
+
+  export type LeadCreateNestedManyWithoutStatusInput = {
+    create?: XOR<LeadCreateWithoutStatusInput, LeadUncheckedCreateWithoutStatusInput> | LeadCreateWithoutStatusInput[] | LeadUncheckedCreateWithoutStatusInput[]
+    connectOrCreate?: LeadCreateOrConnectWithoutStatusInput | LeadCreateOrConnectWithoutStatusInput[]
+    createMany?: LeadCreateManyStatusInputEnvelope
+    connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+  }
+
+  export type OrganizationCreateNestedOneWithoutLeadStatusInput = {
+    create?: XOR<OrganizationCreateWithoutLeadStatusInput, OrganizationUncheckedCreateWithoutLeadStatusInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutLeadStatusInput
+    connect?: OrganizationWhereUniqueInput
+  }
+
+  export type LeadUncheckedCreateNestedManyWithoutStatusInput = {
+    create?: XOR<LeadCreateWithoutStatusInput, LeadUncheckedCreateWithoutStatusInput> | LeadCreateWithoutStatusInput[] | LeadUncheckedCreateWithoutStatusInput[]
+    connectOrCreate?: LeadCreateOrConnectWithoutStatusInput | LeadCreateOrConnectWithoutStatusInput[]
+    createMany?: LeadCreateManyStatusInputEnvelope
+    connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+  }
+
+  export type LeadUpdateManyWithoutStatusNestedInput = {
+    create?: XOR<LeadCreateWithoutStatusInput, LeadUncheckedCreateWithoutStatusInput> | LeadCreateWithoutStatusInput[] | LeadUncheckedCreateWithoutStatusInput[]
+    connectOrCreate?: LeadCreateOrConnectWithoutStatusInput | LeadCreateOrConnectWithoutStatusInput[]
+    upsert?: LeadUpsertWithWhereUniqueWithoutStatusInput | LeadUpsertWithWhereUniqueWithoutStatusInput[]
+    createMany?: LeadCreateManyStatusInputEnvelope
+    set?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    disconnect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    delete?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    update?: LeadUpdateWithWhereUniqueWithoutStatusInput | LeadUpdateWithWhereUniqueWithoutStatusInput[]
+    updateMany?: LeadUpdateManyWithWhereWithoutStatusInput | LeadUpdateManyWithWhereWithoutStatusInput[]
+    deleteMany?: LeadScalarWhereInput | LeadScalarWhereInput[]
+  }
+
+  export type OrganizationUpdateOneRequiredWithoutLeadStatusNestedInput = {
+    create?: XOR<OrganizationCreateWithoutLeadStatusInput, OrganizationUncheckedCreateWithoutLeadStatusInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutLeadStatusInput
+    upsert?: OrganizationUpsertWithoutLeadStatusInput
+    connect?: OrganizationWhereUniqueInput
+    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutLeadStatusInput, OrganizationUpdateWithoutLeadStatusInput>, OrganizationUncheckedUpdateWithoutLeadStatusInput>
+  }
+
+  export type LeadUncheckedUpdateManyWithoutStatusNestedInput = {
+    create?: XOR<LeadCreateWithoutStatusInput, LeadUncheckedCreateWithoutStatusInput> | LeadCreateWithoutStatusInput[] | LeadUncheckedCreateWithoutStatusInput[]
+    connectOrCreate?: LeadCreateOrConnectWithoutStatusInput | LeadCreateOrConnectWithoutStatusInput[]
+    upsert?: LeadUpsertWithWhereUniqueWithoutStatusInput | LeadUpsertWithWhereUniqueWithoutStatusInput[]
+    createMany?: LeadCreateManyStatusInputEnvelope
+    set?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    disconnect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    delete?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    connect?: LeadWhereUniqueInput | LeadWhereUniqueInput[]
+    update?: LeadUpdateWithWhereUniqueWithoutStatusInput | LeadUpdateWithWhereUniqueWithoutStatusInput[]
+    updateMany?: LeadUpdateManyWithWhereWithoutStatusInput | LeadUpdateManyWithWhereWithoutStatusInput[]
+    deleteMany?: LeadScalarWhereInput | LeadScalarWhereInput[]
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -22958,23 +24665,6 @@ export namespace Prisma {
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
-
-  export type NestedEnumleadStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.leadStatus | EnumleadStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.leadStatus[] | ListEnumleadStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.leadStatus[] | ListEnumleadStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumleadStatusFilter<$PrismaModel> | $Enums.leadStatus
-  }
-
-  export type NestedEnumleadStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.leadStatus | EnumleadStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.leadStatus[] | ListEnumleadStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.leadStatus[] | ListEnumleadStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumleadStatusWithAggregatesFilter<$PrismaModel> | $Enums.leadStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumleadStatusFilter<$PrismaModel>
-    _max?: NestedEnumleadStatusFilter<$PrismaModel>
-  }
   export type NestedJsonNullableFilter<$PrismaModel = never> = 
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -23127,17 +24817,23 @@ export namespace Prisma {
   export type TemplateCreateWithoutUserInput = {
     id?: string
     html: string
+    name: string
     createdAt: bigint | number
+    isEnabled: boolean
     updatedAt: bigint | number
     deletedAt: bigint | number
+    organization?: OrganizationCreateNestedOneWithoutTemplateInput
   }
 
   export type TemplateUncheckedCreateWithoutUserInput = {
     id?: string
     html: string
+    name: string
     createdAt: bigint | number
+    isEnabled: boolean
     updatedAt: bigint | number
     deletedAt: bigint | number
+    orgId?: string | null
   }
 
   export type TemplateCreateOrConnectWithoutUserInput = {
@@ -23293,10 +24989,13 @@ export namespace Prisma {
     NOT?: TemplateScalarWhereInput | TemplateScalarWhereInput[]
     id?: StringFilter<"Template"> | string
     html?: StringFilter<"Template"> | string
+    name?: StringFilter<"Template"> | string
     createdAt?: BigIntFilter<"Template"> | bigint | number
+    isEnabled?: BoolFilter<"Template"> | boolean
     updatedAt?: BigIntFilter<"Template"> | bigint | number
     deletedAt?: BigIntFilter<"Template"> | bigint | number
-    userId?: StringFilter<"Template"> | string
+    userId?: StringNullableFilter<"Template"> | string | null
+    orgId?: StringNullableFilter<"Template"> | string | null
   }
 
   export type LeadNotesUpsertWithWhereUniqueWithoutUserInput = {
@@ -23376,6 +25075,8 @@ export namespace Prisma {
     integrations?: IntegrationCreateNestedManyWithoutOrganizationInput
     Lead?: LeadCreateNestedManyWithoutOrganizationInput
     contact?: ContactCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutInvitesInput = {
@@ -23391,6 +25092,8 @@ export namespace Prisma {
     integrations?: IntegrationUncheckedCreateNestedManyWithoutOrganizationInput
     Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutInvitesInput = {
@@ -23463,6 +25166,8 @@ export namespace Prisma {
     integrations?: IntegrationUpdateManyWithoutOrganizationNestedInput
     Lead?: LeadUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutInvitesInput = {
@@ -23478,6 +25183,8 @@ export namespace Prisma {
     integrations?: IntegrationUncheckedUpdateManyWithoutOrganizationNestedInput
     Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type ProjectCreateWithoutOrganizationInput = {
@@ -23485,12 +25192,13 @@ export namespace Prisma {
     name: string
     type: string
     data: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: string | null
     isSynced?: boolean
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt?: bigint | number | null
     leadProject?: LeadProjectCreateNestedManyWithoutProjectInput
-    integration?: IntegrationCreateNestedOneWithoutProjectInput
+    integration: IntegrationCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutOrganizationInput = {
@@ -23498,11 +25206,12 @@ export namespace Prisma {
     name: string
     type: string
     data: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: string | null
     isSynced?: boolean
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt?: bigint | number | null
-    integrationId?: string | null
+    integrationId: string
     leadProject?: LeadProjectUncheckedCreateNestedManyWithoutProjectInput
   }
 
@@ -23622,33 +25331,33 @@ export namespace Prisma {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
+    status?: LeadStatusCreateNestedOneWithoutLeadInput
     Project?: LeadProjectCreateNestedManyWithoutLeadInput
     leadActivities?: LeadActivityCreateNestedManyWithoutLeadInput
     leadNotes?: LeadNotesCreateNestedManyWithoutLeadInput
     contacts?: ContactCreateNestedManyWithoutLeadInput
     attachments?: AttachmentCreateNestedManyWithoutLeadInput
-    integration: IntegrationCreateNestedOneWithoutLeadInput
+    integration?: IntegrationCreateNestedOneWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutOrganizationInput = {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
+    statusId?: string | null
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
-    integrationId: string
+    integrationId?: string | null
     Project?: LeadProjectUncheckedCreateNestedManyWithoutLeadInput
     leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutLeadInput
     leadNotes?: LeadNotesUncheckedCreateNestedManyWithoutLeadInput
@@ -23712,6 +25421,66 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TemplateCreateWithoutOrganizationInput = {
+    id?: string
+    html: string
+    name: string
+    createdAt: bigint | number
+    isEnabled: boolean
+    updatedAt: bigint | number
+    deletedAt: bigint | number
+    user?: UserCreateNestedOneWithoutTemplatesInput
+  }
+
+  export type TemplateUncheckedCreateWithoutOrganizationInput = {
+    id?: string
+    html: string
+    name: string
+    createdAt: bigint | number
+    isEnabled: boolean
+    updatedAt: bigint | number
+    deletedAt: bigint | number
+    userId?: string | null
+  }
+
+  export type TemplateCreateOrConnectWithoutOrganizationInput = {
+    where: TemplateWhereUniqueInput
+    create: XOR<TemplateCreateWithoutOrganizationInput, TemplateUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type TemplateCreateManyOrganizationInputEnvelope = {
+    data: TemplateCreateManyOrganizationInput | TemplateCreateManyOrganizationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LeadStatusCreateWithoutOrganizationInput = {
+    id?: string
+    status: string
+    createdAt: bigint | number
+    updatedAt: bigint | number
+    deletedAt: bigint | number
+    Lead?: LeadCreateNestedManyWithoutStatusInput
+  }
+
+  export type LeadStatusUncheckedCreateWithoutOrganizationInput = {
+    id?: string
+    status: string
+    createdAt: bigint | number
+    updatedAt: bigint | number
+    deletedAt: bigint | number
+    Lead?: LeadUncheckedCreateNestedManyWithoutStatusInput
+  }
+
+  export type LeadStatusCreateOrConnectWithoutOrganizationInput = {
+    where: LeadStatusWhereUniqueInput
+    create: XOR<LeadStatusCreateWithoutOrganizationInput, LeadStatusUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type LeadStatusCreateManyOrganizationInputEnvelope = {
+    data: LeadStatusCreateManyOrganizationInput | LeadStatusCreateManyOrganizationInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProjectUpsertWithWhereUniqueWithoutOrganizationInput = {
     where: ProjectWhereUniqueInput
     update: XOR<ProjectUpdateWithoutOrganizationInput, ProjectUncheckedUpdateWithoutOrganizationInput>
@@ -23736,12 +25505,13 @@ export namespace Prisma {
     name?: StringFilter<"Project"> | string
     type?: StringFilter<"Project"> | string
     data?: JsonFilter<"Project">
+    cliAccessToken?: StringNullableFilter<"Project"> | string | null
     isSynced?: BoolFilter<"Project"> | boolean
     organizationId?: StringFilter<"Project"> | string
     createdAt?: BigIntFilter<"Project"> | bigint | number
     updatedAt?: BigIntFilter<"Project"> | bigint | number
     deletedAt?: BigIntNullableFilter<"Project"> | bigint | number | null
-    integrationId?: StringNullableFilter<"Project"> | string | null
+    integrationId?: StringFilter<"Project"> | string
   }
 
   export type OrgMemberUpsertWithWhereUniqueWithoutOrganizationInput = {
@@ -23831,14 +25601,14 @@ export namespace Prisma {
     id?: StringFilter<"Lead"> | string
     shopifyDomain?: StringFilter<"Lead"> | string
     shopifyStoreId?: StringFilter<"Lead"> | string
-    status?: EnumleadStatusFilter<"Lead"> | $Enums.leadStatus
+    statusId?: StringNullableFilter<"Lead"> | string | null
     leadSource?: StringNullableFilter<"Lead"> | string | null
     shopDetails?: JsonNullableFilter<"Lead">
     industry?: StringNullableFilter<"Lead"> | string | null
     createdAt?: BigIntFilter<"Lead"> | bigint | number
     updatedAt?: BigIntFilter<"Lead"> | bigint | number
     deletedAt?: BigIntFilter<"Lead"> | bigint | number
-    integrationId?: StringFilter<"Lead"> | string
+    integrationId?: StringNullableFilter<"Lead"> | string | null
     organizationId?: StringFilter<"Lead"> | string
   }
 
@@ -23880,6 +25650,50 @@ export namespace Prisma {
     integrationId?: StringFilter<"Contact"> | string
   }
 
+  export type TemplateUpsertWithWhereUniqueWithoutOrganizationInput = {
+    where: TemplateWhereUniqueInput
+    update: XOR<TemplateUpdateWithoutOrganizationInput, TemplateUncheckedUpdateWithoutOrganizationInput>
+    create: XOR<TemplateCreateWithoutOrganizationInput, TemplateUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type TemplateUpdateWithWhereUniqueWithoutOrganizationInput = {
+    where: TemplateWhereUniqueInput
+    data: XOR<TemplateUpdateWithoutOrganizationInput, TemplateUncheckedUpdateWithoutOrganizationInput>
+  }
+
+  export type TemplateUpdateManyWithWhereWithoutOrganizationInput = {
+    where: TemplateScalarWhereInput
+    data: XOR<TemplateUpdateManyMutationInput, TemplateUncheckedUpdateManyWithoutOrganizationInput>
+  }
+
+  export type LeadStatusUpsertWithWhereUniqueWithoutOrganizationInput = {
+    where: LeadStatusWhereUniqueInput
+    update: XOR<LeadStatusUpdateWithoutOrganizationInput, LeadStatusUncheckedUpdateWithoutOrganizationInput>
+    create: XOR<LeadStatusCreateWithoutOrganizationInput, LeadStatusUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type LeadStatusUpdateWithWhereUniqueWithoutOrganizationInput = {
+    where: LeadStatusWhereUniqueInput
+    data: XOR<LeadStatusUpdateWithoutOrganizationInput, LeadStatusUncheckedUpdateWithoutOrganizationInput>
+  }
+
+  export type LeadStatusUpdateManyWithWhereWithoutOrganizationInput = {
+    where: LeadStatusScalarWhereInput
+    data: XOR<LeadStatusUpdateManyMutationInput, LeadStatusUncheckedUpdateManyWithoutOrganizationInput>
+  }
+
+  export type LeadStatusScalarWhereInput = {
+    AND?: LeadStatusScalarWhereInput | LeadStatusScalarWhereInput[]
+    OR?: LeadStatusScalarWhereInput[]
+    NOT?: LeadStatusScalarWhereInput | LeadStatusScalarWhereInput[]
+    id?: StringFilter<"LeadStatus"> | string
+    status?: StringFilter<"LeadStatus"> | string
+    createdAt?: BigIntFilter<"LeadStatus"> | bigint | number
+    updatedAt?: BigIntFilter<"LeadStatus"> | bigint | number
+    deletedAt?: BigIntFilter<"LeadStatus"> | bigint | number
+    organizationId?: StringFilter<"LeadStatus"> | string
+  }
+
   export type OrganizationCreateWithoutMembersInput = {
     id?: string
     name: string
@@ -23893,6 +25707,8 @@ export namespace Prisma {
     integrations?: IntegrationCreateNestedManyWithoutOrganizationInput
     Lead?: LeadCreateNestedManyWithoutOrganizationInput
     contact?: ContactCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutMembersInput = {
@@ -23908,6 +25724,8 @@ export namespace Prisma {
     integrations?: IntegrationUncheckedCreateNestedManyWithoutOrganizationInput
     Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutMembersInput = {
@@ -23974,6 +25792,8 @@ export namespace Prisma {
     integrations?: IntegrationUpdateManyWithoutOrganizationNestedInput
     Lead?: LeadUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutMembersInput = {
@@ -23989,6 +25809,8 @@ export namespace Prisma {
     integrations?: IntegrationUncheckedUpdateManyWithoutOrganizationNestedInput
     Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type UserUpsertWithoutOrgMembersInput = {
@@ -24045,6 +25867,8 @@ export namespace Prisma {
     integrations?: IntegrationCreateNestedManyWithoutOrganizationInput
     Lead?: LeadCreateNestedManyWithoutOrganizationInput
     contact?: ContactCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutProjectInput = {
@@ -24060,6 +25884,8 @@ export namespace Prisma {
     integrations?: IntegrationUncheckedCreateNestedManyWithoutOrganizationInput
     Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutProjectInput = {
@@ -24158,6 +25984,8 @@ export namespace Prisma {
     integrations?: IntegrationUpdateManyWithoutOrganizationNestedInput
     Lead?: LeadUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutProjectInput = {
@@ -24173,6 +26001,8 @@ export namespace Prisma {
     integrations?: IntegrationUncheckedUpdateManyWithoutOrganizationNestedInput
     Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type LeadProjectUpsertWithWhereUniqueWithoutProjectInput = {
@@ -24252,33 +26082,33 @@ export namespace Prisma {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
+    status?: LeadStatusCreateNestedOneWithoutLeadInput
     Project?: LeadProjectCreateNestedManyWithoutLeadInput
     leadActivities?: LeadActivityCreateNestedManyWithoutLeadInput
     contacts?: ContactCreateNestedManyWithoutLeadInput
     attachments?: AttachmentCreateNestedManyWithoutLeadInput
     organization: OrganizationCreateNestedOneWithoutLeadInput
-    integration: IntegrationCreateNestedOneWithoutLeadInput
+    integration?: IntegrationCreateNestedOneWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutLeadNotesInput = {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
+    statusId?: string | null
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
-    integrationId: string
+    integrationId?: string | null
     organizationId: string
     Project?: LeadProjectUncheckedCreateNestedManyWithoutLeadInput
     leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutLeadInput
@@ -24373,33 +26203,33 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: LeadStatusUpdateOneWithoutLeadNestedInput
     Project?: LeadProjectUpdateManyWithoutLeadNestedInput
     leadActivities?: LeadActivityUpdateManyWithoutLeadNestedInput
     contacts?: ContactUpdateManyWithoutLeadNestedInput
     attachments?: AttachmentUpdateManyWithoutLeadNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutLeadNestedInput
-    integration?: IntegrationUpdateOneRequiredWithoutLeadNestedInput
+    integration?: IntegrationUpdateOneWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutLeadNotesInput = {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
+    statusId?: NullableStringFieldUpdateOperationsInput | string | null
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    integrationId?: StringFieldUpdateOperationsInput | string
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     Project?: LeadProjectUncheckedUpdateManyWithoutLeadNestedInput
     leadActivities?: LeadActivityUncheckedUpdateManyWithoutLeadNestedInput
@@ -24462,6 +26292,29 @@ export namespace Prisma {
   export type LeadActivityUpdateManyWithWhereWithoutNoteInput = {
     where: LeadActivityScalarWhereInput
     data: XOR<LeadActivityUpdateManyMutationInput, LeadActivityUncheckedUpdateManyWithoutNoteInput>
+  }
+
+  export type LeadStatusCreateWithoutLeadInput = {
+    id?: string
+    status: string
+    createdAt: bigint | number
+    updatedAt: bigint | number
+    deletedAt: bigint | number
+    organization: OrganizationCreateNestedOneWithoutLeadStatusInput
+  }
+
+  export type LeadStatusUncheckedCreateWithoutLeadInput = {
+    id?: string
+    status: string
+    createdAt: bigint | number
+    updatedAt: bigint | number
+    deletedAt: bigint | number
+    organizationId: string
+  }
+
+  export type LeadStatusCreateOrConnectWithoutLeadInput = {
+    where: LeadStatusWhereUniqueInput
+    create: XOR<LeadStatusCreateWithoutLeadInput, LeadStatusUncheckedCreateWithoutLeadInput>
   }
 
   export type LeadProjectCreateWithoutLeadInput = {
@@ -24647,6 +26500,8 @@ export namespace Prisma {
     invites?: OrgMemberInviteCreateNestedManyWithoutOrganizationInput
     integrations?: IntegrationCreateNestedManyWithoutOrganizationInput
     contact?: ContactCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutLeadInput = {
@@ -24662,6 +26517,8 @@ export namespace Prisma {
     invites?: OrgMemberInviteUncheckedCreateNestedManyWithoutOrganizationInput
     integrations?: IntegrationUncheckedCreateNestedManyWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutLeadInput = {
@@ -24704,6 +26561,35 @@ export namespace Prisma {
   export type IntegrationCreateOrConnectWithoutLeadInput = {
     where: IntegrationWhereUniqueInput
     create: XOR<IntegrationCreateWithoutLeadInput, IntegrationUncheckedCreateWithoutLeadInput>
+  }
+
+  export type LeadStatusUpsertWithoutLeadInput = {
+    update: XOR<LeadStatusUpdateWithoutLeadInput, LeadStatusUncheckedUpdateWithoutLeadInput>
+    create: XOR<LeadStatusCreateWithoutLeadInput, LeadStatusUncheckedCreateWithoutLeadInput>
+    where?: LeadStatusWhereInput
+  }
+
+  export type LeadStatusUpdateToOneWithWhereWithoutLeadInput = {
+    where?: LeadStatusWhereInput
+    data: XOR<LeadStatusUpdateWithoutLeadInput, LeadStatusUncheckedUpdateWithoutLeadInput>
+  }
+
+  export type LeadStatusUpdateWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    organization?: OrganizationUpdateOneRequiredWithoutLeadStatusNestedInput
+  }
+
+  export type LeadStatusUncheckedUpdateWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    organizationId?: StringFieldUpdateOperationsInput | string
   }
 
   export type LeadProjectUpsertWithWhereUniqueWithoutLeadInput = {
@@ -24825,6 +26711,8 @@ export namespace Prisma {
     invites?: OrgMemberInviteUpdateManyWithoutOrganizationNestedInput
     integrations?: IntegrationUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutLeadInput = {
@@ -24840,6 +26728,8 @@ export namespace Prisma {
     invites?: OrgMemberInviteUncheckedUpdateManyWithoutOrganizationNestedInput
     integrations?: IntegrationUncheckedUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type IntegrationUpsertWithoutLeadInput = {
@@ -24926,33 +26816,33 @@ export namespace Prisma {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
+    status?: LeadStatusCreateNestedOneWithoutLeadInput
     leadActivities?: LeadActivityCreateNestedManyWithoutLeadInput
     leadNotes?: LeadNotesCreateNestedManyWithoutLeadInput
     contacts?: ContactCreateNestedManyWithoutLeadInput
     attachments?: AttachmentCreateNestedManyWithoutLeadInput
     organization: OrganizationCreateNestedOneWithoutLeadInput
-    integration: IntegrationCreateNestedOneWithoutLeadInput
+    integration?: IntegrationCreateNestedOneWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutProjectInput = {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
+    statusId?: string | null
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
-    integrationId: string
+    integrationId?: string | null
     organizationId: string
     leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutLeadInput
     leadNotes?: LeadNotesUncheckedCreateNestedManyWithoutLeadInput
@@ -24970,12 +26860,13 @@ export namespace Prisma {
     name: string
     type: string
     data: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: string | null
     isSynced?: boolean
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt?: bigint | number | null
     organization: OrganizationCreateNestedOneWithoutProjectInput
-    integration?: IntegrationCreateNestedOneWithoutProjectInput
+    integration: IntegrationCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutLeadProjectInput = {
@@ -24983,12 +26874,13 @@ export namespace Prisma {
     name: string
     type: string
     data: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: string | null
     isSynced?: boolean
     organizationId: string
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt?: bigint | number | null
-    integrationId?: string | null
+    integrationId: string
   }
 
   export type ProjectCreateOrConnectWithoutLeadProjectInput = {
@@ -25054,33 +26946,33 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: LeadStatusUpdateOneWithoutLeadNestedInput
     leadActivities?: LeadActivityUpdateManyWithoutLeadNestedInput
     leadNotes?: LeadNotesUpdateManyWithoutLeadNestedInput
     contacts?: ContactUpdateManyWithoutLeadNestedInput
     attachments?: AttachmentUpdateManyWithoutLeadNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutLeadNestedInput
-    integration?: IntegrationUpdateOneRequiredWithoutLeadNestedInput
+    integration?: IntegrationUpdateOneWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
+    statusId?: NullableStringFieldUpdateOperationsInput | string | null
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    integrationId?: StringFieldUpdateOperationsInput | string
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     leadActivities?: LeadActivityUncheckedUpdateManyWithoutLeadNestedInput
     leadNotes?: LeadNotesUncheckedUpdateManyWithoutLeadNestedInput
@@ -25104,12 +26996,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     isSynced?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     organization?: OrganizationUpdateOneRequiredWithoutProjectNestedInput
-    integration?: IntegrationUpdateOneWithoutProjectNestedInput
+    integration?: IntegrationUpdateOneRequiredWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutLeadProjectInput = {
@@ -25117,12 +27010,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     isSynced?: BoolFieldUpdateOperationsInput | boolean
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    integrationId?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrganizationCreateWithoutContactInput = {
@@ -25138,6 +27032,8 @@ export namespace Prisma {
     invites?: OrgMemberInviteCreateNestedManyWithoutOrganizationInput
     integrations?: IntegrationCreateNestedManyWithoutOrganizationInput
     Lead?: LeadCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutContactInput = {
@@ -25153,6 +27049,8 @@ export namespace Prisma {
     invites?: OrgMemberInviteUncheckedCreateNestedManyWithoutOrganizationInput
     integrations?: IntegrationUncheckedCreateNestedManyWithoutOrganizationInput
     Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutContactInput = {
@@ -25201,33 +27099,33 @@ export namespace Prisma {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
+    status?: LeadStatusCreateNestedOneWithoutLeadInput
     Project?: LeadProjectCreateNestedManyWithoutLeadInput
     leadActivities?: LeadActivityCreateNestedManyWithoutLeadInput
     leadNotes?: LeadNotesCreateNestedManyWithoutLeadInput
     attachments?: AttachmentCreateNestedManyWithoutLeadInput
     organization: OrganizationCreateNestedOneWithoutLeadInput
-    integration: IntegrationCreateNestedOneWithoutLeadInput
+    integration?: IntegrationCreateNestedOneWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutContactsInput = {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
+    statusId?: string | null
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
-    integrationId: string
+    integrationId?: string | null
     organizationId: string
     Project?: LeadProjectUncheckedCreateNestedManyWithoutLeadInput
     leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutLeadInput
@@ -25264,6 +27162,8 @@ export namespace Prisma {
     invites?: OrgMemberInviteUpdateManyWithoutOrganizationNestedInput
     integrations?: IntegrationUpdateManyWithoutOrganizationNestedInput
     Lead?: LeadUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutContactInput = {
@@ -25279,6 +27179,8 @@ export namespace Prisma {
     invites?: OrgMemberInviteUncheckedUpdateManyWithoutOrganizationNestedInput
     integrations?: IntegrationUncheckedUpdateManyWithoutOrganizationNestedInput
     Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type IntegrationUpsertWithoutContactInput = {
@@ -25339,33 +27241,33 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: LeadStatusUpdateOneWithoutLeadNestedInput
     Project?: LeadProjectUpdateManyWithoutLeadNestedInput
     leadActivities?: LeadActivityUpdateManyWithoutLeadNestedInput
     leadNotes?: LeadNotesUpdateManyWithoutLeadNestedInput
     attachments?: AttachmentUpdateManyWithoutLeadNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutLeadNestedInput
-    integration?: IntegrationUpdateOneRequiredWithoutLeadNestedInput
+    integration?: IntegrationUpdateOneWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutContactsInput = {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
+    statusId?: NullableStringFieldUpdateOperationsInput | string | null
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    integrationId?: StringFieldUpdateOperationsInput | string
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     Project?: LeadProjectUncheckedUpdateManyWithoutLeadNestedInput
     leadActivities?: LeadActivityUncheckedUpdateManyWithoutLeadNestedInput
@@ -25377,33 +27279,33 @@ export namespace Prisma {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
+    status?: LeadStatusCreateNestedOneWithoutLeadInput
     Project?: LeadProjectCreateNestedManyWithoutLeadInput
     leadActivities?: LeadActivityCreateNestedManyWithoutLeadInput
     leadNotes?: LeadNotesCreateNestedManyWithoutLeadInput
     contacts?: ContactCreateNestedManyWithoutLeadInput
     organization: OrganizationCreateNestedOneWithoutLeadInput
-    integration: IntegrationCreateNestedOneWithoutLeadInput
+    integration?: IntegrationCreateNestedOneWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutAttachmentsInput = {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
+    statusId?: string | null
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
-    integrationId: string
+    integrationId?: string | null
     organizationId: string
     Project?: LeadProjectUncheckedCreateNestedManyWithoutLeadInput
     leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutLeadInput
@@ -25431,33 +27333,33 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: LeadStatusUpdateOneWithoutLeadNestedInput
     Project?: LeadProjectUpdateManyWithoutLeadNestedInput
     leadActivities?: LeadActivityUpdateManyWithoutLeadNestedInput
     leadNotes?: LeadNotesUpdateManyWithoutLeadNestedInput
     contacts?: ContactUpdateManyWithoutLeadNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutLeadNestedInput
-    integration?: IntegrationUpdateOneRequiredWithoutLeadNestedInput
+    integration?: IntegrationUpdateOneWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutAttachmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
+    statusId?: NullableStringFieldUpdateOperationsInput | string | null
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    integrationId?: StringFieldUpdateOperationsInput | string
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     Project?: LeadProjectUncheckedUpdateManyWithoutLeadNestedInput
     leadActivities?: LeadActivityUncheckedUpdateManyWithoutLeadNestedInput
@@ -25469,33 +27371,33 @@ export namespace Prisma {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
+    status?: LeadStatusCreateNestedOneWithoutLeadInput
     Project?: LeadProjectCreateNestedManyWithoutLeadInput
     leadNotes?: LeadNotesCreateNestedManyWithoutLeadInput
     contacts?: ContactCreateNestedManyWithoutLeadInput
     attachments?: AttachmentCreateNestedManyWithoutLeadInput
     organization: OrganizationCreateNestedOneWithoutLeadInput
-    integration: IntegrationCreateNestedOneWithoutLeadInput
+    integration?: IntegrationCreateNestedOneWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutLeadActivitiesInput = {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
+    statusId?: string | null
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
-    integrationId: string
+    integrationId?: string | null
     organizationId: string
     Project?: LeadProjectUncheckedCreateNestedManyWithoutLeadInput
     leadNotes?: LeadNotesUncheckedCreateNestedManyWithoutLeadInput
@@ -25583,33 +27485,33 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: LeadStatusUpdateOneWithoutLeadNestedInput
     Project?: LeadProjectUpdateManyWithoutLeadNestedInput
     leadNotes?: LeadNotesUpdateManyWithoutLeadNestedInput
     contacts?: ContactUpdateManyWithoutLeadNestedInput
     attachments?: AttachmentUpdateManyWithoutLeadNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutLeadNestedInput
-    integration?: IntegrationUpdateOneRequiredWithoutLeadNestedInput
+    integration?: IntegrationUpdateOneWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutLeadActivitiesInput = {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
+    statusId?: NullableStringFieldUpdateOperationsInput | string | null
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    integrationId?: StringFieldUpdateOperationsInput | string
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     Project?: LeadProjectUncheckedUpdateManyWithoutLeadNestedInput
     leadNotes?: LeadNotesUncheckedUpdateManyWithoutLeadNestedInput
@@ -25694,6 +27596,7 @@ export namespace Prisma {
     name: string
     type: string
     data: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: string | null
     isSynced?: boolean
     createdAt?: bigint | number
     updatedAt?: bigint | number
@@ -25707,6 +27610,7 @@ export namespace Prisma {
     name: string
     type: string
     data: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: string | null
     isSynced?: boolean
     organizationId: string
     createdAt?: bigint | number
@@ -25738,6 +27642,8 @@ export namespace Prisma {
     invites?: OrgMemberInviteCreateNestedManyWithoutOrganizationInput
     Lead?: LeadCreateNestedManyWithoutOrganizationInput
     contact?: ContactCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutIntegrationsInput = {
@@ -25753,6 +27659,8 @@ export namespace Prisma {
     invites?: OrgMemberInviteUncheckedCreateNestedManyWithoutOrganizationInput
     Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutIntegrationsInput = {
@@ -25764,13 +27672,13 @@ export namespace Prisma {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
+    status?: LeadStatusCreateNestedOneWithoutLeadInput
     Project?: LeadProjectCreateNestedManyWithoutLeadInput
     leadActivities?: LeadActivityCreateNestedManyWithoutLeadInput
     leadNotes?: LeadNotesCreateNestedManyWithoutLeadInput
@@ -25783,7 +27691,7 @@ export namespace Prisma {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
+    statusId?: string | null
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
@@ -25924,6 +27832,8 @@ export namespace Prisma {
     invites?: OrgMemberInviteUpdateManyWithoutOrganizationNestedInput
     Lead?: LeadUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutIntegrationsInput = {
@@ -25939,6 +27849,8 @@ export namespace Prisma {
     invites?: OrgMemberInviteUncheckedUpdateManyWithoutOrganizationNestedInput
     Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutIntegrationInput = {
@@ -25989,6 +27901,45 @@ export namespace Prisma {
     data: XOR<LeadProjectUpdateManyMutationInput, LeadProjectUncheckedUpdateManyWithoutIntegrationInput>
   }
 
+  export type OrganizationCreateWithoutTemplateInput = {
+    id?: string
+    name: string
+    logo?: string | null
+    description?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    Project?: ProjectCreateNestedManyWithoutOrganizationInput
+    members?: OrgMemberCreateNestedManyWithoutOrganizationInput
+    invites?: OrgMemberInviteCreateNestedManyWithoutOrganizationInput
+    integrations?: IntegrationCreateNestedManyWithoutOrganizationInput
+    Lead?: LeadCreateNestedManyWithoutOrganizationInput
+    contact?: ContactCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationUncheckedCreateWithoutTemplateInput = {
+    id?: string
+    name: string
+    logo?: string | null
+    description?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
+    members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
+    invites?: OrgMemberInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    integrations?: IntegrationUncheckedCreateNestedManyWithoutOrganizationInput
+    Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
+    contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationCreateOrConnectWithoutTemplateInput = {
+    where: OrganizationWhereUniqueInput
+    create: XOR<OrganizationCreateWithoutTemplateInput, OrganizationUncheckedCreateWithoutTemplateInput>
+  }
+
   export type UserCreateWithoutTemplatesInput = {
     id?: string
     email: string
@@ -26022,6 +27973,51 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutTemplatesInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutTemplatesInput, UserUncheckedCreateWithoutTemplatesInput>
+  }
+
+  export type OrganizationUpsertWithoutTemplateInput = {
+    update: XOR<OrganizationUpdateWithoutTemplateInput, OrganizationUncheckedUpdateWithoutTemplateInput>
+    create: XOR<OrganizationCreateWithoutTemplateInput, OrganizationUncheckedCreateWithoutTemplateInput>
+    where?: OrganizationWhereInput
+  }
+
+  export type OrganizationUpdateToOneWithWhereWithoutTemplateInput = {
+    where?: OrganizationWhereInput
+    data: XOR<OrganizationUpdateWithoutTemplateInput, OrganizationUncheckedUpdateWithoutTemplateInput>
+  }
+
+  export type OrganizationUpdateWithoutTemplateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    Project?: ProjectUpdateManyWithoutOrganizationNestedInput
+    members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
+    invites?: OrgMemberInviteUpdateManyWithoutOrganizationNestedInput
+    integrations?: IntegrationUpdateManyWithoutOrganizationNestedInput
+    Lead?: LeadUpdateManyWithoutOrganizationNestedInput
+    contact?: ContactUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+  }
+
+  export type OrganizationUncheckedUpdateWithoutTemplateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
+    members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
+    invites?: OrgMemberInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    integrations?: IntegrationUncheckedUpdateManyWithoutOrganizationNestedInput
+    Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
+    contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type UserUpsertWithoutTemplatesInput = {
@@ -26065,6 +28061,154 @@ export namespace Prisma {
     LeadNotes?: LeadNotesUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type LeadCreateWithoutStatusInput = {
+    id?: string
+    shopifyDomain: string
+    shopifyStoreId: string
+    leadSource?: string | null
+    shopDetails?: NullableJsonNullValueInput | InputJsonValue
+    industry?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    Project?: LeadProjectCreateNestedManyWithoutLeadInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutLeadInput
+    leadNotes?: LeadNotesCreateNestedManyWithoutLeadInput
+    contacts?: ContactCreateNestedManyWithoutLeadInput
+    attachments?: AttachmentCreateNestedManyWithoutLeadInput
+    organization: OrganizationCreateNestedOneWithoutLeadInput
+    integration?: IntegrationCreateNestedOneWithoutLeadInput
+  }
+
+  export type LeadUncheckedCreateWithoutStatusInput = {
+    id?: string
+    shopifyDomain: string
+    shopifyStoreId: string
+    leadSource?: string | null
+    shopDetails?: NullableJsonNullValueInput | InputJsonValue
+    industry?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    integrationId?: string | null
+    organizationId: string
+    Project?: LeadProjectUncheckedCreateNestedManyWithoutLeadInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutLeadInput
+    leadNotes?: LeadNotesUncheckedCreateNestedManyWithoutLeadInput
+    contacts?: ContactUncheckedCreateNestedManyWithoutLeadInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadCreateOrConnectWithoutStatusInput = {
+    where: LeadWhereUniqueInput
+    create: XOR<LeadCreateWithoutStatusInput, LeadUncheckedCreateWithoutStatusInput>
+  }
+
+  export type LeadCreateManyStatusInputEnvelope = {
+    data: LeadCreateManyStatusInput | LeadCreateManyStatusInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OrganizationCreateWithoutLeadStatusInput = {
+    id?: string
+    name: string
+    logo?: string | null
+    description?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    Project?: ProjectCreateNestedManyWithoutOrganizationInput
+    members?: OrgMemberCreateNestedManyWithoutOrganizationInput
+    invites?: OrgMemberInviteCreateNestedManyWithoutOrganizationInput
+    integrations?: IntegrationCreateNestedManyWithoutOrganizationInput
+    Lead?: LeadCreateNestedManyWithoutOrganizationInput
+    contact?: ContactCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationUncheckedCreateWithoutLeadStatusInput = {
+    id?: string
+    name: string
+    logo?: string | null
+    description?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
+    members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
+    invites?: OrgMemberInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    integrations?: IntegrationUncheckedCreateNestedManyWithoutOrganizationInput
+    Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
+    contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationCreateOrConnectWithoutLeadStatusInput = {
+    where: OrganizationWhereUniqueInput
+    create: XOR<OrganizationCreateWithoutLeadStatusInput, OrganizationUncheckedCreateWithoutLeadStatusInput>
+  }
+
+  export type LeadUpsertWithWhereUniqueWithoutStatusInput = {
+    where: LeadWhereUniqueInput
+    update: XOR<LeadUpdateWithoutStatusInput, LeadUncheckedUpdateWithoutStatusInput>
+    create: XOR<LeadCreateWithoutStatusInput, LeadUncheckedCreateWithoutStatusInput>
+  }
+
+  export type LeadUpdateWithWhereUniqueWithoutStatusInput = {
+    where: LeadWhereUniqueInput
+    data: XOR<LeadUpdateWithoutStatusInput, LeadUncheckedUpdateWithoutStatusInput>
+  }
+
+  export type LeadUpdateManyWithWhereWithoutStatusInput = {
+    where: LeadScalarWhereInput
+    data: XOR<LeadUpdateManyMutationInput, LeadUncheckedUpdateManyWithoutStatusInput>
+  }
+
+  export type OrganizationUpsertWithoutLeadStatusInput = {
+    update: XOR<OrganizationUpdateWithoutLeadStatusInput, OrganizationUncheckedUpdateWithoutLeadStatusInput>
+    create: XOR<OrganizationCreateWithoutLeadStatusInput, OrganizationUncheckedCreateWithoutLeadStatusInput>
+    where?: OrganizationWhereInput
+  }
+
+  export type OrganizationUpdateToOneWithWhereWithoutLeadStatusInput = {
+    where?: OrganizationWhereInput
+    data: XOR<OrganizationUpdateWithoutLeadStatusInput, OrganizationUncheckedUpdateWithoutLeadStatusInput>
+  }
+
+  export type OrganizationUpdateWithoutLeadStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    Project?: ProjectUpdateManyWithoutOrganizationNestedInput
+    members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
+    invites?: OrgMemberInviteUpdateManyWithoutOrganizationNestedInput
+    integrations?: IntegrationUpdateManyWithoutOrganizationNestedInput
+    Lead?: LeadUpdateManyWithoutOrganizationNestedInput
+    contact?: ContactUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUpdateManyWithoutOrganizationNestedInput
+  }
+
+  export type OrganizationUncheckedUpdateWithoutLeadStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
+    members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
+    invites?: OrgMemberInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    integrations?: IntegrationUncheckedUpdateManyWithoutOrganizationNestedInput
+    Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
+    contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+  }
+
   export type LeadActivityCreateManyUserInput = {
     id?: string
     leadId: string
@@ -26099,9 +28243,12 @@ export namespace Prisma {
   export type TemplateCreateManyUserInput = {
     id?: string
     html: string
+    name: string
     createdAt: bigint | number
+    isEnabled: boolean
     updatedAt: bigint | number
     deletedAt: bigint | number
+    orgId?: string | null
   }
 
   export type LeadNotesCreateManyUserInput = {
@@ -26209,25 +28356,34 @@ export namespace Prisma {
   export type TemplateUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     html?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isEnabled?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    organization?: OrganizationUpdateOneWithoutTemplateNestedInput
   }
 
   export type TemplateUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     html?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isEnabled?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    orgId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TemplateUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     html?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isEnabled?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    orgId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LeadNotesUpdateWithoutUserInput = {
@@ -26264,11 +28420,12 @@ export namespace Prisma {
     name: string
     type: string
     data: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: string | null
     isSynced?: boolean
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt?: bigint | number | null
-    integrationId?: string | null
+    integrationId: string
   }
 
   export type OrgMemberCreateManyOrganizationInput = {
@@ -26307,14 +28464,14 @@ export namespace Prisma {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
+    statusId?: string | null
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
-    integrationId: string
+    integrationId?: string | null
   }
 
   export type ContactCreateManyOrganizationInput = {
@@ -26335,17 +28492,37 @@ export namespace Prisma {
     integrationId: string
   }
 
+  export type TemplateCreateManyOrganizationInput = {
+    id?: string
+    html: string
+    name: string
+    createdAt: bigint | number
+    isEnabled: boolean
+    updatedAt: bigint | number
+    deletedAt: bigint | number
+    userId?: string | null
+  }
+
+  export type LeadStatusCreateManyOrganizationInput = {
+    id?: string
+    status: string
+    createdAt: bigint | number
+    updatedAt: bigint | number
+    deletedAt: bigint | number
+  }
+
   export type ProjectUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     isSynced?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     leadProject?: LeadProjectUpdateManyWithoutProjectNestedInput
-    integration?: IntegrationUpdateOneWithoutProjectNestedInput
+    integration?: IntegrationUpdateOneRequiredWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutOrganizationInput = {
@@ -26353,11 +28530,12 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     isSynced?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    integrationId?: StringFieldUpdateOperationsInput | string
     leadProject?: LeadProjectUncheckedUpdateManyWithoutProjectNestedInput
   }
 
@@ -26366,11 +28544,12 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     isSynced?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    integrationId?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrgMemberUpdateWithoutOrganizationInput = {
@@ -26481,33 +28660,33 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: LeadStatusUpdateOneWithoutLeadNestedInput
     Project?: LeadProjectUpdateManyWithoutLeadNestedInput
     leadActivities?: LeadActivityUpdateManyWithoutLeadNestedInput
     leadNotes?: LeadNotesUpdateManyWithoutLeadNestedInput
     contacts?: ContactUpdateManyWithoutLeadNestedInput
     attachments?: AttachmentUpdateManyWithoutLeadNestedInput
-    integration?: IntegrationUpdateOneRequiredWithoutLeadNestedInput
+    integration?: IntegrationUpdateOneWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
+    statusId?: NullableStringFieldUpdateOperationsInput | string | null
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    integrationId?: StringFieldUpdateOperationsInput | string
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
     Project?: LeadProjectUncheckedUpdateManyWithoutLeadNestedInput
     leadActivities?: LeadActivityUncheckedUpdateManyWithoutLeadNestedInput
     leadNotes?: LeadNotesUncheckedUpdateManyWithoutLeadNestedInput
@@ -26519,14 +28698,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
+    statusId?: NullableStringFieldUpdateOperationsInput | string | null
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    integrationId?: StringFieldUpdateOperationsInput | string
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ContactUpdateWithoutOrganizationInput = {
@@ -26581,6 +28760,65 @@ export namespace Prisma {
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TemplateUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    html?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isEnabled?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    user?: UserUpdateOneWithoutTemplatesNestedInput
+  }
+
+  export type TemplateUncheckedUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    html?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isEnabled?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TemplateUncheckedUpdateManyWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    html?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isEnabled?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type LeadStatusUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    Lead?: LeadUpdateManyWithoutStatusNestedInput
+  }
+
+  export type LeadStatusUncheckedUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    Lead?: LeadUncheckedUpdateManyWithoutStatusNestedInput
+  }
+
+  export type LeadStatusUncheckedUpdateManyWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type LeadProjectCreateManyProjectInput = {
@@ -26910,6 +29148,7 @@ export namespace Prisma {
     name: string
     type: string
     data: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: string | null
     isSynced?: boolean
     organizationId: string
     createdAt?: bigint | number
@@ -26921,7 +29160,7 @@ export namespace Prisma {
     id?: string
     shopifyDomain: string
     shopifyStoreId: string
-    status?: $Enums.leadStatus
+    statusId?: string | null
     leadSource?: string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: string | null
@@ -26964,6 +29203,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     isSynced?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -26977,6 +29217,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     isSynced?: BoolFieldUpdateOperationsInput | boolean
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -26990,6 +29231,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
+    cliAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
     isSynced?: BoolFieldUpdateOperationsInput | boolean
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -27001,13 +29243,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: LeadStatusUpdateOneWithoutLeadNestedInput
     Project?: LeadProjectUpdateManyWithoutLeadNestedInput
     leadActivities?: LeadActivityUpdateManyWithoutLeadNestedInput
     leadNotes?: LeadNotesUpdateManyWithoutLeadNestedInput
@@ -27020,7 +29262,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
+    statusId?: NullableStringFieldUpdateOperationsInput | string | null
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27039,7 +29281,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     shopifyDomain?: StringFieldUpdateOperationsInput | string
     shopifyStoreId?: StringFieldUpdateOperationsInput | string
-    status?: EnumleadStatusFieldUpdateOperationsInput | $Enums.leadStatus
+    statusId?: NullableStringFieldUpdateOperationsInput | string | null
     leadSource?: NullableStringFieldUpdateOperationsInput | string | null
     shopDetails?: NullableJsonNullValueInput | InputJsonValue
     industry?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27133,6 +29375,72 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type LeadCreateManyStatusInput = {
+    id?: string
+    shopifyDomain: string
+    shopifyStoreId: string
+    leadSource?: string | null
+    shopDetails?: NullableJsonNullValueInput | InputJsonValue
+    industry?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    integrationId?: string | null
+    organizationId: string
+  }
+
+  export type LeadUpdateWithoutStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shopifyDomain?: StringFieldUpdateOperationsInput | string
+    shopifyStoreId?: StringFieldUpdateOperationsInput | string
+    leadSource?: NullableStringFieldUpdateOperationsInput | string | null
+    shopDetails?: NullableJsonNullValueInput | InputJsonValue
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    Project?: LeadProjectUpdateManyWithoutLeadNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutLeadNestedInput
+    leadNotes?: LeadNotesUpdateManyWithoutLeadNestedInput
+    contacts?: ContactUpdateManyWithoutLeadNestedInput
+    attachments?: AttachmentUpdateManyWithoutLeadNestedInput
+    organization?: OrganizationUpdateOneRequiredWithoutLeadNestedInput
+    integration?: IntegrationUpdateOneWithoutLeadNestedInput
+  }
+
+  export type LeadUncheckedUpdateWithoutStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shopifyDomain?: StringFieldUpdateOperationsInput | string
+    shopifyStoreId?: StringFieldUpdateOperationsInput | string
+    leadSource?: NullableStringFieldUpdateOperationsInput | string | null
+    shopDetails?: NullableJsonNullValueInput | InputJsonValue
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    Project?: LeadProjectUncheckedUpdateManyWithoutLeadNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutLeadNestedInput
+    leadNotes?: LeadNotesUncheckedUpdateManyWithoutLeadNestedInput
+    contacts?: ContactUncheckedUpdateManyWithoutLeadNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutLeadNestedInput
+  }
+
+  export type LeadUncheckedUpdateManyWithoutStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shopifyDomain?: StringFieldUpdateOperationsInput | string
+    shopifyStoreId?: StringFieldUpdateOperationsInput | string
+    leadSource?: NullableStringFieldUpdateOperationsInput | string | null
+    shopDetails?: NullableJsonNullValueInput | InputJsonValue
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+  }
+
 
 
   /**
@@ -27162,6 +29470,10 @@ export namespace Prisma {
      * @deprecated Use IntegrationCountOutputTypeDefaultArgs instead
      */
     export type IntegrationCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = IntegrationCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use LeadStatusCountOutputTypeDefaultArgs instead
+     */
+    export type LeadStatusCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = LeadStatusCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -27218,6 +29530,10 @@ export namespace Prisma {
      * @deprecated Use TemplateDefaultArgs instead
      */
     export type TemplateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TemplateDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use LeadStatusDefaultArgs instead
+     */
+    export type LeadStatusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = LeadStatusDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

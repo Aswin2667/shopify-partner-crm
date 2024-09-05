@@ -14,7 +14,8 @@ import { DateHelper } from '@org/utils';
 export class MailgunIntegrationService extends BaseIntegrationService<object> {
   private data: IntegrationData = {
     name: 'Mailgun',
-    description: 'Mailgun integration',
+    description:
+      'Supercharge your email campaigns with Mailgun. Automate, personalize, and track every email to engage your audience like never before.',
     type: IntegrationType.MAIL_GUN,
     logo: 'https://seeklogo.com/images/M/mailgun-logo-5388F66106-seeklogo.com.png',
     singular: false,

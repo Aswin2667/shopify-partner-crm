@@ -11,7 +11,6 @@ import ProjectCard from "./ProjectCard";
 const ProjectList = ({ setOpen, integrationExist }: any): JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { organizationId } = useParams();
   const { projects } = useSelector((state: any) => state.project);
 

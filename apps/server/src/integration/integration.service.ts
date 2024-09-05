@@ -135,14 +135,18 @@ export class IntegrationService {
     );
   }
 
-  async performIntegrationAction(id: string, action: string, params: object) {
-    const integration = await this.getIntegrationById(id);
-    if (!integration) {
-      throw new NotFoundException(`Integration with id ${id} not found`);
-    }
+  async performIntegrationAction(
+    type: IntegrationType,
+    action: string,
+    params: object,
+  ) {
+    // const integration = await this.getIntegrationById(id);
+    // if (!integration) {
+    //   throw new NotFoundException(`Integration with id ${id} not found`);
+    // }
 
     return await this.integrationManager.performIntegrationAction(
-      integration.type as IntegrationType,
+      type,
       action,
       params,
     );

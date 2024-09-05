@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/crypto-js": "^4.2.2",
     "@types/lodash.template": "^4.5.3",
     "@types/luxon": "^3.4.2",
     "@types/multer": "^1.4.11",
@@ -47,7 +48,7 @@
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
-    "crypto": "^1.0.1",
+    "crypto-js": "^4.2.0",
     "gmail-api-sync": "^1.2.10",
     "google-auth-library": "^9.13.0",
     "googleapis": "^142.0.0",
