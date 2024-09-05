@@ -51,7 +51,7 @@ export class MailService {
           },
         },
       });
-
+      3;
       return access_token;
     } catch (error) {
       this.logger.error('Error refreshing access token:', error.message);
@@ -89,36 +89,62 @@ export class MailService {
     try {
       await this.verifyToken(accessToken);
       this.oauth2Client.setCredentials({ access_token: accessToken });
-  
+
       const gmail = google.gmail({ version: 'v1', auth: this.oauth2Client });
-  
+
       const customMessageId = `<${this.generateCustomMessageId()}>`;
-  
-      const headers = this.buildEmailHeaders(to, cc, bcc, subject, customMessageId);
+
+      const headers = this.buildEmailHeaders(
+        to,
+        cc,
+        bcc,
+        subject,
+        customMessageId,
+      );
       const message = `${headers}\r\n\r\n${body}`;
       const encodedMessage = this.encodeMessage(message);
-  
+
       const mailResponse = await gmail.users.messages.send({
         userId: 'me',
         requestBody: { raw: encodedMessage },
       });
-  
+
       this.handleGmailResponse(mailResponse);
-  
-      const response = await this.fetchEmailDetails(mailResponse.data.id, accessToken);
-  
-      await this.storeEmailInDatabase(response.data, to, cc, bcc, subject, body, gmailIntegrationId);
-  
+
+      const response = await this.fetchEmailDetails(
+        mailResponse.data.id,
+        accessToken,
+      );
+
+      await this.storeEmailInDatabase(
+        response.data,
+        to,
+        cc,
+        bcc,
+        subject,
+        body,
+        gmailIntegrationId,
+      );
+
       this.logger.log('Mail sent successfully');
     } catch (error) {
-      await this.handleError(error, refreshToken, gmailIntegrationId, to, cc, bcc, subject, body);
+      await this.handleError(
+        error,
+        refreshToken,
+        gmailIntegrationId,
+        to,
+        cc,
+        bcc,
+        subject,
+        body,
+      );
     }
   }
-  
+
   private generateCustomMessageId() {
     return `${Math.random().toString(36).substr(2, 9)}@mail.gmail.com`;
   }
-  
+
   private buildEmailHeaders(to, cc, bcc, subject, customMessageId) {
     return [
       `From: "Dinesh Balan S" <dineshbalan@gmail.com>`,
@@ -132,7 +158,7 @@ export class MailService {
       .filter(Boolean)
       .join('\r\n');
   }
-  
+
   private encodeMessage(message: string) {
     return Buffer.from(message)
       .toString('base64')
@@ -140,7 +166,7 @@ export class MailService {
       .replace(/\//g, '_')
       .replace(/=+$/, '');
   }
-  
+
   private async fetchEmailDetails(emailId: string, accessToken: string) {
     return axios.get(
       `https://gmail.googleapis.com/gmail/v1/users/me/messages/${emailId}`,
@@ -151,8 +177,16 @@ export class MailService {
       },
     );
   }
-  
-  private async storeEmailInDatabase(emailData, to, cc, bcc, subject, body, gmailIntegrationId) {
+
+  private async storeEmailInDatabase(
+    emailData,
+    to,
+    cc,
+    bcc,
+    subject,
+    body,
+    gmailIntegrationId,
+  ) {
     await this.prisma.email.create({
       data: {
         to: to,
@@ -170,7 +204,7 @@ export class MailService {
       },
     });
   }
-  
+
   private async handleError(
     error: any,
     refreshToken: string,
@@ -205,13 +239,12 @@ export class MailService {
       throw error;
     }
   }
-  
+
   private handleGmailResponse(mailResponse: any) {
     if (mailResponse.statusText !== 'OK') {
       throw new Error(mailResponse.statusText);
     }
   }
-  
 
   async verifyToken(accessToken: string): Promise<any> {
     try {

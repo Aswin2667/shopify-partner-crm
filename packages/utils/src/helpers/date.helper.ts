@@ -33,6 +33,6 @@ export class DateHelper {
     const dateTime = DateTime.fromISO(isoString, { zone: 'utc' });
     
     return dateTime.toMillis() / 1000;
-}
+  }
 
 }

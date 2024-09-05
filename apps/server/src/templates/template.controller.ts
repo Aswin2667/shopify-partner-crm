@@ -13,13 +13,14 @@ import {
 import { TemplateService } from './template.service';
 import { CreateTemplateDto, UpdateTemplateDto } from './dto/template.dto';
 
-@Controller('template')
+@Controller('templates')
 export class TemplateController {
   constructor(private readonly templateService: TemplateService) {}
 
   @Post()
   async create(@Body() createTemplateDto: CreateTemplateDto) {
     try {
+      console.log(createTemplateDto);
       const template = await this.templateService.create(createTemplateDto);
       return {
         status: true,
@@ -34,19 +35,15 @@ export class TemplateController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     try {
-      return {
-        status: true,
-        message: 'Template retrieved successfully.',
-        data: {
-          id: 'tmpl12345',
-          html: '<html><body><h1>Hello World</h1></body></html>',
-          userId: 'user12345',
-          createdAt: 123123123123,
-          updatedAt: 123123123123,
-          deletedAt: 0,
-        },
-      };
-    } catch (error) {}
+     const data = await this.templateService.findAllByOrg(id);
+     return {
+      status:true,
+      message:"Template retrieved successfully.",
+      data
+     }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   @Patch(':id')
@@ -79,10 +76,10 @@ export class TemplateController {
     } catch (error) {}
   }
 
-  @Get('user/:userId')
-  async findAllByUser(@Param('userId') userId: string) {
+  @Get('org/:orgId')
+  async findAllByUser(@Param('userId') orgId: string) {
     try {
-      const templates = await this.templateService.findAllByUser(userId);
+      const templates = await this.templateService.findAllByOrg(orgId);
       return {
         status: true,
         message: 'Templates retrieved successfully.',

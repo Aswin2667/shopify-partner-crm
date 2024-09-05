@@ -1,7 +1,14 @@
-import { Controller, Get, Post, Body, Param, Patch, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Patch,
+  Delete,
+} from '@nestjs/common';
 import { ContactService } from './contact.service';
 import { CreateContactDto, UpdateContactDto } from './dto/contact.dto';
-
 
 @Controller('contacts')
 export class ContactController {
@@ -16,14 +23,17 @@ export class ContactController {
   async findAllByLeadId(@Param('leadId') id: string) {
     return this.contactService.findAllByLeadId(id);
   }
-  @Get('get/:integrationId')
-  async findAllByIntegrationId(@Param('integrationId') id: string) {
-    console.log(id)
-    return this.contactService.findAllByIntegrationId(id);
+  @Get('get/:organizationId')
+  async findAllByOrganizationId(@Param('organizationId') id: string) {
+    console.log(id);
+    return this.contactService.findAllByOrganizationId(id);
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateContactDto: UpdateContactDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateContactDto: UpdateContactDto,
+  ) {
     return this.contactService.update(id, updateContactDto);
   }
 

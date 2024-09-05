@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import Editor from "./Editor";
-import { act, useReducer, useState } from "react";
+import { act, useEffect, useReducer, useState } from "react";
 import InitialsAvatar from "react-initials-avatar";
 import "react-initials-avatar/lib/ReactInitialsAvatar.css";
 import ReactSelect from "@/components/ReactSelect";
@@ -9,16 +9,29 @@ import MailBadge from "./MailBadge";
 import { useMutation } from "@tanstack/react-query";
 import MailService from "@/services/MailService";
 import { useParams } from "react-router-dom";
+import IntegrationService from "@/services/IntegrationService";
+import axios from "axios";
+import TemplateService from "@/services/TemplatesService";
+import { defaultTemplates } from "@/pages/organizations/settings/templates/Templates";
+import template from "lodash.template";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Props = {};
 
 const initialArgs = {
-  from: "",
+  from: {},
   to: [],
   cc: { isEnabled: false, value: [] },
   bcc: { isEnabled: false, value: [] },
   subject: "",
   body: "",
+  template: { selected: {}, all: defaultTemplates || [] },
 };
 
 const reducerFn = (prevState: any, action: any) => {
@@ -26,7 +39,6 @@ const reducerFn = (prevState: any, action: any) => {
     return { ...prevState, from: action.payload };
   }
   if (action.type === "toAdd" || action.type === "toRemove") {
-    console.log(action.payload);
     return action.type === "toAdd"
       ? { ...prevState, to: [...prevState.to, action.payload] }
       : {
@@ -39,7 +51,6 @@ const reducerFn = (prevState: any, action: any) => {
     action.type === "ccValueAdd" ||
     action.type === "ccValueRemove"
   ) {
-    console.log(action.payload);
     return action.type === "ccEnabled"
       ? { ...prevState, cc: { ...prevState.cc, isEnabled: action.payload } }
       : action.type === "ccValueAdd"
@@ -64,7 +75,6 @@ const reducerFn = (prevState: any, action: any) => {
     action.type === "bccValueAdd" ||
     action.type === "bccValueRemove"
   ) {
-    console.log(action.payload);
     return action.type === "bccEnabled"
       ? { ...prevState, bcc: { ...prevState.bcc, isEnabled: action.payload } }
       : action.type === "bccValueAdd"
@@ -89,6 +99,23 @@ const reducerFn = (prevState: any, action: any) => {
   if (action.type === "body") {
     return { ...prevState, body: action.payload };
   }
+  if (action.type === "allTemplate" || action.type === "selectedTemplate") {
+    return action.type === "allTemplate"
+      ? {
+          ...prevState,
+          template: {
+            ...prevState.template,
+            all: [...prevState.template.all, ...action.payload],
+          },
+        }
+      : {
+          ...prevState,
+          template: {
+            ...prevState.template,
+            selected: action.payload,
+          },
+        };
+  }
   if (action.type === "clear") {
     return initialArgs;
   }
@@ -96,31 +123,34 @@ const reducerFn = (prevState: any, action: any) => {
 };
 
 const Compose = (props: Props): JSX.Element => {
-  const { integrationId } = useParams();
-  const [mail, dispatch] = useReducer(
+  const { organizationId } = useParams();
+  const [compose, dispatch] = useReducer(
     reducerFn,
     initialArgs,
     () => initialArgs
   );
-  const { gmail } = useSelector((state: any) => state.integration);
-  console.log();
+  const { integrations } = useSelector((state: any) => state.integration);
+  const gmailIntegrations = integrations.filter(
+    (integration: any) => integration.type === "GMAIL"
+  );
 
   const { mutate: sendMail } = useMutation({
-    mutationFn: async (data: any) => MailService.sendMail(data),
+    mutationFn: async (data: any) =>
+      IntegrationService.performAction("GMAIL", "SEND_MAIL", data),
     onSuccess: (res) => console.log(res),
     onError: (error) => console.error(error),
   });
 
   const sendHandler = () => {
     const mailContext = {
-      to: mail.to,
-      cc: mail.cc.value,
-      bcc: mail.bcc.value,
-      subject: mail.subject,
-      body: mail.body,
-      refreshToken: gmail.data.refreshToken,
-      accessToken: gmail.data.accessToken,
-      gmailIntegrationId: gmail.id,
+      to: compose.to,
+      cc: compose.cc.value,
+      bcc: compose.bcc.value,
+      subject: compose.subject,
+      body: compose.body,
+      refreshToken: compose.from.data.refreshToken,
+      accessToken: compose.from.data.accessToken,
+      gmailIntegrationId: compose.from.id,
     };
 
     console.log(mailContext);
@@ -132,24 +162,17 @@ const Compose = (props: Props): JSX.Element => {
   };
 
   function handleKeyDown(e: any, type: string) {
-    if (e.key !== "Enter") return;
-    const value = e.target.value;
-    if (!value.trim()) return;
+    // Check if the event type is 'blur' or the key is 'Enter'
+    if (e.type === "blur" || e.key === "Enter") {
+      const value = e.target.value;
+      // Proceed only if value is not empty
+      if (!value.trim()) return;
 
-    if (type === "toAdd") {
-      dispatch({ type, payload: value });
-      e.target.value = "";
-      return;
-    }
-    if (type === "ccValueAdd") {
-      dispatch({ type, payload: value });
-      e.target.value = "";
-      return;
-    }
-    if (type === "bccValueAdd") {
-      dispatch({ type, payload: value });
-      e.target.value = "";
-      return;
+      // Dispatch the action based on the type
+      if (type === "toAdd" || type === "ccValueAdd" || type === "bccValueAdd") {
+        dispatch({ type, payload: value });
+        e.target.value = ""; // Clear the input field
+      }
     }
   }
 
@@ -157,45 +180,76 @@ const Compose = (props: Props): JSX.Element => {
     if (type === "toRemove") {
       dispatch({
         type,
-        payload: mail.to.filter((el: any, i: number) => i !== index),
+        payload: compose.to.filter((el: any, i: number) => i !== index),
       });
     }
     if (type === "ccValueRemove") {
       dispatch({
         type,
-        payload: mail.cc.value.filter((el: any, i: number) => i !== index),
+        payload: compose.cc.value.filter((el: any, i: number) => i !== index),
       });
     }
     if (type === "bccValueRemove") {
       dispatch({
         type,
-        payload: mail.bcc.value.filter((el: any, i: number) => i !== index),
+        payload: compose.bcc.value.filter((el: any, i: number) => i !== index),
       });
     }
   }
 
+  useEffect(() => {
+    dispatch({ type: "from", payload: gmailIntegrations[0] });
+  }, [gmailIntegrations]);
+
+  useEffect(() => {
+    TemplateService.getAllTemplatesByOrgId(organizationId as string)
+      .then((res) => dispatch({ type: "allTemplate", payload: res.data.data }))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div className="border  mb-5 rounded-md text-sm">
       <div className="bg-white p-3 rounded-t-md  font-medium">
-        {mail.subject.trim() === "" ? "(no subject)" : mail.subject}
+        {compose.subject.trim() === "" ? "(no subject)" : compose.subject}
       </div>
       {/* From */}
       <div className="px-3 py-2 border-y flex items-center gap-4">
         <h6 className="text-gray-500">From</h6>
-        <div className="flex items-center gap-2">
-          <InitialsAvatar
-            name={gmail?.data.name}
-            className="w-5 h-5 bg-black text-white flex items-center justify-center rounded-full text-xs"
-          />
-          <h6 className="capitalize text-base">{gmail?.data.name}</h6>
-          <h6 className="text-gray-500 text-[13px]">{gmail?.data.email}</h6>
-        </div>
+
+        <Select
+          onValueChange={(value) => dispatch({ type: "from", payload: value })}
+          // defaultValue={compose.from.data?.email}
+        >
+          <SelectTrigger className="focus:outline-white">
+            <SelectValue placeholder={compose.from.data?.email} />
+          </SelectTrigger>
+          <SelectContent>
+            {gmailIntegrations.map((integration: any) => (
+              <SelectItem value={integration}>
+                <div className="flex items-center gap-2">
+                  {integration?.data.name && (
+                    <InitialsAvatar
+                      name={integration?.data.name}
+                      className="w-5 h-5 bg-black text-white flex items-center justify-center rounded-full text-xs"
+                    />
+                  )}
+                  <h6 className="capitalize text-base">
+                    {integration?.data.name}
+                  </h6>
+                  <h6 className="text-gray-500 text-[13px]">
+                    {integration?.data.email}
+                  </h6>
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       {/* To */}
       <div className="px-3 py-2 border-b flex items-center gap-4">
         <h6 className="text-gray-500">To</h6>
         <div className="rounded-sm w-full flex items-center flex-wrap gap-2">
-          {mail.to.map((tag: any, index: number) => (
+          {compose.to.map((tag: any, index: number) => (
             <MailBadge
               key={index}
               text={tag}
@@ -203,6 +257,7 @@ const Compose = (props: Props): JSX.Element => {
             />
           ))}
           <input
+            onBlur={(e) => handleKeyDown(e, "toAdd")}
             onKeyDown={(e) => handleKeyDown(e, "toAdd")}
             type="text"
             className="flex-grow  outline-none"
@@ -210,7 +265,7 @@ const Compose = (props: Props): JSX.Element => {
           />
         </div>
         <div className="flex gap-2 text-blue-500 font-medium">
-          {!mail.cc.isEnabled && (
+          {!compose.cc.isEnabled && (
             <h6
               className="cursor-pointer"
               onClick={() => dispatch({ type: "ccEnabled", payload: true })}
@@ -218,7 +273,7 @@ const Compose = (props: Props): JSX.Element => {
               CC
             </h6>
           )}
-          {!mail.bcc.isEnabled && (
+          {!compose.bcc.isEnabled && (
             <h6
               className="cursor-pointer"
               onClick={() => dispatch({ type: "bccEnabled", payload: true })}
@@ -228,12 +283,13 @@ const Compose = (props: Props): JSX.Element => {
           )}
         </div>
       </div>
+
       {/* CC */}
-      {mail.cc.isEnabled && (
+      {compose.cc.isEnabled && (
         <div className="px-3 py-2 border-b flex items-center gap-4">
           <h6 className="text-gray-500">CC</h6>
           <div className="rounded-sm w-full flex items-center flex-wrap gap-2">
-            {mail.cc.value.map((tag: any, index: number) => (
+            {compose.cc.value.map((tag: any, index: number) => (
               <MailBadge
                 key={index}
                 text={tag}
@@ -242,6 +298,7 @@ const Compose = (props: Props): JSX.Element => {
               />
             ))}
             <input
+              onBlur={(event) => handleKeyDown(event, "ccValueAdd")}
               onKeyDown={() => handleKeyDown(event, "ccValueAdd")}
               type="text"
               className="flex-grow  outline-none"
@@ -251,11 +308,11 @@ const Compose = (props: Props): JSX.Element => {
         </div>
       )}
       {/* BCC */}
-      {mail.bcc.isEnabled && (
+      {compose.bcc.isEnabled && (
         <div className="px-3 py-2 border-b flex items-center gap-4">
           <h6 className="text-gray-500">BCC</h6>
           <div className="rounded-sm w-full flex items-center flex-wrap gap-2">
-            {mail.bcc.value.map((tag: any, index: number) => (
+            {compose.bcc.value.map((tag: any, index: number) => (
               <MailBadge
                 key={index}
                 text={tag}
@@ -264,6 +321,7 @@ const Compose = (props: Props): JSX.Element => {
               />
             ))}
             <input
+              onBlur={(event) => handleKeyDown(event, "bccValueAdd")}
               onKeyDown={() => handleKeyDown(event, "bccValueAdd")}
               type="text"
               className="flex-grow  outline-none"
@@ -278,7 +336,7 @@ const Compose = (props: Props): JSX.Element => {
           <input
             placeholder="Subject"
             className="px-3 py-2 w-full"
-            value={mail.subject}
+            value={compose.subject}
             // onChange={(e) => setSubject(e.target.value)}
             onChange={(e) =>
               dispatch({ type: "subject", payload: e.target.value })
@@ -286,10 +344,17 @@ const Compose = (props: Props): JSX.Element => {
           />
         </div>
         <div className="w-[40%] border-l">
-          <ReactSelect placeholder="Choose a Template" />
+          <ReactSelect
+            placeholder="Choose a Template"
+            options={[...new Set(compose.template.all)]}
+            onChange={(template: any) => {
+              dispatch({ type: "selectedTemplate", payload: template });
+              dispatch({ type: "body", payload: template.html });
+            }}
+          />
         </div>
       </div>
-      <Editor value={mail.body} setValue={setBody} />
+      <Editor value={compose.body} setValue={setBody} />
       <div className="flex justify-between p-4">
         <div className="flex gap-3">
           <button

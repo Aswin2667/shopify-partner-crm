@@ -7,6 +7,8 @@ import { AuthService } from './auth.service';
 import { PrismaService } from 'src/config/prisma.service';
 import { GoogleStrategy } from './google.strategy';
 import { AuthController } from './auth.controller';
+import { IntegrationService } from 'src/integration/integration.service';
+import { IntegrationModule } from '@org/integrations';
 
 @Module({
   imports: [
@@ -17,9 +19,16 @@ import { AuthController } from './auth.controller';
       secret: 'yourSecretKey',
       signOptions: { expiresIn: '60m' },
     }),
+    IntegrationModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, PrismaService, GoogleStrategy],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    PrismaService,
+    GoogleStrategy,
+    IntegrationService,
+  ],
   //   exports: [AuthService],
 })
 export class AuthModule {}

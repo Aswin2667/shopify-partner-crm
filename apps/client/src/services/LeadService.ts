@@ -22,6 +22,7 @@ class LeadService {
     }
   }
 
+  // TODO: Remove currentIntegration Method
   public static async getByIntegrationId(integrationId:string) {
 
     try {
@@ -43,7 +44,7 @@ class LeadService {
     } 
   } 
   public static async getLeadById(id:string) {
-    try {
+    try { 
       const response = await axiosInstance.get(`/${this.BASE_URL}/get/${id}`);
       return response;
     } catch (error) {

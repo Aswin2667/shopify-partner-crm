@@ -51,12 +51,15 @@ export function DataTableToolbar({ leads }: any) {
   const { currentOrganization } = useSelector(
     (state: any) => state.organization
   );
+
+  // TODO: remove current integration
   const { currentIntegration } = useSelector((state: any) => state.integration);
 
   const onSubmit = async (data: any) => {
     const response = await LeadService.create({
       ...data,
       userId,
+      // TODO: DO We need id's here
       organizationId: currentOrganization?.id,
       integrationId: currentIntegration?.id,
     });
@@ -165,6 +168,7 @@ export function DataTableToolbar({ leads }: any) {
           <AlertDialogTitle>New Lead</AlertDialogTitle>
           <Separator />
         </AlertDialogHeader>
+        {/* TODO: Need to add option for selecting integrations */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-4 mb-4 sm:grid-cols-2">
             <div>

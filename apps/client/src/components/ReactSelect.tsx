@@ -41,14 +41,27 @@ const customStyles = (isDarkMode: boolean) => ({
   }),
 });
 
-const ReactSelect = ({ className, placeholder, styles }: any) => {
+const ReactSelect = ({
+  className,
+  placeholder = "Select an email template",
+  styles,
+  options = [],
+  defaultValue,
+  dispatch,
+  onChange,
+}: any) => {
   const { theme } = useTheme();
 
   return (
     <Select
       className={className}
       placeholder={placeholder}
+      options={options}
+      defaultValue={defaultValue}
+      onChange={(value: any) => onChange(value)}
       styles={styles ? styles : customStyles(theme === "dark")}
+      getOptionLabel={(option: any) => option.name} // Use "name" as the label
+      getOptionValue={(option: any) => option.html} // Use "html" as the value
     />
   );
 };

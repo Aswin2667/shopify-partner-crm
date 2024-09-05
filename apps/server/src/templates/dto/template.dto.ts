@@ -9,6 +9,8 @@ export class CreateTemplateDto {
 
   @IsEnum(['ADMIN_ONLY', 'MEMBER'])
   scope: string;
+  name: any;
+  orgId: any;
 }
 
 export class UpdateTemplateDto {

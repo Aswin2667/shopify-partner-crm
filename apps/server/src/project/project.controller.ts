@@ -3,6 +3,7 @@ import {
   Get,
   Post,
   Body,
+  Patch,
   Param,
   Put,
   Delete,
@@ -41,6 +42,16 @@ export class ProjectController {
     return this.projectService.update(
       id,
       UpdateProjectDto.parse(updateProjectDto),
+    );
+  }
+  @Patch(':id')
+  addAccessToken(
+    @Param('id') id: string,
+    @Body() body,
+  ) {
+    return this.projectService.updateAccessToken(
+      id,
+      body
     );
   }
 

@@ -3,10 +3,9 @@ import Login from "./pages/auth/Login";
 import PageNotFount from "./pages/404/404";
 import OrganizationList from "./pages/organizations/OrganizationList";
 import RootLayout from "./components/RootLayout";
-import Integration from "./pages/Integration/Index";
+import CreateIntegration from "./pages/Integration/Index";
 import IntegrationDetailScreen from "./pages/Integration/components/IntegrationDetailScreen";
 import IntegrationDashboard from "./pages/Integration/components/IntegrationDashboard";
-import IntegrationDashboardLayout from "./pages/Integration/components/IntegrationDashboardLayout";
 import WorkflowTable from "./pages/workflows/table/WorkflowTable";
 import Editor from "./pages/workflows/editor/Editor";
 import SettingsLayout from "./pages/organizations/settings/layout";
@@ -26,6 +25,13 @@ import Notes from "./pages/leads/notes/Notes";
 import LeadMail from "./pages/leads/components/LeadMail";
 import ContactTable from "./pages/contacts/table/ContactTable";
 import CustomFiled from "./pages/organizations/settings/customFields/CustomFiled";
+import Templates from "./pages/organizations/settings/templates/Templates";
+import TemplateCreatePage from "./pages/organizations/settings/templates/TemplateCreatePage";
+import Invitation from "./pages/auth/Invitation";
+import LeadStatus from "./pages/organizations/settings/leadStatus/LeadStatus";
+import ManageIntegration from "./pages/Integration/components/ManageIntegration";
+import ProjectSettings from "./pages/Project/settings/page";
+import CliAccesTokens from "./pages/Project/settings/CliAccessTokens";
 
 export const routes = createBrowserRouter([
   {
@@ -35,7 +41,7 @@ export const routes = createBrowserRouter([
   },
   {
     path: "/invite",
-    element: <>invite</>,
+    element: <Invitation />,
     errorElement: <PageNotFount />,
   },
   {
@@ -45,159 +51,176 @@ export const routes = createBrowserRouter([
   },
   {
     path: "/:organizationId",
-    element: <IntegrationDashboardLayout />,
+    element: <RootLayout />,
     children: [
       {
-        path: "dashboard",
-        element: <IntegrationDashboard />,
+        index: true,
+        element: <DashboardPage />,
       },
       {
         path: "dashboard",
-        element: <IntegrationDashboard />,
+        element: <DashboardPage />,
       },
       {
-        path: ":integrationId",
-        element: <RootLayout />,
+        path: "inbox",
+        element: <MailPage />,
+      },
+      {
+        path: "leads",
         children: [
           {
             index: true,
-            element: <DashboardPage />,
+            element: <LeadTable />,
           },
           {
-            path: "dashboard",
-            element: <DashboardPage />,
-          },
-          {
-            path: "inbox",
-            element: <MailPage />,
-          },
-          {
-            path: "leads",
+            path: ":leadId",
+            element: <LeadDashboard />,
             children: [
               {
                 index: true,
-                element: <LeadTable />,
+                element: <Activity />,
               },
               {
-                path: ":leadId",
-
-                element: <LeadDashboard />,
+                path: "emails",
+                element: <LeadMail />,
+              },
+              {
+                path: "calls",
+                element: <>call</>,
+              },
+              {
+                path: "tasks",
+                element: <>task</>,
+              },
+              {
+                path: "notes",
+                element: <Notes />,
+              },
+              {
+                path: "messages",
+                element: <>messages</>,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: "projects",
+        children: [
+          {
+            index: true,
+            element: <Project />,
+          },
+          {
+            path: ":projectId",
+            element: <ProjectSettings />,
+            children:[
+            {
+              index: true,
+              path:"tokens",
+              element: <CliAccesTokens/>,
+            },
+            {
+              path:"webhooks",
+              element: <>webhooks</>,
+            }
+            ]
+          },
+        ],
+      },
+      {
+        path: "workflows",
+        children: [
+          {
+            index: true,
+            element: <WorkflowTable />,
+          },
+          {
+            path: "editor/:id",
+            element: <Editor />,
+          },
+        ],
+      },
+      {
+        path: "media library",
+        element: <MediaLibrary />,
+      },
+      {
+        path: "contacts",
+        element: <ContactTable />,
+      },
+      {
+        path: "settings",
+        element: <SettingsLayout />,
+        children: [
+          {
+            index: true,
+            element: <SettingsProfilePage />,
+          },
+          {
+            path: "profile",
+            element: <SettingsProfilePage />,
+          },
+          {
+            path: "appearance",
+            element: <SettingsAppearancePage />,
+          },
+          {
+            path: "notifications",
+            element: <SettingsNotificationsPage />,
+          },
+          {
+            path: "display",
+            element: <SettingsDisplayPage />,
+          },
+          {
+            path: "integration",
+            children: [
+              {
+                index: true,
+                element: <IntegrationDashboard />,
+              },
+              {
+                path: "manage/:integrationType",
+                element: <ManageIntegration />,
+              },
+              {
+                path: "create",
                 children: [
                   {
                     index: true,
-                    element: <Activity />,
+                    element: <CreateIntegration />,
                   },
                   {
-                    path: "emails",
-                    element: <LeadMail />,
-                  },
-                  {
-                    path: "calls",
-                    element: <>call</>,
-                  },
-                  {
-                    path: "tasks",
-                    element: <>task</>,
-                  },
-                  {
-                    path: "notes",
-                    element: <Notes />,
-                  },
-                  {
-                    path: "messages",
-                    element: <>messages</>,
+                    path: ":integrationType",
+                    element: <IntegrationDetailScreen />,
                   },
                 ],
               },
             ],
           },
           {
-            path: "projects",
-            children: [
-              {
-                index: true,
-                element: <Project />,
-              },
-              {
-                path: ":projectId",
-                element: <DashboardPage />,
-              },
-            ],
+            path: "templates",
+            element: <Templates />,
           },
           {
-            path: "workflows",
-            children: [
-              {
-                index: true,
-                element: <WorkflowTable />,
-              },
-              {
-                path: "editor/:id",
-                element: <Editor />,
-              },
-            ],
+            path: "create-template",
+            element: <TemplateCreatePage />,
           },
           {
-            path: "media library",
-            element: <MediaLibrary />,
+            path: "status",
+            element: <LeadStatus />,
           },
           {
-            path: "contacts",
-            element: <ContactTable />,
+            path: "custom-fields",
+            element: <CustomFiled />,
           },
           {
-            path: "settings",
-            element: <SettingsLayout />,
-            children: [
-              {
-                index: true,
-                element: <SettingsProfilePage />,
-              },
-              {
-                 path: "profile",
-                element: <SettingsProfilePage />,
-              },
-              {
-                path: "appearance",
-                element: <SettingsAppearancePage />,
-              },
-              {
-                path: "notifications",
-                element: <SettingsNotificationsPage />,
-              },
-              {
-                path: "display",
-                element: <SettingsDisplayPage />,
-              },
-              {
-                path: "integration",
-                element: <Integration />,
-              },
-              {
-                path: "custom-fields",
-                element: <CustomFiled />,
-              },{
-                path: "manage-access",
-                element: <ManageAccess />,
-              },
-            ],
+            path: "manage-access",
+            element: <ManageAccess />,
           },
         ],
       },
-      {
-        path: "create-integration",
-        children: [
-          {
-            index: true,
-            element: <Integration />,
-          },
-          {
-            path: ":intergrationName",
-            element: <IntegrationDetailScreen />,
-          },
-        ],
-      },
-      
     ],
   },
 ]);
