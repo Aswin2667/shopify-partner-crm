@@ -23,6 +23,7 @@ export class ShopifyIntegrationService extends BaseIntegrationService<object> {
     singular: true,
     authType: 'CREDENTIALS',
   };
+
   constructor(
     @InjectQueue('shopify_integration_events')
     private readonly integrationQueue: Queue,
@@ -54,7 +55,6 @@ export class ShopifyIntegrationService extends BaseIntegrationService<object> {
         /* Integration Object */
       });
       console.log(validationResult);
-
       const shopifyIntergration = await this.prisma.integration.create({
         data: {
           name: data.name,

@@ -167,6 +167,7 @@ exports.Prisma.ProjectScalarFieldEnum = {
   name: 'name',
   type: 'type',
   data: 'data',
+  cliAccessToken: 'cliAccessToken',
   isSynced: 'isSynced',
   organizationId: 'organizationId',
   createdAt: 'createdAt',
@@ -189,7 +190,7 @@ exports.Prisma.LeadScalarFieldEnum = {
   id: 'id',
   shopifyDomain: 'shopifyDomain',
   shopifyStoreId: 'shopifyStoreId',
-  status: 'status',
+  statusId: 'statusId',
   leadSource: 'leadSource',
   shopDetails: 'shopDetails',
   industry: 'industry',
@@ -286,10 +287,22 @@ exports.Prisma.IntegrationScalarFieldEnum = {
 exports.Prisma.TemplateScalarFieldEnum = {
   id: 'id',
   html: 'html',
+  name: 'name',
+  createdAt: 'createdAt',
+  isEnabled: 'isEnabled',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  userId: 'userId',
+  orgId: 'orgId'
+};
+
+exports.Prisma.LeadStatusScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
-  userId: 'userId'
+  organizationId: 'organizationId'
 };
 
 exports.Prisma.SortOrder = {
@@ -329,16 +342,6 @@ exports.AuthenticationMethod = exports.$Enums.AuthenticationMethod = {
 exports.OrgMemberRole = exports.$Enums.OrgMemberRole = {
   ADMIN: 'ADMIN',
   MEMBER: 'MEMBER'
-};
-
-exports.leadStatus = exports.$Enums.leadStatus = {
-  POTENTIAL: 'POTENTIAL',
-  CUSTOMER: 'CUSTOMER',
-  INTERESTED: 'INTERESTED',
-  NOT_INTERESTED: 'NOT_INTERESTED',
-  BAD_FIT: 'BAD_FIT',
-  QUALIFIED: 'QUALIFIED',
-  CANCELED: 'CANCELED'
 };
 
 exports.LeadActivityType = exports.$Enums.LeadActivityType = {
@@ -395,7 +398,8 @@ exports.Prisma.ModelName = {
   LeadActivity: 'LeadActivity',
   Email: 'Email',
   Integration: 'Integration',
-  Template: 'Template'
+  Template: 'Template',
+  LeadStatus: 'LeadStatus'
 };
 
 /**
