@@ -22,18 +22,14 @@ const LeadTable: React.FC = () => {
     const fetchLeads = async () => {
       if (organizationId) {
         try {
-          const response: any = await LeadService.getByIntegrationId(
-            organizationId as string
-          );
+          const response: any = await LeadService.getByIntegrationId(organizationId as string);
           if (response.status) {
             setLeads(response.data.data);
             setTotalItems(response.data.data.length); // Update totalItems based on the fetched leads
           } else {
             toast({
               title: response.message,
-              description: DateHelper.formatTimestamp(
-                DateHelper.getCurrentUnixTime()
-              ),
+              description: DateHelper.formatTimestamp(DateHelper.getCurrentUnixTime()),
               duration: 1000,
               variant: response.status ? "default" : "destructive",
             });
@@ -98,7 +94,7 @@ const LeadTable: React.FC = () => {
                   <th scope="col" className="px-4 py-3 text-center">
                     Created At
                   </th>
-                </tr>
+                 </tr>
               </thead>
               <tbody>
                 {currentLeads.map((lead) => (
@@ -120,7 +116,7 @@ const LeadTable: React.FC = () => {
                         >
                           Select lead {lead.id}
                         </label>
-                      </div>
+                       </div>
                     </td>
                     <th
                       scope="row"
@@ -164,7 +160,7 @@ const LeadTable: React.FC = () => {
           onPageChange={handlePageChange}
           onItemsPerPageChange={handleItemsPerPageChange}
         />
-      </div>
+       </div>
     </div>
   );
 };

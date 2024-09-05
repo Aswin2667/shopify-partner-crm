@@ -1,103 +1,71 @@
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  DoubleArrowLeftIcon,
-  DoubleArrowRightIcon,
-} from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import React from "react";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@/components/ui/pagination";
 
-interface DataTablePaginationProps<TData> {
+interface TablePaginationProps {
   currentPage: number;
   totalItems: number;
   itemsPerPage: number;
-  onPageChange: (page: number) => void;
-  onItemsPerPageChange: (itemsPerPage: number) => void;
+  onPageChange: (pageNumber: number) => void;
 }
 
-export function DataTablePagination<TData>({
+const TablePagination: React.FC<TablePaginationProps> = ({
   currentPage,
   totalItems,
   itemsPerPage,
-  onPageChange,
-  onItemsPerPageChange,
-}: DataTablePaginationProps<TData>) {
-  const pageCount = Math.ceil(totalItems / itemsPerPage);
+  onPageChange
+}) => {
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const handlePageChange = (pageNumber: number) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      onPageChange(pageNumber);
+    }
+  };
 
   return (
-    <div className="flex items-center justify-between px-2">
-      <div className="flex-1 text-sm text-muted-foreground">
-        {currentPage * itemsPerPage} of {totalItems} row(s) selected.
-      </div>
-      <div className="flex items-center space-x-6 lg:space-x-8">
-        <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Rows per page</p>
-          <Select
-            value={`${itemsPerPage}`}
-            onValueChange={(value) => {
-              onItemsPerPageChange(Number(value));
+    <Pagination className="justify-end mt-6">
+      <PaginationContent className="list-none">
+        <PaginationItem className="pr-6">
+          <PaginationLink
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              if (currentPage > 1) handlePageChange(currentPage - 1);
             }}
+            className={currentPage === 1 ? "disabled" : ""}
           >
-            <SelectTrigger className="h-8 w-[70px]">
-              <SelectValue placeholder={itemsPerPage} />
-            </SelectTrigger>
-            <SelectContent side="top">
-              {[15, 20, 30, 40, 50].map((pageSize) => (
-                <SelectItem key={pageSize} value={`${pageSize}`}>
-                  {pageSize}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Page {currentPage} of {pageCount}
-        </div>
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
-            onClick={() => onPageChange(1)}
-            disabled={currentPage === 1}
+            &lt; Previous
+          </PaginationLink>
+        </PaginationItem>
+        {[...Array(totalPages)].map((_, index) => (
+          <PaginationItem key={index}>
+            <PaginationLink
+              href="#"
+              isActive={currentPage === index + 1}
+              onClick={(e) => {
+                e.preventDefault();
+                handlePageChange(index + 1);
+              }}
+            >
+              {index + 1}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+        <PaginationItem className="pl-6 pr-1">
+          <PaginationLink
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              if (currentPage < totalPages) handlePageChange(currentPage + 1);
+            }}
+            className={currentPage === totalPages ? "disabled" : ""}
           >
-            <span className="sr-only">Go to first page</span>
-            <DoubleArrowLeftIcon className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            className="h-8 w-8 p-0"
-            onClick={() => onPageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            <span className="sr-only">Go to previous page</span>
-            <ChevronLeftIcon className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            className="h-8 w-8 p-0"
-            onClick={() => onPageChange(currentPage + 1)}
-            disabled={currentPage === pageCount}
-          >
-            <span className="sr-only">Go to next page</span>
-            <ChevronRightIcon className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
-            onClick={() => onPageChange(pageCount)}
-            disabled={currentPage === pageCount}
-          >
-            <span className="sr-only">Go to last page</span>
-            <DoubleArrowRightIcon className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
-    </div>
+            Next &gt;
+          </PaginationLink>
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
   );
-}
+};
+
+export default TablePagination;
