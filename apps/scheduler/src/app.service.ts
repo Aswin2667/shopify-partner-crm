@@ -5,6 +5,7 @@ import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bullmq';
 import { Install_uninstall_dataService } from './app-data/install_uninstall.service';
 import prisma from './shared/utlis/prisma';
+import axios from 'axios';
 
 
 @Injectable()
@@ -17,7 +18,6 @@ export class AppService {
 
   @Cron('*/5 * * * * *')
   async handleCron() {
-    // console.log('Running cron job every 5 seconds...');
 
     const apps: [] = await prisma.$queryRaw`
       SELECT 
@@ -82,5 +82,72 @@ export class AppService {
       }
     }));
   }
+  @Cron('*/5 * * * * *')
+  async handleCron445() {
+    const query = `query subscriptionChargeActivated {
+      app(id: "gid://partners/App/27059027969") {
+        id
+        events(
+          first: 100
+          types: [SUBSCRIPTION_CHARGE_CANCELED]
+        ) {
+          edges {
+            node {
+              ...subscriptionChargeActivated
+            }
+            cursor
+          }
+          pageInfo {
+            hasNextPage
+          }
+        }
+      }
+    }
   
+    fragment subscriptionChargeActivated on AppEvent {
+      ... on SubscriptionChargeActivated {
+        type
+        shop {
+          id
+          myshopifyDomain
+        }
+        charge {
+          amount {
+            amount
+            currencyCode
+          }
+          billingOn
+          id
+          name
+          test
+        }
+        occurredAt
+      }
+        ... on SubscriptionChargeUnfrozen {
+        type
+        }
+        ... on SubscriptionChargeCanceled {
+        type
+        }
+    }`;
+  
+    try {
+      const response = await axios.post(
+        `https://partners.shopify.com/2798960/api/2024-10/graphql.json`,
+        { query }, // Pass the query inside the post body
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Shopify-Access-Token': "prtapi_6757d0479509b34c820def78a94ad989",
+          },
+        }
+      );
+      
+      // Log the response data
+      console.log('Response Data:', response.data.data.app.events.edges);
+    } catch (error) {
+      // Log any errors
+      console.error('Error:', error.response?.data || error.message);
+    }
+  }
 }

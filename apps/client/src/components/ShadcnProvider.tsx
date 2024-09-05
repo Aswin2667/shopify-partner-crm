@@ -12,11 +12,11 @@ const ShadcnProvider = ({ children }: Props) => {
   return (
     <>
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-      <ThemeWrapper defaultTheme="light">
+      {/* <ThemeWrapper defaultTheme="light"> */}
         <AlertDialog>
           <TooltipProvider delayDuration={0}>{children}</TooltipProvider>
         </AlertDialog>
-        </ThemeWrapper>
+        {/* </ThemeWrapper> */}
       </ThemeProvider>
     </>
   );

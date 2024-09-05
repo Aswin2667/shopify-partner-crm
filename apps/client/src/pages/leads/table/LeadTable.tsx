@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import image from "../../../assets/shopify-logo.svg";
 import { DataTableToolbar } from "./components/data-table-toolbar";
 import LeadBadge from "../components/LeadBadge";
-import TablePagination from "./components/data-table-pagination";
+import { DataTablePagination } from "./components/data-table-pagination";
 
 const LeadTable: React.FC = () => {
   const { organizationId } = useParams();
@@ -157,7 +157,7 @@ const LeadTable: React.FC = () => {
             </table>
           </div>
         </div>
-        <TablePagination
+        <DataTablePagination
           currentPage={currentPage}
           itemsPerPage={itemsPerPage}
           totalItems={totalItems}
