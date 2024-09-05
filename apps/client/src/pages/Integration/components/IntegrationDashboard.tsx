@@ -1,6 +1,6 @@
 import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React from "react";
 import { useToast } from "@/components/ui/use-toast";
 import SkeletonCard from "@/components/skelotons/SkeletonCard";
@@ -15,26 +15,40 @@ import { Separator } from "@/components/ui/separator";
 export default function IntegrationDashboard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { toast } = useToast();
-
-  const { currentOrganization } = useSelector(
-    (state: any) => state.organization
-  );
+  const { organizationId } = useParams();
 
   const { integrations } = useSelector((state: any) => state.integration);
 
+  const presentIntegration = [
+    ...new Set(integrations.map((integration: any) => integration.type)),
+  ] as string[];
+  console.log(presentIntegration);
+
   const { isLoading } = useQueryEvents(
     useQuery({
-      queryKey: ["getAllIntegrations", currentOrganization?.id],
+      queryKey: ["getAllIntegrationsPresentInOrg", organizationId],
       queryFn: async () =>
         await IntegrationService.getAllIntegrationsByOrgId(
-          currentOrganization?.id
+          organizationId as string
         ),
     }),
     {
       onSuccess: (data: any) =>
         dispatch(integrationAction.setIntegrations(data)),
       onError: (err: Error) => console.log("An error happened:", err.message),
+    }
+  );
+
+  useQueryEvents(
+    useQuery({
+      queryKey: ["getAllAvailableIntegration"],
+      queryFn: async () =>
+        await IntegrationService.getPresentIntegrationsList(),
+    }),
+    {
+      onSuccess: (data) =>
+        dispatch(integrationAction.setPresentIntegrations(data)),
+      onError: (error) => console.error(error),
     }
   );
 
@@ -77,8 +91,8 @@ export default function IntegrationDashboard() {
       ) : (
         <>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {integrations.map((integration: any) => (
-              <IntegrationCard key={integration.id} integration={integration} />
+            {presentIntegration.map((type: string, index: number) => (
+              <IntegrationCard key={index} type={type} />
             ))}
           </div>
         </>

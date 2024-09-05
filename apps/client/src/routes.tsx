@@ -29,6 +29,7 @@ import Templates from "./pages/organizations/settings/templates/Templates";
 import TemplateCreatePage from "./pages/organizations/settings/templates/TemplateCreatePage";
 import Invitation from "./pages/auth/Invitation";
 import LeadStatus from "./pages/organizations/settings/leadStatus/LeadStatus";
+import ManageIntegration from "./pages/Integration/components/ManageIntegration";
 import ProjectSettings from "./pages/Project/settings/page";
 import CliAccesTokens from "./pages/Project/settings/CliAccessTokens";
 
@@ -178,6 +179,10 @@ export const routes = createBrowserRouter([
               {
                 index: true,
                 element: <IntegrationDashboard />,
+              },
+              {
+                path: "manage/:integrationType",
+                element: <ManageIntegration />,
               },
               {
                 path: "create",

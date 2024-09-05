@@ -6,12 +6,16 @@ import TemplateService from "@/services/TemplatesService";
 import { useSelector } from "react-redux";
 import ProfileHoverCard from "@/components/HoverCard";
 import DateHelper from "@/utils/DateHelper";
-import {followUpEmail, issueResolutionEmail, thankYouEmail} from  "../../../../lib/templates"
-const defaultTemplates = [
+import {
+  followUpEmail,
+  issueResolutionEmail,
+  thankYouEmail,
+} from "../../../../lib/templates";
+export const defaultTemplates = [
   {
     id: "default-1",
     name: "Thank You Email",
-    template: followUpEmail,
+    html: followUpEmail,
     isEnabled: true,
     createdAt: 0,
     userId: "system",
@@ -19,7 +23,7 @@ const defaultTemplates = [
   {
     id: "default-2",
     name: "Issue Resolution Email",
-    template: issueResolutionEmail,
+    html: issueResolutionEmail,
     isEnabled: true,
     createdAt: 0,
     userId: "system",
@@ -27,13 +31,13 @@ const defaultTemplates = [
   {
     id: "default-3",
     name: "Follow-Up Email",
-    template: thankYouEmail,
+    html: thankYouEmail,
     isEnabled: true,
     createdAt: 0,
     userId: "system",
   },
 ];
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast";
 
 const Templates = () => {
   const [templates, setTemplates] = useState(defaultTemplates);
@@ -51,7 +55,7 @@ const Templates = () => {
         );
         if (response.data.status) {
           const fetchedTemplates = response.data.data.map(
-            (template: {
+            (html: {
               id: string;
               name: string;
               html: string;
@@ -60,16 +64,16 @@ const Templates = () => {
               userId: string;
               user: any;
             }) => ({
-              id: template.id,
-              name: template.name,
-              template: template.html,
-              isEnabled: template.isEnabled,
-              createdAt: template.createdAt,
-              userId: template.userId,
-              user: template.user,
+              id: html.id,
+              name: html.name,
+              html: html.html,
+              isEnabled: html.isEnabled,
+              createdAt: html.createdAt,
+              userId: html.userId,
+              user: html.user,
             })
           );
-          setTemplates([ ...fetchedTemplates, ...defaultTemplates]);
+          setTemplates([...fetchedTemplates, ...defaultTemplates]);
         }
       } catch (error) {
         console.error("Error fetching templates:", error);
@@ -79,8 +83,8 @@ const Templates = () => {
     fetchTemplates();
   }, [currentOrganization.id]);
 
-  const handleTemplateClick = (template: string) => {
-    setSelectedTemplate(template);
+  const handleTemplateClick = (html: string) => {
+    setSelectedTemplate(html);
     setIsModalOpen(true);
   };
   const closeModal = () => {
@@ -88,38 +92,34 @@ const Templates = () => {
     setSelectedTemplate(null);
   };
   const handleToggle = async (templateId: string, currentStatus: boolean) => {
-    console.log("hello")
+    console.log("hello");
     try {
       const newStatus = !currentStatus;
-      const response = await TemplateService.updateTemplateStatus(templateId, newStatus);
+      const response = await TemplateService.updateTemplateStatus(
+        templateId,
+        newStatus
+      );
 
       if (response?.data.status) {
         // Update the local state with the new status
-        setTemplates(prevTemplates =>
-          prevTemplates.map(template =>
-            template.id === templateId
-              ? { ...template, isEnabled: newStatus }
-              : template
+        setTemplates((prevTemplates) =>
+          prevTemplates.map((html) =>
+            html.id === templateId ? { ...html, isEnabled: newStatus } : html
           )
         );
-        
       } else {
-        
       }
     } catch (error) {
-      console.error("Error updating template status:", error);
+      console.error("Error updating html status:", error);
     }
   };
   return (
     <div className="overflow-x-auto">
-      <Button
-        type="button"
-        onClick={() => navigate("../create-template")}
-      >
+      <Button type="button" onClick={() => navigate("../create-template")}>
         Add new Template
       </Button>
-   <br />
-   <br />
+      <br />
+      <br />
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-200 max-h-[600px]">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-900 dark:text-gray-400">
           <tr>
@@ -138,33 +138,41 @@ const Templates = () => {
           </tr>
         </thead>
         <tbody>
-          {templates.length > 0 && templates.map((template: any, index) => (
-            <tr
-              key={template.id || index}
-              className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
-            >
-              <th
-                scope="row"
-                onClick={() => handleTemplateClick(template.template)}
-                className="flex hover:underline hover:text-blue-600 hover:dark:text-blue-600 hover:cursor-pointer items-center px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+          {templates.length > 0 &&
+            templates.map((html: any, index) => (
+              <tr
+                key={html.id || index}
+                className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
               >
-                {template.name}
-              </th>
-              <td className="px-4 py-2">
-                <Switch checked={template.isEnabled} onCheckedChange={() => handleToggle(template.id, template.isEnabled)} />
-              </td>
-              <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {template.userId === "system" ? (
-                  "System"
-                ) : (
-                  <ProfileHoverCard user={template.user} />
-                )}
-              </td>
-              <td className="px-4 py-2 font-medium text-gray-900 text-center whitespace-nowrap dark:text-white">
-                {template.createdAt===0? "N\A" : DateHelper.formatTimestamp(template.createdAt)??""}
-              </td>
-            </tr>
-          ))}
+                <th
+                  scope="row"
+                  onClick={() => handleTemplateClick(html.html)}
+                  className="flex hover:underline hover:text-blue-600 hover:dark:text-blue-600 hover:cursor-pointer items-center px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  {html.name}
+                </th>
+                <td className="px-4 py-2">
+                  <Switch
+                    checked={html.isEnabled}
+                    onCheckedChange={() =>
+                      handleToggle(html.id, html.isEnabled)
+                    }
+                  />
+                </td>
+                <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {html.userId === "system" ? (
+                    "System"
+                  ) : (
+                    <ProfileHoverCard user={html.user} />
+                  )}
+                </td>
+                <td className="px-4 py-2 font-medium text-gray-900 text-center whitespace-nowrap dark:text-white">
+                  {html.createdAt === 0
+                    ? "NA"
+                    : (DateHelper.formatTimestamp(html.createdAt) ?? "")}
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
 
