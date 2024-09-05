@@ -16,9 +16,33 @@ export default class IntegrationService {
     }
   }
 
+  public static async performAction(type: string, action: string, params: any) {
+    const config = { type, action, params };
+    try {
+      const response = await axiosInstance.post(
+        `${this.BASE_PATH}/action`,
+        config
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching integration:", error);
+      throw error;
+    }
+  }
+
   public static async create(data: any) {
     try {
       const response = await axiosInstance.post(this.BASE_PATH, data);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching integration:", error);
+      throw error;
+    }
+  }
+
+  public static async delete(id: any) {
+    try {
+      const response = await axiosInstance.delete(`${this.BASE_PATH}/${id}`);
       return response.data;
     } catch (error) {
       console.error("Error fetching integration:", error);

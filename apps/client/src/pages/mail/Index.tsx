@@ -19,7 +19,7 @@ export default function MailPage() {
   );
   return (
     <div className="p-4">
-      {gmailIntegrations ? (
+      {gmailIntegrations.length > 0 ? (
         <Mail
           accounts={accounts}
           mails={mails}
