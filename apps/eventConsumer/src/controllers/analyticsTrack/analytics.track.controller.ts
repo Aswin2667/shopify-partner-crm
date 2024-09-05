@@ -1,4 +1,10 @@
-import { Controller, Post, Body,Headers, UnauthorizedException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Headers,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AnalyticsTrackService } from './analytics.track.service';
 
 @Controller('analytics')
@@ -9,33 +15,31 @@ export class AnalyticsTrackController {
   trackEvent(
     @Body('event') event: string,
     @Body('properties') properties: any,
-    @Headers('Authorization') authHeader: string
+    @Headers('Authorization') authHeader: string,
   ) {
     // Verify the Authorization token
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      throw new UnauthorizedException('Authorization token not found or invalid');
+      throw new UnauthorizedException(
+        'Authorization token not found or invalid',
+      );
     }
-
     const token = authHeader.split(' ')[1];
-    if (!this.validateToken(token)) {
-      throw new UnauthorizedException('Invalid authorization token');
-    }
 
-    // Proceed with event tracking
-    this.analyticsTrackService.trackEvent(event, properties);
-    return {token, status: 'Event tracked successfully' };
+    return this.analyticsTrackService.trackEvent(event, properties, token);
   }
 
-  validateToken(token: string): boolean {
-    console.log(token)
-    return true; 
-  }
-
-  
   @Post('identify')
-  identifyUser(@Body('userId') userId: string, @Body('traits') traits: any) {
-    this.analyticsTrackService.identifyUser(userId, traits);
-    return { status: 'User identified successfully' };
+  identifyUser(
+    @Body('traits') traits: any,
+    @Headers('Authorization') authHeader: string,
+  ) {
+    const token = authHeader.split(' ')[1];
+    const lead = this.analyticsTrackService.identifyUser(traits, token);
+    return {
+      status: 'true',
+      message: 'Lead details saved successfully',
+      data: lead,
+    };
   }
 
   @Post('page-visit')
