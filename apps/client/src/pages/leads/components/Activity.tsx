@@ -427,6 +427,7 @@ function leadNoteCreated(activity: any): any {
         className="rounded-full shadow-lg"
         src={user.avatarUrl || ""}
         alt="Bonnie image"
+        
       />
     </span>
     <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600">

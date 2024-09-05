@@ -381,7 +381,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/cartrabbit/Desktop/Cartrabbit/shopify-partner-crm/packages/data-source/generated",
+      "value": "/home/cartrabbit/Desktop/shopify_partner_crm/packages/data-source/generated",
       "fromEnvVar": null
     },
     "config": {
@@ -399,7 +399,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/cartrabbit/Desktop/Cartrabbit/shopify-partner-crm/packages/data-source/prisma/schema.prisma",
+    "sourceFilePath": "/home/cartrabbit/Desktop/shopify_partner_crm/packages/data-source/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -412,6 +412,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {

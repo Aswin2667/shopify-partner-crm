@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import image from "../../../assets/shopify-logo.svg";
 import { DataTableToolbar } from "./components/data-table-toolbar";
 import LeadBadge from "../components/LeadBadge";
-import { DataTablePagination } from "./components/data-table-pagination";
+import TablePagination from "./components/data-table-pagination";
 
 const LeadTable: React.FC = () => {
   const { organizationId } = useParams();
@@ -22,14 +22,18 @@ const LeadTable: React.FC = () => {
     const fetchLeads = async () => {
       if (organizationId) {
         try {
-          const response: any = await LeadService.getByIntegrationId(organizationId as string);
+          const response: any = await LeadService.getByIntegrationId(
+            organizationId as string
+          );
           if (response.status) {
             setLeads(response.data.data);
             setTotalItems(response.data.data.length); // Update totalItems based on the fetched leads
           } else {
             toast({
               title: response.message,
-              description: DateHelper.formatTimestamp(DateHelper.getCurrentUnixTime()),
+              description: DateHelper.formatTimestamp(
+                DateHelper.getCurrentUnixTime()
+              ),
               duration: 1000,
               variant: response.status ? "default" : "destructive",
             });
@@ -94,7 +98,7 @@ const LeadTable: React.FC = () => {
                   <th scope="col" className="px-4 py-3 text-center">
                     Created At
                   </th>
-                 </tr>
+                </tr>
               </thead>
               <tbody>
                 {currentLeads.map((lead) => (
@@ -116,7 +120,7 @@ const LeadTable: React.FC = () => {
                         >
                           Select lead {lead.id}
                         </label>
-                       </div>
+                      </div>
                     </td>
                     <th
                       scope="row"
@@ -153,14 +157,14 @@ const LeadTable: React.FC = () => {
             </table>
           </div>
         </div>
-        <DataTablePagination
+        <TablePagination
           currentPage={currentPage}
           itemsPerPage={itemsPerPage}
           totalItems={totalItems}
           onPageChange={handlePageChange}
           onItemsPerPageChange={handleItemsPerPageChange}
         />
-       </div>
+      </div>
     </div>
   );
 };

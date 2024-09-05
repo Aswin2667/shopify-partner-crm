@@ -1,19 +1,11 @@
-import React from "react";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@/components/ui/pagination";
 
-interface TablePaginationProps {
-  currentPage: number;
-  totalItems: number;
-  itemsPerPage: number;
-  onPageChange: (pageNumber: number) => void;
-}
-
-const TablePagination: React.FC<TablePaginationProps> = ({
+const TablePagination = ({
   currentPage,
   totalItems,
   itemsPerPage,
   onPageChange
-}) => {
+}:any) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const handlePageChange = (pageNumber: number) => {

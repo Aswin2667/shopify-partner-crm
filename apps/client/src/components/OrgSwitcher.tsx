@@ -62,7 +62,6 @@ interface OrgSwitcherProps {
           />
           <span className={cn("ml-2", isCollapsed && "hidden")}>
             {organizations.find((organization) => organization.organization.id === currentOrganization)?.organization.name}
- 
           </span>
         </SelectValue>
       </SelectTrigger>
