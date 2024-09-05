@@ -1,15 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from '@org/data-source';
 import { DateHelper } from '@org/utils';
-import { EventPublisherService } from 'src/publisher/analytics.event';
-import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
+// import { EventPublisherService } from 'src/publisher/analytics.event';
+// import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
 
 @Injectable()
 export class AnalyticsTrackService {
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly eventPublisherService: EventPublisherService,
-    @Inject(CACHE_MANAGER) private redisClient: Cache,
+    // private readonly eventPublisherService: EventPublisherService,
+    // @Inject(CACHE_MANAGER) private redisClient: Cache,
   ) {}
   trackEvent(event: string, properties: any, token: string): void {
     console.log('Tracking event:', event, properties);
@@ -54,13 +54,13 @@ export class AnalyticsTrackService {
       console.log('Lead upserted:', lead);
 
       // Cache shop details in Redis
-      await this.redisClient.set(body.myShopifyDomain, JSON.stringify(body));
+      // await this.redisClient.set(body.myShopifyDomain, JSON.stringify(body));
 
       // Emit an event after user identification
-      this.eventPublisherService.emitEvent('user.identified', {
-        shopDomain: body.myshopifyDomain,
-        shopData: body,
-      });
+      // this.eventPublisherService.emitEvent('user.identified', {
+      //   shopDomain: body.myshopifyDomain,
+      //   shopData: body,
+      // });
 
       return lead;
     } catch (error) {
@@ -76,6 +76,6 @@ export class AnalyticsTrackService {
     console.log('Page visit logged:', properties);
 
     // Emit page visit event
-    this.eventPublisherService.emitEvent('page.visit', properties);
+    // this.eventPublisherService.emitEvent('page.visit', properties);
   }
 }
