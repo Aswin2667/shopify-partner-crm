@@ -9,6 +9,7 @@ import { RecentSales } from "./components/recent-sales";
 import Graph from "./components/Graph";
 
 export default function DashboardPage() {
+
   return (
     <div className="hidden flex-col md:flex p-4 ">
       <Graph />

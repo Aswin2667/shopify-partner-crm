@@ -48,6 +48,7 @@ export default class IntegrationService {
     }
   }
 
+
   public static async getGmailIntegration(orgId: string) {
     try {
       const response = await axiosInstance.get(

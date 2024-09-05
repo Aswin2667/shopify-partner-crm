@@ -2,19 +2,18 @@ import { Process, Processor } from '@nestjs/bull';
 import { PrismaService } from 'src/prisma.service';
 import { Job } from 'bullmq';
 import { DateHelper } from '@org/utils';
-import { AppInstallsUninstallsEventsDto } from './dto/event.dto';
 
 @Processor('install_uninstall_events')
 export class AppInstallsUninstallsEventsProcessor {
   constructor(private readonly prisma: PrismaService) {}
 
   @Process('APP_INSTALLED_UNINSTALLED')
-  async handleAppInstalledUninstalled(job: Job<AppInstallsUninstallsEventsDto>) {
+  async handleAppInstalledUninstalled(job: Job) {
     await this.processEvents(job);
   }
 
   @Process('APP_INSTALLED_UNINSTALLED_AFTER')
-  async handleAppInstalledUninstalledAfter(job: Job<AppInstallsUninstallsEventsDto>) {
+  async handleAppInstalledUninstalledAfter(job: Job) {
     await this.processEvents(job);
   }
 
