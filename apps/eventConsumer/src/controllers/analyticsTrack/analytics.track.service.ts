@@ -1,14 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from '@org/data-source';
 import { DateHelper } from '@org/utils';
+import { EventPublisherService } from 'src/publisher/analytics.event';
+import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
+
 @Injectable()
 export class AnalyticsTrackService {
-  constructor(private readonly prismaService: PrismaService) {}
-
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly eventPublisherService: EventPublisherService,
+    @Inject(CACHE_MANAGER) private redisClient: Cache,
+  ) {}
   trackEvent(event: string, properties: any, token: string): void {
     console.log('Tracking event:', event, properties);
   }
-
   async identifyUser(body: any, token: string): Promise<any> {
     console.log(body);
     try {
@@ -47,6 +52,16 @@ export class AnalyticsTrackService {
       });
 
       console.log('Lead upserted:', lead);
+
+      // Cache shop details in Redis
+      await this.redisClient.set(body.myShopifyDomain, JSON.stringify(body));
+
+      // Emit an event after user identification
+      this.eventPublisherService.emitEvent('user.identified', {
+        shopDomain: body.myshopifyDomain,
+        shopData: body,
+      });
+
       return lead;
     } catch (error) {
       console.error('Error identifying user:', error.message);
@@ -59,5 +74,8 @@ export class AnalyticsTrackService {
       timestamp: new Date().toISOString(),
     };
     console.log('Page visit logged:', properties);
+
+    // Emit page visit event
+    this.eventPublisherService.emitEvent('page.visit', properties);
   }
 }

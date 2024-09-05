@@ -17,8 +17,7 @@ export class AnalyticsTrackController {
     @Body('properties') properties: any,
     @Headers('Authorization') authHeader: string,
   ) {
-    // Verify the Authorization token
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       throw new UnauthorizedException(
         'Authorization token not found or invalid',
       );
