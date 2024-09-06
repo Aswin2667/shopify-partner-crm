@@ -14,9 +14,6 @@ export const APP_INSTALLS_UNINSTALLS_QUERY = (
           RELATIONSHIP_UNINSTALLED,
           RELATIONSHIP_DEACTIVATED,
           RELATIONSHIP_REACTIVATED,
-          CREDIT_APPLIED,
-          CREDIT_FAILED,
-          CREDIT_PENDING
         ]
         ${lastOccurredAt && (lastOccurredAt !== 'none') ? `occurredAtMax: "${lastOccurredAt}"` : ''}
       ) {
@@ -26,9 +23,6 @@ export const APP_INSTALLS_UNINSTALLS_QUERY = (
             ...relationshipUninstalled
             ...relationshipDeactivated
             ...relationshipReactivated
-            ...creditApplied
-            ...creditFailed
-            ...creditPending
           }
           cursor
         }
@@ -68,47 +62,7 @@ export const APP_INSTALLS_UNINSTALLS_QUERY = (
     }
   }
 
-  fragment creditApplied on AppEvent {
-    ... on CreditApplied {
-      type
-      shop {
-        id
-        myshopifyDomain
-        avatarUrl
-        name
-        __typename
-      }
-      occurredAt
-    }
-  }
 
-  fragment creditFailed on AppEvent {
-    ... on CreditFailed {
-      type
-      shop {
-        id
-        myshopifyDomain
-        avatarUrl
-        name
-        __typename
-      }
-      occurredAt
-    }
-  }
-
-  fragment creditPending on AppEvent {
-    ... on CreditPending {
-      type
-      shop {
-        id
-        myshopifyDomain
-        avatarUrl
-        name
-        __typename
-      }
-      occurredAt
-    }
-  }
 
   fragment relationshipDeactivated on AppEvent {
     ... on RelationshipDeactivated {
@@ -153,9 +107,6 @@ export const APP_INSTALLS_UNINSTALLS_AFTER_QUERY = (
           RELATIONSHIP_UNINSTALLED,
           RELATIONSHIP_DEACTIVATED,
           RELATIONSHIP_REACTIVATED,
-          CREDIT_APPLIED,
-          CREDIT_FAILED,
-          CREDIT_PENDING
         ]
         ${occurredAtMin ? `occurredAtMin: "${occurredAtMin}"` : ''}
       ) {
@@ -165,9 +116,6 @@ export const APP_INSTALLS_UNINSTALLS_AFTER_QUERY = (
             ...relationshipUninstalled
             ...relationshipDeactivated
             ...relationshipReactivated
-            ...creditApplied
-            ...creditFailed
-            ...creditPending
           }
           cursor
         }
@@ -207,47 +155,6 @@ export const APP_INSTALLS_UNINSTALLS_AFTER_QUERY = (
     }
   }
 
-  fragment creditApplied on AppEvent {
-    ... on CreditApplied {
-      type
-      shop {
-        id
-        myshopifyDomain
-        avatarUrl
-        name
-        __typename
-      }
-      occurredAt
-    }
-  }
-
-  fragment creditFailed on AppEvent {
-    ... on CreditFailed {
-      type
-      shop {
-        id
-        myshopifyDomain
-        avatarUrl
-        name
-        __typename
-      }
-      occurredAt
-    }
-  }
-
-  fragment creditPending on AppEvent {
-    ... on CreditPending {
-      type
-      shop {
-        id
-        myshopifyDomain
-        avatarUrl
-        name
-        __typename
-      }
-      occurredAt
-    }
-  }
 
   fragment relationshipDeactivated on AppEvent {
     ... on RelationshipDeactivated {

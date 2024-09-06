@@ -14,43 +14,10 @@ export class AppService {
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     @InjectQueue('install_uninstall_events') private readonly appEventsQueue: Queue,
     @InjectQueue('subscription_events') private readonly subscriptionEventsQueue: Queue,
+    @InjectQueue('credit_events') private readonly creditEventsQueue: Queue,
     private readonly installUninstallService: Install_uninstall_dataService,
   ) {}
 
-  // @Cron('*/5 * * * * *')
-  // async installUninstallEvents() {
-
-  //   const apps: [] = await prisma.$queryRawUnsafe(GET_UNSYNCED_APPS)
-
-  //   await Promise.all(apps.map(async (app) => {
-  //     const events = await this.installUninstallService.fetchAndStoreData(app);
-
-  //     if (events && events.length) {
-  //       const payload = { app, events };
-  //       await this.appEventsQueue.add('APP_INSTALLED_UNINSTALLED', payload);
-  //     }
-  //   }));
-  // }
-
-  // @Cron('*/5 * * * * *')
-  // async susbscriptionAppEvents() {
-
-  //   const apps: [] = await prisma.$queryRawUnsafe(GET_UNSYNCED_APPS)
-
-  //   await Promise.all(apps.map(async (app) => {
-
-  //     const events = await this.installUninstallService.fetchAndStoreData(app);
-
-  //     if(events && events.length) {
-  //       const payload = { app, events }
-  //       await this.subscriptionEventsQueue.add('APP_SUBSCRIPTION', payload)
-  //     }
-
-  //   }))
-
-  // }
-
-  // import { Cron } from '@nestjs/schedule';
 
 @Cron('*/5 * * * * *')
 async handleAppEvents() {
@@ -77,6 +44,14 @@ async handleAppEvents() {
     }
   }));
 
+  // Process credit events
+  await Promise.all(apps.map(async (app) => {
+    const creditEvents = await this.installUninstallService.fetchAndStoreData(app, 'credit');
+    if (creditEvents && creditEvents.length) {
+      const creditPayload = { app, events: creditEvents };
+      await this.creditEventsQueue.add('APP_CREDIT_EVENTS', creditPayload);
+    }
+  }));
 
 }
 
@@ -113,6 +88,19 @@ async handleAppEvents() {
       }
     }));
 
+  }
+
+  @Cron('*/20 * * * * *')
+  async creditEventsAfterLastOccurredAt() {
+    const apps: [] = await prisma.$queryRawUnsafe(GET_APPS_AFTER_LAST_OCCURRED_AT);
+
+    await Promise.all(apps.map(async (app) => {
+      const creditEvents = await this.installUninstallService.fetchEventsAfterLastOccurredAt(app, 'credit');
+      if (creditEvents && creditEvents.length) {
+        const payload = { app, events: creditEvents };
+        await this.creditEventsQueue.add('APP_CREDIT_EVENTS_AFTER', payload);
+      }
+    }));
   }
   
 }

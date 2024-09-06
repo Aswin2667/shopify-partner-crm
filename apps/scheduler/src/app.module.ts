@@ -26,7 +26,10 @@ import { Install_uninstall_dataService } from './app-data/install_uninstall.serv
       },
       {
         name: 'subscription_events',
-      } 
+      },
+      {
+        name: 'credit_events',
+      }
   ),
   ],
   controllers: [AppController],

@@ -1,9 +1,12 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
 import axios from 'axios';
-import { APP_INSTALLS_UNINSTALLS_AFTER_QUERY, APP_INSTALLS_UNINSTALLS_QUERY } from 'src/graphql/install_uninstall_query';
 import prisma from 'src/shared/utlis/prisma';
-import { SUBSCRIPTION_CHARGE_AFTER_QUERY, SUBSCRIPTION_CHARGE_QUERY } from 'src/graphql/subscription_charge_activated_query';
+
+
+import { APP_INSTALLS_UNINSTALLS_AFTER_QUERY, APP_INSTALLS_UNINSTALLS_QUERY } from 'src/graphql/install_uninstall_query';
+import { SUBSCRIPTION_CHARGE_AFTER_QUERY, SUBSCRIPTION_CHARGE_QUERY } from 'src/graphql/subscription_query';
+import { CREDIT_EVENTS_AFTER_QUERY, CREDIT_EVENTS_QUERY } from 'src/graphql/credit_query';
 
 @Injectable()
 export class Install_uninstall_dataService {
@@ -11,7 +14,7 @@ export class Install_uninstall_dataService {
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
-  async fetchAndStoreData(app, eventType: 'install_uninstall' | 'subscription') {
+  async fetchAndStoreData(app, eventType: 'install_uninstall' | 'subscription' | 'credit') {
     const { appId, partnerId, accessToken } = app;
     
     const lastOccurredAtKey = `${appId}:${eventType}:lastOccurredAt`;
@@ -24,7 +27,9 @@ export class Install_uninstall_dataService {
 
     const query = eventType === 'subscription'
       ? SUBSCRIPTION_CHARGE_QUERY(appId, lastOccurredAt)
-      : APP_INSTALLS_UNINSTALLS_QUERY(appId, lastOccurredAt);
+      : eventType === 'credit' 
+        ? CREDIT_EVENTS_QUERY(appId, lastOccurredAt)
+        : APP_INSTALLS_UNINSTALLS_QUERY(appId, lastOccurredAt);
 
     try {
       const response = await axios.post(
@@ -123,7 +128,7 @@ export class Install_uninstall_dataService {
     }
   }
 
-  async fetchEventsAfterLastOccurredAt(app, eventType: 'install_uninstall' | 'subscription') {
+  async fetchEventsAfterLastOccurredAt(app, eventType: 'install_uninstall' | 'subscription' | 'credit') {
     const { appId, partnerId, accessToken } = app;
 
     const lastOccurredAtKey = `${appId}:${eventType}:lastOccurredAt`;
@@ -136,7 +141,9 @@ export class Install_uninstall_dataService {
 
     const query = eventType === 'subscription'
       ? SUBSCRIPTION_CHARGE_AFTER_QUERY(appId, lastOccurredAt)
-      : APP_INSTALLS_UNINSTALLS_AFTER_QUERY(appId, lastOccurredAt);
+      : eventType === 'credit'
+        ? CREDIT_EVENTS_AFTER_QUERY(appId, lastOccurredAt)
+        : APP_INSTALLS_UNINSTALLS_AFTER_QUERY(appId, lastOccurredAt);
 
     try {
       const response = await axios.post(
@@ -232,4 +239,3 @@ export class Install_uninstall_dataService {
     }
   }
 }
-
