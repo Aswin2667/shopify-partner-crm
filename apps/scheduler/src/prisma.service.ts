@@ -6,7 +6,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bullmq';
 import prisma from './shared/utlis/prisma';
-import { APP_INSTALLS_UNINSTALLS_QUERY } from './queries/install_uninstall_query';
+import { APP_INSTALLS_UNINSTALLS_QUERY } from './graphql/install_uninstall_query';
 
 @Injectable()
 export class AppService {

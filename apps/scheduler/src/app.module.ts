@@ -20,9 +20,14 @@ import { Install_uninstall_dataService } from './app-data/install_uninstall.serv
         port: 6378,
       },
     }),
-    BullModule.registerQueue({
+    BullModule.registerQueue(
+      {
       name: 'install_uninstall_events',
-    }),
+      },
+      {
+        name: 'subscription_events',
+      } 
+  ),
   ],
   controllers: [AppController],
   providers: [AppService, Install_uninstall_dataService],
@@ -30,3 +35,8 @@ import { Install_uninstall_dataService } from './app-data/install_uninstall.serv
 
  
 export class AppModule {}
+
+
+
+
+

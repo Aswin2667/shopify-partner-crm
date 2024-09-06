@@ -5,6 +5,7 @@ import { UserEventsProcessor } from './userEvents/user.event.processer';
 import { AppInstallsUninstallsEventsProcessor } from './appEvents/install_uninstall_events';
 import { PrismaService } from './prisma.service';
 import { CreditEventsProcessor } from './appEvents/credit_events';
+import { AppSubscriptionEventsProcessor } from './appEvents/subscription_events';
   @Module({
   imports: [
     BullModule.forRoot({
@@ -22,10 +23,13 @@ import { CreditEventsProcessor } from './appEvents/credit_events';
       },
       {
         name: 'credit_events',
+      },
+      {
+        name: 'subscription_events',
       }
   ),
     MailModule
   ],
-  providers: [UserEventsProcessor, AppInstallsUninstallsEventsProcessor, CreditEventsProcessor, PrismaService],
+  providers: [UserEventsProcessor, AppInstallsUninstallsEventsProcessor, CreditEventsProcessor, AppSubscriptionEventsProcessor ,PrismaService],
 })
 export class AppModule {}

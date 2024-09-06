@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
 import axios from 'axios';
-import { APP_INSTALLS_UNINSTALLS_AFTER_QUERY, APP_INSTALLS_UNINSTALLS_QUERY } from 'src/queries/install_uninstall_query';
+import { APP_INSTALLS_UNINSTALLS_AFTER_QUERY, APP_INSTALLS_UNINSTALLS_QUERY } from 'src/graphql/install_uninstall_query';
 import prisma from 'src/shared/utlis/prisma';
 
 @Injectable()
