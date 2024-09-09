@@ -25,7 +25,7 @@ interface OrgSwitcherProps {
   }[];
 }
 
-export default function OrgSwitcher({ isCollapsed, organizations }: OrgSwitcherProps) {
+ export default function OrgSwitcher({ isCollapsed, organizations }: OrgSwitcherProps) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -44,21 +44,18 @@ export default function OrgSwitcher({ isCollapsed, organizations }: OrgSwitcherP
     navigate(`/${orgName}`);
   };
 
-  // React.useEffect(() => {
-  // console.log(currentOrganization)
-  // }, [currentOrganization]); 
-
   return (
     <Select defaultValue={currentOrganization} onValueChange={handleOrganizationChange}>
       <SelectTrigger
         className={cn(
           "flex items-center gap-2 [&>span]:line-clamp-1 [&>span]:flex [&>span]:w-full [&>span]:items-center [&>span]:gap-1 [&>span]:truncate [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0",
-          isCollapsed && "flex h-9 w-9 shrink-0 items-center justify-center p-0 [&>span]:w-auto [&>svg]:hidden"
+           isCollapsed && "flex h-9 w-9 shrink-0 items-center justify-center p-0 [&>span]:w-auto [&>svg]:hidden"
+ 
         )}
         aria-label="Select account"
       >
         <SelectValue placeholder="Select an account">
-          <img
+           <img
             src={organizations.find((organization) => organization.organization.id === currentOrganization)?.organization.logo}
             alt="Org Logo"
             className="h-6 w-6"

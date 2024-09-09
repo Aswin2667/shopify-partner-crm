@@ -16,12 +16,14 @@ import { DateHelper } from '@org/utils';
 export class ShopifyIntegrationService extends BaseIntegrationService<object> {
   private data: IntegrationData = {
     name: 'Shopify',
-    description: 'Shopify integration',
+    description:
+      'Boost your e-commerce game with our Shopify integration. Sync orders, track customers, and manage your store effortlessly within our CRM.',
     type: IntegrationType.SHOPIFY,
     logo: 'https://cdn3.iconfinder.com/data/icons/social-media-2068/64/_shopping-512.png',
     singular: true,
     authType: 'CREDENTIALS',
   };
+
   constructor(
     @InjectQueue('shopify_integration_events')
     private readonly integrationQueue: Queue,
@@ -53,7 +55,6 @@ export class ShopifyIntegrationService extends BaseIntegrationService<object> {
         /* Integration Object */
       });
       console.log(validationResult);
-
       const shopifyIntergration = await this.prisma.integration.create({
         data: {
           name: data.name,

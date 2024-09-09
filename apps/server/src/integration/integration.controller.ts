@@ -82,13 +82,18 @@ export class IntegrationController {
     return await this.integrationService.disconnectFromIntegration(id);
   }
 
-  @Post(':id/actions')
+  @Post('action')
   async performIntegrationAction(
-    @Param('id') id: string,
-    @Body() performActionDto: { action: string; params: object },
+    @Body()
+    performActionDto: {
+      type: IntegrationType;
+      action: string;
+      params: object;
+    },
   ) {
+    console.log(performActionDto);
     return await this.integrationService.performIntegrationAction(
-      id,
+      performActionDto.type,
       performActionDto.action,
       performActionDto.params,
     );

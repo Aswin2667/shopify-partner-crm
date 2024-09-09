@@ -1,11 +1,6 @@
 import React from "react";
 import download from "../../assets/download.svg";
-import { integrations } from "./utils/data";
 import IntegrationItem from "./components/IntegrationItem";
-import { useQueryEvents } from "@/hooks/useQueryEvents";
-import { useQuery } from "@tanstack/react-query";
-import IntegrationService from "@/services/IntegrationService";
-import { integrationAction } from "@/redux/integrationSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { TbArrowNarrowLeft } from "react-icons/tb";
@@ -27,18 +22,6 @@ const Integration: React.FC = () => {
       !singularIntegrationTypes.has(presentIntegration.type)
   );
 
-  useQueryEvents(
-    useQuery({
-      queryKey: ["getIntegrations"],
-      queryFn: async () =>
-        await IntegrationService.getPresentIntegrationsList(),
-    }),
-    {
-      onSuccess: (data) =>
-        dispatch(integrationAction.setPresentIntegrations(data)),
-      onError: (error) => console.error(error),
-    }
-  );
   return (
     <div>
       <div className="mb-5">

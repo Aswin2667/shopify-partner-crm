@@ -6,6 +6,7 @@ import { AppInstallsUninstallsEventsProcessor } from './appEvents/install_uninst
 import { PrismaService } from './prisma.service';
 import { CreditEventsProcessor } from './appEvents/credit_events';
 import { AppSubscriptionEventsProcessor } from './appEvents/subscription_events';
+
   @Module({
   imports: [
     BullModule.forRoot({
@@ -28,7 +29,7 @@ import { AppSubscriptionEventsProcessor } from './appEvents/subscription_events'
         name: 'subscription_events',
       }
   ),
-    MailModule
+    MailModule,
   ],
   providers: [UserEventsProcessor, AppInstallsUninstallsEventsProcessor, CreditEventsProcessor, AppSubscriptionEventsProcessor ,PrismaService],
 })

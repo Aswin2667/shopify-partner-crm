@@ -14,7 +14,8 @@ import { DateHelper } from '@org/utils';
 export class SendGridIntegrationService extends BaseIntegrationService<object> {
   private data: IntegrationData = {
     name: 'SendGrid',
-    description: 'SendGrid integration',
+    description:
+      'Reach your customers with precision using SendGrid. From transactional emails to marketing campaigns, manage it all directly from our CRM.',
     type: IntegrationType.SEND_GRID,
     logo: 'https://wpforms.com/wp-content/uploads/cache/integrations/4dc59b3dad493b05c625c346465cee83.png',
     singular: false,

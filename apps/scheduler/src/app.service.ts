@@ -6,6 +6,7 @@ import { Queue } from 'bullmq';
 import { Install_uninstall_dataService } from './app-data/install_uninstall.service';
 import prisma from './shared/utlis/prisma';
 import { GET_APPS_AFTER_LAST_OCCURRED_AT, GET_UNSYNCED_APPS } from './queries/app_queries';
+import axios from 'axios';
 
 
 @Injectable()
@@ -102,5 +103,5 @@ async handleAppEvents() {
       }
     }));
   }
-  
+
 }
