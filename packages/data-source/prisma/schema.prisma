@@ -7,8 +7,9 @@ generator client {
 datasource db {
   provider = "postgresql"
   // url      = env("DATABASE_URL")
-  url = "postgresql://postgres:postgres@localhost:5432/shopify_crm?schema=public"
+  url      = "postgresql://postgres:postgres@localhost:5432/shopify_crm?schema=public"
 }
+
 model User {
   id                   String               @id @default(uuid())
   email                String               @unique
@@ -44,7 +45,7 @@ model OrgMemberInvite {
 model Organization {
   id           String            @id @default(uuid())
   name         String
-  logo         String? 
+  logo         String?
   description  String?
   createdAt    BigInt            @default(autoincrement())
   updatedAt    BigInt            @default(autoincrement())
@@ -87,7 +88,7 @@ model Project {
   deletedAt      BigInt?
   leadProject    LeadProject[]
   integrationId  String
-  integration    Integration  @relation(fields: [integrationId], references: [id])
+  integration    Integration   @relation(fields: [integrationId], references: [id])
 }
 
 model LeadNotes {
@@ -104,7 +105,7 @@ model LeadNotes {
 }
 
 model Lead {
-  id             String         @id @default(uuid()) 
+  id             String         @id @default(uuid())
   shopifyDomain  String         @unique
   shopifyStoreId String         @unique
   statusId       String?
@@ -123,7 +124,7 @@ model Lead {
   integrationId  String?
   organizationId String
   organization   Organization   @relation(fields: [organizationId], references: [id])
-  integration    Integration?    @relation(fields: [integrationId], references: [id])
+  integration    Integration?   @relation(fields: [integrationId], references: [id])
 }
 
 model LeadProject {
@@ -143,7 +144,7 @@ model LeadProject {
 }
 
 model Contact {
-  id             String      @id @default(uuid())
+  id             String       @id @default(uuid())
   firstName      String?
   lastName       String?
   primaryEmail   String?
@@ -158,10 +159,10 @@ model Contact {
   updatedAt      BigInt
   deletedAt      BigInt
   organizationId String
-  organization   Organization   @relation(fields: [organizationId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id])
   integrationId  String
-  integration    Integration @relation(fields: [integrationId], references: [id])
-  lead           Lead       @relation(fields: [leadId], references: [id])
+  integration    Integration  @relation(fields: [integrationId], references: [id])
+  lead           Lead         @relation(fields: [leadId], references: [id])
 }
 
 model Attachment {
@@ -195,23 +196,52 @@ model LeadActivity {
 }
 
 model Email {
-  id            String   @id @default(uuid())
+  id            String       @id @default(uuid())
+  trackingId    String       @unique
   to            String[]
-  cc            String[] @default([])
-  bcc           String[] @default([])
+  cc            String[]     @default([])
+  bcc           String[]     @default([])
+  status        EmailStatus  @default(SCHEDULE)
+  isOpened      Boolean      @default(false)
+  isClicked     Boolean      @default(false)
   subject       String?
   body          String
-  messageId     String
-  threadId      String
+  messageId     String?
+  threadId      String?
   historyId     String?
-  labelIds      String[]
+  labelIds      String[]     @default([])
   sentAt        BigInt
+  openedAt      BigInt       @default(0)
+  clickedAt     BigInt       @default(0)
   deletedAt     BigInt
   integrationId String
+  EmailQueue    EmailQueue[]
+}
+
+enum EmailStatus {
+  SEND
+  SCHEDULE
+}
+
+model EmailQueue {
+  id          String      @id @default(uuid())
+  emailId     String
+  email       Email       @relation(fields: [emailId], references: [id])
+  scheduledAt BigInt
+  status      QueueStatus
+  retryCount  Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+enum QueueStatus {
+  PENDING
+  SENT
+  FAILED
 }
 
 model Integration {
-  id             String        @id @default(uuid())
+  id             String          @id @default(uuid())
   organizationId String
   data           Json
   description    String?
@@ -220,13 +250,13 @@ model Integration {
   updatedAt      BigInt
   deletedAt      BigInt
   name           String
-  isSingular     Boolean       @default(false) // Add the isSingular field
-  
-  Project        Project[]
-  organization   Organization  @relation(fields: [organizationId], references: [id])
-  Lead           Lead[]
-  Contact        Contact[]
-  LeadProject    LeadProject[]
+  isSingular     Boolean         @default(false) // Add the isSingular field
+
+  Project      Project[]
+  organization Organization  @relation(fields: [organizationId], references: [id])
+  Lead         Lead[]
+  Contact      Contact[]
+  LeadProject  LeadProject[]
 
   // @@unique([organizationId, type, isSingular], name: "UniqueIntegrationPerOrgAndType")
 }

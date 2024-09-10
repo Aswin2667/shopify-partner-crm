@@ -56,12 +56,12 @@ interface OrgSwitcherProps {
       >
         <SelectValue placeholder="Select an account">
            <img
-            src={organizations.find((organization) => organization.organization.id === currentOrganization)?.organization.logo}
+            src={organizations.find((organization) => organization.organization.id === currentOrganization.id)?.organization.logo}
             alt="Org Logo"
             className="h-6 w-6"
           />
           <span className={cn("ml-2", isCollapsed && "hidden")}>
-            {organizations.find((organization) => organization.organization.id === currentOrganization)?.organization.name}
+            {organizations.find((organization) => organization.organization.id === currentOrganization.id)?.organization.name}
           </span>
         </SelectValue>
       </SelectTrigger>

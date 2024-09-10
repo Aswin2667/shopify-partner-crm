@@ -24,6 +24,7 @@ import ProjectService from "@/services/ProjectService";
 import ReduxHelper from "@/utils/ReduxHelper";
 import ShopifyInput from "./type-input/ShopifyInput";
 import ProjectInput from "./type-input/ProjectInput";
+import { Input } from "@/components/ui/input";
 
 const initialArg = {
   name: { value: "", error: "" },
@@ -167,7 +168,7 @@ const CreateProjectModal = ({ open, setOpen }: any) => {
             <label className="block mb-2 text-sm font-medium">
               Project Name
             </label>
-            <input
+            <Input
               type="text"
               value={project.name.value}
               onChange={(e) => {
@@ -177,7 +178,7 @@ const CreateProjectModal = ({ open, setOpen }: any) => {
                 project.name.error &&
                   dispatch({ type: "nameErr", payload: "" });
               }}
-              className={`bg-gray-50 border ${project.name.error ? "border-red-500 " : "border-gray-300"} rounded-lg block w-full p-2.5`}
+              className={` border ${project.name.error ? "border-red-500 " : ""} rounded-lg block w-full p-2.5`}
               placeholder="e.g. Bonnie Green"
             />
             {project.name.error && (

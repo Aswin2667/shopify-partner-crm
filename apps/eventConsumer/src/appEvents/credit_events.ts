@@ -1,8 +1,8 @@
 import { Process, Processor } from '@nestjs/bull';
-import { PrismaService } from 'src/prisma.service';
 import { Job } from 'bullmq';
 import { DateHelper } from '@org/utils';
 import * as bcrypt from 'bcrypt';
+import { PrismaService } from '@org/data-source';
 
 @Processor('credit_events')
 export class CreditEventsProcessor {
@@ -17,8 +17,7 @@ export class CreditEventsProcessor {
       for (const event of eventsArray) {
         const { type, shop, occurredAt } = event;
 
-        // Check for an existing lead
-        const existingLead = await this.prisma.lead.findFirst({
+         const existingLead = await this.prisma.lead.findFirst({
           where: {
             shopifyDomain: shop.myshopifyDomain,
           },

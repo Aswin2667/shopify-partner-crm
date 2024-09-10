@@ -1,5 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { AppearanceForm } from "./appearance-form";
+import { ThemeCustomizer } from "./ThemeCoustomizer";
 
 export default function SettingsAppearancePage() {
   return (
@@ -12,8 +13,9 @@ export default function SettingsAppearancePage() {
         </p>
       </div>
       <Separator />
-      <div className="flex gap-10">
-      <AppearanceForm />
+      {/* <ThemeCustomizer /> */}
+      <div className="flex">
+        <AppearanceForm />
       </div>
     </div>
   );

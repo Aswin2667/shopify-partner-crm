@@ -74,6 +74,11 @@ export type LeadActivity = $Result.DefaultSelection<Prisma.$LeadActivityPayload>
  */
 export type Email = $Result.DefaultSelection<Prisma.$EmailPayload>
 /**
+ * Model EmailQueue
+ * 
+ */
+export type EmailQueue = $Result.DefaultSelection<Prisma.$EmailQueuePayload>
+/**
  * Model Integration
  * 
  */
@@ -145,6 +150,23 @@ export const LeadActivityType: {
 export type LeadActivityType = (typeof LeadActivityType)[keyof typeof LeadActivityType]
 
 
+export const EmailStatus: {
+  SEND: 'SEND',
+  SCHEDULE: 'SCHEDULE'
+};
+
+export type EmailStatus = (typeof EmailStatus)[keyof typeof EmailStatus]
+
+
+export const QueueStatus: {
+  PENDING: 'PENDING',
+  SENT: 'SENT',
+  FAILED: 'FAILED'
+};
+
+export type QueueStatus = (typeof QueueStatus)[keyof typeof QueueStatus]
+
+
 export const IntegrationType: {
   GMAIL: 'GMAIL',
   SHOPIFY: 'SHOPIFY',
@@ -167,6 +189,14 @@ export const OrgMemberRole: typeof $Enums.OrgMemberRole
 export type LeadActivityType = $Enums.LeadActivityType
 
 export const LeadActivityType: typeof $Enums.LeadActivityType
+
+export type EmailStatus = $Enums.EmailStatus
+
+export const EmailStatus: typeof $Enums.EmailStatus
+
+export type QueueStatus = $Enums.QueueStatus
+
+export const QueueStatus: typeof $Enums.QueueStatus
 
 export type IntegrationType = $Enums.IntegrationType
 
@@ -413,6 +443,16 @@ export class PrismaClient<
     * ```
     */
   get email(): Prisma.EmailDelegate<ExtArgs>;
+
+  /**
+   * `prisma.emailQueue`: Exposes CRUD operations for the **EmailQueue** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EmailQueues
+    * const emailQueues = await prisma.emailQueue.findMany()
+    * ```
+    */
+  get emailQueue(): Prisma.EmailQueueDelegate<ExtArgs>;
 
   /**
    * `prisma.integration`: Exposes CRUD operations for the **Integration** model.
@@ -932,6 +972,7 @@ export namespace Prisma {
     Attachment: 'Attachment',
     LeadActivity: 'LeadActivity',
     Email: 'Email',
+    EmailQueue: 'EmailQueue',
     Integration: 'Integration',
     Template: 'Template',
     LeadStatus: 'LeadStatus'
@@ -950,7 +991,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "orgMemberInvite" | "organization" | "orgMember" | "project" | "leadNotes" | "lead" | "leadProject" | "contact" | "attachment" | "leadActivity" | "email" | "integration" | "template" | "leadStatus"
+      modelProps: "user" | "orgMemberInvite" | "organization" | "orgMember" | "project" | "leadNotes" | "lead" | "leadProject" | "contact" | "attachment" | "leadActivity" | "email" | "emailQueue" | "integration" | "template" | "leadStatus"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1794,6 +1835,76 @@ export namespace Prisma {
           }
         }
       }
+      EmailQueue: {
+        payload: Prisma.$EmailQueuePayload<ExtArgs>
+        fields: Prisma.EmailQueueFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EmailQueueFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailQueuePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EmailQueueFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailQueuePayload>
+          }
+          findFirst: {
+            args: Prisma.EmailQueueFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailQueuePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EmailQueueFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailQueuePayload>
+          }
+          findMany: {
+            args: Prisma.EmailQueueFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailQueuePayload>[]
+          }
+          create: {
+            args: Prisma.EmailQueueCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailQueuePayload>
+          }
+          createMany: {
+            args: Prisma.EmailQueueCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EmailQueueCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailQueuePayload>[]
+          }
+          delete: {
+            args: Prisma.EmailQueueDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailQueuePayload>
+          }
+          update: {
+            args: Prisma.EmailQueueUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailQueuePayload>
+          }
+          deleteMany: {
+            args: Prisma.EmailQueueDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EmailQueueUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.EmailQueueUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailQueuePayload>
+          }
+          aggregate: {
+            args: Prisma.EmailQueueAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEmailQueue>
+          }
+          groupBy: {
+            args: Prisma.EmailQueueGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EmailQueueGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EmailQueueCountArgs<ExtArgs>
+            result: $Utils.Optional<EmailQueueCountAggregateOutputType> | number
+          }
+        }
+      }
       Integration: {
         payload: Prisma.$IntegrationPayload<ExtArgs>
         fields: Prisma.IntegrationFieldRefs
@@ -2447,6 +2558,37 @@ export namespace Prisma {
    */
   export type LeadCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AttachmentWhereInput
+  }
+
+
+  /**
+   * Count Type EmailCountOutputType
+   */
+
+  export type EmailCountOutputType = {
+    EmailQueue: number
+  }
+
+  export type EmailCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    EmailQueue?: boolean | EmailCountOutputTypeCountEmailQueueArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * EmailCountOutputType without action
+   */
+  export type EmailCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailCountOutputType
+     */
+    select?: EmailCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * EmailCountOutputType without action
+   */
+  export type EmailCountOutputTypeCountEmailQueueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmailQueueWhereInput
   }
 
 
@@ -14450,43 +14592,63 @@ export namespace Prisma {
 
   export type EmailAvgAggregateOutputType = {
     sentAt: number | null
+    openedAt: number | null
+    clickedAt: number | null
     deletedAt: number | null
   }
 
   export type EmailSumAggregateOutputType = {
     sentAt: bigint | null
+    openedAt: bigint | null
+    clickedAt: bigint | null
     deletedAt: bigint | null
   }
 
   export type EmailMinAggregateOutputType = {
     id: string | null
+    trackingId: string | null
+    status: $Enums.EmailStatus | null
+    isOpened: boolean | null
+    isClicked: boolean | null
     subject: string | null
     body: string | null
     messageId: string | null
     threadId: string | null
     historyId: string | null
     sentAt: bigint | null
+    openedAt: bigint | null
+    clickedAt: bigint | null
     deletedAt: bigint | null
     integrationId: string | null
   }
 
   export type EmailMaxAggregateOutputType = {
     id: string | null
+    trackingId: string | null
+    status: $Enums.EmailStatus | null
+    isOpened: boolean | null
+    isClicked: boolean | null
     subject: string | null
     body: string | null
     messageId: string | null
     threadId: string | null
     historyId: string | null
     sentAt: bigint | null
+    openedAt: bigint | null
+    clickedAt: bigint | null
     deletedAt: bigint | null
     integrationId: string | null
   }
 
   export type EmailCountAggregateOutputType = {
     id: number
+    trackingId: number
     to: number
     cc: number
     bcc: number
+    status: number
+    isOpened: number
+    isClicked: number
     subject: number
     body: number
     messageId: number
@@ -14494,6 +14656,8 @@ export namespace Prisma {
     historyId: number
     labelIds: number
     sentAt: number
+    openedAt: number
+    clickedAt: number
     deletedAt: number
     integrationId: number
     _all: number
@@ -14502,43 +14666,63 @@ export namespace Prisma {
 
   export type EmailAvgAggregateInputType = {
     sentAt?: true
+    openedAt?: true
+    clickedAt?: true
     deletedAt?: true
   }
 
   export type EmailSumAggregateInputType = {
     sentAt?: true
+    openedAt?: true
+    clickedAt?: true
     deletedAt?: true
   }
 
   export type EmailMinAggregateInputType = {
     id?: true
+    trackingId?: true
+    status?: true
+    isOpened?: true
+    isClicked?: true
     subject?: true
     body?: true
     messageId?: true
     threadId?: true
     historyId?: true
     sentAt?: true
+    openedAt?: true
+    clickedAt?: true
     deletedAt?: true
     integrationId?: true
   }
 
   export type EmailMaxAggregateInputType = {
     id?: true
+    trackingId?: true
+    status?: true
+    isOpened?: true
+    isClicked?: true
     subject?: true
     body?: true
     messageId?: true
     threadId?: true
     historyId?: true
     sentAt?: true
+    openedAt?: true
+    clickedAt?: true
     deletedAt?: true
     integrationId?: true
   }
 
   export type EmailCountAggregateInputType = {
     id?: true
+    trackingId?: true
     to?: true
     cc?: true
     bcc?: true
+    status?: true
+    isOpened?: true
+    isClicked?: true
     subject?: true
     body?: true
     messageId?: true
@@ -14546,6 +14730,8 @@ export namespace Prisma {
     historyId?: true
     labelIds?: true
     sentAt?: true
+    openedAt?: true
+    clickedAt?: true
     deletedAt?: true
     integrationId?: true
     _all?: true
@@ -14639,16 +14825,22 @@ export namespace Prisma {
 
   export type EmailGroupByOutputType = {
     id: string
+    trackingId: string
     to: string[]
     cc: string[]
     bcc: string[]
+    status: $Enums.EmailStatus
+    isOpened: boolean
+    isClicked: boolean
     subject: string | null
     body: string
-    messageId: string
-    threadId: string
+    messageId: string | null
+    threadId: string | null
     historyId: string | null
     labelIds: string[]
     sentAt: bigint
+    openedAt: bigint
+    clickedAt: bigint
     deletedAt: bigint
     integrationId: string
     _count: EmailCountAggregateOutputType | null
@@ -14674,9 +14866,13 @@ export namespace Prisma {
 
   export type EmailSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    trackingId?: boolean
     to?: boolean
     cc?: boolean
     bcc?: boolean
+    status?: boolean
+    isOpened?: boolean
+    isClicked?: boolean
     subject?: boolean
     body?: boolean
     messageId?: boolean
@@ -14684,15 +14880,23 @@ export namespace Prisma {
     historyId?: boolean
     labelIds?: boolean
     sentAt?: boolean
+    openedAt?: boolean
+    clickedAt?: boolean
     deletedAt?: boolean
     integrationId?: boolean
+    EmailQueue?: boolean | Email$EmailQueueArgs<ExtArgs>
+    _count?: boolean | EmailCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["email"]>
 
   export type EmailSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    trackingId?: boolean
     to?: boolean
     cc?: boolean
     bcc?: boolean
+    status?: boolean
+    isOpened?: boolean
+    isClicked?: boolean
     subject?: boolean
     body?: boolean
     messageId?: boolean
@@ -14700,15 +14904,21 @@ export namespace Prisma {
     historyId?: boolean
     labelIds?: boolean
     sentAt?: boolean
+    openedAt?: boolean
+    clickedAt?: boolean
     deletedAt?: boolean
     integrationId?: boolean
   }, ExtArgs["result"]["email"]>
 
   export type EmailSelectScalar = {
     id?: boolean
+    trackingId?: boolean
     to?: boolean
     cc?: boolean
     bcc?: boolean
+    status?: boolean
+    isOpened?: boolean
+    isClicked?: boolean
     subject?: boolean
     body?: boolean
     messageId?: boolean
@@ -14716,26 +14926,41 @@ export namespace Prisma {
     historyId?: boolean
     labelIds?: boolean
     sentAt?: boolean
+    openedAt?: boolean
+    clickedAt?: boolean
     deletedAt?: boolean
     integrationId?: boolean
   }
 
+  export type EmailInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    EmailQueue?: boolean | Email$EmailQueueArgs<ExtArgs>
+    _count?: boolean | EmailCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type EmailIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $EmailPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Email"
-    objects: {}
+    objects: {
+      EmailQueue: Prisma.$EmailQueuePayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      trackingId: string
       to: string[]
       cc: string[]
       bcc: string[]
+      status: $Enums.EmailStatus
+      isOpened: boolean
+      isClicked: boolean
       subject: string | null
       body: string
-      messageId: string
-      threadId: string
+      messageId: string | null
+      threadId: string | null
       historyId: string | null
       labelIds: string[]
       sentAt: bigint
+      openedAt: bigint
+      clickedAt: bigint
       deletedAt: bigint
       integrationId: string
     }, ExtArgs["result"]["email"]>
@@ -15102,6 +15327,7 @@ export namespace Prisma {
    */
   export interface Prisma__EmailClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    EmailQueue<T extends Email$EmailQueueArgs<ExtArgs> = {}>(args?: Subset<T, Email$EmailQueueArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailQueuePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15132,9 +15358,13 @@ export namespace Prisma {
    */ 
   interface EmailFieldRefs {
     readonly id: FieldRef<"Email", 'String'>
+    readonly trackingId: FieldRef<"Email", 'String'>
     readonly to: FieldRef<"Email", 'String[]'>
     readonly cc: FieldRef<"Email", 'String[]'>
     readonly bcc: FieldRef<"Email", 'String[]'>
+    readonly status: FieldRef<"Email", 'EmailStatus'>
+    readonly isOpened: FieldRef<"Email", 'Boolean'>
+    readonly isClicked: FieldRef<"Email", 'Boolean'>
     readonly subject: FieldRef<"Email", 'String'>
     readonly body: FieldRef<"Email", 'String'>
     readonly messageId: FieldRef<"Email", 'String'>
@@ -15142,6 +15372,8 @@ export namespace Prisma {
     readonly historyId: FieldRef<"Email", 'String'>
     readonly labelIds: FieldRef<"Email", 'String[]'>
     readonly sentAt: FieldRef<"Email", 'BigInt'>
+    readonly openedAt: FieldRef<"Email", 'BigInt'>
+    readonly clickedAt: FieldRef<"Email", 'BigInt'>
     readonly deletedAt: FieldRef<"Email", 'BigInt'>
     readonly integrationId: FieldRef<"Email", 'String'>
   }
@@ -15157,6 +15389,10 @@ export namespace Prisma {
      */
     select?: EmailSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailInclude<ExtArgs> | null
+    /**
      * Filter, which Email to fetch.
      */
     where: EmailWhereUniqueInput
@@ -15171,6 +15407,10 @@ export namespace Prisma {
      */
     select?: EmailSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailInclude<ExtArgs> | null
+    /**
      * Filter, which Email to fetch.
      */
     where: EmailWhereUniqueInput
@@ -15184,6 +15424,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Email
      */
     select?: EmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailInclude<ExtArgs> | null
     /**
      * Filter, which Email to fetch.
      */
@@ -15229,6 +15473,10 @@ export namespace Prisma {
      */
     select?: EmailSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailInclude<ExtArgs> | null
+    /**
      * Filter, which Email to fetch.
      */
     where?: EmailWhereInput
@@ -15273,6 +15521,10 @@ export namespace Prisma {
      */
     select?: EmailSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailInclude<ExtArgs> | null
+    /**
      * Filter, which Emails to fetch.
      */
     where?: EmailWhereInput
@@ -15311,6 +15563,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Email
      */
     select?: EmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailInclude<ExtArgs> | null
     /**
      * The data needed to create a Email.
      */
@@ -15352,6 +15608,10 @@ export namespace Prisma {
      */
     select?: EmailSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailInclude<ExtArgs> | null
+    /**
      * The data needed to update a Email.
      */
     data: XOR<EmailUpdateInput, EmailUncheckedUpdateInput>
@@ -15384,6 +15644,10 @@ export namespace Prisma {
      */
     select?: EmailSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailInclude<ExtArgs> | null
+    /**
      * The filter to search for the Email to update in case it exists.
      */
     where: EmailWhereUniqueInput
@@ -15406,6 +15670,10 @@ export namespace Prisma {
      */
     select?: EmailSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailInclude<ExtArgs> | null
+    /**
      * Filter which Email to delete.
      */
     where: EmailWhereUniqueInput
@@ -15422,6 +15690,26 @@ export namespace Prisma {
   }
 
   /**
+   * Email.EmailQueue
+   */
+  export type Email$EmailQueueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailQueue
+     */
+    select?: EmailQueueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailQueueInclude<ExtArgs> | null
+    where?: EmailQueueWhereInput
+    orderBy?: EmailQueueOrderByWithRelationInput | EmailQueueOrderByWithRelationInput[]
+    cursor?: EmailQueueWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EmailQueueScalarFieldEnum | EmailQueueScalarFieldEnum[]
+  }
+
+  /**
    * Email without action
    */
   export type EmailDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -15429,6 +15717,1005 @@ export namespace Prisma {
      * Select specific fields to fetch from the Email
      */
     select?: EmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model EmailQueue
+   */
+
+  export type AggregateEmailQueue = {
+    _count: EmailQueueCountAggregateOutputType | null
+    _avg: EmailQueueAvgAggregateOutputType | null
+    _sum: EmailQueueSumAggregateOutputType | null
+    _min: EmailQueueMinAggregateOutputType | null
+    _max: EmailQueueMaxAggregateOutputType | null
+  }
+
+  export type EmailQueueAvgAggregateOutputType = {
+    scheduledAt: number | null
+    retryCount: number | null
+  }
+
+  export type EmailQueueSumAggregateOutputType = {
+    scheduledAt: bigint | null
+    retryCount: number | null
+  }
+
+  export type EmailQueueMinAggregateOutputType = {
+    id: string | null
+    emailId: string | null
+    scheduledAt: bigint | null
+    status: $Enums.QueueStatus | null
+    retryCount: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EmailQueueMaxAggregateOutputType = {
+    id: string | null
+    emailId: string | null
+    scheduledAt: bigint | null
+    status: $Enums.QueueStatus | null
+    retryCount: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EmailQueueCountAggregateOutputType = {
+    id: number
+    emailId: number
+    scheduledAt: number
+    status: number
+    retryCount: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type EmailQueueAvgAggregateInputType = {
+    scheduledAt?: true
+    retryCount?: true
+  }
+
+  export type EmailQueueSumAggregateInputType = {
+    scheduledAt?: true
+    retryCount?: true
+  }
+
+  export type EmailQueueMinAggregateInputType = {
+    id?: true
+    emailId?: true
+    scheduledAt?: true
+    status?: true
+    retryCount?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EmailQueueMaxAggregateInputType = {
+    id?: true
+    emailId?: true
+    scheduledAt?: true
+    status?: true
+    retryCount?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EmailQueueCountAggregateInputType = {
+    id?: true
+    emailId?: true
+    scheduledAt?: true
+    status?: true
+    retryCount?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type EmailQueueAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EmailQueue to aggregate.
+     */
+    where?: EmailQueueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailQueues to fetch.
+     */
+    orderBy?: EmailQueueOrderByWithRelationInput | EmailQueueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EmailQueueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailQueues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailQueues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EmailQueues
+    **/
+    _count?: true | EmailQueueCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: EmailQueueAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: EmailQueueSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EmailQueueMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EmailQueueMaxAggregateInputType
+  }
+
+  export type GetEmailQueueAggregateType<T extends EmailQueueAggregateArgs> = {
+        [P in keyof T & keyof AggregateEmailQueue]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEmailQueue[P]>
+      : GetScalarType<T[P], AggregateEmailQueue[P]>
+  }
+
+
+
+
+  export type EmailQueueGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmailQueueWhereInput
+    orderBy?: EmailQueueOrderByWithAggregationInput | EmailQueueOrderByWithAggregationInput[]
+    by: EmailQueueScalarFieldEnum[] | EmailQueueScalarFieldEnum
+    having?: EmailQueueScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EmailQueueCountAggregateInputType | true
+    _avg?: EmailQueueAvgAggregateInputType
+    _sum?: EmailQueueSumAggregateInputType
+    _min?: EmailQueueMinAggregateInputType
+    _max?: EmailQueueMaxAggregateInputType
+  }
+
+  export type EmailQueueGroupByOutputType = {
+    id: string
+    emailId: string
+    scheduledAt: bigint
+    status: $Enums.QueueStatus
+    retryCount: number
+    createdAt: Date
+    updatedAt: Date
+    _count: EmailQueueCountAggregateOutputType | null
+    _avg: EmailQueueAvgAggregateOutputType | null
+    _sum: EmailQueueSumAggregateOutputType | null
+    _min: EmailQueueMinAggregateOutputType | null
+    _max: EmailQueueMaxAggregateOutputType | null
+  }
+
+  type GetEmailQueueGroupByPayload<T extends EmailQueueGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EmailQueueGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EmailQueueGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EmailQueueGroupByOutputType[P]>
+            : GetScalarType<T[P], EmailQueueGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EmailQueueSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    emailId?: boolean
+    scheduledAt?: boolean
+    status?: boolean
+    retryCount?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    email?: boolean | EmailDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["emailQueue"]>
+
+  export type EmailQueueSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    emailId?: boolean
+    scheduledAt?: boolean
+    status?: boolean
+    retryCount?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    email?: boolean | EmailDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["emailQueue"]>
+
+  export type EmailQueueSelectScalar = {
+    id?: boolean
+    emailId?: boolean
+    scheduledAt?: boolean
+    status?: boolean
+    retryCount?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type EmailQueueInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    email?: boolean | EmailDefaultArgs<ExtArgs>
+  }
+  export type EmailQueueIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    email?: boolean | EmailDefaultArgs<ExtArgs>
+  }
+
+  export type $EmailQueuePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EmailQueue"
+    objects: {
+      email: Prisma.$EmailPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      emailId: string
+      scheduledAt: bigint
+      status: $Enums.QueueStatus
+      retryCount: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["emailQueue"]>
+    composites: {}
+  }
+
+  type EmailQueueGetPayload<S extends boolean | null | undefined | EmailQueueDefaultArgs> = $Result.GetResult<Prisma.$EmailQueuePayload, S>
+
+  type EmailQueueCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<EmailQueueFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: EmailQueueCountAggregateInputType | true
+    }
+
+  export interface EmailQueueDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EmailQueue'], meta: { name: 'EmailQueue' } }
+    /**
+     * Find zero or one EmailQueue that matches the filter.
+     * @param {EmailQueueFindUniqueArgs} args - Arguments to find a EmailQueue
+     * @example
+     * // Get one EmailQueue
+     * const emailQueue = await prisma.emailQueue.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EmailQueueFindUniqueArgs>(args: SelectSubset<T, EmailQueueFindUniqueArgs<ExtArgs>>): Prisma__EmailQueueClient<$Result.GetResult<Prisma.$EmailQueuePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one EmailQueue that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {EmailQueueFindUniqueOrThrowArgs} args - Arguments to find a EmailQueue
+     * @example
+     * // Get one EmailQueue
+     * const emailQueue = await prisma.emailQueue.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EmailQueueFindUniqueOrThrowArgs>(args: SelectSubset<T, EmailQueueFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EmailQueueClient<$Result.GetResult<Prisma.$EmailQueuePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first EmailQueue that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailQueueFindFirstArgs} args - Arguments to find a EmailQueue
+     * @example
+     * // Get one EmailQueue
+     * const emailQueue = await prisma.emailQueue.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EmailQueueFindFirstArgs>(args?: SelectSubset<T, EmailQueueFindFirstArgs<ExtArgs>>): Prisma__EmailQueueClient<$Result.GetResult<Prisma.$EmailQueuePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first EmailQueue that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailQueueFindFirstOrThrowArgs} args - Arguments to find a EmailQueue
+     * @example
+     * // Get one EmailQueue
+     * const emailQueue = await prisma.emailQueue.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EmailQueueFindFirstOrThrowArgs>(args?: SelectSubset<T, EmailQueueFindFirstOrThrowArgs<ExtArgs>>): Prisma__EmailQueueClient<$Result.GetResult<Prisma.$EmailQueuePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more EmailQueues that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailQueueFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EmailQueues
+     * const emailQueues = await prisma.emailQueue.findMany()
+     * 
+     * // Get first 10 EmailQueues
+     * const emailQueues = await prisma.emailQueue.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const emailQueueWithIdOnly = await prisma.emailQueue.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EmailQueueFindManyArgs>(args?: SelectSubset<T, EmailQueueFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailQueuePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a EmailQueue.
+     * @param {EmailQueueCreateArgs} args - Arguments to create a EmailQueue.
+     * @example
+     * // Create one EmailQueue
+     * const EmailQueue = await prisma.emailQueue.create({
+     *   data: {
+     *     // ... data to create a EmailQueue
+     *   }
+     * })
+     * 
+     */
+    create<T extends EmailQueueCreateArgs>(args: SelectSubset<T, EmailQueueCreateArgs<ExtArgs>>): Prisma__EmailQueueClient<$Result.GetResult<Prisma.$EmailQueuePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many EmailQueues.
+     * @param {EmailQueueCreateManyArgs} args - Arguments to create many EmailQueues.
+     * @example
+     * // Create many EmailQueues
+     * const emailQueue = await prisma.emailQueue.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EmailQueueCreateManyArgs>(args?: SelectSubset<T, EmailQueueCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EmailQueues and returns the data saved in the database.
+     * @param {EmailQueueCreateManyAndReturnArgs} args - Arguments to create many EmailQueues.
+     * @example
+     * // Create many EmailQueues
+     * const emailQueue = await prisma.emailQueue.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EmailQueues and only return the `id`
+     * const emailQueueWithIdOnly = await prisma.emailQueue.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EmailQueueCreateManyAndReturnArgs>(args?: SelectSubset<T, EmailQueueCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailQueuePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a EmailQueue.
+     * @param {EmailQueueDeleteArgs} args - Arguments to delete one EmailQueue.
+     * @example
+     * // Delete one EmailQueue
+     * const EmailQueue = await prisma.emailQueue.delete({
+     *   where: {
+     *     // ... filter to delete one EmailQueue
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EmailQueueDeleteArgs>(args: SelectSubset<T, EmailQueueDeleteArgs<ExtArgs>>): Prisma__EmailQueueClient<$Result.GetResult<Prisma.$EmailQueuePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one EmailQueue.
+     * @param {EmailQueueUpdateArgs} args - Arguments to update one EmailQueue.
+     * @example
+     * // Update one EmailQueue
+     * const emailQueue = await prisma.emailQueue.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EmailQueueUpdateArgs>(args: SelectSubset<T, EmailQueueUpdateArgs<ExtArgs>>): Prisma__EmailQueueClient<$Result.GetResult<Prisma.$EmailQueuePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more EmailQueues.
+     * @param {EmailQueueDeleteManyArgs} args - Arguments to filter EmailQueues to delete.
+     * @example
+     * // Delete a few EmailQueues
+     * const { count } = await prisma.emailQueue.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EmailQueueDeleteManyArgs>(args?: SelectSubset<T, EmailQueueDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EmailQueues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailQueueUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EmailQueues
+     * const emailQueue = await prisma.emailQueue.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EmailQueueUpdateManyArgs>(args: SelectSubset<T, EmailQueueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one EmailQueue.
+     * @param {EmailQueueUpsertArgs} args - Arguments to update or create a EmailQueue.
+     * @example
+     * // Update or create a EmailQueue
+     * const emailQueue = await prisma.emailQueue.upsert({
+     *   create: {
+     *     // ... data to create a EmailQueue
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EmailQueue we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EmailQueueUpsertArgs>(args: SelectSubset<T, EmailQueueUpsertArgs<ExtArgs>>): Prisma__EmailQueueClient<$Result.GetResult<Prisma.$EmailQueuePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of EmailQueues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailQueueCountArgs} args - Arguments to filter EmailQueues to count.
+     * @example
+     * // Count the number of EmailQueues
+     * const count = await prisma.emailQueue.count({
+     *   where: {
+     *     // ... the filter for the EmailQueues we want to count
+     *   }
+     * })
+    **/
+    count<T extends EmailQueueCountArgs>(
+      args?: Subset<T, EmailQueueCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EmailQueueCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EmailQueue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailQueueAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EmailQueueAggregateArgs>(args: Subset<T, EmailQueueAggregateArgs>): Prisma.PrismaPromise<GetEmailQueueAggregateType<T>>
+
+    /**
+     * Group by EmailQueue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailQueueGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EmailQueueGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EmailQueueGroupByArgs['orderBy'] }
+        : { orderBy?: EmailQueueGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EmailQueueGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEmailQueueGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EmailQueue model
+   */
+  readonly fields: EmailQueueFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EmailQueue.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EmailQueueClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    email<T extends EmailDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmailDefaultArgs<ExtArgs>>): Prisma__EmailClient<$Result.GetResult<Prisma.$EmailPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EmailQueue model
+   */ 
+  interface EmailQueueFieldRefs {
+    readonly id: FieldRef<"EmailQueue", 'String'>
+    readonly emailId: FieldRef<"EmailQueue", 'String'>
+    readonly scheduledAt: FieldRef<"EmailQueue", 'BigInt'>
+    readonly status: FieldRef<"EmailQueue", 'QueueStatus'>
+    readonly retryCount: FieldRef<"EmailQueue", 'Int'>
+    readonly createdAt: FieldRef<"EmailQueue", 'DateTime'>
+    readonly updatedAt: FieldRef<"EmailQueue", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EmailQueue findUnique
+   */
+  export type EmailQueueFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailQueue
+     */
+    select?: EmailQueueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailQueueInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailQueue to fetch.
+     */
+    where: EmailQueueWhereUniqueInput
+  }
+
+  /**
+   * EmailQueue findUniqueOrThrow
+   */
+  export type EmailQueueFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailQueue
+     */
+    select?: EmailQueueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailQueueInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailQueue to fetch.
+     */
+    where: EmailQueueWhereUniqueInput
+  }
+
+  /**
+   * EmailQueue findFirst
+   */
+  export type EmailQueueFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailQueue
+     */
+    select?: EmailQueueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailQueueInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailQueue to fetch.
+     */
+    where?: EmailQueueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailQueues to fetch.
+     */
+    orderBy?: EmailQueueOrderByWithRelationInput | EmailQueueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EmailQueues.
+     */
+    cursor?: EmailQueueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailQueues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailQueues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EmailQueues.
+     */
+    distinct?: EmailQueueScalarFieldEnum | EmailQueueScalarFieldEnum[]
+  }
+
+  /**
+   * EmailQueue findFirstOrThrow
+   */
+  export type EmailQueueFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailQueue
+     */
+    select?: EmailQueueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailQueueInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailQueue to fetch.
+     */
+    where?: EmailQueueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailQueues to fetch.
+     */
+    orderBy?: EmailQueueOrderByWithRelationInput | EmailQueueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EmailQueues.
+     */
+    cursor?: EmailQueueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailQueues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailQueues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EmailQueues.
+     */
+    distinct?: EmailQueueScalarFieldEnum | EmailQueueScalarFieldEnum[]
+  }
+
+  /**
+   * EmailQueue findMany
+   */
+  export type EmailQueueFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailQueue
+     */
+    select?: EmailQueueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailQueueInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailQueues to fetch.
+     */
+    where?: EmailQueueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailQueues to fetch.
+     */
+    orderBy?: EmailQueueOrderByWithRelationInput | EmailQueueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EmailQueues.
+     */
+    cursor?: EmailQueueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailQueues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailQueues.
+     */
+    skip?: number
+    distinct?: EmailQueueScalarFieldEnum | EmailQueueScalarFieldEnum[]
+  }
+
+  /**
+   * EmailQueue create
+   */
+  export type EmailQueueCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailQueue
+     */
+    select?: EmailQueueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailQueueInclude<ExtArgs> | null
+    /**
+     * The data needed to create a EmailQueue.
+     */
+    data: XOR<EmailQueueCreateInput, EmailQueueUncheckedCreateInput>
+  }
+
+  /**
+   * EmailQueue createMany
+   */
+  export type EmailQueueCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EmailQueues.
+     */
+    data: EmailQueueCreateManyInput | EmailQueueCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EmailQueue createManyAndReturn
+   */
+  export type EmailQueueCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailQueue
+     */
+    select?: EmailQueueSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many EmailQueues.
+     */
+    data: EmailQueueCreateManyInput | EmailQueueCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailQueueIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EmailQueue update
+   */
+  export type EmailQueueUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailQueue
+     */
+    select?: EmailQueueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailQueueInclude<ExtArgs> | null
+    /**
+     * The data needed to update a EmailQueue.
+     */
+    data: XOR<EmailQueueUpdateInput, EmailQueueUncheckedUpdateInput>
+    /**
+     * Choose, which EmailQueue to update.
+     */
+    where: EmailQueueWhereUniqueInput
+  }
+
+  /**
+   * EmailQueue updateMany
+   */
+  export type EmailQueueUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EmailQueues.
+     */
+    data: XOR<EmailQueueUpdateManyMutationInput, EmailQueueUncheckedUpdateManyInput>
+    /**
+     * Filter which EmailQueues to update
+     */
+    where?: EmailQueueWhereInput
+  }
+
+  /**
+   * EmailQueue upsert
+   */
+  export type EmailQueueUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailQueue
+     */
+    select?: EmailQueueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailQueueInclude<ExtArgs> | null
+    /**
+     * The filter to search for the EmailQueue to update in case it exists.
+     */
+    where: EmailQueueWhereUniqueInput
+    /**
+     * In case the EmailQueue found by the `where` argument doesn't exist, create a new EmailQueue with this data.
+     */
+    create: XOR<EmailQueueCreateInput, EmailQueueUncheckedCreateInput>
+    /**
+     * In case the EmailQueue was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EmailQueueUpdateInput, EmailQueueUncheckedUpdateInput>
+  }
+
+  /**
+   * EmailQueue delete
+   */
+  export type EmailQueueDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailQueue
+     */
+    select?: EmailQueueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailQueueInclude<ExtArgs> | null
+    /**
+     * Filter which EmailQueue to delete.
+     */
+    where: EmailQueueWhereUniqueInput
+  }
+
+  /**
+   * EmailQueue deleteMany
+   */
+  export type EmailQueueDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EmailQueues to delete
+     */
+    where?: EmailQueueWhereInput
+  }
+
+  /**
+   * EmailQueue without action
+   */
+  export type EmailQueueDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailQueue
+     */
+    select?: EmailQueueSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailQueueInclude<ExtArgs> | null
   }
 
 
@@ -18818,9 +20105,13 @@ export namespace Prisma {
 
   export const EmailScalarFieldEnum: {
     id: 'id',
+    trackingId: 'trackingId',
     to: 'to',
     cc: 'cc',
     bcc: 'bcc',
+    status: 'status',
+    isOpened: 'isOpened',
+    isClicked: 'isClicked',
     subject: 'subject',
     body: 'body',
     messageId: 'messageId',
@@ -18828,11 +20119,26 @@ export namespace Prisma {
     historyId: 'historyId',
     labelIds: 'labelIds',
     sentAt: 'sentAt',
+    openedAt: 'openedAt',
+    clickedAt: 'clickedAt',
     deletedAt: 'deletedAt',
     integrationId: 'integrationId'
   };
 
   export type EmailScalarFieldEnum = (typeof EmailScalarFieldEnum)[keyof typeof EmailScalarFieldEnum]
+
+
+  export const EmailQueueScalarFieldEnum: {
+    id: 'id',
+    emailId: 'emailId',
+    scheduledAt: 'scheduledAt',
+    status: 'status',
+    retryCount: 'retryCount',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type EmailQueueScalarFieldEnum = (typeof EmailQueueScalarFieldEnum)[keyof typeof EmailQueueScalarFieldEnum]
 
 
   export const IntegrationScalarFieldEnum: {
@@ -19016,16 +20322,30 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'IntegrationType'
+   * Reference to a field of type 'EmailStatus'
    */
-  export type EnumIntegrationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IntegrationType'>
+  export type EnumEmailStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EmailStatus'>
     
 
 
   /**
-   * Reference to a field of type 'IntegrationType[]'
+   * Reference to a field of type 'EmailStatus[]'
    */
-  export type ListEnumIntegrationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IntegrationType[]'>
+  export type ListEnumEmailStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EmailStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueueStatus'
+   */
+  export type EnumQueueStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueueStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueueStatus[]'
+   */
+  export type ListEnumQueueStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueueStatus[]'>
     
 
 
@@ -19040,6 +20360,34 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'IntegrationType'
+   */
+  export type EnumIntegrationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IntegrationType'>
+    
+
+
+  /**
+   * Reference to a field of type 'IntegrationType[]'
+   */
+  export type ListEnumIntegrationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IntegrationType[]'>
     
 
 
@@ -20025,67 +21373,94 @@ export namespace Prisma {
     OR?: EmailWhereInput[]
     NOT?: EmailWhereInput | EmailWhereInput[]
     id?: StringFilter<"Email"> | string
+    trackingId?: StringFilter<"Email"> | string
     to?: StringNullableListFilter<"Email">
     cc?: StringNullableListFilter<"Email">
     bcc?: StringNullableListFilter<"Email">
+    status?: EnumEmailStatusFilter<"Email"> | $Enums.EmailStatus
+    isOpened?: BoolFilter<"Email"> | boolean
+    isClicked?: BoolFilter<"Email"> | boolean
     subject?: StringNullableFilter<"Email"> | string | null
     body?: StringFilter<"Email"> | string
-    messageId?: StringFilter<"Email"> | string
-    threadId?: StringFilter<"Email"> | string
+    messageId?: StringNullableFilter<"Email"> | string | null
+    threadId?: StringNullableFilter<"Email"> | string | null
     historyId?: StringNullableFilter<"Email"> | string | null
     labelIds?: StringNullableListFilter<"Email">
     sentAt?: BigIntFilter<"Email"> | bigint | number
+    openedAt?: BigIntFilter<"Email"> | bigint | number
+    clickedAt?: BigIntFilter<"Email"> | bigint | number
     deletedAt?: BigIntFilter<"Email"> | bigint | number
     integrationId?: StringFilter<"Email"> | string
+    EmailQueue?: EmailQueueListRelationFilter
   }
 
   export type EmailOrderByWithRelationInput = {
     id?: SortOrder
+    trackingId?: SortOrder
     to?: SortOrder
     cc?: SortOrder
     bcc?: SortOrder
+    status?: SortOrder
+    isOpened?: SortOrder
+    isClicked?: SortOrder
     subject?: SortOrderInput | SortOrder
     body?: SortOrder
-    messageId?: SortOrder
-    threadId?: SortOrder
+    messageId?: SortOrderInput | SortOrder
+    threadId?: SortOrderInput | SortOrder
     historyId?: SortOrderInput | SortOrder
     labelIds?: SortOrder
     sentAt?: SortOrder
+    openedAt?: SortOrder
+    clickedAt?: SortOrder
     deletedAt?: SortOrder
     integrationId?: SortOrder
+    EmailQueue?: EmailQueueOrderByRelationAggregateInput
   }
 
   export type EmailWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    trackingId?: string
     AND?: EmailWhereInput | EmailWhereInput[]
     OR?: EmailWhereInput[]
     NOT?: EmailWhereInput | EmailWhereInput[]
     to?: StringNullableListFilter<"Email">
     cc?: StringNullableListFilter<"Email">
     bcc?: StringNullableListFilter<"Email">
+    status?: EnumEmailStatusFilter<"Email"> | $Enums.EmailStatus
+    isOpened?: BoolFilter<"Email"> | boolean
+    isClicked?: BoolFilter<"Email"> | boolean
     subject?: StringNullableFilter<"Email"> | string | null
     body?: StringFilter<"Email"> | string
-    messageId?: StringFilter<"Email"> | string
-    threadId?: StringFilter<"Email"> | string
+    messageId?: StringNullableFilter<"Email"> | string | null
+    threadId?: StringNullableFilter<"Email"> | string | null
     historyId?: StringNullableFilter<"Email"> | string | null
     labelIds?: StringNullableListFilter<"Email">
     sentAt?: BigIntFilter<"Email"> | bigint | number
+    openedAt?: BigIntFilter<"Email"> | bigint | number
+    clickedAt?: BigIntFilter<"Email"> | bigint | number
     deletedAt?: BigIntFilter<"Email"> | bigint | number
     integrationId?: StringFilter<"Email"> | string
-  }, "id">
+    EmailQueue?: EmailQueueListRelationFilter
+  }, "id" | "trackingId">
 
   export type EmailOrderByWithAggregationInput = {
     id?: SortOrder
+    trackingId?: SortOrder
     to?: SortOrder
     cc?: SortOrder
     bcc?: SortOrder
+    status?: SortOrder
+    isOpened?: SortOrder
+    isClicked?: SortOrder
     subject?: SortOrderInput | SortOrder
     body?: SortOrder
-    messageId?: SortOrder
-    threadId?: SortOrder
+    messageId?: SortOrderInput | SortOrder
+    threadId?: SortOrderInput | SortOrder
     historyId?: SortOrderInput | SortOrder
     labelIds?: SortOrder
     sentAt?: SortOrder
+    openedAt?: SortOrder
+    clickedAt?: SortOrder
     deletedAt?: SortOrder
     integrationId?: SortOrder
     _count?: EmailCountOrderByAggregateInput
@@ -20100,18 +21475,91 @@ export namespace Prisma {
     OR?: EmailScalarWhereWithAggregatesInput[]
     NOT?: EmailScalarWhereWithAggregatesInput | EmailScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Email"> | string
+    trackingId?: StringWithAggregatesFilter<"Email"> | string
     to?: StringNullableListFilter<"Email">
     cc?: StringNullableListFilter<"Email">
     bcc?: StringNullableListFilter<"Email">
+    status?: EnumEmailStatusWithAggregatesFilter<"Email"> | $Enums.EmailStatus
+    isOpened?: BoolWithAggregatesFilter<"Email"> | boolean
+    isClicked?: BoolWithAggregatesFilter<"Email"> | boolean
     subject?: StringNullableWithAggregatesFilter<"Email"> | string | null
     body?: StringWithAggregatesFilter<"Email"> | string
-    messageId?: StringWithAggregatesFilter<"Email"> | string
-    threadId?: StringWithAggregatesFilter<"Email"> | string
+    messageId?: StringNullableWithAggregatesFilter<"Email"> | string | null
+    threadId?: StringNullableWithAggregatesFilter<"Email"> | string | null
     historyId?: StringNullableWithAggregatesFilter<"Email"> | string | null
     labelIds?: StringNullableListFilter<"Email">
     sentAt?: BigIntWithAggregatesFilter<"Email"> | bigint | number
+    openedAt?: BigIntWithAggregatesFilter<"Email"> | bigint | number
+    clickedAt?: BigIntWithAggregatesFilter<"Email"> | bigint | number
     deletedAt?: BigIntWithAggregatesFilter<"Email"> | bigint | number
     integrationId?: StringWithAggregatesFilter<"Email"> | string
+  }
+
+  export type EmailQueueWhereInput = {
+    AND?: EmailQueueWhereInput | EmailQueueWhereInput[]
+    OR?: EmailQueueWhereInput[]
+    NOT?: EmailQueueWhereInput | EmailQueueWhereInput[]
+    id?: StringFilter<"EmailQueue"> | string
+    emailId?: StringFilter<"EmailQueue"> | string
+    scheduledAt?: BigIntFilter<"EmailQueue"> | bigint | number
+    status?: EnumQueueStatusFilter<"EmailQueue"> | $Enums.QueueStatus
+    retryCount?: IntFilter<"EmailQueue"> | number
+    createdAt?: DateTimeFilter<"EmailQueue"> | Date | string
+    updatedAt?: DateTimeFilter<"EmailQueue"> | Date | string
+    email?: XOR<EmailRelationFilter, EmailWhereInput>
+  }
+
+  export type EmailQueueOrderByWithRelationInput = {
+    id?: SortOrder
+    emailId?: SortOrder
+    scheduledAt?: SortOrder
+    status?: SortOrder
+    retryCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    email?: EmailOrderByWithRelationInput
+  }
+
+  export type EmailQueueWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: EmailQueueWhereInput | EmailQueueWhereInput[]
+    OR?: EmailQueueWhereInput[]
+    NOT?: EmailQueueWhereInput | EmailQueueWhereInput[]
+    emailId?: StringFilter<"EmailQueue"> | string
+    scheduledAt?: BigIntFilter<"EmailQueue"> | bigint | number
+    status?: EnumQueueStatusFilter<"EmailQueue"> | $Enums.QueueStatus
+    retryCount?: IntFilter<"EmailQueue"> | number
+    createdAt?: DateTimeFilter<"EmailQueue"> | Date | string
+    updatedAt?: DateTimeFilter<"EmailQueue"> | Date | string
+    email?: XOR<EmailRelationFilter, EmailWhereInput>
+  }, "id">
+
+  export type EmailQueueOrderByWithAggregationInput = {
+    id?: SortOrder
+    emailId?: SortOrder
+    scheduledAt?: SortOrder
+    status?: SortOrder
+    retryCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: EmailQueueCountOrderByAggregateInput
+    _avg?: EmailQueueAvgOrderByAggregateInput
+    _max?: EmailQueueMaxOrderByAggregateInput
+    _min?: EmailQueueMinOrderByAggregateInput
+    _sum?: EmailQueueSumOrderByAggregateInput
+  }
+
+  export type EmailQueueScalarWhereWithAggregatesInput = {
+    AND?: EmailQueueScalarWhereWithAggregatesInput | EmailQueueScalarWhereWithAggregatesInput[]
+    OR?: EmailQueueScalarWhereWithAggregatesInput[]
+    NOT?: EmailQueueScalarWhereWithAggregatesInput | EmailQueueScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"EmailQueue"> | string
+    emailId?: StringWithAggregatesFilter<"EmailQueue"> | string
+    scheduledAt?: BigIntWithAggregatesFilter<"EmailQueue"> | bigint | number
+    status?: EnumQueueStatusWithAggregatesFilter<"EmailQueue"> | $Enums.QueueStatus
+    retryCount?: IntWithAggregatesFilter<"EmailQueue"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"EmailQueue"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"EmailQueue"> | Date | string
   }
 
   export type IntegrationWhereInput = {
@@ -21366,114 +22814,229 @@ export namespace Prisma {
 
   export type EmailCreateInput = {
     id?: string
+    trackingId: string
     to?: EmailCreatetoInput | string[]
     cc?: EmailCreateccInput | string[]
     bcc?: EmailCreatebccInput | string[]
+    status?: $Enums.EmailStatus
+    isOpened?: boolean
+    isClicked?: boolean
     subject?: string | null
     body: string
-    messageId: string
-    threadId: string
+    messageId?: string | null
+    threadId?: string | null
     historyId?: string | null
     labelIds?: EmailCreatelabelIdsInput | string[]
     sentAt: bigint | number
+    openedAt?: bigint | number
+    clickedAt?: bigint | number
     deletedAt: bigint | number
     integrationId: string
+    EmailQueue?: EmailQueueCreateNestedManyWithoutEmailInput
   }
 
   export type EmailUncheckedCreateInput = {
     id?: string
+    trackingId: string
     to?: EmailCreatetoInput | string[]
     cc?: EmailCreateccInput | string[]
     bcc?: EmailCreatebccInput | string[]
+    status?: $Enums.EmailStatus
+    isOpened?: boolean
+    isClicked?: boolean
     subject?: string | null
     body: string
-    messageId: string
-    threadId: string
+    messageId?: string | null
+    threadId?: string | null
     historyId?: string | null
     labelIds?: EmailCreatelabelIdsInput | string[]
     sentAt: bigint | number
+    openedAt?: bigint | number
+    clickedAt?: bigint | number
     deletedAt: bigint | number
     integrationId: string
+    EmailQueue?: EmailQueueUncheckedCreateNestedManyWithoutEmailInput
   }
 
   export type EmailUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    trackingId?: StringFieldUpdateOperationsInput | string
     to?: EmailUpdatetoInput | string[]
     cc?: EmailUpdateccInput | string[]
     bcc?: EmailUpdatebccInput | string[]
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
-    messageId?: StringFieldUpdateOperationsInput | string
-    threadId?: StringFieldUpdateOperationsInput | string
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    threadId?: NullableStringFieldUpdateOperationsInput | string | null
     historyId?: NullableStringFieldUpdateOperationsInput | string | null
     labelIds?: EmailUpdatelabelIdsInput | string[]
     sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
+    EmailQueue?: EmailQueueUpdateManyWithoutEmailNestedInput
   }
 
   export type EmailUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    trackingId?: StringFieldUpdateOperationsInput | string
     to?: EmailUpdatetoInput | string[]
     cc?: EmailUpdateccInput | string[]
     bcc?: EmailUpdatebccInput | string[]
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
-    messageId?: StringFieldUpdateOperationsInput | string
-    threadId?: StringFieldUpdateOperationsInput | string
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    threadId?: NullableStringFieldUpdateOperationsInput | string | null
     historyId?: NullableStringFieldUpdateOperationsInput | string | null
     labelIds?: EmailUpdatelabelIdsInput | string[]
     sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
+    EmailQueue?: EmailQueueUncheckedUpdateManyWithoutEmailNestedInput
   }
 
   export type EmailCreateManyInput = {
     id?: string
+    trackingId: string
     to?: EmailCreatetoInput | string[]
     cc?: EmailCreateccInput | string[]
     bcc?: EmailCreatebccInput | string[]
+    status?: $Enums.EmailStatus
+    isOpened?: boolean
+    isClicked?: boolean
     subject?: string | null
     body: string
-    messageId: string
-    threadId: string
+    messageId?: string | null
+    threadId?: string | null
     historyId?: string | null
     labelIds?: EmailCreatelabelIdsInput | string[]
     sentAt: bigint | number
+    openedAt?: bigint | number
+    clickedAt?: bigint | number
     deletedAt: bigint | number
     integrationId: string
   }
 
   export type EmailUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    trackingId?: StringFieldUpdateOperationsInput | string
     to?: EmailUpdatetoInput | string[]
     cc?: EmailUpdateccInput | string[]
     bcc?: EmailUpdatebccInput | string[]
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
-    messageId?: StringFieldUpdateOperationsInput | string
-    threadId?: StringFieldUpdateOperationsInput | string
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    threadId?: NullableStringFieldUpdateOperationsInput | string | null
     historyId?: NullableStringFieldUpdateOperationsInput | string | null
     labelIds?: EmailUpdatelabelIdsInput | string[]
     sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
   }
 
   export type EmailUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    trackingId?: StringFieldUpdateOperationsInput | string
     to?: EmailUpdatetoInput | string[]
     cc?: EmailUpdateccInput | string[]
     bcc?: EmailUpdatebccInput | string[]
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
-    messageId?: StringFieldUpdateOperationsInput | string
-    threadId?: StringFieldUpdateOperationsInput | string
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    threadId?: NullableStringFieldUpdateOperationsInput | string | null
     historyId?: NullableStringFieldUpdateOperationsInput | string | null
     labelIds?: EmailUpdatelabelIdsInput | string[]
     sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type EmailQueueCreateInput = {
+    id?: string
+    scheduledAt: bigint | number
+    status: $Enums.QueueStatus
+    retryCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: EmailCreateNestedOneWithoutEmailQueueInput
+  }
+
+  export type EmailQueueUncheckedCreateInput = {
+    id?: string
+    emailId: string
+    scheduledAt: bigint | number
+    status: $Enums.QueueStatus
+    retryCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmailQueueUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: EnumQueueStatusFieldUpdateOperationsInput | $Enums.QueueStatus
+    retryCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: EmailUpdateOneRequiredWithoutEmailQueueNestedInput
+  }
+
+  export type EmailQueueUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    emailId?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: EnumQueueStatusFieldUpdateOperationsInput | $Enums.QueueStatus
+    retryCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailQueueCreateManyInput = {
+    id?: string
+    emailId: string
+    scheduledAt: bigint | number
+    status: $Enums.QueueStatus
+    retryCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmailQueueUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: EnumQueueStatusFieldUpdateOperationsInput | $Enums.QueueStatus
+    retryCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailQueueUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    emailId?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: EnumQueueStatusFieldUpdateOperationsInput | $Enums.QueueStatus
+    retryCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntegrationCreateInput = {
@@ -22737,11 +24300,32 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type EnumEmailStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.EmailStatus | EnumEmailStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEmailStatusFilter<$PrismaModel> | $Enums.EmailStatus
+  }
+
+  export type EmailQueueListRelationFilter = {
+    every?: EmailQueueWhereInput
+    some?: EmailQueueWhereInput
+    none?: EmailQueueWhereInput
+  }
+
+  export type EmailQueueOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type EmailCountOrderByAggregateInput = {
     id?: SortOrder
+    trackingId?: SortOrder
     to?: SortOrder
     cc?: SortOrder
     bcc?: SortOrder
+    status?: SortOrder
+    isOpened?: SortOrder
+    isClicked?: SortOrder
     subject?: SortOrder
     body?: SortOrder
     messageId?: SortOrder
@@ -22749,42 +24333,184 @@ export namespace Prisma {
     historyId?: SortOrder
     labelIds?: SortOrder
     sentAt?: SortOrder
+    openedAt?: SortOrder
+    clickedAt?: SortOrder
     deletedAt?: SortOrder
     integrationId?: SortOrder
   }
 
   export type EmailAvgOrderByAggregateInput = {
     sentAt?: SortOrder
+    openedAt?: SortOrder
+    clickedAt?: SortOrder
     deletedAt?: SortOrder
   }
 
   export type EmailMaxOrderByAggregateInput = {
     id?: SortOrder
+    trackingId?: SortOrder
+    status?: SortOrder
+    isOpened?: SortOrder
+    isClicked?: SortOrder
     subject?: SortOrder
     body?: SortOrder
     messageId?: SortOrder
     threadId?: SortOrder
     historyId?: SortOrder
     sentAt?: SortOrder
+    openedAt?: SortOrder
+    clickedAt?: SortOrder
     deletedAt?: SortOrder
     integrationId?: SortOrder
   }
 
   export type EmailMinOrderByAggregateInput = {
     id?: SortOrder
+    trackingId?: SortOrder
+    status?: SortOrder
+    isOpened?: SortOrder
+    isClicked?: SortOrder
     subject?: SortOrder
     body?: SortOrder
     messageId?: SortOrder
     threadId?: SortOrder
     historyId?: SortOrder
     sentAt?: SortOrder
+    openedAt?: SortOrder
+    clickedAt?: SortOrder
     deletedAt?: SortOrder
     integrationId?: SortOrder
   }
 
   export type EmailSumOrderByAggregateInput = {
     sentAt?: SortOrder
+    openedAt?: SortOrder
+    clickedAt?: SortOrder
     deletedAt?: SortOrder
+  }
+
+  export type EnumEmailStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EmailStatus | EnumEmailStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEmailStatusWithAggregatesFilter<$PrismaModel> | $Enums.EmailStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEmailStatusFilter<$PrismaModel>
+    _max?: NestedEnumEmailStatusFilter<$PrismaModel>
+  }
+
+  export type EnumQueueStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.QueueStatus | EnumQueueStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QueueStatus[] | ListEnumQueueStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QueueStatus[] | ListEnumQueueStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQueueStatusFilter<$PrismaModel> | $Enums.QueueStatus
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type EmailRelationFilter = {
+    is?: EmailWhereInput
+    isNot?: EmailWhereInput
+  }
+
+  export type EmailQueueCountOrderByAggregateInput = {
+    id?: SortOrder
+    emailId?: SortOrder
+    scheduledAt?: SortOrder
+    status?: SortOrder
+    retryCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmailQueueAvgOrderByAggregateInput = {
+    scheduledAt?: SortOrder
+    retryCount?: SortOrder
+  }
+
+  export type EmailQueueMaxOrderByAggregateInput = {
+    id?: SortOrder
+    emailId?: SortOrder
+    scheduledAt?: SortOrder
+    status?: SortOrder
+    retryCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmailQueueMinOrderByAggregateInput = {
+    id?: SortOrder
+    emailId?: SortOrder
+    scheduledAt?: SortOrder
+    status?: SortOrder
+    retryCount?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EmailQueueSumOrderByAggregateInput = {
+    scheduledAt?: SortOrder
+    retryCount?: SortOrder
+  }
+
+  export type EnumQueueStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QueueStatus | EnumQueueStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QueueStatus[] | ListEnumQueueStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QueueStatus[] | ListEnumQueueStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQueueStatusWithAggregatesFilter<$PrismaModel> | $Enums.QueueStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQueueStatusFilter<$PrismaModel>
+    _max?: NestedEnumQueueStatusFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type EnumIntegrationTypeFilter<$PrismaModel = never> = {
@@ -24143,6 +25869,20 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type EmailQueueCreateNestedManyWithoutEmailInput = {
+    create?: XOR<EmailQueueCreateWithoutEmailInput, EmailQueueUncheckedCreateWithoutEmailInput> | EmailQueueCreateWithoutEmailInput[] | EmailQueueUncheckedCreateWithoutEmailInput[]
+    connectOrCreate?: EmailQueueCreateOrConnectWithoutEmailInput | EmailQueueCreateOrConnectWithoutEmailInput[]
+    createMany?: EmailQueueCreateManyEmailInputEnvelope
+    connect?: EmailQueueWhereUniqueInput | EmailQueueWhereUniqueInput[]
+  }
+
+  export type EmailQueueUncheckedCreateNestedManyWithoutEmailInput = {
+    create?: XOR<EmailQueueCreateWithoutEmailInput, EmailQueueUncheckedCreateWithoutEmailInput> | EmailQueueCreateWithoutEmailInput[] | EmailQueueUncheckedCreateWithoutEmailInput[]
+    connectOrCreate?: EmailQueueCreateOrConnectWithoutEmailInput | EmailQueueCreateOrConnectWithoutEmailInput[]
+    createMany?: EmailQueueCreateManyEmailInputEnvelope
+    connect?: EmailQueueWhereUniqueInput | EmailQueueWhereUniqueInput[]
+  }
+
   export type EmailUpdatetoInput = {
     set?: string[]
     push?: string | string[]
@@ -24158,9 +25898,71 @@ export namespace Prisma {
     push?: string | string[]
   }
 
+  export type EnumEmailStatusFieldUpdateOperationsInput = {
+    set?: $Enums.EmailStatus
+  }
+
   export type EmailUpdatelabelIdsInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type EmailQueueUpdateManyWithoutEmailNestedInput = {
+    create?: XOR<EmailQueueCreateWithoutEmailInput, EmailQueueUncheckedCreateWithoutEmailInput> | EmailQueueCreateWithoutEmailInput[] | EmailQueueUncheckedCreateWithoutEmailInput[]
+    connectOrCreate?: EmailQueueCreateOrConnectWithoutEmailInput | EmailQueueCreateOrConnectWithoutEmailInput[]
+    upsert?: EmailQueueUpsertWithWhereUniqueWithoutEmailInput | EmailQueueUpsertWithWhereUniqueWithoutEmailInput[]
+    createMany?: EmailQueueCreateManyEmailInputEnvelope
+    set?: EmailQueueWhereUniqueInput | EmailQueueWhereUniqueInput[]
+    disconnect?: EmailQueueWhereUniqueInput | EmailQueueWhereUniqueInput[]
+    delete?: EmailQueueWhereUniqueInput | EmailQueueWhereUniqueInput[]
+    connect?: EmailQueueWhereUniqueInput | EmailQueueWhereUniqueInput[]
+    update?: EmailQueueUpdateWithWhereUniqueWithoutEmailInput | EmailQueueUpdateWithWhereUniqueWithoutEmailInput[]
+    updateMany?: EmailQueueUpdateManyWithWhereWithoutEmailInput | EmailQueueUpdateManyWithWhereWithoutEmailInput[]
+    deleteMany?: EmailQueueScalarWhereInput | EmailQueueScalarWhereInput[]
+  }
+
+  export type EmailQueueUncheckedUpdateManyWithoutEmailNestedInput = {
+    create?: XOR<EmailQueueCreateWithoutEmailInput, EmailQueueUncheckedCreateWithoutEmailInput> | EmailQueueCreateWithoutEmailInput[] | EmailQueueUncheckedCreateWithoutEmailInput[]
+    connectOrCreate?: EmailQueueCreateOrConnectWithoutEmailInput | EmailQueueCreateOrConnectWithoutEmailInput[]
+    upsert?: EmailQueueUpsertWithWhereUniqueWithoutEmailInput | EmailQueueUpsertWithWhereUniqueWithoutEmailInput[]
+    createMany?: EmailQueueCreateManyEmailInputEnvelope
+    set?: EmailQueueWhereUniqueInput | EmailQueueWhereUniqueInput[]
+    disconnect?: EmailQueueWhereUniqueInput | EmailQueueWhereUniqueInput[]
+    delete?: EmailQueueWhereUniqueInput | EmailQueueWhereUniqueInput[]
+    connect?: EmailQueueWhereUniqueInput | EmailQueueWhereUniqueInput[]
+    update?: EmailQueueUpdateWithWhereUniqueWithoutEmailInput | EmailQueueUpdateWithWhereUniqueWithoutEmailInput[]
+    updateMany?: EmailQueueUpdateManyWithWhereWithoutEmailInput | EmailQueueUpdateManyWithWhereWithoutEmailInput[]
+    deleteMany?: EmailQueueScalarWhereInput | EmailQueueScalarWhereInput[]
+  }
+
+  export type EmailCreateNestedOneWithoutEmailQueueInput = {
+    create?: XOR<EmailCreateWithoutEmailQueueInput, EmailUncheckedCreateWithoutEmailQueueInput>
+    connectOrCreate?: EmailCreateOrConnectWithoutEmailQueueInput
+    connect?: EmailWhereUniqueInput
+  }
+
+  export type EnumQueueStatusFieldUpdateOperationsInput = {
+    set?: $Enums.QueueStatus
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type EmailUpdateOneRequiredWithoutEmailQueueNestedInput = {
+    create?: XOR<EmailCreateWithoutEmailQueueInput, EmailUncheckedCreateWithoutEmailQueueInput>
+    connectOrCreate?: EmailCreateOrConnectWithoutEmailQueueInput
+    upsert?: EmailUpsertWithoutEmailQueueInput
+    connect?: EmailWhereUniqueInput
+    update?: XOR<XOR<EmailUpdateToOneWithWhereWithoutEmailQueueInput, EmailUpdateWithoutEmailQueueInput>, EmailUncheckedUpdateWithoutEmailQueueInput>
   }
 
   export type ProjectCreateNestedManyWithoutIntegrationInput = {
@@ -24703,6 +26505,81 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumLeadActivityTypeFilter<$PrismaModel>
     _max?: NestedEnumLeadActivityTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumEmailStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.EmailStatus | EnumEmailStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEmailStatusFilter<$PrismaModel> | $Enums.EmailStatus
+  }
+
+  export type NestedEnumEmailStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EmailStatus | EnumEmailStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumEmailStatusWithAggregatesFilter<$PrismaModel> | $Enums.EmailStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEmailStatusFilter<$PrismaModel>
+    _max?: NestedEnumEmailStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumQueueStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.QueueStatus | EnumQueueStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QueueStatus[] | ListEnumQueueStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QueueStatus[] | ListEnumQueueStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQueueStatusFilter<$PrismaModel> | $Enums.QueueStatus
+  }
+
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type NestedEnumQueueStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QueueStatus | EnumQueueStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QueueStatus[] | ListEnumQueueStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QueueStatus[] | ListEnumQueueStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQueueStatusWithAggregatesFilter<$PrismaModel> | $Enums.QueueStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQueueStatusFilter<$PrismaModel>
+    _max?: NestedEnumQueueStatusFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type NestedEnumIntegrationTypeFilter<$PrismaModel = never> = {
@@ -27591,6 +29468,167 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type EmailQueueCreateWithoutEmailInput = {
+    id?: string
+    scheduledAt: bigint | number
+    status: $Enums.QueueStatus
+    retryCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmailQueueUncheckedCreateWithoutEmailInput = {
+    id?: string
+    scheduledAt: bigint | number
+    status: $Enums.QueueStatus
+    retryCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmailQueueCreateOrConnectWithoutEmailInput = {
+    where: EmailQueueWhereUniqueInput
+    create: XOR<EmailQueueCreateWithoutEmailInput, EmailQueueUncheckedCreateWithoutEmailInput>
+  }
+
+  export type EmailQueueCreateManyEmailInputEnvelope = {
+    data: EmailQueueCreateManyEmailInput | EmailQueueCreateManyEmailInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EmailQueueUpsertWithWhereUniqueWithoutEmailInput = {
+    where: EmailQueueWhereUniqueInput
+    update: XOR<EmailQueueUpdateWithoutEmailInput, EmailQueueUncheckedUpdateWithoutEmailInput>
+    create: XOR<EmailQueueCreateWithoutEmailInput, EmailQueueUncheckedCreateWithoutEmailInput>
+  }
+
+  export type EmailQueueUpdateWithWhereUniqueWithoutEmailInput = {
+    where: EmailQueueWhereUniqueInput
+    data: XOR<EmailQueueUpdateWithoutEmailInput, EmailQueueUncheckedUpdateWithoutEmailInput>
+  }
+
+  export type EmailQueueUpdateManyWithWhereWithoutEmailInput = {
+    where: EmailQueueScalarWhereInput
+    data: XOR<EmailQueueUpdateManyMutationInput, EmailQueueUncheckedUpdateManyWithoutEmailInput>
+  }
+
+  export type EmailQueueScalarWhereInput = {
+    AND?: EmailQueueScalarWhereInput | EmailQueueScalarWhereInput[]
+    OR?: EmailQueueScalarWhereInput[]
+    NOT?: EmailQueueScalarWhereInput | EmailQueueScalarWhereInput[]
+    id?: StringFilter<"EmailQueue"> | string
+    emailId?: StringFilter<"EmailQueue"> | string
+    scheduledAt?: BigIntFilter<"EmailQueue"> | bigint | number
+    status?: EnumQueueStatusFilter<"EmailQueue"> | $Enums.QueueStatus
+    retryCount?: IntFilter<"EmailQueue"> | number
+    createdAt?: DateTimeFilter<"EmailQueue"> | Date | string
+    updatedAt?: DateTimeFilter<"EmailQueue"> | Date | string
+  }
+
+  export type EmailCreateWithoutEmailQueueInput = {
+    id?: string
+    trackingId: string
+    to?: EmailCreatetoInput | string[]
+    cc?: EmailCreateccInput | string[]
+    bcc?: EmailCreatebccInput | string[]
+    status?: $Enums.EmailStatus
+    isOpened?: boolean
+    isClicked?: boolean
+    subject?: string | null
+    body: string
+    messageId?: string | null
+    threadId?: string | null
+    historyId?: string | null
+    labelIds?: EmailCreatelabelIdsInput | string[]
+    sentAt: bigint | number
+    openedAt?: bigint | number
+    clickedAt?: bigint | number
+    deletedAt: bigint | number
+    integrationId: string
+  }
+
+  export type EmailUncheckedCreateWithoutEmailQueueInput = {
+    id?: string
+    trackingId: string
+    to?: EmailCreatetoInput | string[]
+    cc?: EmailCreateccInput | string[]
+    bcc?: EmailCreatebccInput | string[]
+    status?: $Enums.EmailStatus
+    isOpened?: boolean
+    isClicked?: boolean
+    subject?: string | null
+    body: string
+    messageId?: string | null
+    threadId?: string | null
+    historyId?: string | null
+    labelIds?: EmailCreatelabelIdsInput | string[]
+    sentAt: bigint | number
+    openedAt?: bigint | number
+    clickedAt?: bigint | number
+    deletedAt: bigint | number
+    integrationId: string
+  }
+
+  export type EmailCreateOrConnectWithoutEmailQueueInput = {
+    where: EmailWhereUniqueInput
+    create: XOR<EmailCreateWithoutEmailQueueInput, EmailUncheckedCreateWithoutEmailQueueInput>
+  }
+
+  export type EmailUpsertWithoutEmailQueueInput = {
+    update: XOR<EmailUpdateWithoutEmailQueueInput, EmailUncheckedUpdateWithoutEmailQueueInput>
+    create: XOR<EmailCreateWithoutEmailQueueInput, EmailUncheckedCreateWithoutEmailQueueInput>
+    where?: EmailWhereInput
+  }
+
+  export type EmailUpdateToOneWithWhereWithoutEmailQueueInput = {
+    where?: EmailWhereInput
+    data: XOR<EmailUpdateWithoutEmailQueueInput, EmailUncheckedUpdateWithoutEmailQueueInput>
+  }
+
+  export type EmailUpdateWithoutEmailQueueInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    trackingId?: StringFieldUpdateOperationsInput | string
+    to?: EmailUpdatetoInput | string[]
+    cc?: EmailUpdateccInput | string[]
+    bcc?: EmailUpdatebccInput | string[]
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    threadId?: NullableStringFieldUpdateOperationsInput | string | null
+    historyId?: NullableStringFieldUpdateOperationsInput | string | null
+    labelIds?: EmailUpdatelabelIdsInput | string[]
+    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integrationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type EmailUncheckedUpdateWithoutEmailQueueInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    trackingId?: StringFieldUpdateOperationsInput | string
+    to?: EmailUpdatetoInput | string[]
+    cc?: EmailUpdateccInput | string[]
+    bcc?: EmailUpdatebccInput | string[]
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    threadId?: NullableStringFieldUpdateOperationsInput | string | null
+    historyId?: NullableStringFieldUpdateOperationsInput | string | null
+    labelIds?: EmailUpdatelabelIdsInput | string[]
+    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integrationId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type ProjectCreateWithoutIntegrationInput = {
     id?: string
     name: string
@@ -29143,6 +31181,42 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
+  export type EmailQueueCreateManyEmailInput = {
+    id?: string
+    scheduledAt: bigint | number
+    status: $Enums.QueueStatus
+    retryCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EmailQueueUpdateWithoutEmailInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: EnumQueueStatusFieldUpdateOperationsInput | $Enums.QueueStatus
+    retryCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailQueueUncheckedUpdateWithoutEmailInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: EnumQueueStatusFieldUpdateOperationsInput | $Enums.QueueStatus
+    retryCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailQueueUncheckedUpdateManyWithoutEmailInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: EnumQueueStatusFieldUpdateOperationsInput | $Enums.QueueStatus
+    retryCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ProjectCreateManyIntegrationInput = {
     id?: string
     name: string
@@ -29467,6 +31541,10 @@ export namespace Prisma {
      */
     export type LeadCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = LeadCountOutputTypeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use EmailCountOutputTypeDefaultArgs instead
+     */
+    export type EmailCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = EmailCountOutputTypeDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use IntegrationCountOutputTypeDefaultArgs instead
      */
     export type IntegrationCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = IntegrationCountOutputTypeDefaultArgs<ExtArgs>
@@ -29522,6 +31600,10 @@ export namespace Prisma {
      * @deprecated Use EmailDefaultArgs instead
      */
     export type EmailArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = EmailDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use EmailQueueDefaultArgs instead
+     */
+    export type EmailQueueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = EmailQueueDefaultArgs<ExtArgs>
     /**
      * @deprecated Use IntegrationDefaultArgs instead
      */

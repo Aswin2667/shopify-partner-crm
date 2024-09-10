@@ -148,8 +148,8 @@ const Compose = (props: Props): JSX.Element => {
       bcc: compose.bcc.value,
       subject: compose.subject,
       body: compose.body,
-      refreshToken: compose.from.data.refreshToken,
-      accessToken: compose.from.data.accessToken,
+      refreshToken: compose.from?.data.refreshToken,
+      accessToken: compose.from?.data.accessToken,
       gmailIntegrationId: compose.from.id,
     };
 
@@ -203,7 +203,7 @@ const Compose = (props: Props): JSX.Element => {
 
   useEffect(() => {
     TemplateService.getAllTemplatesByOrgId(organizationId as string)
-      .then((res) => dispatch({ type: "allTemplate", payload: res.data.data }))
+      .then((res) => dispatch({ type: "allTemplate", payload: res.data?.data }))
       .catch((err) => console.log(err));
   }, []);
 
@@ -221,7 +221,7 @@ const Compose = (props: Props): JSX.Element => {
           // defaultValue={compose.from.data?.email}
         >
           <SelectTrigger className="focus:outline-white">
-            <SelectValue placeholder={compose.from.data?.email} />
+            <SelectValue placeholder={compose.from?.data?.email} />
           </SelectTrigger>
           <SelectContent>
             {gmailIntegrations.map((integration: any) => (

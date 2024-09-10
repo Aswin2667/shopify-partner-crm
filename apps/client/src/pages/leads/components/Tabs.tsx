@@ -1,3 +1,4 @@
+import Clock from "@/pages/Clock";
 import {
   ActivityIcon,
   Mail,
@@ -6,10 +7,9 @@ import {
   AlarmClockCheck,
   Notebook,
 } from "lucide-react";
-import React from "react";
 import { NavLink } from "react-router-dom";
 
-const Tabs = () => {
+const Tabs = ({ lead }: any) => {
   const tabs = [
     { to: "", icon: ActivityIcon, label: "All Activity" },
     { to: "emails", icon: Mail, label: "Emails" },
@@ -19,7 +19,7 @@ const Tabs = () => {
     { to: "notes", icon: Notebook, label: "Notes" },
   ];
   return (
-    <div className="border-b border-gray-200 dark:border-gray-700">
+    <div className="border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
       <ul className="flex list-none flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
         {tabs.map((tab, index) => {
           return (
@@ -42,6 +42,8 @@ const Tabs = () => {
           );
         })}
       </ul>
+      <Clock ianaTimezone={lead.ianaTimezone} />
+      {lead.ianaTimezone}
     </div>
   );
 };

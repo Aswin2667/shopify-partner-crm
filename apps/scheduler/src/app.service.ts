@@ -144,7 +144,7 @@ export class AppService {
       );
       
       // Log the response data
-      console.log('Response Data:', response.data.data.app.events.edges);
+      // console.log('Response Data:', response.data.data.app.events.edges);
     } catch (error) {
       // Log any errors
       console.error('Error:', error.response?.data || error.message);

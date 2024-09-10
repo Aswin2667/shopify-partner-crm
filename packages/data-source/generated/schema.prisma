@@ -196,19 +196,48 @@ model LeadActivity {
 }
 
 model Email {
-  id            String   @id @default(uuid())
+  id            String       @id @default(uuid())
+  trackingId    String       @unique
   to            String[]
-  cc            String[] @default([])
-  bcc           String[] @default([])
+  cc            String[]     @default([])
+  bcc           String[]     @default([])
+  status        EmailStatus  @default(SCHEDULE)
+  isOpened      Boolean      @default(false)
+  isClicked     Boolean      @default(false)
   subject       String?
   body          String
-  messageId     String
-  threadId      String
+  messageId     String?
+  threadId      String?
   historyId     String?
-  labelIds      String[]
+  labelIds      String[]     @default([])
   sentAt        BigInt
+  openedAt      BigInt       @default(0)
+  clickedAt     BigInt       @default(0)
   deletedAt     BigInt
   integrationId String
+  EmailQueue    EmailQueue[]
+}
+
+enum EmailStatus {
+  SEND
+  SCHEDULE
+}
+
+model EmailQueue {
+  id          String      @id @default(uuid())
+  emailId     String
+  email       Email       @relation(fields: [emailId], references: [id])
+  scheduledAt BigInt
+  status      QueueStatus
+  retryCount  Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+enum QueueStatus {
+  PENDING
+  SENT
+  FAILED
 }
 
 model Integration {

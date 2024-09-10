@@ -257,9 +257,13 @@ exports.Prisma.LeadActivityScalarFieldEnum = {
 
 exports.Prisma.EmailScalarFieldEnum = {
   id: 'id',
+  trackingId: 'trackingId',
   to: 'to',
   cc: 'cc',
   bcc: 'bcc',
+  status: 'status',
+  isOpened: 'isOpened',
+  isClicked: 'isClicked',
   subject: 'subject',
   body: 'body',
   messageId: 'messageId',
@@ -267,8 +271,20 @@ exports.Prisma.EmailScalarFieldEnum = {
   historyId: 'historyId',
   labelIds: 'labelIds',
   sentAt: 'sentAt',
+  openedAt: 'openedAt',
+  clickedAt: 'clickedAt',
   deletedAt: 'deletedAt',
   integrationId: 'integrationId'
+};
+
+exports.Prisma.EmailQueueScalarFieldEnum = {
+  id: 'id',
+  emailId: 'emailId',
+  scheduledAt: 'scheduledAt',
+  status: 'status',
+  retryCount: 'retryCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.IntegrationScalarFieldEnum = {
@@ -377,6 +393,17 @@ exports.LeadActivityType = exports.$Enums.LeadActivityType = {
   SUBSCRIPTION_CHARGE_UNFROZEN: 'SUBSCRIPTION_CHARGE_UNFROZEN'
 };
 
+exports.EmailStatus = exports.$Enums.EmailStatus = {
+  SEND: 'SEND',
+  SCHEDULE: 'SCHEDULE'
+};
+
+exports.QueueStatus = exports.$Enums.QueueStatus = {
+  PENDING: 'PENDING',
+  SENT: 'SENT',
+  FAILED: 'FAILED'
+};
+
 exports.IntegrationType = exports.$Enums.IntegrationType = {
   GMAIL: 'GMAIL',
   SHOPIFY: 'SHOPIFY',
@@ -397,6 +424,7 @@ exports.Prisma.ModelName = {
   Attachment: 'Attachment',
   LeadActivity: 'LeadActivity',
   Email: 'Email',
+  EmailQueue: 'EmailQueue',
   Integration: 'Integration',
   Template: 'Template',
   LeadStatus: 'LeadStatus'
