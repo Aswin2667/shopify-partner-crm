@@ -1,3 +1,4 @@
+import { Input } from "@/components/ui/input";
 import React, { useEffect } from "react";
 
 type Props = {
@@ -12,9 +13,9 @@ const ShopifyInput = ({ dispatch }: Props) => {
   return (
     <div className="mt-4">
       <label className="block mb-2 text-sm font-medium">App ID</label>
-      <input
+      <Input
         type="number"
-        className="bg-gray-50 border border-gray-300 rounded-lg block w-full p-2.5"
+        className=" border rounded-lg block w-full p-2.5"
         placeholder="e.g. 123456"
         onChange={(e) =>
           dispatch({

@@ -7,7 +7,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { BullModule } from '@nestjs/bull';
 import { AppService } from './app.service';
 import { Install_uninstall_dataService } from './app-data/install_uninstall.service';
-
+ 
 
 @Module({
   imports: [

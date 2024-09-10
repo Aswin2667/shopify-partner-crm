@@ -19,10 +19,6 @@ import { MulterModule } from '@nestjs/platform-express';
 import * as winston from 'winston';
 import { S3Service } from './s3/s3.service';
 import { S3Controller } from 's3.controller';
-import { IntegrationsController } from './integrations/integrations.controller';
-import { IntegrationsModule } from './integrations/integrations.module';
-import { IntegrationsService } from './integrations/integrations.service';
-
 import { BullModule, BullQueueEvents } from '@nestjs/bull';
 import { ProjectModule } from './project/project.module';
 import * as path from 'path';
@@ -70,7 +66,7 @@ import { LeadStatusModule } from './LeadStatus/lead-status.module';
     ProjectModule,
     AuthModule,
     IntegrationModule,
-    LeadStatusModule
+    LeadStatusModule,
   ],
   controllers: [
     UserController,
@@ -84,7 +80,7 @@ import { LeadStatusModule } from './LeadStatus/lead-status.module';
     LeadController,
     LeadActivityController,
     LeadNotesController,
-    ContactController
+    ContactController,
   ],
   providers: [
     UserService,
@@ -101,7 +97,7 @@ import { LeadStatusModule } from './LeadStatus/lead-status.module';
     LeadActivityService,
     LeadNotesService,
     ContactService,
-    Service
+    Service,
   ],
 })
 export class AppModule {

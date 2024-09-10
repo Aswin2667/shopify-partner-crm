@@ -213,7 +213,7 @@ const Compose = (props: Props): JSX.Element => {
 
   useEffect(() => {
     TemplateService.getAllTemplatesByOrgId(organizationId as string)
-      .then((res) => dispatch({ type: "allTemplate", payload: res.data.data }))
+      .then((res) => dispatch({ type: "allTemplate", payload: res.data?.data }))
       .catch((err) => console.log(err));
   }, []);
 
@@ -231,7 +231,7 @@ const Compose = (props: Props): JSX.Element => {
           // defaultValue={compose.from.data?.email}
         >
           <SelectTrigger className="focus:outline-white">
-            <SelectValue placeholder={compose.from.data?.email} />
+            <SelectValue placeholder={compose.from?.data?.email} />
           </SelectTrigger>
           <SelectContent>
             {fromEmail.map((integration: any) => (

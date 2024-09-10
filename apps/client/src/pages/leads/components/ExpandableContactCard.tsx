@@ -215,21 +215,21 @@ const ExpandableContactCard = ({
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger>
-                          <button className="flex items-center hover:text-gray-600 justify-end">
-                            <Phone className="w-4 h-4" />
+                          <button className="flex items-center hover:text-gray-600 justify-end cursor-pointer ">
+                            <Phone className="w-4 h-4 cursor-pointer" />
                           </button>
                         </TooltipTrigger>
                         <TooltipContent>Call</TooltipContent>
                       </Tooltip>
                       <Tooltip>
                         <TooltipTrigger>
-                          <button className="flex items-center hover:text-gray-600 justify-end">
-                            <Mail className="w-4 h-4" />
+                          <button className="flex items-center hover:text-gray-600 justify-end cursor-pointer">
+                            <Mail className="w-4 h-4 cursor-pointer" />
                           </button>
                         </TooltipTrigger>
                         <TooltipContent>Send Email</TooltipContent>
                       </Tooltip>
-                      <Tooltip>
+                      {/* <Tooltip>
                         <TooltipTrigger>
                           <DropdownMenuTrigger asChild>
                             <button className="flex items-center hover:text-gray-600 justify-end">
@@ -254,7 +254,7 @@ const ExpandableContactCard = ({
                           <Trash className="w-4 h-4" />
                           Delete
                         </DropdownMenuItem>
-                      </DropdownMenuContent>
+                      </DropdownMenuContent> */}
                     </TooltipProvider>
                   </td>
                 </tr>

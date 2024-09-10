@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { GmailIntegration } from './gmail-integration.interface';
+import { v4 as uuidv4 } from 'uuid';
+
 import { BaseIntegrationService } from '../base/base-integration.service';
 import {
   INTEGRATION_SINGULARITY,
@@ -8,14 +9,12 @@ import {
   IntegrationType,
   IntegrationCategory,
 } from '../types';
-import { EventEmitter2 } from '@nestjs/event-emitter';
-import { InjectQueue } from '@nestjs/bull';
-import { Queue } from 'bullmq';
 import axios from 'axios';
 import { google } from 'googleapis';
 import { ConnectConfig, GmailAction, GmailIntegrationData } from './types';
 import { Prisma, PrismaService } from '@org/data-source';
 import { DateHelper } from '@org/utils';
+import { getTrackingImage } from 'src/helper';
 
 @Injectable()
 export class GmailIntegrationService extends BaseIntegrationService<object> {
@@ -214,7 +213,11 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         subject,
         customMessageId,
       );
-      const message = `${headers}\r\n\r\n${body}`;
+      const trackingId:string = uuidv4();
+      const bodyWithTrackingImage = getTrackingImage(body, trackingId);
+        
+      console.log(bodyWithTrackingImage);
+      const message = `${headers}\r\n\r\n${bodyWithTrackingImage}`;
       const encodedMessage = this.encodeMessage(message);
 
       const mailResponse = await gmail.users.messages.send({
@@ -240,6 +243,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         body,
         gmailIntegrationId,
         organizationId,
+        trackingId,
       );
     } catch (error) {
       await this.handleError(
@@ -362,6 +366,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     body,
     gmailIntegrationId,
     organizationId,
+    trackingId,
   ) {
     return await this.prisma.email.create({
       data: {
@@ -375,10 +380,12 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         historyId: emailData.historyId,
         labelIds: emailData.labelIds,
         sentAt: DateHelper.getCurrentUnixTime(),
+        status: 'SCHEDULE',
         deletedAt: BigInt(0),
         integrationId: gmailIntegrationId,
         organizationId,
         source: IntegrationType.GMAIL,
+        trackingId: trackingId,
       },
     });
   }

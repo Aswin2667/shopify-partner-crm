@@ -11,7 +11,7 @@ import {
 } from './dto/integrations.dto';
 import { DateHelper } from '@org/utils';
 import { IntegrationManager, IntegrationType } from '@org/integrations';
-@Injectable()
+ @Injectable()
 export class IntegrationsService {
   async create(createIntegrationDto: any) {
     // Check if an integration with the same name already exists for the organization

@@ -183,6 +183,28 @@ export const routes = createBrowserRouter([
               {
                 path: "manage/:integrationType",
                 element: <ManageIntegration />,
+                children:[
+                  {
+                    index: true,
+                    path:"settings",
+                    element: <>settings</>,
+                  },
+                  {
+                    index: true,
+                    path:"Apps",
+                    element: <>Apps</>,
+                  },
+                  {
+                    index: true,
+                    path:"tokens",
+                    element: <>tokens</>,
+                  },
+                  {
+                    index: true,
+                    path:"webhooks",
+                    element: <>webhooks</>,
+                  }
+                ]
               },
               {
                 path: "create",

@@ -7,8 +7,9 @@ generator client {
 datasource db {
   provider = "postgresql"
   // url      = env("DATABASE_URL")
-  url = "postgresql://postgres:postgres@localhost:5432/shopify_crm?schema=public"
+  url      = "postgresql://postgres:postgres@localhost:5432/shopify_crm?schema=public"
 }
+
 model User {
   id                   String               @id @default(uuid())
   email                String               @unique
@@ -44,7 +45,7 @@ model OrgMemberInvite {
 model Organization {
   id           String            @id @default(uuid())
   name         String
-  logo         String? 
+  logo         String?
   description  String?
   createdAt    BigInt            @default(autoincrement())
   updatedAt    BigInt            @default(autoincrement())
@@ -92,7 +93,7 @@ model Project {
   deletedAt      BigInt?
   leadProject    LeadProject[]
   integrationId  String
-  integration    Integration  @relation(fields: [integrationId], references: [id])
+  integration    Integration   @relation(fields: [integrationId], references: [id])
 }
 
 model LeadNotes {
@@ -109,7 +110,7 @@ model LeadNotes {
 }
 
 model Lead {
-  id             String         @id @default(uuid()) 
+  id             String         @id @default(uuid())
   shopifyDomain  String         @unique
   shopifyStoreId String         @unique
   statusId       String?
@@ -128,7 +129,7 @@ model Lead {
   integrationId  String?
   organizationId String
   organization   Organization   @relation(fields: [organizationId], references: [id])
-  integration    Integration?    @relation(fields: [integrationId], references: [id])
+  integration    Integration?   @relation(fields: [integrationId], references: [id])
 }
 
 model LeadProject {
@@ -148,7 +149,7 @@ model LeadProject {
 }
 
 model Contact {
-  id             String      @id @default(uuid())
+  id             String       @id @default(uuid())
   firstName      String?
   lastName       String?
   primaryEmail   String?
@@ -163,10 +164,10 @@ model Contact {
   updatedAt      BigInt
   deletedAt      BigInt
   organizationId String
-  organization   Organization   @relation(fields: [organizationId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id])
   integrationId  String
-  integration    Integration @relation(fields: [integrationId], references: [id])
-  lead           Lead       @relation(fields: [leadId], references: [id])
+  integration    Integration  @relation(fields: [integrationId], references: [id])
+  lead           Lead         @relation(fields: [leadId], references: [id])
 }
 
 model Attachment {
@@ -200,92 +201,122 @@ model LeadActivity {
 }
 
 model Email {
-  id            String   @id @default(uuid())
-  to            String[]
-  cc            String[] @default([])
-  bcc           String[] @default([])
-  subject       String?
-  body          String
-  messageId     String
-  threadId      String
-  historyId     String?
-  labelIds      String[]
-  sentAt        BigInt
-  deletedAt     BigInt
-  integrationId String
+  id             String          @id @default(uuid())
+  trackingId     String          @unique
+  to             String[]
+  cc             String[]        @default([])
+  bcc            String[]        @default([])
+  status         EmailStatus     @default(SCHEDULE)
+  isOpened       Boolean         @default(false)
+  isClicked      Boolean         @default(false)
+  subject        String?
+  body           String
+  messageId      String?
+  threadId       String?
+  historyId      String?
+  labelIds       String[]        @default([])
+  sentAt         BigInt
+  openedAt       BigInt          @default(0)
+  clickedAt      BigInt          @default(0)
+  deletedAt      BigInt
+  integrationId  String
   organizationId String
-  organization   Organization   @relation(fields: [organizationId], references: [id])
+  organization   Organization    @relation(fields: [organizationId], references: [id])
   // TODO: run migration and generate command to add source
-  source   IntegrationType
-}   
+  source         IntegrationType
+  EmailQueue     EmailQueue[]
+}
+
+enum EmailStatus {
+  SEND
+  SCHEDULE
+}
+
+model EmailQueue {
+  id          String      @id @default(uuid())
+  emailId     String
+  email       Email       @relation(fields: [emailId], references: [id])
+  scheduledAt BigInt
+  status      QueueStatus
+  retryCount  Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+enum QueueStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
 model Integration {
-  id             String        @id @default(uuid())
+  id             String              @id @default(uuid())
   organizationId String
   name           String
-  data           Json          // Stores API keys, tokens, etc.
+  data           Json // Stores API keys, tokens, etc.
   description    String?
   type           IntegrationType
   category       IntegrationCategory
-  createdAt      BigInt         @default(0)
-  updatedAt      BigInt         @default(0)
+  createdAt      BigInt              @default(0)
+  updatedAt      BigInt              @default(0)
   deletedAt      BigInt?
 
-  isSingular     Boolean        @default(false) 
-  sharedType     IntegrationSharingType        
+  isSingular Boolean                @default(false)
+  sharedType IntegrationSharingType
 
-  Project        Project[]
-  organization   Organization   @relation(fields: [organizationId], references: [id])
-  Lead           Lead[]
-  Contact        Contact[]
-  LeadProject    LeadProject[]
-  Jobs           Job[]          // New relation to manage automated jobs
+  Project              Project[]
+  organization         Organization           @relation(fields: [organizationId], references: [id])
+  Lead                 Lead[]
+  Contact              Contact[]
+  LeadProject          LeadProject[]
+  Jobs                 Job[] // New relation to manage automated jobs
   mailServiceFromEmail MailServiceFromEmail[] // Link to external "from" emails (optional for certain integrations)
 }
 
 model MailServiceFromEmail {
-  id             String     @id @default(uuid())
+  id             String          @id @default(uuid())
   name           String
-  email          String     // Store the external `from` email address for services like Mailgun, SendGrid
+  email          String // Store the external `from` email address for services like Mailgun, SendGrid
   type           IntegrationType
-  integrationId  String     
+  integrationId  String
   organizationId String
-  createdAt      BigInt         @default(0)
-  updatedAt      BigInt         @default(0)
+  createdAt      BigInt          @default(0)
+  updatedAt      BigInt          @default(0)
 
-  integration    Integration    @relation(fields: [integrationId], references: [id], onDelete: Cascade)
-  organization   Organization   @relation(fields: [organizationId], references: [id])
+  integration  Integration  @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id])
 }
 
 model Job {
-  id             String    @id @default(cuid())
-  name           String    // E.g., "Sync Gmail Data", "Fetch New Emails"
+  id             String      @id @default(cuid())
+  name           String // E.g., "Sync Gmail Data", "Fetch New Emails"
   status         JobStatus // PENDING, IN_PROGRESS, COMPLETED, FAILED
-  createdAt      BigInt         @default(0)
-  updatedAt      BigInt         @default(0)
+  createdAt      BigInt      @default(0)
+  updatedAt      BigInt      @default(0)
   integrationId  String
   integration    Integration @relation(fields: [integrationId], references: [id])
-  tasks          Task[]    // A job can have multiple tasks
-  organizationId String    // Useful to link with an organization
+  tasks          Task[] // A job can have multiple tasks
+  organizationId String // Useful to link with an organization
 }
 
 model Task {
-  id             String   @id @default(cuid())
-  jobId          String
-  name           String   // E.g., "Fetch Email", "Store Email in DB"
-  status         TaskStatus
-  createdAt      BigInt         @default(0)
-  updatedAt      BigInt         @default(0)
-  job            Job      @relation(fields: [jobId], references: [id])
+  id        String     @id @default(cuid())
+  jobId     String
+  name      String // E.g., "Fetch Email", "Store Email in DB"
+  status    TaskStatus
+  createdAt BigInt     @default(0)
+  updatedAt BigInt     @default(0)
+  job       Job        @relation(fields: [jobId], references: [id])
 }
 
 model Webhook {
   id             String       @id @default(cuid())
-  url            String       // Webhook endpoint URL
-  type           WebhookType  // GMAIL_NEW_EMAIL, etc.
-  createdAt      BigInt         @default(0)
+  url            String // Webhook endpoint URL
+  type           WebhookType // GMAIL_NEW_EMAIL, etc.
+  createdAt      BigInt       @default(0)
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id])
-  data           Json         // Payload from webhook
+  data           Json // Payload from webhook
 }
 
 enum JobStatus {
@@ -321,10 +352,9 @@ enum IntegrationCategory {
 }
 
 enum IntegrationSharingType {
-  PUBLIC   // ORGANIZATION_WIDE
-  PRIVATE  // USER_SPECIFIC
+  PUBLIC // ORGANIZATION_WIDE
+  PRIVATE // USER_SPECIFIC
 }
-
 
 model Template {
   id           String        @id @default(uuid())

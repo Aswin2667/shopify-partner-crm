@@ -1,7 +1,7 @@
 import { Process, Processor } from '@nestjs/bull';
-import { PrismaService } from 'src/prisma.service';
-import { Job } from 'bullmq';
+ import { Job } from 'bullmq';
 import { DateHelper } from '@org/utils';
+import { PrismaService } from '@org/data-source';
 
 @Processor('install_uninstall_events')
 export class AppInstallsUninstallsEventsProcessor {

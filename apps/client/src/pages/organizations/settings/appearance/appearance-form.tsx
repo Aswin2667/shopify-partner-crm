@@ -96,7 +96,6 @@ export function AppearanceForm() {
                 Select the theme for the dashboard.
               </FormDescription>
               <FormMessage />
-              <ThemeCustomizer />
               <RadioGroup
                 onValueChange={field.onChange}
                 defaultValue={field.value}
