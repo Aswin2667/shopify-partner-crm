@@ -58,6 +58,7 @@ model Organization {
   contact      Contact[]
   Template     Template[]
   LeadStatus   LeadStatus[]
+  LeadProject  LeadProject[]
 }
 
 model OrgMember {
@@ -128,15 +129,17 @@ model Lead {
 }
 
 model LeadProject {
-  id            String      @id @default(uuid())
+  id            String       @id @default(uuid())
   leadId        String
   projectId     String
   integrationId String
-  integration   Integration @relation(fields: [integrationId], references: [id])
-  lead          Lead        @relation(fields: [leadId], references: [id])
-  project       Project     @relation(fields: [projectId], references: [id])
-  createdAt     BigInt      @default(autoincrement())
-  updatedAt     BigInt      @default(autoincrement())
+  orgId         String
+  integration   Integration  @relation(fields: [integrationId], references: [id])
+  lead          Lead         @relation(fields: [leadId], references: [id])
+  project       Project      @relation(fields: [projectId], references: [id])
+  organizatioon Organization @relation(fields: [orgId], references: [id])
+  createdAt     BigInt       @default(autoincrement())
+  updatedAt     BigInt       @default(autoincrement())
   deletedAt     BigInt
   status        String?
 

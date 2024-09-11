@@ -2351,6 +2351,7 @@ export namespace Prisma {
     contact: number
     Template: number
     LeadStatus: number
+    LeadProject: number
   }
 
   export type OrganizationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2362,6 +2363,7 @@ export namespace Prisma {
     contact?: boolean | OrganizationCountOutputTypeCountContactArgs
     Template?: boolean | OrganizationCountOutputTypeCountTemplateArgs
     LeadStatus?: boolean | OrganizationCountOutputTypeCountLeadStatusArgs
+    LeadProject?: boolean | OrganizationCountOutputTypeCountLeadProjectArgs
   }
 
   // Custom InputTypes
@@ -2429,6 +2431,13 @@ export namespace Prisma {
    */
   export type OrganizationCountOutputTypeCountLeadStatusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LeadStatusWhereInput
+  }
+
+  /**
+   * OrganizationCountOutputType without action
+   */
+  export type OrganizationCountOutputTypeCountLeadProjectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeadProjectWhereInput
   }
 
 
@@ -5066,6 +5075,7 @@ export namespace Prisma {
     contact?: boolean | Organization$contactArgs<ExtArgs>
     Template?: boolean | Organization$TemplateArgs<ExtArgs>
     LeadStatus?: boolean | Organization$LeadStatusArgs<ExtArgs>
+    LeadProject?: boolean | Organization$LeadProjectArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["organization"]>
 
@@ -5098,6 +5108,7 @@ export namespace Prisma {
     contact?: boolean | Organization$contactArgs<ExtArgs>
     Template?: boolean | Organization$TemplateArgs<ExtArgs>
     LeadStatus?: boolean | Organization$LeadStatusArgs<ExtArgs>
+    LeadProject?: boolean | Organization$LeadProjectArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OrganizationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5113,6 +5124,7 @@ export namespace Prisma {
       contact: Prisma.$ContactPayload<ExtArgs>[]
       Template: Prisma.$TemplatePayload<ExtArgs>[]
       LeadStatus: Prisma.$LeadStatusPayload<ExtArgs>[]
+      LeadProject: Prisma.$LeadProjectPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5494,6 +5506,7 @@ export namespace Prisma {
     contact<T extends Organization$contactArgs<ExtArgs> = {}>(args?: Subset<T, Organization$contactArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findMany"> | Null>
     Template<T extends Organization$TemplateArgs<ExtArgs> = {}>(args?: Subset<T, Organization$TemplateArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemplatePayload<ExtArgs>, T, "findMany"> | Null>
     LeadStatus<T extends Organization$LeadStatusArgs<ExtArgs> = {}>(args?: Subset<T, Organization$LeadStatusArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadStatusPayload<ExtArgs>, T, "findMany"> | Null>
+    LeadProject<T extends Organization$LeadProjectArgs<ExtArgs> = {}>(args?: Subset<T, Organization$LeadProjectArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadProjectPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6001,6 +6014,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LeadStatusScalarFieldEnum | LeadStatusScalarFieldEnum[]
+  }
+
+  /**
+   * Organization.LeadProject
+   */
+  export type Organization$LeadProjectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeadProject
+     */
+    select?: LeadProjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadProjectInclude<ExtArgs> | null
+    where?: LeadProjectWhereInput
+    orderBy?: LeadProjectOrderByWithRelationInput | LeadProjectOrderByWithRelationInput[]
+    cursor?: LeadProjectWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeadProjectScalarFieldEnum | LeadProjectScalarFieldEnum[]
   }
 
   /**
@@ -10377,6 +10410,7 @@ export namespace Prisma {
     leadId: string | null
     projectId: string | null
     integrationId: string | null
+    orgId: string | null
     createdAt: bigint | null
     updatedAt: bigint | null
     deletedAt: bigint | null
@@ -10388,6 +10422,7 @@ export namespace Prisma {
     leadId: string | null
     projectId: string | null
     integrationId: string | null
+    orgId: string | null
     createdAt: bigint | null
     updatedAt: bigint | null
     deletedAt: bigint | null
@@ -10399,6 +10434,7 @@ export namespace Prisma {
     leadId: number
     projectId: number
     integrationId: number
+    orgId: number
     createdAt: number
     updatedAt: number
     deletedAt: number
@@ -10424,6 +10460,7 @@ export namespace Prisma {
     leadId?: true
     projectId?: true
     integrationId?: true
+    orgId?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -10435,6 +10472,7 @@ export namespace Prisma {
     leadId?: true
     projectId?: true
     integrationId?: true
+    orgId?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -10446,6 +10484,7 @@ export namespace Prisma {
     leadId?: true
     projectId?: true
     integrationId?: true
+    orgId?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -10544,6 +10583,7 @@ export namespace Prisma {
     leadId: string
     projectId: string
     integrationId: string
+    orgId: string
     createdAt: bigint
     updatedAt: bigint
     deletedAt: bigint
@@ -10574,6 +10614,7 @@ export namespace Prisma {
     leadId?: boolean
     projectId?: boolean
     integrationId?: boolean
+    orgId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
@@ -10581,6 +10622,7 @@ export namespace Prisma {
     integration?: boolean | IntegrationDefaultArgs<ExtArgs>
     lead?: boolean | LeadDefaultArgs<ExtArgs>
     project?: boolean | ProjectDefaultArgs<ExtArgs>
+    organizatioon?: boolean | OrganizationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["leadProject"]>
 
   export type LeadProjectSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -10588,6 +10630,7 @@ export namespace Prisma {
     leadId?: boolean
     projectId?: boolean
     integrationId?: boolean
+    orgId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
@@ -10595,6 +10638,7 @@ export namespace Prisma {
     integration?: boolean | IntegrationDefaultArgs<ExtArgs>
     lead?: boolean | LeadDefaultArgs<ExtArgs>
     project?: boolean | ProjectDefaultArgs<ExtArgs>
+    organizatioon?: boolean | OrganizationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["leadProject"]>
 
   export type LeadProjectSelectScalar = {
@@ -10602,6 +10646,7 @@ export namespace Prisma {
     leadId?: boolean
     projectId?: boolean
     integrationId?: boolean
+    orgId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
@@ -10612,11 +10657,13 @@ export namespace Prisma {
     integration?: boolean | IntegrationDefaultArgs<ExtArgs>
     lead?: boolean | LeadDefaultArgs<ExtArgs>
     project?: boolean | ProjectDefaultArgs<ExtArgs>
+    organizatioon?: boolean | OrganizationDefaultArgs<ExtArgs>
   }
   export type LeadProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     integration?: boolean | IntegrationDefaultArgs<ExtArgs>
     lead?: boolean | LeadDefaultArgs<ExtArgs>
     project?: boolean | ProjectDefaultArgs<ExtArgs>
+    organizatioon?: boolean | OrganizationDefaultArgs<ExtArgs>
   }
 
   export type $LeadProjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10625,12 +10672,14 @@ export namespace Prisma {
       integration: Prisma.$IntegrationPayload<ExtArgs>
       lead: Prisma.$LeadPayload<ExtArgs>
       project: Prisma.$ProjectPayload<ExtArgs>
+      organizatioon: Prisma.$OrganizationPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       leadId: string
       projectId: string
       integrationId: string
+      orgId: string
       createdAt: bigint
       updatedAt: bigint
       deletedAt: bigint
@@ -11002,6 +11051,7 @@ export namespace Prisma {
     integration<T extends IntegrationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, IntegrationDefaultArgs<ExtArgs>>): Prisma__IntegrationClient<$Result.GetResult<Prisma.$IntegrationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     lead<T extends LeadDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LeadDefaultArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    organizatioon<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11035,6 +11085,7 @@ export namespace Prisma {
     readonly leadId: FieldRef<"LeadProject", 'String'>
     readonly projectId: FieldRef<"LeadProject", 'String'>
     readonly integrationId: FieldRef<"LeadProject", 'String'>
+    readonly orgId: FieldRef<"LeadProject", 'String'>
     readonly createdAt: FieldRef<"LeadProject", 'BigInt'>
     readonly updatedAt: FieldRef<"LeadProject", 'BigInt'>
     readonly deletedAt: FieldRef<"LeadProject", 'BigInt'>
@@ -20042,6 +20093,7 @@ export namespace Prisma {
     leadId: 'leadId',
     projectId: 'projectId',
     integrationId: 'integrationId',
+    orgId: 'orgId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deletedAt: 'deletedAt',
@@ -20592,6 +20644,7 @@ export namespace Prisma {
     contact?: ContactListRelationFilter
     Template?: TemplateListRelationFilter
     LeadStatus?: LeadStatusListRelationFilter
+    LeadProject?: LeadProjectListRelationFilter
   }
 
   export type OrganizationOrderByWithRelationInput = {
@@ -20610,6 +20663,7 @@ export namespace Prisma {
     contact?: ContactOrderByRelationAggregateInput
     Template?: TemplateOrderByRelationAggregateInput
     LeadStatus?: LeadStatusOrderByRelationAggregateInput
+    LeadProject?: LeadProjectOrderByRelationAggregateInput
   }
 
   export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
@@ -20631,6 +20685,7 @@ export namespace Prisma {
     contact?: ContactListRelationFilter
     Template?: TemplateListRelationFilter
     LeadStatus?: LeadStatusListRelationFilter
+    LeadProject?: LeadProjectListRelationFilter
   }, "id">
 
   export type OrganizationOrderByWithAggregationInput = {
@@ -21019,6 +21074,7 @@ export namespace Prisma {
     leadId?: StringFilter<"LeadProject"> | string
     projectId?: StringFilter<"LeadProject"> | string
     integrationId?: StringFilter<"LeadProject"> | string
+    orgId?: StringFilter<"LeadProject"> | string
     createdAt?: BigIntFilter<"LeadProject"> | bigint | number
     updatedAt?: BigIntFilter<"LeadProject"> | bigint | number
     deletedAt?: BigIntFilter<"LeadProject"> | bigint | number
@@ -21026,6 +21082,7 @@ export namespace Prisma {
     integration?: XOR<IntegrationRelationFilter, IntegrationWhereInput>
     lead?: XOR<LeadRelationFilter, LeadWhereInput>
     project?: XOR<ProjectRelationFilter, ProjectWhereInput>
+    organizatioon?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
   }
 
   export type LeadProjectOrderByWithRelationInput = {
@@ -21033,6 +21090,7 @@ export namespace Prisma {
     leadId?: SortOrder
     projectId?: SortOrder
     integrationId?: SortOrder
+    orgId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -21040,6 +21098,7 @@ export namespace Prisma {
     integration?: IntegrationOrderByWithRelationInput
     lead?: LeadOrderByWithRelationInput
     project?: ProjectOrderByWithRelationInput
+    organizatioon?: OrganizationOrderByWithRelationInput
   }
 
   export type LeadProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -21051,6 +21110,7 @@ export namespace Prisma {
     leadId?: StringFilter<"LeadProject"> | string
     projectId?: StringFilter<"LeadProject"> | string
     integrationId?: StringFilter<"LeadProject"> | string
+    orgId?: StringFilter<"LeadProject"> | string
     createdAt?: BigIntFilter<"LeadProject"> | bigint | number
     updatedAt?: BigIntFilter<"LeadProject"> | bigint | number
     deletedAt?: BigIntFilter<"LeadProject"> | bigint | number
@@ -21058,6 +21118,7 @@ export namespace Prisma {
     integration?: XOR<IntegrationRelationFilter, IntegrationWhereInput>
     lead?: XOR<LeadRelationFilter, LeadWhereInput>
     project?: XOR<ProjectRelationFilter, ProjectWhereInput>
+    organizatioon?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
   }, "id" | "projectId_leadId">
 
   export type LeadProjectOrderByWithAggregationInput = {
@@ -21065,6 +21126,7 @@ export namespace Prisma {
     leadId?: SortOrder
     projectId?: SortOrder
     integrationId?: SortOrder
+    orgId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -21084,6 +21146,7 @@ export namespace Prisma {
     leadId?: StringWithAggregatesFilter<"LeadProject"> | string
     projectId?: StringWithAggregatesFilter<"LeadProject"> | string
     integrationId?: StringWithAggregatesFilter<"LeadProject"> | string
+    orgId?: StringWithAggregatesFilter<"LeadProject"> | string
     createdAt?: BigIntWithAggregatesFilter<"LeadProject"> | bigint | number
     updatedAt?: BigIntWithAggregatesFilter<"LeadProject"> | bigint | number
     deletedAt?: BigIntWithAggregatesFilter<"LeadProject"> | bigint | number
@@ -21996,6 +22059,7 @@ export namespace Prisma {
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationUncheckedCreateInput = {
@@ -22014,6 +22078,7 @@ export namespace Prisma {
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationUpdateInput = {
@@ -22032,6 +22097,7 @@ export namespace Prisma {
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type OrganizationUncheckedUpdateInput = {
@@ -22050,6 +22116,7 @@ export namespace Prisma {
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type OrganizationCreateManyInput = {
@@ -22453,6 +22520,7 @@ export namespace Prisma {
     integration: IntegrationCreateNestedOneWithoutLeadProjectInput
     lead: LeadCreateNestedOneWithoutProjectInput
     project: ProjectCreateNestedOneWithoutLeadProjectInput
+    organizatioon: OrganizationCreateNestedOneWithoutLeadProjectInput
   }
 
   export type LeadProjectUncheckedCreateInput = {
@@ -22460,6 +22528,7 @@ export namespace Prisma {
     leadId: string
     projectId: string
     integrationId: string
+    orgId: string
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
@@ -22475,6 +22544,7 @@ export namespace Prisma {
     integration?: IntegrationUpdateOneRequiredWithoutLeadProjectNestedInput
     lead?: LeadUpdateOneRequiredWithoutProjectNestedInput
     project?: ProjectUpdateOneRequiredWithoutLeadProjectNestedInput
+    organizatioon?: OrganizationUpdateOneRequiredWithoutLeadProjectNestedInput
   }
 
   export type LeadProjectUncheckedUpdateInput = {
@@ -22482,6 +22552,7 @@ export namespace Prisma {
     leadId?: StringFieldUpdateOperationsInput | string
     projectId?: StringFieldUpdateOperationsInput | string
     integrationId?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -22493,6 +22564,7 @@ export namespace Prisma {
     leadId: string
     projectId: string
     integrationId: string
+    orgId: string
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
@@ -22512,6 +22584,7 @@ export namespace Prisma {
     leadId?: StringFieldUpdateOperationsInput | string
     projectId?: StringFieldUpdateOperationsInput | string
     integrationId?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -23613,6 +23686,12 @@ export namespace Prisma {
     none?: LeadStatusWhereInput
   }
 
+  export type LeadProjectListRelationFilter = {
+    every?: LeadProjectWhereInput
+    some?: LeadProjectWhereInput
+    none?: LeadProjectWhereInput
+  }
+
   export type ProjectOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -23630,6 +23709,10 @@ export namespace Prisma {
   }
 
   export type LeadStatusOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LeadProjectOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -23760,19 +23843,9 @@ export namespace Prisma {
     not?: NestedBigIntNullableFilter<$PrismaModel> | bigint | number | null
   }
 
-  export type LeadProjectListRelationFilter = {
-    every?: LeadProjectWhereInput
-    some?: LeadProjectWhereInput
-    none?: LeadProjectWhereInput
-  }
-
   export type IntegrationRelationFilter = {
     is?: IntegrationWhereInput
     isNot?: IntegrationWhereInput
-  }
-
-  export type LeadProjectOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type ProjectCountOrderByAggregateInput = {
@@ -24060,6 +24133,7 @@ export namespace Prisma {
     leadId?: SortOrder
     projectId?: SortOrder
     integrationId?: SortOrder
+    orgId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -24077,6 +24151,7 @@ export namespace Prisma {
     leadId?: SortOrder
     projectId?: SortOrder
     integrationId?: SortOrder
+    orgId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -24088,6 +24163,7 @@ export namespace Prisma {
     leadId?: SortOrder
     projectId?: SortOrder
     integrationId?: SortOrder
+    orgId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -24989,6 +25065,13 @@ export namespace Prisma {
     connect?: LeadStatusWhereUniqueInput | LeadStatusWhereUniqueInput[]
   }
 
+  export type LeadProjectCreateNestedManyWithoutOrganizatioonInput = {
+    create?: XOR<LeadProjectCreateWithoutOrganizatioonInput, LeadProjectUncheckedCreateWithoutOrganizatioonInput> | LeadProjectCreateWithoutOrganizatioonInput[] | LeadProjectUncheckedCreateWithoutOrganizatioonInput[]
+    connectOrCreate?: LeadProjectCreateOrConnectWithoutOrganizatioonInput | LeadProjectCreateOrConnectWithoutOrganizatioonInput[]
+    createMany?: LeadProjectCreateManyOrganizatioonInputEnvelope
+    connect?: LeadProjectWhereUniqueInput | LeadProjectWhereUniqueInput[]
+  }
+
   export type ProjectUncheckedCreateNestedManyWithoutOrganizationInput = {
     create?: XOR<ProjectCreateWithoutOrganizationInput, ProjectUncheckedCreateWithoutOrganizationInput> | ProjectCreateWithoutOrganizationInput[] | ProjectUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutOrganizationInput | ProjectCreateOrConnectWithoutOrganizationInput[]
@@ -25043,6 +25126,13 @@ export namespace Prisma {
     connectOrCreate?: LeadStatusCreateOrConnectWithoutOrganizationInput | LeadStatusCreateOrConnectWithoutOrganizationInput[]
     createMany?: LeadStatusCreateManyOrganizationInputEnvelope
     connect?: LeadStatusWhereUniqueInput | LeadStatusWhereUniqueInput[]
+  }
+
+  export type LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput = {
+    create?: XOR<LeadProjectCreateWithoutOrganizatioonInput, LeadProjectUncheckedCreateWithoutOrganizatioonInput> | LeadProjectCreateWithoutOrganizatioonInput[] | LeadProjectUncheckedCreateWithoutOrganizatioonInput[]
+    connectOrCreate?: LeadProjectCreateOrConnectWithoutOrganizatioonInput | LeadProjectCreateOrConnectWithoutOrganizatioonInput[]
+    createMany?: LeadProjectCreateManyOrganizatioonInputEnvelope
+    connect?: LeadProjectWhereUniqueInput | LeadProjectWhereUniqueInput[]
   }
 
   export type ProjectUpdateManyWithoutOrganizationNestedInput = {
@@ -25157,6 +25247,20 @@ export namespace Prisma {
     deleteMany?: LeadStatusScalarWhereInput | LeadStatusScalarWhereInput[]
   }
 
+  export type LeadProjectUpdateManyWithoutOrganizatioonNestedInput = {
+    create?: XOR<LeadProjectCreateWithoutOrganizatioonInput, LeadProjectUncheckedCreateWithoutOrganizatioonInput> | LeadProjectCreateWithoutOrganizatioonInput[] | LeadProjectUncheckedCreateWithoutOrganizatioonInput[]
+    connectOrCreate?: LeadProjectCreateOrConnectWithoutOrganizatioonInput | LeadProjectCreateOrConnectWithoutOrganizatioonInput[]
+    upsert?: LeadProjectUpsertWithWhereUniqueWithoutOrganizatioonInput | LeadProjectUpsertWithWhereUniqueWithoutOrganizatioonInput[]
+    createMany?: LeadProjectCreateManyOrganizatioonInputEnvelope
+    set?: LeadProjectWhereUniqueInput | LeadProjectWhereUniqueInput[]
+    disconnect?: LeadProjectWhereUniqueInput | LeadProjectWhereUniqueInput[]
+    delete?: LeadProjectWhereUniqueInput | LeadProjectWhereUniqueInput[]
+    connect?: LeadProjectWhereUniqueInput | LeadProjectWhereUniqueInput[]
+    update?: LeadProjectUpdateWithWhereUniqueWithoutOrganizatioonInput | LeadProjectUpdateWithWhereUniqueWithoutOrganizatioonInput[]
+    updateMany?: LeadProjectUpdateManyWithWhereWithoutOrganizatioonInput | LeadProjectUpdateManyWithWhereWithoutOrganizatioonInput[]
+    deleteMany?: LeadProjectScalarWhereInput | LeadProjectScalarWhereInput[]
+  }
+
   export type ProjectUncheckedUpdateManyWithoutOrganizationNestedInput = {
     create?: XOR<ProjectCreateWithoutOrganizationInput, ProjectUncheckedCreateWithoutOrganizationInput> | ProjectCreateWithoutOrganizationInput[] | ProjectUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutOrganizationInput | ProjectCreateOrConnectWithoutOrganizationInput[]
@@ -25267,6 +25371,20 @@ export namespace Prisma {
     update?: LeadStatusUpdateWithWhereUniqueWithoutOrganizationInput | LeadStatusUpdateWithWhereUniqueWithoutOrganizationInput[]
     updateMany?: LeadStatusUpdateManyWithWhereWithoutOrganizationInput | LeadStatusUpdateManyWithWhereWithoutOrganizationInput[]
     deleteMany?: LeadStatusScalarWhereInput | LeadStatusScalarWhereInput[]
+  }
+
+  export type LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput = {
+    create?: XOR<LeadProjectCreateWithoutOrganizatioonInput, LeadProjectUncheckedCreateWithoutOrganizatioonInput> | LeadProjectCreateWithoutOrganizatioonInput[] | LeadProjectUncheckedCreateWithoutOrganizatioonInput[]
+    connectOrCreate?: LeadProjectCreateOrConnectWithoutOrganizatioonInput | LeadProjectCreateOrConnectWithoutOrganizatioonInput[]
+    upsert?: LeadProjectUpsertWithWhereUniqueWithoutOrganizatioonInput | LeadProjectUpsertWithWhereUniqueWithoutOrganizatioonInput[]
+    createMany?: LeadProjectCreateManyOrganizatioonInputEnvelope
+    set?: LeadProjectWhereUniqueInput | LeadProjectWhereUniqueInput[]
+    disconnect?: LeadProjectWhereUniqueInput | LeadProjectWhereUniqueInput[]
+    delete?: LeadProjectWhereUniqueInput | LeadProjectWhereUniqueInput[]
+    connect?: LeadProjectWhereUniqueInput | LeadProjectWhereUniqueInput[]
+    update?: LeadProjectUpdateWithWhereUniqueWithoutOrganizatioonInput | LeadProjectUpdateWithWhereUniqueWithoutOrganizatioonInput[]
+    updateMany?: LeadProjectUpdateManyWithWhereWithoutOrganizatioonInput | LeadProjectUpdateManyWithWhereWithoutOrganizatioonInput[]
+    deleteMany?: LeadProjectScalarWhereInput | LeadProjectScalarWhereInput[]
   }
 
   export type OrganizationCreateNestedOneWithoutMembersInput = {
@@ -25723,6 +25841,12 @@ export namespace Prisma {
     connect?: ProjectWhereUniqueInput
   }
 
+  export type OrganizationCreateNestedOneWithoutLeadProjectInput = {
+    create?: XOR<OrganizationCreateWithoutLeadProjectInput, OrganizationUncheckedCreateWithoutLeadProjectInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutLeadProjectInput
+    connect?: OrganizationWhereUniqueInput
+  }
+
   export type IntegrationUpdateOneRequiredWithoutLeadProjectNestedInput = {
     create?: XOR<IntegrationCreateWithoutLeadProjectInput, IntegrationUncheckedCreateWithoutLeadProjectInput>
     connectOrCreate?: IntegrationCreateOrConnectWithoutLeadProjectInput
@@ -25745,6 +25869,14 @@ export namespace Prisma {
     upsert?: ProjectUpsertWithoutLeadProjectInput
     connect?: ProjectWhereUniqueInput
     update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutLeadProjectInput, ProjectUpdateWithoutLeadProjectInput>, ProjectUncheckedUpdateWithoutLeadProjectInput>
+  }
+
+  export type OrganizationUpdateOneRequiredWithoutLeadProjectNestedInput = {
+    create?: XOR<OrganizationCreateWithoutLeadProjectInput, OrganizationUncheckedCreateWithoutLeadProjectInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutLeadProjectInput
+    upsert?: OrganizationUpsertWithoutLeadProjectInput
+    connect?: OrganizationWhereUniqueInput
+    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutLeadProjectInput, OrganizationUpdateWithoutLeadProjectInput>, OrganizationUncheckedUpdateWithoutLeadProjectInput>
   }
 
   export type OrganizationCreateNestedOneWithoutContactInput = {
@@ -26954,6 +27086,7 @@ export namespace Prisma {
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationUncheckedCreateWithoutInvitesInput = {
@@ -26971,6 +27104,7 @@ export namespace Prisma {
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationCreateOrConnectWithoutInvitesInput = {
@@ -27045,6 +27179,7 @@ export namespace Prisma {
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutInvitesInput = {
@@ -27062,6 +27197,7 @@ export namespace Prisma {
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type ProjectCreateWithoutOrganizationInput = {
@@ -27358,6 +27494,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type LeadProjectCreateWithoutOrganizatioonInput = {
+    id?: string
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    status?: string | null
+    integration: IntegrationCreateNestedOneWithoutLeadProjectInput
+    lead: LeadCreateNestedOneWithoutProjectInput
+    project: ProjectCreateNestedOneWithoutLeadProjectInput
+  }
+
+  export type LeadProjectUncheckedCreateWithoutOrganizatioonInput = {
+    id?: string
+    leadId: string
+    projectId: string
+    integrationId: string
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    status?: string | null
+  }
+
+  export type LeadProjectCreateOrConnectWithoutOrganizatioonInput = {
+    where: LeadProjectWhereUniqueInput
+    create: XOR<LeadProjectCreateWithoutOrganizatioonInput, LeadProjectUncheckedCreateWithoutOrganizatioonInput>
+  }
+
+  export type LeadProjectCreateManyOrganizatioonInputEnvelope = {
+    data: LeadProjectCreateManyOrganizatioonInput | LeadProjectCreateManyOrganizatioonInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProjectUpsertWithWhereUniqueWithoutOrganizationInput = {
     where: ProjectWhereUniqueInput
     update: XOR<ProjectUpdateWithoutOrganizationInput, ProjectUncheckedUpdateWithoutOrganizationInput>
@@ -27571,6 +27739,37 @@ export namespace Prisma {
     organizationId?: StringFilter<"LeadStatus"> | string
   }
 
+  export type LeadProjectUpsertWithWhereUniqueWithoutOrganizatioonInput = {
+    where: LeadProjectWhereUniqueInput
+    update: XOR<LeadProjectUpdateWithoutOrganizatioonInput, LeadProjectUncheckedUpdateWithoutOrganizatioonInput>
+    create: XOR<LeadProjectCreateWithoutOrganizatioonInput, LeadProjectUncheckedCreateWithoutOrganizatioonInput>
+  }
+
+  export type LeadProjectUpdateWithWhereUniqueWithoutOrganizatioonInput = {
+    where: LeadProjectWhereUniqueInput
+    data: XOR<LeadProjectUpdateWithoutOrganizatioonInput, LeadProjectUncheckedUpdateWithoutOrganizatioonInput>
+  }
+
+  export type LeadProjectUpdateManyWithWhereWithoutOrganizatioonInput = {
+    where: LeadProjectScalarWhereInput
+    data: XOR<LeadProjectUpdateManyMutationInput, LeadProjectUncheckedUpdateManyWithoutOrganizatioonInput>
+  }
+
+  export type LeadProjectScalarWhereInput = {
+    AND?: LeadProjectScalarWhereInput | LeadProjectScalarWhereInput[]
+    OR?: LeadProjectScalarWhereInput[]
+    NOT?: LeadProjectScalarWhereInput | LeadProjectScalarWhereInput[]
+    id?: StringFilter<"LeadProject"> | string
+    leadId?: StringFilter<"LeadProject"> | string
+    projectId?: StringFilter<"LeadProject"> | string
+    integrationId?: StringFilter<"LeadProject"> | string
+    orgId?: StringFilter<"LeadProject"> | string
+    createdAt?: BigIntFilter<"LeadProject"> | bigint | number
+    updatedAt?: BigIntFilter<"LeadProject"> | bigint | number
+    deletedAt?: BigIntFilter<"LeadProject"> | bigint | number
+    status?: StringNullableFilter<"LeadProject"> | string | null
+  }
+
   export type OrganizationCreateWithoutMembersInput = {
     id?: string
     name: string
@@ -27586,6 +27785,7 @@ export namespace Prisma {
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationUncheckedCreateWithoutMembersInput = {
@@ -27603,6 +27803,7 @@ export namespace Prisma {
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationCreateOrConnectWithoutMembersInput = {
@@ -27671,6 +27872,7 @@ export namespace Prisma {
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutMembersInput = {
@@ -27688,6 +27890,7 @@ export namespace Prisma {
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type UserUpsertWithoutOrgMembersInput = {
@@ -27746,6 +27949,7 @@ export namespace Prisma {
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationUncheckedCreateWithoutProjectInput = {
@@ -27763,6 +27967,7 @@ export namespace Prisma {
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationCreateOrConnectWithoutProjectInput = {
@@ -27778,12 +27983,14 @@ export namespace Prisma {
     status?: string | null
     integration: IntegrationCreateNestedOneWithoutLeadProjectInput
     lead: LeadCreateNestedOneWithoutProjectInput
+    organizatioon: OrganizationCreateNestedOneWithoutLeadProjectInput
   }
 
   export type LeadProjectUncheckedCreateWithoutProjectInput = {
     id?: string
     leadId: string
     integrationId: string
+    orgId: string
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
@@ -27863,6 +28070,7 @@ export namespace Prisma {
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutProjectInput = {
@@ -27880,6 +28088,7 @@ export namespace Prisma {
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type LeadProjectUpsertWithWhereUniqueWithoutProjectInput = {
@@ -27896,20 +28105,6 @@ export namespace Prisma {
   export type LeadProjectUpdateManyWithWhereWithoutProjectInput = {
     where: LeadProjectScalarWhereInput
     data: XOR<LeadProjectUpdateManyMutationInput, LeadProjectUncheckedUpdateManyWithoutProjectInput>
-  }
-
-  export type LeadProjectScalarWhereInput = {
-    AND?: LeadProjectScalarWhereInput | LeadProjectScalarWhereInput[]
-    OR?: LeadProjectScalarWhereInput[]
-    NOT?: LeadProjectScalarWhereInput | LeadProjectScalarWhereInput[]
-    id?: StringFilter<"LeadProject"> | string
-    leadId?: StringFilter<"LeadProject"> | string
-    projectId?: StringFilter<"LeadProject"> | string
-    integrationId?: StringFilter<"LeadProject"> | string
-    createdAt?: BigIntFilter<"LeadProject"> | bigint | number
-    updatedAt?: BigIntFilter<"LeadProject"> | bigint | number
-    deletedAt?: BigIntFilter<"LeadProject"> | bigint | number
-    status?: StringNullableFilter<"LeadProject"> | string | null
   }
 
   export type IntegrationUpsertWithoutProjectInput = {
@@ -28202,12 +28397,14 @@ export namespace Prisma {
     status?: string | null
     integration: IntegrationCreateNestedOneWithoutLeadProjectInput
     project: ProjectCreateNestedOneWithoutLeadProjectInput
+    organizatioon: OrganizationCreateNestedOneWithoutLeadProjectInput
   }
 
   export type LeadProjectUncheckedCreateWithoutLeadInput = {
     id?: string
     projectId: string
     integrationId: string
+    orgId: string
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
@@ -28379,6 +28576,7 @@ export namespace Prisma {
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationUncheckedCreateWithoutLeadInput = {
@@ -28396,6 +28594,7 @@ export namespace Prisma {
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationCreateOrConnectWithoutLeadInput = {
@@ -28590,6 +28789,7 @@ export namespace Prisma {
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutLeadInput = {
@@ -28607,6 +28807,7 @@ export namespace Prisma {
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type IntegrationUpsertWithoutLeadInput = {
@@ -28765,6 +28966,47 @@ export namespace Prisma {
     create: XOR<ProjectCreateWithoutLeadProjectInput, ProjectUncheckedCreateWithoutLeadProjectInput>
   }
 
+  export type OrganizationCreateWithoutLeadProjectInput = {
+    id?: string
+    name: string
+    logo?: string | null
+    description?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    Project?: ProjectCreateNestedManyWithoutOrganizationInput
+    members?: OrgMemberCreateNestedManyWithoutOrganizationInput
+    invites?: OrgMemberInviteCreateNestedManyWithoutOrganizationInput
+    integrations?: IntegrationCreateNestedManyWithoutOrganizationInput
+    Lead?: LeadCreateNestedManyWithoutOrganizationInput
+    contact?: ContactCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationUncheckedCreateWithoutLeadProjectInput = {
+    id?: string
+    name: string
+    logo?: string | null
+    description?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
+    members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
+    invites?: OrgMemberInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    integrations?: IntegrationUncheckedCreateNestedManyWithoutOrganizationInput
+    Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
+    contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationCreateOrConnectWithoutLeadProjectInput = {
+    where: OrganizationWhereUniqueInput
+    create: XOR<OrganizationCreateWithoutLeadProjectInput, OrganizationUncheckedCreateWithoutLeadProjectInput>
+  }
+
   export type IntegrationUpsertWithoutLeadProjectInput = {
     update: XOR<IntegrationUpdateWithoutLeadProjectInput, IntegrationUncheckedUpdateWithoutLeadProjectInput>
     create: XOR<IntegrationCreateWithoutLeadProjectInput, IntegrationUncheckedCreateWithoutLeadProjectInput>
@@ -28896,6 +29138,53 @@ export namespace Prisma {
     integrationId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type OrganizationUpsertWithoutLeadProjectInput = {
+    update: XOR<OrganizationUpdateWithoutLeadProjectInput, OrganizationUncheckedUpdateWithoutLeadProjectInput>
+    create: XOR<OrganizationCreateWithoutLeadProjectInput, OrganizationUncheckedCreateWithoutLeadProjectInput>
+    where?: OrganizationWhereInput
+  }
+
+  export type OrganizationUpdateToOneWithWhereWithoutLeadProjectInput = {
+    where?: OrganizationWhereInput
+    data: XOR<OrganizationUpdateWithoutLeadProjectInput, OrganizationUncheckedUpdateWithoutLeadProjectInput>
+  }
+
+  export type OrganizationUpdateWithoutLeadProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    Project?: ProjectUpdateManyWithoutOrganizationNestedInput
+    members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
+    invites?: OrgMemberInviteUpdateManyWithoutOrganizationNestedInput
+    integrations?: IntegrationUpdateManyWithoutOrganizationNestedInput
+    Lead?: LeadUpdateManyWithoutOrganizationNestedInput
+    contact?: ContactUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+  }
+
+  export type OrganizationUncheckedUpdateWithoutLeadProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
+    members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
+    invites?: OrgMemberInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    integrations?: IntegrationUncheckedUpdateManyWithoutOrganizationNestedInput
+    Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
+    contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+  }
+
   export type OrganizationCreateWithoutContactInput = {
     id?: string
     name: string
@@ -28911,6 +29200,7 @@ export namespace Prisma {
     Lead?: LeadCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationUncheckedCreateWithoutContactInput = {
@@ -28928,6 +29218,7 @@ export namespace Prisma {
     Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationCreateOrConnectWithoutContactInput = {
@@ -29041,6 +29332,7 @@ export namespace Prisma {
     Lead?: LeadUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutContactInput = {
@@ -29058,6 +29350,7 @@ export namespace Prisma {
     Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type IntegrationUpsertWithoutContactInput = {
@@ -29682,6 +29975,7 @@ export namespace Prisma {
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationUncheckedCreateWithoutIntegrationsInput = {
@@ -29699,6 +29993,7 @@ export namespace Prisma {
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationCreateOrConnectWithoutIntegrationsInput = {
@@ -29808,12 +30103,14 @@ export namespace Prisma {
     status?: string | null
     lead: LeadCreateNestedOneWithoutProjectInput
     project: ProjectCreateNestedOneWithoutLeadProjectInput
+    organizatioon: OrganizationCreateNestedOneWithoutLeadProjectInput
   }
 
   export type LeadProjectUncheckedCreateWithoutIntegrationInput = {
     id?: string
     leadId: string
     projectId: string
+    orgId: string
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
@@ -29872,6 +30169,7 @@ export namespace Prisma {
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutIntegrationsInput = {
@@ -29889,6 +30187,7 @@ export namespace Prisma {
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutIntegrationInput = {
@@ -29954,6 +30253,7 @@ export namespace Prisma {
     Lead?: LeadCreateNestedManyWithoutOrganizationInput
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationUncheckedCreateWithoutTemplateInput = {
@@ -29971,6 +30271,7 @@ export namespace Prisma {
     Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationCreateOrConnectWithoutTemplateInput = {
@@ -30039,6 +30340,7 @@ export namespace Prisma {
     Lead?: LeadUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutTemplateInput = {
@@ -30056,6 +30358,7 @@ export namespace Prisma {
     Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type UserUpsertWithoutTemplatesInput = {
@@ -30162,6 +30465,7 @@ export namespace Prisma {
     Lead?: LeadCreateNestedManyWithoutOrganizationInput
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationUncheckedCreateWithoutLeadStatusInput = {
@@ -30179,6 +30483,7 @@ export namespace Prisma {
     Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
   }
 
   export type OrganizationCreateOrConnectWithoutLeadStatusInput = {
@@ -30228,6 +30533,7 @@ export namespace Prisma {
     Lead?: LeadUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutLeadStatusInput = {
@@ -30245,6 +30551,7 @@ export namespace Prisma {
     Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
   }
 
   export type LeadActivityCreateManyUserInput = {
@@ -30547,6 +30854,17 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+  }
+
+  export type LeadProjectCreateManyOrganizatioonInput = {
+    id?: string
+    leadId: string
+    projectId: string
+    integrationId: string
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    status?: string | null
   }
 
   export type ProjectUpdateWithoutOrganizationInput = {
@@ -30859,10 +31177,44 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
+  export type LeadProjectUpdateWithoutOrganizatioonInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    integration?: IntegrationUpdateOneRequiredWithoutLeadProjectNestedInput
+    lead?: LeadUpdateOneRequiredWithoutProjectNestedInput
+    project?: ProjectUpdateOneRequiredWithoutLeadProjectNestedInput
+  }
+
+  export type LeadProjectUncheckedUpdateWithoutOrganizatioonInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leadId?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type LeadProjectUncheckedUpdateManyWithoutOrganizatioonInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leadId?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    integrationId?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type LeadProjectCreateManyProjectInput = {
     id?: string
     leadId: string
     integrationId: string
+    orgId: string
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
@@ -30877,12 +31229,14 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
     integration?: IntegrationUpdateOneRequiredWithoutLeadProjectNestedInput
     lead?: LeadUpdateOneRequiredWithoutProjectNestedInput
+    organizatioon?: OrganizationUpdateOneRequiredWithoutLeadProjectNestedInput
   }
 
   export type LeadProjectUncheckedUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     leadId?: StringFieldUpdateOperationsInput | string
     integrationId?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -30893,6 +31247,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     leadId?: StringFieldUpdateOperationsInput | string
     integrationId?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -30947,6 +31302,7 @@ export namespace Prisma {
     id?: string
     projectId: string
     integrationId: string
+    orgId: string
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
@@ -31010,12 +31366,14 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
     integration?: IntegrationUpdateOneRequiredWithoutLeadProjectNestedInput
     project?: ProjectUpdateOneRequiredWithoutLeadProjectNestedInput
+    organizatioon?: OrganizationUpdateOneRequiredWithoutLeadProjectNestedInput
   }
 
   export type LeadProjectUncheckedUpdateWithoutLeadInput = {
     id?: StringFieldUpdateOperationsInput | string
     projectId?: StringFieldUpdateOperationsInput | string
     integrationId?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -31026,6 +31384,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     projectId?: StringFieldUpdateOperationsInput | string
     integrationId?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -31266,6 +31625,7 @@ export namespace Prisma {
     id?: string
     leadId: string
     projectId: string
+    orgId: string
     createdAt?: bigint | number
     updatedAt?: bigint | number
     deletedAt: bigint | number
@@ -31427,12 +31787,14 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
     lead?: LeadUpdateOneRequiredWithoutProjectNestedInput
     project?: ProjectUpdateOneRequiredWithoutLeadProjectNestedInput
+    organizatioon?: OrganizationUpdateOneRequiredWithoutLeadProjectNestedInput
   }
 
   export type LeadProjectUncheckedUpdateWithoutIntegrationInput = {
     id?: StringFieldUpdateOperationsInput | string
     leadId?: StringFieldUpdateOperationsInput | string
     projectId?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -31443,6 +31805,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     leadId?: StringFieldUpdateOperationsInput | string
     projectId?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number

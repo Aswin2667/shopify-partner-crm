@@ -4,11 +4,19 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { CreateLeadDto, UpdateLeadDto } from './dto/lead.dto';
-import { PrismaService } from 'src/config/prisma.service';
 import { DateHelper } from '@org/utils';
 import { randomUUID } from 'crypto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { LeadActivityService } from 'src/lead-activity/lead-activity.service';
+import { PrismaService } from 'src/config/prisma.service';
+interface ChargeData {
+  charge: {
+    amount: {
+      amount: string;
+    };
+  };
+  // Add other fields you might need
+}
 
 @Injectable()
 export class LeadService {
@@ -17,26 +25,51 @@ export class LeadService {
     private readonly prismaService: PrismaService,
     private readonly LeadActivityService: LeadActivityService,
   ) {}
-  async findAllByIntegrationId(appId: string) {
+  async findAllByOrganizationId(orgId: string) {
     try {
-      return await this.prismaService.lead.findMany({
-        where: {
-          // integrationId: appId,
-          organizationId: appId,
-        },
-        orderBy: {
-          createdAt: 'desc',
-        },
-        include: {
-          integration: {
-            select: {
-              name: true,
-              type: true,
-            },
-          },
-        },
-      });
-    } catch (error) {}
+      const rawQuery = `
+      SELECT 
+       l.id, 
+       l."shopifyDomain", 
+       l."shopifyStoreId", 
+       l."leadSource", 
+       l."shopDetails", 
+       l.industry, 
+       l."createdAt", 
+       l."updatedAt", 
+       l."deletedAt", 
+       l."integrationId", 
+       l."organizationId",
+       COUNT(lp."projectId") AS projectCount,
+       COALESCE(
+         json_agg(
+           json_build_object(
+             'id', p.id,
+             'name', p.name,
+             'type', p.type,
+             'data', p.data,
+             'isSynced', p."isSynced",
+             'createdAt', p."createdAt",
+             'updatedAt', p."updatedAt"
+           )
+         ) FILTER (WHERE p.id IS NOT NULL), '[]'::json
+       ) AS projects
+     FROM "Lead" l
+     LEFT JOIN "LeadProject" lp ON l.id = lp."leadId"
+     LEFT JOIN "Project" p ON lp."projectId" = p.id
+     WHERE l."organizationId" = $1
+     GROUP BY l.id
+     ORDER BY l."createdAt" DESC
+     ;
+ `;
+ 
+
+      const leads = await prisma.$queryRawUnsafe(rawQuery, orgId);
+
+      return leads;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findOne(leadId: string) {
@@ -71,7 +104,9 @@ export class LeadService {
 
   async create(createLeadDto: CreateLeadDto) {
     try {
-      console.log('----------------------------------' + JSON.stringify(createLeadDto));
+      console.log(
+        '----------------------------------' + JSON.stringify(createLeadDto),
+      );
       const lead = await this.prismaService.lead.create({
         data: {
           shopifyDomain: createLeadDto.myShopifyDomain,
@@ -82,18 +117,9 @@ export class LeadService {
           updatedAt: 0,
           deletedAt: 0,
           organizationId: createLeadDto.organizationId,
-         }
+        },
       });
 
-      // await this.prismaService.leadProject.create({
-      //   data: {
-      //     leadId: lead.id,
-      //     projectId: createLeadDto.projectId,
-      //     createdAt: DateHelper.getCurrentUnixTime(),
-      //     updatedAt:0,
-      //     deletedAt:0,
-      // }})
-      console.log(createLeadDto);
       const activity = {
         type: 'LEAD_CREATED',
         data: { message: 'User manually created by' },
@@ -140,4 +166,36 @@ export class LeadService {
     deletedLead.deletedAt = Date.now();
     return deletedLead;
   }
+  async getTotalAmountByLeadId(leadId: string): Promise<any> {
+    const leadActivities = await this.prismaService.leadActivity.findMany({
+      where: {
+        leadId: leadId,
+        type: 'SUBSCRIPTION_CHARGE_ACTIVATED',
+      },
+      select: {
+        data: true, // Select only the data field
+      },
+    });
+  
+    // console.log(leadActivities); // Debug the retrieved activities
+  
+    // Reduce and calculate total amount
+    const totalAmount = leadActivities.reduce((total, activity:any) => {
+      console.log(`Activity: ${JSON.stringify(activity)}`); // Debug the activity
+      const activityData = activity.data.payload ; 
+      
+      const amountString = activityData.charge?.amount?.amount;
+      const amount = amountString ? parseFloat(amountString) : 0;
+  
+      // console.log(`Amount: ${amount}`); // Debug the parsed amount
+  
+      return total + amount; // Sum the amounts
+    }, 0);
+  
+    console.log(`Total Amount: ${totalAmount}`); // Debug total amount
+  
+    return totalAmount;
+  }
+  
+  
 }

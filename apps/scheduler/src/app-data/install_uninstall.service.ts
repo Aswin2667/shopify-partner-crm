@@ -37,8 +37,8 @@ export class Install_uninstall_dataService {
   
       const data = response.data.data;
       const events = data?.app?.events?.edges || [];
-
-      // console.log('Received events data:', data);
+      
+      console.log('Received events data:', data);
   
       if (events.length) {
         let oldestOccurredAt = lastOccurredAt;

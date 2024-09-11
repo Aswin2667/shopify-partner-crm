@@ -6,7 +6,7 @@ export const APP_INSTALLS_UNINSTALLS_QUERY = (appId: string, lastOccurredAt: str
       id
       events(
         first: 100
-        types: [RELATIONSHIP_INSTALLED, RELATIONSHIP_UNINSTALLED, CREDIT_APPLIED, CREDIT_FAILED, CREDIT_PENDING]
+        types: [RELATIONSHIP_INSTALLED, RELATIONSHIP_UNINSTALLED, CREDIT_APPLIED, CREDIT_FAILED, CREDIT_PENDING, SUBSCRIPTION_CHARGE_ACTIVATED]
         ${lastOccurredAt && (lastOccurredAt !== 'none') ? `occurredAtMax: "${lastOccurredAt}"` : ''}
       ) {
         edges {
@@ -46,6 +46,24 @@ export const APP_INSTALLS_UNINSTALLS_QUERY = (appId: string, lastOccurredAt: str
       occurredAt
       reason
     }
+      ... on SubscriptionChargeActivated {
+ type
+ shop {
+  id
+  myshopifyDomain
+ }
+ charge{
+    amount{
+        amount
+        currencyCode
+    }
+    billingOn
+    id
+    name
+    test
+ }
+    occurredAt
+}
 
     ... on CreditApplied {
       type

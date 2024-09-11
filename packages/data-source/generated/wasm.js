@@ -206,6 +206,7 @@ exports.Prisma.LeadProjectScalarFieldEnum = {
   leadId: 'leadId',
   projectId: 'projectId',
   integrationId: 'integrationId',
+  orgId: 'orgId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',

@@ -2,6 +2,7 @@ import "./404page.css";
 import pagenotfound from "../../assets/gif/PageNotFound.gif";
 import Clock from "../Clock";
 import Component from "@/Test";
+import Test from "@/Test";
 const PageNotFound = () => {
   return (
     // <div className="w-screen h-screen ">
@@ -22,10 +23,9 @@ const PageNotFound = () => {
     //     </div>
     //   </div>
     // </div>
-    <div className="w-1/5">
-
-      <Component />
-    </div>
+  <>
+  <Test />
+  </>
   );
 };
 export default PageNotFound;
