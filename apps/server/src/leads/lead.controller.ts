@@ -17,9 +17,9 @@ export class LeadController {
   constructor(private readonly leadService: LeadService) {}
 
   @Get(':orgId')
-  async findAllByIntegrationId(@Param('orgId') appId: string) {
+  async findAllByIntegrationId(@Param('orgId') orgId: string) {
     try {
-      const leads = await this.leadService.findAllByIntegrationId(appId);
+      const leads = await this.leadService.findAllByOrganizationId(orgId);
       return {
         status: true,
         message: 'Got Lead using the OrgId',
@@ -95,5 +95,14 @@ export class LeadController {
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
+  }
+  @Get('total-amount/:leadId')
+  async getTotalAmount(@Param('leadId') leadId: string) {
+    const totalAmount = await this.leadService.getTotalAmountByLeadId(leadId);
+    return {
+      status: true,
+      message: `Total amount for lead ${leadId}`,
+      data: totalAmount,
+    };
   }
 }

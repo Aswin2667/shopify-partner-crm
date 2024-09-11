@@ -43,7 +43,7 @@ model OrgMemberInvite {
 model Organization {
   id           String            @id @default(uuid())
   name         String
-  logo         String? 
+  logo         String?
   description  String?
   createdAt    BigInt            @default(autoincrement())
   updatedAt    BigInt            @default(autoincrement())
@@ -56,6 +56,7 @@ model Organization {
   contact      Contact[]
   Template     Template[]
   LeadStatus   LeadStatus[]
+  LeadProject  LeadProject[]
 }
 
 model OrgMember {
@@ -102,7 +103,7 @@ model LeadNotes {
 }
 
 model Lead {
-  id             String         @id @default(uuid()) 
+  id             String         @id @default(uuid())
   shopifyDomain  String         @unique
   shopifyStoreId String         @unique
   statusId       String?
@@ -121,19 +122,21 @@ model Lead {
   integrationId  String?
   organizationId String
   organization   Organization   @relation(fields: [organizationId], references: [id])
-  integration    Integration?    @relation(fields: [integrationId], references: [id])
+  integration    Integration?   @relation(fields: [integrationId], references: [id])
 }
 
 model LeadProject {
-  id            String      @id @default(uuid())
+  id            String       @id @default(uuid())
   leadId        String
   projectId     String
   integrationId String
-  integration   Integration @relation(fields: [integrationId], references: [id])
-  lead          Lead        @relation(fields: [leadId], references: [id])
-  project       Project     @relation(fields: [projectId], references: [id])
-  createdAt     BigInt      @default(autoincrement())
-  updatedAt     BigInt      @default(autoincrement())
+  orgId         String
+  organization  Organization @relation(fields: [orgId], references: [id])
+  integration   Integration  @relation(fields: [integrationId], references: [id])
+  lead          Lead         @relation(fields: [leadId], references: [id])
+  project       Project      @relation(fields: [projectId], references: [id])
+  createdAt     BigInt       @default(autoincrement())
+  updatedAt     BigInt       @default(autoincrement())
   deletedAt     BigInt
   status        String?
 
@@ -141,7 +144,7 @@ model LeadProject {
 }
 
 model Contact {
-  id             String      @id @default(uuid())
+  id             String       @id @default(uuid())
   firstName      String?
   lastName       String?
   primaryEmail   String?
@@ -156,10 +159,10 @@ model Contact {
   updatedAt      BigInt
   deletedAt      BigInt
   organizationId String
-  organization   Organization   @relation(fields: [organizationId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id])
   integrationId  String
-  integration    Integration @relation(fields: [integrationId], references: [id])
-  lead           Lead       @relation(fields: [leadId], references: [id])
+  integration    Integration  @relation(fields: [integrationId], references: [id])
+  lead           Lead         @relation(fields: [leadId], references: [id])
 }
 
 model Attachment {
@@ -209,7 +212,7 @@ model Email {
 }
 
 model Integration {
-  id             String        @id @default(uuid())
+  id             String          @id @default(uuid())
   organizationId String
   data           Json
   description    String?
@@ -218,13 +221,13 @@ model Integration {
   updatedAt      BigInt
   deletedAt      BigInt
   name           String
-  isSingular     Boolean       @default(false) // Add the isSingular field
-  
-  Project        Project[]
-  organization   Organization  @relation(fields: [organizationId], references: [id])
-  Lead           Lead[]
-  Contact        Contact[]
-  LeadProject    LeadProject[]
+  isSingular     Boolean         @default(false) // Add the isSingular field
+
+  Project      Project[]
+  organization Organization  @relation(fields: [organizationId], references: [id])
+  Lead         Lead[]
+  Contact      Contact[]
+  LeadProject  LeadProject[]
 
   // @@unique([organizationId, type, isSingular], name: "UniqueIntegrationPerOrgAndType")
 }
