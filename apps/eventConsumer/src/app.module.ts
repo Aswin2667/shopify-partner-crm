@@ -2,8 +2,7 @@ import { Module } from '@nestjs/common';
 import { BullModule } from '@nestjs/bull';
 import { UserEventsProcessor } from './userEvents/user.event.processer';
 import { MailModule } from '@org/utils';
-import { AppInstallsUninstallsEventsProcessor } from './appEvents/install_uninstall_events';
-import { CreditEventsProcessor } from './appEvents/credit_events';
+import { AppInstallsUninstallsEventsProcessor } from './appEvents/LeadActivity.consumer';
 import { AnalyticsTrackModule } from './controllers/analyticsTrack/analytics.track.module';
 import { EmailOpenTrackingProcessor } from './emailTrackingEvents/email.open.processor';
 import { DataSourceModule, PrismaService } from '@org/data-source';
@@ -20,10 +19,7 @@ import { DataSourceModule, PrismaService } from '@org/data-source';
         name: 'events',
       },
       {
-        name: 'install_uninstall_events',
-      },
-      {
-        name: 'credit_events',
+        name: 'app_events_queue',
       },
       {
         name: 'email-tracking-queue',
@@ -36,9 +32,8 @@ import { DataSourceModule, PrismaService } from '@org/data-source';
   providers: [
     UserEventsProcessor,
     AppInstallsUninstallsEventsProcessor,
-    CreditEventsProcessor,
     PrismaService,
-    EmailOpenTrackingProcessor
+    EmailOpenTrackingProcessor,
   ],
   controllers: [],
 })

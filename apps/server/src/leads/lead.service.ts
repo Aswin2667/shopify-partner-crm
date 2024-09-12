@@ -170,10 +170,11 @@ export class LeadService {
     const leadActivities = await this.prismaService.leadActivity.findMany({
       where: {
         leadId: leadId,
+        
         type: 'SUBSCRIPTION_CHARGE_ACTIVATED',
       },
       select: {
-        data: true, // Select only the data field
+        data: true,
       },
     });
   
@@ -189,13 +190,11 @@ export class LeadService {
   
       // console.log(`Amount: ${amount}`); // Debug the parsed amount
   
-      return total + amount; // Sum the amounts
+      return total + amount;
     }, 0);
   
     console.log(`Total Amount: ${totalAmount}`); // Debug total amount
   
     return totalAmount;
   }
-  
-  
 }
