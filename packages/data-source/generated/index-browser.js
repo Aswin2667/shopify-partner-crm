@@ -253,7 +253,8 @@ exports.Prisma.LeadActivityScalarFieldEnum = {
   deletedAt: 'deletedAt',
   userId: 'userId',
   noteId: 'noteId',
-  type: 'type'
+  type: 'type',
+  orgId: 'orgId'
 };
 
 exports.Prisma.EmailScalarFieldEnum = {

@@ -2,14 +2,14 @@
 import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CacheManagerModule } from '@org/utils';
-import { AppController } from './app.controller';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { BullModule } from '@nestjs/bull';
-import { AppService } from './app.service';
-
+import { DataSourceModule, PrismaService } from '@org/data-source';
+import { LeadActivitySyncService } from './LeadActivity.Sync.service';
+import { AppModule } from 'src/app.module';
+import { AppService } from './LeadActivity.Sync.cron';
 
 @Module({
- 
   imports: [
     CacheManagerModule.register(),
     ScheduleModule.forRoot(),
@@ -21,10 +21,11 @@ import { AppService } from './app.service';
       },
     }),
     BullModule.registerQueue({
-      name: 'install_uninstall_events',
+      name: 'app_events_queue',
     }),
+    DataSourceModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
- })
-export class AppModule {}
+  controllers: [],
+  providers: [LeadActivitySyncService, PrismaService,AppService],
+})
+export class LeadActivityModule {}

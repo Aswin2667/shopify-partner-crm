@@ -1,19 +1,21 @@
 import { Process, Processor } from '@nestjs/bull';
- import { Job } from 'bullmq';
+import { Job } from 'bullmq';
 import { DateHelper } from '@org/utils';
 import { PrismaService } from '@org/data-source';
 
-@Processor('install_uninstall_events')
+@Processor('app_events_queue')
 export class AppInstallsUninstallsEventsProcessor {
   constructor(private readonly prisma: PrismaService) {}
 
-  @Process('APP_INSTALLED_UNINSTALLED')
-  async handleAppInstalledUninstalled(job: Job) {
+  @Process('APP_INSTALLED_BY_NEW_LEAD')
+  async handleAppSyncNewLead(job: Job) {
+    console.log(job)
     await this.processEvents(job);
   }
 
-  @Process('APP_INSTALLED_UNINSTALLED_AFTER')
-  async handleAppInstalledUninstalledAfter(job: Job) {
+  @Process('APP_INSTALLED_BY_EXISTING_LEAD')
+  async handleAppSyncExistingLead(job: Job) {
+    console.log(job)
     await this.processEvents(job);
   }
 
@@ -53,7 +55,6 @@ export class AppInstallsUninstallsEventsProcessor {
               shopifyDomain: shop.myshopifyDomain,
               shopifyStoreId: shop.id,
               integrationId: integrationId,
-
             },
           });
 
@@ -92,6 +93,7 @@ export class AppInstallsUninstallsEventsProcessor {
               data: {
                 leadId: newLead.id,
                 type: type,
+                orgId: organizationId,
                 data: {
                   message:
                     type === 'RELATIONSHIP_INSTALLED'
@@ -107,12 +109,14 @@ export class AppInstallsUninstallsEventsProcessor {
           } else {
             console.log('Existing lead found:', existingLead.id);
 
-            const existingleadProject = await this.prisma.leadProject.findFirst({
-              where: {
-                leadId: existingLead.id,
-                projectId,
+            const existingleadProject = await this.prisma.leadProject.findFirst(
+              {
+                where: {
+                  leadId: existingLead.id,
+                  projectId,
+                },
               },
-            });
+            );
 
             if (!existingleadProject) {
               const anotherLeadProject = await this.prisma.leadProject.create({
@@ -133,6 +137,7 @@ export class AppInstallsUninstallsEventsProcessor {
               data: {
                 leadId: existingLead.id,
                 type: type,
+                orgId: organizationId,
                 data: {
                   message:
                     type === 'RELATIONSHIP_UNINSTALLED'

@@ -1,13 +1,16 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
 import axios from 'axios';
-import { APP_INSTALLS_UNINSTALLS_AFTER_QUERY, APP_INSTALLS_UNINSTALLS_QUERY } from 'src/queries/install_uninstall_query';
-import prisma from 'src/shared/utlis/prisma';
-
+import {
+  APP_INSTALLS_UNINSTALLS_AFTER_QUERY,
+  APP_INSTALLS_UNINSTALLS_QUERY,
+} from 'src/queries/queries';
+import { PrismaService } from '@org/data-source';
 @Injectable()
-export class Install_uninstall_dataService {
+export class LeadActivitySyncService {
   constructor(
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private readonly PrismaService: PrismaService,
   ) {}
 
   async fetchAndStoreData(app) {
@@ -18,8 +21,10 @@ export class Install_uninstall_dataService {
     const backupOccurredAtKey = `${appId}:backup:lastOccurredAt`;
     const backupShopifyDomainKey = `${appId}:backup:shopifyDomain`;
 
-    const lastOccurredAt = await this.cacheManager.get<string>(lastOccurredAtKey);
-    const lastShopifyDomain = await this.cacheManager.get<string>(lastShopifyDomainKey);
+    const lastOccurredAt =
+      await this.cacheManager.get<string>(lastOccurredAtKey);
+    const lastShopifyDomain =
+      await this.cacheManager.get<string>(lastShopifyDomainKey);
 
     const query = APP_INSTALLS_UNINSTALLS_QUERY(appId, lastOccurredAt);
 
@@ -44,11 +49,11 @@ export class Install_uninstall_dataService {
         let oldestOccurredAt = lastOccurredAt;
         let oldestShopifyDomain = lastShopifyDomain;
 
-        const eventResponses = events.map(edge => edge.node);
+        const eventResponses = events.map((edge) => edge.node);
 
         const uniqueEvents = new Set();
 
-        const filteredEvents = eventResponses.filter(event => {
+        const filteredEvents = eventResponses.filter((event) => {
           const occurredAt = event.occurredAt;
           const shopifyDomain = event.shop.myshopifyDomain;
 
@@ -63,7 +68,8 @@ export class Install_uninstall_dataService {
           return (
             !lastOccurredAt ||
             new Date(occurredAt) < new Date(lastOccurredAt) ||
-            (occurredAt === lastOccurredAt && shopifyDomain !== lastShopifyDomain)
+            (occurredAt === lastOccurredAt &&
+              shopifyDomain !== lastShopifyDomain)
           );
         });
 
@@ -80,16 +86,22 @@ export class Install_uninstall_dataService {
           }
 
           if (oldestShopifyDomain) {
-            await this.cacheManager.set(lastShopifyDomainKey, oldestShopifyDomain);
-            await this.cacheManager.set(backupShopifyDomainKey, oldestShopifyDomain);
+            await this.cacheManager.set(
+              lastShopifyDomainKey,
+              oldestShopifyDomain,
+            );
+            await this.cacheManager.set(
+              backupShopifyDomainKey,
+              oldestShopifyDomain,
+            );
           }
 
-          console.log('Filtered Events Length:', filteredEvents.length);
-          console.log('Filtered Event Details:', filteredEvents);
+          // console.log('Filtered Events Length:', filteredEvents.length);
+          // console.log('Filtered Event Details:', filteredEvents);
 
           return filteredEvents;
         } else {
-          console.log('No new events found. Marking app as synced.');
+          // console.log('No new events found. Marking app as synced.');
           await this.updateProjectSyncStatus(appId, true);
 
           if (lastOccurredAt) {
@@ -97,7 +109,10 @@ export class Install_uninstall_dataService {
           }
 
           if (lastShopifyDomain) {
-            await this.cacheManager.set(backupShopifyDomainKey, lastShopifyDomain);
+            await this.cacheManager.set(
+              backupShopifyDomainKey,
+              lastShopifyDomain,
+            );
           }
 
           await this.cacheManager.del(lastOccurredAtKey);
@@ -106,7 +121,7 @@ export class Install_uninstall_dataService {
           return null;
         }
       } else {
-        console.log('No events found. Marking app as synced.');
+        // console.log('No events found. Marking app as synced.');
         await this.updateProjectSyncStatus(appId, true);
 
         if (lastOccurredAt) {
@@ -114,7 +129,10 @@ export class Install_uninstall_dataService {
         }
 
         if (lastShopifyDomain) {
-          await this.cacheManager.set(backupShopifyDomainKey, lastShopifyDomain);
+          await this.cacheManager.set(
+            backupShopifyDomainKey,
+            lastShopifyDomain,
+          );
         }
 
         await this.cacheManager.del(lastOccurredAtKey);
@@ -156,13 +174,13 @@ export class Install_uninstall_dataService {
       const data = response.data.data;
       const events = data?.app?.events?.edges || [];
 
-      console.log('Received events data after lastOccurredAt:', data);
+      // console.log('Received events data after lastOccurredAt:', data);
 
       if (events.length) {
-        const eventResponses = events.map(edge => edge.node);
+        const eventResponses = events.map((edge) => edge.node);
 
-        const newEvents = eventResponses.filter(event =>
-          new Date(event.occurredAt) > new Date(lastOccurredAt),
+        const newEvents = eventResponses.filter(
+          (event) => new Date(event.occurredAt) > new Date(lastOccurredAt),
         );
 
         if (newEvents.length) {
@@ -173,46 +191,25 @@ export class Install_uninstall_dataService {
             await this.cacheManager.set(lastOccurredAtKey, latestOccurredAt);
           }
 
-          console.log('Filtered new events:', newEvents);
-          console.log('Latest event occurred At:', latestOccurredAt);
+          // console.log('Filtered new events:', newEvents);
+          // console.log('Latest event occurred At:', latestOccurredAt);
 
           return newEvents;
-
         } else {
-          console.log('No new events after filtering ...');
+          // console.log('No new events after filtering ...');
           return null;
         }
-
       } else {
         console.log('No events found after lastOccurredAt.');
         return null;
       }
-
     } catch (error) {
       console.error('Error in new cron:', error.message);
     }
   }
 
-  async getStoreEmail(storeId: string, accessToken: string): Promise<string> {
-    const url = `https://${storeId}.myshopify.com/admin/api/2023-01/shop.json`;
-
-    try {
-      const response = await axios.get(url, {
-        headers: {
-          'X-Shopify-Access-Token': accessToken,
-        },
-      });
-
-      const shopEmail = response.data.shop.email;
-      return shopEmail;
-    } catch (error) {
-      console.error('Error fetching shop email:', error.message);
-      throw new Error('Failed to fetch shop email');
-    }
-  }
-
   private async updateProjectSyncStatus(appId: string, isSynced: boolean) {
-    const project = await prisma.project.findFirst({
+    const project = await this.PrismaService.project.findFirst({
       where: {
         data: {
           path: ['appId'],
@@ -222,7 +219,7 @@ export class Install_uninstall_dataService {
     });
 
     if (project) {
-      await prisma.project.update({
+      await this.PrismaService.project.update({
         where: { id: project.id },
         data: { isSynced },
       });
