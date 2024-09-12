@@ -1,0 +1,137 @@
+// model IntegrationAuthMethod {
+//   id  String @id @default(cuid())
+//   key String
+
+//   name        String
+//   description String
+//   type        String
+
+//   client Json?
+//   config Json?
+//   scopes Json?
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   integrations Integration[]
+
+//   definition   IntegrationDefinition @relation(fields: [definitionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+//   definitionId String
+
+//   help Json?
+
+//   @@unique([definitionId, key])
+// }
+
+// model IntegrationDefinition {
+//   id           String  @id
+//   name         String
+//   instructions String?
+//   description  String?
+//   icon         String?
+//   packageName  String  @default("")
+
+//   authMethods IntegrationAuthMethod[]
+//   Integration Integration[]
+// }
+
+// model Integration {
+//   id String @id @default(cuid())
+
+//   slug String
+
+//   title       String?
+//   description String?
+
+//   setupStatus IntegrationSetupStatus @default(COMPLETE)
+//   authSource  IntegrationAuthSource  @default(HOSTED)
+
+//   definition   IntegrationDefinition @relation(fields: [definitionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+//   definitionId String
+
+//   authMethod   IntegrationAuthMethod? @relation(fields: [authMethodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+//   authMethodId String?
+
+//   connectionType ConnectionType @default(DEVELOPER)
+
+//   scopes String[]
+
+//   customClientReference   SecretReference? @relation(fields: [customClientReferenceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+//   customClientReferenceId String?
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+//   organizationId String
+
+//   attempts           ConnectionAttempt[]
+//   connections        IntegrationConnection[]
+//   jobIntegrations    JobIntegration[]
+//   sources            TriggerSource[]
+//   webhooks           Webhook[]
+//   missingConnections MissingConnection[]
+//   RunConnection      RunConnection[]
+
+//   @@unique([organizationId, slug])
+// }
+
+// enum IntegrationAuthSource {
+//   HOSTED
+//   LOCAL
+//   RESOLVER
+// }
+
+// enum IntegrationSetupStatus {
+//   MISSING_FIELDS
+//   COMPLETE
+// }
+
+// model IntegrationConnection {
+//   id String @id @default(cuid())
+
+//   connectionType ConnectionType @default(DEVELOPER)
+
+//   expiresAt DateTime?
+//   metadata  Json
+//   scopes    String[]
+
+//   dataReference   SecretReference @relation(fields: [dataReferenceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+//   dataReferenceId String
+
+//   integration   Integration @relation(fields: [integrationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+//   integrationId String
+
+//   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+//   organizationId String
+
+//   externalAccount   ExternalAccount? @relation(fields: [externalAccountId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+//   externalAccountId String?
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   /// If enabled is false, OAuth refreshing will not be attempted
+//   enabled Boolean @default(true)
+
+//   runConnections RunConnection[]
+// }
+
+// enum ConnectionType {
+//   EXTERNAL
+//   DEVELOPER
+// }
+
+// model ConnectionAttempt {
+//   id String @id @default(cuid())
+
+//   securityCode String?
+
+//   redirectTo String @default("/")
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @default(now()) @updatedAt
+
+//   integration   Integration @relation(fields: [integrationId], references: [id])
+//   integrationId String
+// }

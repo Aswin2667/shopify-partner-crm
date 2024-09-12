@@ -1,5 +1,9 @@
 import { JsonValue } from '@org/data-source/generated/runtime/library';
-import { IntegrationType } from 'src/types';
+import {
+  IntegrationCategory,
+  IntegrationSharingType,
+  IntegrationType,
+} from 'src/types';
 
 export interface BaseIntegration {
   id?: string;
@@ -12,4 +16,6 @@ export interface BaseIntegration {
   deletedAt: bigint;
   name: string;
   isSingular: boolean;
+  category: IntegrationCategory;
+  sharedType: IntegrationSharingType;
 }

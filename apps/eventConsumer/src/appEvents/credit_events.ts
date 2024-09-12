@@ -28,7 +28,7 @@ export class CreditEventsProcessor {
         const hash = await bcrypt.hash(JSON.stringify(event), saltOrRounds);
         const eventStr = JSON.stringify(event);
 
-        console.log('Hash from cron1 event consumer: ', hash);
+        // console.log('Hash from cron1 event consumer: ', hash);
 
         if (!existingLead) {
           const newLead = await this.prisma.lead.create({
@@ -43,7 +43,7 @@ export class CreditEventsProcessor {
             },
           });
 
-          console.log('New Lead Created:', newLead.id);
+          // console.log('New Lead Created:', newLead.id);
 
           // Create leadActivity for the new lead
           await this.prisma.leadActivity.create({
@@ -61,7 +61,7 @@ export class CreditEventsProcessor {
             },
           });
         } else {
-          console.log('Existing lead found:', existingLead.id);
+          // console.log('Existing lead found:', existingLead.id);
 
           // Create leadActivity for the existing lead
           await this.prisma.leadActivity.create({

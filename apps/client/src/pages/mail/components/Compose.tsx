@@ -129,28 +129,38 @@ const Compose = (props: Props): JSX.Element => {
     initialArgs,
     () => initialArgs
   );
-  const { integrations } = useSelector((state: any) => state.integration);
+  const { integrations, presentIntegrations } = useSelector(
+    (state: any) => state.integration
+  );
+  const fromEmail = integrations.flatMap(
+    (integration: any) => integration.mailServiceFromEmail
+  );
+  console.log(compose);
   const gmailIntegrations = integrations.filter(
     (integration: any) => integration.type === "GMAIL"
   );
 
   const { mutate: sendMail } = useMutation({
     mutationFn: async (data: any) =>
-      IntegrationService.performAction("GMAIL", "SEND_MAIL", data),
+      IntegrationService.performAction(
+        compose.from.type,
+        "SCHEDULE_MAIL",
+        data
+      ),
     onSuccess: (res) => console.log(res),
     onError: (error) => console.error(error),
   });
 
   const sendHandler = () => {
     const mailContext = {
+      from: { name: compose.from.name, email: compose.from.email },
       to: compose.to,
       cc: compose.cc.value,
       bcc: compose.bcc.value,
       subject: compose.subject,
       body: compose.body,
-      refreshToken: compose.from.data.refreshToken,
-      accessToken: compose.from.data.accessToken,
-      gmailIntegrationId: compose.from.id,
+      integrationId: compose.from.integrationId,
+      organizationId,
     };
 
     console.log(mailContext);
@@ -197,9 +207,9 @@ const Compose = (props: Props): JSX.Element => {
     }
   }
 
-  useEffect(() => {
-    dispatch({ type: "from", payload: gmailIntegrations[0] });
-  }, [gmailIntegrations]);
+  // useEffect(() => {
+  //   dispatch({ type: "from", payload: gmailIntegrations[0] });
+  // }, [gmailIntegrations]);
 
   useEffect(() => {
     TemplateService.getAllTemplatesByOrgId(organizationId as string)
@@ -224,20 +234,21 @@ const Compose = (props: Props): JSX.Element => {
             <SelectValue placeholder={compose.from.data?.email} />
           </SelectTrigger>
           <SelectContent>
-            {gmailIntegrations.map((integration: any) => (
+            {fromEmail.map((integration: any) => (
               <SelectItem value={integration}>
-                <div className="flex items-center gap-2">
-                  {integration?.data.name && (
-                    <InitialsAvatar
-                      name={integration?.data.name}
-                      className="w-5 h-5 bg-black text-white flex items-center justify-center rounded-full text-xs"
-                    />
-                  )}
-                  <h6 className="capitalize text-base">
-                    {integration?.data.name}
-                  </h6>
-                  <h6 className="text-gray-500 text-[13px]">
-                    {integration?.data.email}
+                <div className="flex items-center gap-3">
+                  <img
+                    src={
+                      presentIntegrations.find(
+                        (i: any) => i.type === integration.type
+                      )?.logo
+                    }
+                    alt=""
+                    className="h-4 w-4 rounded-ful"
+                  />
+                  <h6 className="capitalize">{integration?.name}</h6>
+                  <h6 className="text-gray-500 ">
+                    {`<${integration?.email}>`}
                   </h6>
                 </div>
               </SelectItem>
@@ -358,8 +369,9 @@ const Compose = (props: Props): JSX.Element => {
       <div className="flex justify-between p-4">
         <div className="flex gap-3">
           <button
-            className="bg-blue-500 text-white px-3 py-1 rounded-full font-semibold"
+            className="bg-blue-500 text-white px-3 py-1 rounded-full font-semibold disabled:bg-blue-300 disabled:cursor-not-allowed"
             onClick={sendHandler}
+            disabled={!compose.from?.type}
           >
             Send
           </button>

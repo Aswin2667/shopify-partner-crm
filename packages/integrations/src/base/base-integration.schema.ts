@@ -1,4 +1,8 @@
-import { IntegrationType } from 'src/types';
+import {
+  IntegrationCategory,
+  IntegrationSharingType,
+  IntegrationType,
+} from 'src/types';
 import { z } from 'zod';
 
 export const BaseIntegrationSchema = z.object({
@@ -15,4 +19,10 @@ export const BaseIntegrationSchema = z.object({
   deletedAt: z.number(),
   name: z.string().min(1, 'Name is required'),
   isSingular: z.boolean(),
+  category: z.nativeEnum(IntegrationCategory, {
+    errorMap: () => ({ message: 'Invalid integration category' }),
+  }),
+  sharedType: z.nativeEnum(IntegrationSharingType, {
+    errorMap: () => ({ message: 'Invalid integration sharing type' }),
+  }),
 });

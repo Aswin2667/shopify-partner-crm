@@ -268,20 +268,63 @@ exports.Prisma.EmailScalarFieldEnum = {
   labelIds: 'labelIds',
   sentAt: 'sentAt',
   deletedAt: 'deletedAt',
-  integrationId: 'integrationId'
+  integrationId: 'integrationId',
+  organizationId: 'organizationId',
+  source: 'source'
 };
 
 exports.Prisma.IntegrationScalarFieldEnum = {
   id: 'id',
   organizationId: 'organizationId',
+  name: 'name',
   data: 'data',
   description: 'description',
   type: 'type',
+  category: 'category',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
+  isSingular: 'isSingular',
+  sharedType: 'sharedType'
+};
+
+exports.Prisma.MailServiceFromEmailScalarFieldEnum = {
+  id: 'id',
   name: 'name',
-  isSingular: 'isSingular'
+  email: 'email',
+  type: 'type',
+  integrationId: 'integrationId',
+  organizationId: 'organizationId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.JobScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  integrationId: 'integrationId',
+  organizationId: 'organizationId'
+};
+
+exports.Prisma.TaskScalarFieldEnum = {
+  id: 'id',
+  jobId: 'jobId',
+  name: 'name',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.WebhookScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  type: 'type',
+  createdAt: 'createdAt',
+  organizationId: 'organizationId',
+  data: 'data'
 };
 
 exports.Prisma.TemplateScalarFieldEnum = {
@@ -384,6 +427,36 @@ exports.IntegrationType = exports.$Enums.IntegrationType = {
   SEND_GRID: 'SEND_GRID'
 };
 
+exports.IntegrationCategory = exports.$Enums.IntegrationCategory = {
+  ECOMMERCE: 'ECOMMERCE',
+  MAIL_SERVICE: 'MAIL_SERVICE',
+  OTHER: 'OTHER'
+};
+
+exports.IntegrationSharingType = exports.$Enums.IntegrationSharingType = {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE'
+};
+
+exports.JobStatus = exports.$Enums.JobStatus = {
+  PENDING: 'PENDING',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
+exports.TaskStatus = exports.$Enums.TaskStatus = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
+exports.WebhookType = exports.$Enums.WebhookType = {
+  GMAIL_NEW_EMAIL: 'GMAIL_NEW_EMAIL',
+  MAILGUN_EVENT: 'MAILGUN_EVENT',
+  SENDGRID_EVENT: 'SENDGRID_EVENT'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   OrgMemberInvite: 'OrgMemberInvite',
@@ -398,6 +471,10 @@ exports.Prisma.ModelName = {
   LeadActivity: 'LeadActivity',
   Email: 'Email',
   Integration: 'Integration',
+  MailServiceFromEmail: 'MailServiceFromEmail',
+  Job: 'Job',
+  Task: 'Task',
+  Webhook: 'Webhook',
   Template: 'Template',
   LeadStatus: 'LeadStatus'
 };

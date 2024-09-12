@@ -58,6 +58,11 @@ model Organization {
   contact      Contact[]
   Template     Template[]
   LeadStatus   LeadStatus[]
+  webhooks     Webhook[]
+
+  Email Email[]
+
+  MailServiceFromEmail MailServiceFromEmail[]
 }
 
 model OrgMember {
@@ -196,40 +201,130 @@ model LeadActivity {
 }
 
 model Email {
-  id            String   @id @default(uuid())
-  to            String[]
-  cc            String[] @default([])
-  bcc           String[] @default([])
-  subject       String?
-  body          String
-  messageId     String
-  threadId      String
-  historyId     String?
-  labelIds      String[]
-  sentAt        BigInt
-  deletedAt     BigInt
-  integrationId String
+  id             String          @id @default(uuid())
+  to             String[]
+  cc             String[]        @default([])
+  bcc            String[]        @default([])
+  subject        String?
+  body           String
+  messageId      String
+  threadId       String
+  historyId      String?
+  labelIds       String[]
+  sentAt         BigInt
+  deletedAt      BigInt
+  integrationId  String
+  organizationId String
+  organization   Organization    @relation(fields: [organizationId], references: [id])
+  // TODO: run migration and generate command to add source
+  source         IntegrationType
 }
 
 model Integration {
-  id             String          @id @default(uuid())
+  id             String              @id @default(uuid())
   organizationId String
-  data           Json
+  name           String
+  data           Json // Stores API keys, tokens, etc.
   description    String?
   type           IntegrationType
-  createdAt      BigInt
-  updatedAt      BigInt
-  deletedAt      BigInt
+  category       IntegrationCategory
+  createdAt      BigInt              @default(0)
+  updatedAt      BigInt              @default(0)
+  deletedAt      BigInt?
+
+  isSingular Boolean                @default(false)
+  sharedType IntegrationSharingType
+
+  Project              Project[]
+  organization         Organization           @relation(fields: [organizationId], references: [id])
+  Lead                 Lead[]
+  Contact              Contact[]
+  LeadProject          LeadProject[]
+  Jobs                 Job[] // New relation to manage automated jobs
+  mailServiceFromEmail MailServiceFromEmail[] // Link to external "from" emails (optional for certain integrations)
+}
+
+model MailServiceFromEmail {
+  id             String          @id @default(uuid())
   name           String
-  isSingular     Boolean         @default(false) // Add the isSingular field
+  email          String // Store the external `from` email address for services like Mailgun, SendGrid
+  type           IntegrationType
+  integrationId  String
+  organizationId String
+  createdAt      BigInt          @default(0)
+  updatedAt      BigInt          @default(0)
 
-  Project      Project[]
-  organization Organization  @relation(fields: [organizationId], references: [id])
-  Lead         Lead[]
-  Contact      Contact[]
-  LeadProject  LeadProject[]
+  integration  Integration  @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id])
+}
 
-  // @@unique([organizationId, type, isSingular], name: "UniqueIntegrationPerOrgAndType")
+model Job {
+  id             String      @id @default(cuid())
+  name           String // E.g., "Sync Gmail Data", "Fetch New Emails"
+  status         JobStatus // PENDING, IN_PROGRESS, COMPLETED, FAILED
+  createdAt      BigInt      @default(0)
+  updatedAt      BigInt      @default(0)
+  integrationId  String
+  integration    Integration @relation(fields: [integrationId], references: [id])
+  tasks          Task[] // A job can have multiple tasks
+  organizationId String // Useful to link with an organization
+}
+
+model Task {
+  id        String     @id @default(cuid())
+  jobId     String
+  name      String // E.g., "Fetch Email", "Store Email in DB"
+  status    TaskStatus
+  createdAt BigInt     @default(0)
+  updatedAt BigInt     @default(0)
+  job       Job        @relation(fields: [jobId], references: [id])
+}
+
+model Webhook {
+  id             String       @id @default(cuid())
+  url            String // Webhook endpoint URL
+  type           WebhookType // GMAIL_NEW_EMAIL, etc.
+  createdAt      BigInt       @default(0)
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  data           Json // Payload from webhook
+}
+
+enum JobStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+}
+
+enum TaskStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum WebhookType {
+  GMAIL_NEW_EMAIL
+  MAILGUN_EVENT
+  SENDGRID_EVENT
+}
+
+enum IntegrationType {
+  GMAIL
+  SHOPIFY
+  MAIL_GUN
+  SEND_GRID
+}
+
+enum IntegrationCategory {
+  ECOMMERCE
+  MAIL_SERVICE
+  OTHER
+}
+
+enum IntegrationSharingType {
+  PUBLIC // ORGANIZATION_WIDE
+  PRIVATE // USER_SPECIFIC
 }
 
 model Template {
@@ -303,11 +398,4 @@ enum OrgMemberRole {
 enum AppVersion {
   V2
   V3
-}
-
-enum IntegrationType {
-  GMAIL
-  SHOPIFY
-  MAIL_GUN
-  SEND_GRID
 }

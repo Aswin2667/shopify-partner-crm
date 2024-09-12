@@ -3,12 +3,17 @@ import { MailgunIntegration } from './mailgun-integration.interface';
 import { BaseIntegrationService } from 'src/base/base-integration.service';
 import {
   INTEGRATION_SINGULARITY,
+  IntegrationCategory,
   IntegrationData,
+  IntegrationSharingType,
   IntegrationType,
 } from 'src/types';
 import { Prisma, PrismaService } from '@org/data-source';
 import { validateIntegration } from 'src/validation';
 import { DateHelper } from '@org/utils';
+import axios from 'axios';
+import MailGun from 'mailgun.js';
+import FormData from 'form-data';
 
 @Injectable()
 export class MailgunIntegrationService extends BaseIntegrationService<object> {
@@ -17,13 +22,20 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
     description:
       'Supercharge your email campaigns with Mailgun. Automate, personalize, and track every email to engage your audience like never before.',
     type: IntegrationType.MAIL_GUN,
+    singular: INTEGRATION_SINGULARITY.MAIL_GUN,
+    category: IntegrationCategory.MAIL_SERVICE,
+    sharedType: IntegrationSharingType.PUBLIC,
     logo: 'https://seeklogo.com/images/M/mailgun-logo-5388F66106-seeklogo.com.png',
-    singular: false,
     authType: 'CREDENTIALS',
   };
   constructor(private readonly prisma: PrismaService) {
     super();
   }
+
+  getIntegrationData(): IntegrationData {
+    return this.data;
+  }
+
   async connect(config: any): Promise<any> {
     try {
       const isMailGunIntegartionExists =
@@ -50,7 +62,9 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
           description: config.description,
           type: config.type,
           isSingular: INTEGRATION_SINGULARITY[config.type],
+          category: IntegrationCategory.MAIL_SERVICE,
           organizationId: config.organizationId,
+          sharedType: IntegrationSharingType.PUBLIC,
           data: {
             apiKey: config.data.apiKey,
             domain: config.data.domain,
@@ -72,13 +86,79 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
   disconnect(): Promise<void> {
     throw new Error('Method not implemented.');
   }
-  performAction(action: string, params: object): Promise<any> {
-    throw new Error('Method not implemented.');
-  }
-
-  getIntegrationData(): IntegrationData {
-    return this.data;
+  async performAction(action: string, params: any): Promise<any> {
+    if (action === 'SEND_MAIL') {
+      return await this.sendMail(params);
+    } else {
+      throw new Error('Invalid action');
+    }
   }
 
   //  private methods for to perform the action
+  private async sendMail(emailData: {
+    to: string[];
+    cc: string[];
+    bcc: string[];
+    subject: string;
+    body: string;
+    refreshToken: string;
+    accessToken: string;
+    gmailIntegrationId: string;
+  }) {
+    try {
+      const {
+        to,
+        cc,
+        bcc,
+        subject,
+        body,
+        gmailIntegrationId,
+        accessToken,
+        refreshToken,
+      } = emailData;
+      const apiKey = process.env.MAILGUN_API_KEY;
+      const domain = process.env.MAILGUN_DOMAIN;
+      console.log(apiKey);
+      console.log(domain);
+      console.log(emailData);
+
+      if (!apiKey || !domain) {
+        throw new Error('Mailgun API key or domain is not set');
+      }
+
+      const formData = new FormData();
+      formData.append(
+        'from',
+        `Dinesh Balan S <
+        db1582002@gmail.com
+        >`,
+      );
+      // mailgun@${domain}
+      formData.append('to', to.join(', '));
+      if (cc.length) formData.append('cc', cc.join(', '));
+      if (bcc.length) formData.append('bcc', bcc.join(', '));
+      formData.append('subject', subject);
+      formData.append('html', body);
+
+      const response = await axios.post(
+        `https://api.mailgun.net/v3/${domain}/messages`,
+        formData,
+        {
+          auth: {
+            username: 'api',
+            password: apiKey,
+          },
+        },
+      );
+      console.log(response.data);
+
+      if (response.status === 200) {
+        return { success: true, error: null };
+      } else {
+        throw new Error(`Failed to send email: ${response.statusText}`);
+      }
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
 }

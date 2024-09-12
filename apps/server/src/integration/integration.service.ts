@@ -12,7 +12,8 @@ import {
   validateIntegration,
 } from '@org/integrations';
 import { config } from 'googleapis/build/src/apis/config';
-import { PrismaService } from 'src/config/prisma.service';
+import { PrismaService } from '@org/data-source';
+import { DateHelper } from '@org/utils';
 
 @Injectable()
 export class IntegrationService {
@@ -34,7 +35,8 @@ export class IntegrationService {
       // Save the integration to your database
       return await this.prisma.integration.create({
         data: {
-          ...(config as BaseIntegration), // Use validated data
+          ...(config as BaseIntegration),
+          // Use validated data
         },
       });
     } catch (error) {
@@ -67,6 +69,9 @@ export class IntegrationService {
   async getAllIntegrationByOrgId(id: string) {
     const integration = await this.prisma.integration.findMany({
       where: { organizationId: id },
+      include: {
+        mailServiceFromEmail: true,
+      },
     });
 
     if (!integration) {
@@ -150,5 +155,20 @@ export class IntegrationService {
       action,
       params,
     );
+  }
+
+  async createFromEmail(data: any) {
+    console.log(data);
+    return await this.prisma.mailServiceFromEmail.create({
+      data: {
+        // ...data,
+        email: data.email,
+        name: data.name,
+        type: data.type,
+        integrationId: data.integrationId,
+        organizationId: data.organizationId,
+        createdAt: DateHelper.getCurrentUnixTime(),
+      },
+    });
   }
 }

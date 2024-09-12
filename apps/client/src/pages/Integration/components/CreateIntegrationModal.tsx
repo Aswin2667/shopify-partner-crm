@@ -27,7 +27,7 @@ import { IntegrationType } from "@org/integrations";
 import IntegrationInput, {
   IntegrationInputType,
 } from "./type-inputs/IntegrationInput";
-import { INTEGRATION_TYPES } from "./type-inputs/type";
+import { INTEGRATION_TYPES } from "../type";
 
 const initialArg = {
   name: { value: "", error: "" },

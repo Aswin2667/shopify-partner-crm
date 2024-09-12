@@ -19,6 +19,7 @@ export default class IntegrationService {
   public static async performAction(type: string, action: string, params: any) {
     const config = { type, action, params };
     try {
+      console.log(type);
       const response = await axiosInstance.post(
         `${this.BASE_PATH}/action`,
         config
@@ -72,6 +73,18 @@ export default class IntegrationService {
     }
   }
 
+  public static async createFromEmail(data: any) {
+    try {
+      const response = await axiosInstance.post(
+        `${this.BASE_PATH}/createFromEmail`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching integration:", error);
+      throw error;
+    }
+  }
 
   public static async getGmailIntegration(orgId: string) {
     try {

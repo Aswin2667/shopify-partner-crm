@@ -4,14 +4,16 @@ import { BaseIntegrationService } from '../base/base-integration.service';
 import {
   INTEGRATION_SINGULARITY,
   IntegrationData,
+  IntegrationSharingType,
   IntegrationType,
+  IntegrationCategory,
 } from '../types';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bullmq';
 import axios from 'axios';
 import { google } from 'googleapis';
-import { ConnectConfig, GmailAction } from './types';
+import { ConnectConfig, GmailAction, GmailIntegrationData } from './types';
 import { Prisma, PrismaService } from '@org/data-source';
 import { DateHelper } from '@org/utils';
 
@@ -22,8 +24,10 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     description:
       'Seamlessly integrate your inbox with our CRM. Track conversations, send emails, and manage customer relationships—all from one platform.',
     type: IntegrationType.GMAIL,
-    logo: 'https://www.gstatic.com/images/branding/product/1x/gmail_512dp.png',
     singular: INTEGRATION_SINGULARITY.GMAIL,
+    category: IntegrationCategory.MAIL_SERVICE,
+    sharedType: IntegrationSharingType.PRIVATE,
+    logo: 'https://www.gstatic.com/images/branding/product/1x/gmail_512dp.png',
     authType: 'OAUTH2',
   };
 
@@ -89,6 +93,8 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         organizationId,
         type: IntegrationType.GMAIL,
         isSingular: INTEGRATION_SINGULARITY.GMAIL,
+        category: IntegrationCategory.MAIL_SERVICE,
+        sharedType: IntegrationSharingType.PRIVATE,
       };
 
       const integrationExists = await this.prisma.integration.findFirst({
@@ -118,13 +124,14 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
           },
         });
       } else {
-        return await this.prisma.integration.create({
+        const integration = await this.prisma.integration.create({
           data: {
             name: `${data.name}'s Gmail Integration`,
             description: `Integration with Gmail for ${data.email}`,
             type: data.type,
             isSingular: data.isSingular,
             organizationId: data.organizationId,
+            sharedType: data.sharedType,
             data: {
               googleId: data.googleId,
               accessToken: data.accessToken,
@@ -132,11 +139,23 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
               email: data.email,
               name: data.name,
             } as unknown as Prisma.JsonValue,
+            category: data.category,
             createdAt: DateHelper.getCurrentUnixTime(),
             updatedAt: DateHelper.getCurrentUnixTime(),
             deletedAt: BigInt(0), // Assuming 0 means not deleted
           },
         });
+        await this.prisma.mailServiceFromEmail.create({
+          data: {
+            integrationId: integration.id,
+            email: data.email,
+            name: data.name,
+            type: data.type,
+            createdAt: DateHelper.getCurrentUnixTime(),
+            organizationId: data.organizationId,
+          },
+        });
+        return integration;
       }
       // await this.integrationQueue.add('CONNECT_TO_GMAIL', data);
     } catch (error) {
@@ -167,6 +186,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     refreshToken: string;
     accessToken: string;
     gmailIntegrationId: string;
+    organizationId: string;
   }) {
     const {
       to,
@@ -177,6 +197,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
       gmailIntegrationId,
       accessToken,
       refreshToken,
+      organizationId,
     } = emailData;
     try {
       await this.verifyToken(accessToken);
@@ -218,6 +239,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         subject,
         body,
         gmailIntegrationId,
+        organizationId,
       );
     } catch (error) {
       await this.handleError(
@@ -229,8 +251,46 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         bcc,
         subject,
         body,
+        organizationId,
       );
     }
+  }
+
+  private async scheduleMail(mailData: {
+    from: { name: string; email: string };
+    to: string[];
+    cc: string[];
+    bcc: string[];
+    subject: string;
+    body: string;
+    integrationId: string;
+    organizationId: string;
+  }) {
+    try {
+      const {
+        from,
+        to,
+        cc,
+        bcc,
+        subject,
+        body,
+        integrationId,
+        organizationId,
+      } = mailData;
+      const response = await this.prisma.email.create({
+        data: {
+          from,
+          to,
+          cc,
+          bcc,
+          subject,
+          body,
+          integrationId,
+          organizationId,
+          source: IntegrationType.GMAIL,
+        },
+      });
+    } catch (error) {}
   }
 
   private generateCustomMessageId() {
@@ -301,6 +361,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     subject,
     body,
     gmailIntegrationId,
+    organizationId,
   ) {
     return await this.prisma.email.create({
       data: {
@@ -316,6 +377,8 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         sentAt: DateHelper.getCurrentUnixTime(),
         deletedAt: BigInt(0),
         integrationId: gmailIntegrationId,
+        organizationId,
+        source: IntegrationType.GMAIL,
       },
     });
   }
@@ -383,6 +446,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     bcc: string[],
     subject: string,
     body: string,
+    organizationId: string,
   ) {
     if (error.response?.status === 401) {
       this.logger.log('Access token invalid, refreshing token...');
@@ -402,6 +466,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         refreshToken,
         accessToken: newAccessToken,
         gmailIntegrationId,
+        organizationId,
       });
     } else {
       this.logger.error('Error sending email:', error.message);

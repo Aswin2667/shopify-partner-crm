@@ -91,11 +91,15 @@ export class IntegrationController {
       params: object;
     },
   ) {
-    console.log(performActionDto);
     return await this.integrationService.performIntegrationAction(
       performActionDto.type,
       performActionDto.action,
       performActionDto.params,
     );
+  }
+
+  @Post('createFromEmail')
+  async createFromEmail(@Body() data: any) {
+    return await this.integrationService.createFromEmail(data);
   }
 }

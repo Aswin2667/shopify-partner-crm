@@ -3,7 +3,9 @@ import { ShopifyIntegration } from './shopify-integration.interface';
 import { BaseIntegrationService } from 'src/base/base-integration.service';
 import {
   INTEGRATION_SINGULARITY,
+  IntegrationCategory,
   IntegrationData,
+  IntegrationSharingType,
   IntegrationType,
 } from 'src/types';
 import { Queue } from 'bullmq';
@@ -19,8 +21,10 @@ export class ShopifyIntegrationService extends BaseIntegrationService<object> {
     description:
       'Boost your e-commerce game with our Shopify integration. Sync orders, track customers, and manage your store effortlessly within our CRM.',
     type: IntegrationType.SHOPIFY,
+    category: IntegrationCategory.ECOMMERCE,
+    singular: INTEGRATION_SINGULARITY.SHOPIFY,
+    sharedType: IntegrationSharingType.PUBLIC,
     logo: 'https://cdn3.iconfinder.com/data/icons/social-media-2068/64/_shopping-512.png',
-    singular: true,
     authType: 'CREDENTIALS',
   };
 
@@ -36,6 +40,8 @@ export class ShopifyIntegrationService extends BaseIntegrationService<object> {
       const data = {
         ...config,
         isSingular: INTEGRATION_SINGULARITY.SHOPIFY,
+        category: IntegrationCategory.ECOMMERCE,
+        sharedType: IntegrationSharingType.PUBLIC,
       };
 
       const isShopifyIntegartionExists =
@@ -61,7 +67,9 @@ export class ShopifyIntegrationService extends BaseIntegrationService<object> {
           description: data.description,
           type: data.type,
           isSingular: data.isSingular,
+          category: data.category,
           organizationId: data.organizationId,
+          sharedType: data.sharedType,
           data: {
             partnerId: data.data.partnerId,
             accessToken: data.data.accessToken,
