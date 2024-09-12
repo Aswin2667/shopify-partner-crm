@@ -15,8 +15,7 @@ export class EmailOpenService {
   getOnePixelImage(id: string): string {
     console.log('Email opened, ID:', id);
 
-    // Emit the email opened event with the id and relevant payload
-    this.emailTrackingQueue.add('email-opened', {
+     this.emailTrackingQueue.add('email-opened', {
       emailId: id,
       openedAt: DateHelper.getCurrentUnixTime(),
       eventSource: 'TRACKER',

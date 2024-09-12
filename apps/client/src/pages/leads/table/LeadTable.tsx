@@ -9,6 +9,7 @@ import { DataTableToolbar } from "./components/data-table-toolbar";
 import LeadBadge from "../components/LeadBadge";
 import { DataTablePagination } from "./components/data-table-pagination";
 import TimeAgo from "timeago-react";
+
 type Project = {
   id: string;
   name: string;

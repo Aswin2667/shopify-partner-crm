@@ -9,13 +9,13 @@ export class AppInstallsUninstallsEventsProcessor {
 
   @Process('APP_INSTALLED_BY_NEW_LEAD')
   async handleAppSyncNewLead(job: Job) {
-    console.log(job)
+    // console.log(job)
     await this.processEvents(job);
   }
 
   @Process('APP_INSTALLED_BY_EXISTING_LEAD')
   async handleAppSyncExistingLead(job: Job) {
-    console.log(job)
+    // console.log(job)
     await this.processEvents(job);
   }
 
@@ -23,8 +23,8 @@ export class AppInstallsUninstallsEventsProcessor {
     try {
       const { app, events } = job.data;
 
-      console.log('App: ', app);
-      console.log('Events: ', events);
+      // console.log('App: ', app);
+      // console.log('Events: ', events);
 
       for (const event of events) {
         const { type, shop, occurredAt } = event;
@@ -71,7 +71,7 @@ export class AppInstallsUninstallsEventsProcessor {
               },
             });
 
-            console.log('New Lead Created:', newLead.id);
+            // console.log('New Lead Created:', newLead.id);
 
             // Create leadProject for this appId with integrationId
             const newLeadProject = await this.prisma.leadProject.create({
@@ -86,7 +86,7 @@ export class AppInstallsUninstallsEventsProcessor {
               },
             });
 
-            console.log('LeadProject Created: ', newLeadProject.id);
+            // console.log('LeadProject Created: ', newLeadProject.id);
 
             // Create leadActivity for new lead
             await this.prisma.leadActivity.create({
@@ -107,7 +107,7 @@ export class AppInstallsUninstallsEventsProcessor {
               },
             });
           } else {
-            console.log('Existing lead found:', existingLead.id);
+            // console.log('Existing lead found:', existingLead.id);
 
             const existingleadProject = await this.prisma.leadProject.findFirst(
               {
@@ -130,7 +130,7 @@ export class AppInstallsUninstallsEventsProcessor {
                   deletedAt: 0,
                 },
               });
-              console.log('Another Lead Project: ', anotherLeadProject.id);
+              // console.log('Another Lead Project: ', anotherLeadProject.id);
             }
 
             await this.prisma.leadActivity.create({
@@ -152,7 +152,7 @@ export class AppInstallsUninstallsEventsProcessor {
             });
           }
         } else {
-          console.log('Duplicate event found, skipping processing.');
+          // console.log('Duplicate event found, skipping processing.');
         }
       }
     } catch (error) {
