@@ -21,7 +21,7 @@ import { AppService } from './LeadActivity.Sync.cron';
       },
     }),
     BullModule.registerQueue({
-      name: 'app_events_queue',
+      name: 'relationship-events',
     }),
     DataSourceModule,
   ],

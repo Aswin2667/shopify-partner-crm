@@ -11,7 +11,7 @@ import { LeadActivitySyncService } from './LeadActivity.Sync.service';
 export class AppService {
   constructor(
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
-    @InjectQueue('app_events_queue')
+    @InjectQueue('relationship-events')
     private readonly appEventsQueue: Queue,
     private readonly LeadActivitySyncService: LeadActivitySyncService,
     private readonly PrismaService: PrismaService,
@@ -37,7 +37,7 @@ export class AppService {
       WHERE 
         p."isSynced" = false`;
 
-    console.log('Apps to be processed:', apps);
+    // console.log('Apps to be processed:', apps);
 
     await Promise.all(
       apps.map(async (app) => {
@@ -46,6 +46,7 @@ export class AppService {
 
         if (events && events.length) {
           const payload = { app, events };
+
           await this.appEventsQueue.add('APP_INSTALLED_BY_NEW_LEAD', payload);
         }
       }),
@@ -54,8 +55,6 @@ export class AppService {
 
   @Cron('*/5 * * * * *')
   async handleCron2() {
-    console.log('Running cron job every 5 seconds...');
-
     const apps: [] = await this.PrismaService.$queryRaw`
       SELECT 
         i."id" AS "integrationId",
@@ -73,8 +72,6 @@ export class AppService {
         i."id" = p."integrationId"
 `;
 
-    // console.log('Apps to be processed:', apps);
-
     await Promise.all(
       apps.map(async (app) => {
         const events =
@@ -83,11 +80,21 @@ export class AppService {
           );
 
         if (events && events.length) {
-          const payload = { app, events };
-          await this.appEventsQueue.add(
-            'APP_INSTALLED_BY_EXISTING_LEAD',
-            payload,
-          );
+          for (const event of events) {
+            const { type: eventType, ...eventData } = event;
+
+            const payload = {
+              app,
+              eventType,
+              event: eventData,
+            };
+
+            console.log(
+              JSON.stringify(payload) +
+                '------------------------------------------------------------------',
+            );
+            await this.appEventsQueue.add('relationship-events', payload);
+          }
         }
       }),
     );

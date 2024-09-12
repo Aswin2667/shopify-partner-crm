@@ -9,13 +9,13 @@ export class AppInstallsUninstallsEventsProcessor {
 
   @Process('APP_INSTALLED_BY_NEW_LEAD')
   async handleAppSyncNewLead(job: Job) {
-    console.log(job)
+    // console.log(job)
     await this.processEvents(job);
   }
 
   @Process('APP_INSTALLED_BY_EXISTING_LEAD')
   async handleAppSyncExistingLead(job: Job) {
-    console.log(job)
+    // console.log(job)
     await this.processEvents(job);
   }
 
