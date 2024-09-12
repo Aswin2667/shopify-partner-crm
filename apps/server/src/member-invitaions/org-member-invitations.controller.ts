@@ -38,16 +38,82 @@ export class OrgMemberInvitationsController {
     try {
       const user =
         await this.orgMemberInvitationsService.verifyInviteToken(token);
+      if (!user) {
+        return {
+          status: false,
+          message: 'Invalid token',
+          user: null,
+        };
+      }
       return {
         status: true,
         message: 'Token verified successfully.',
-        user,
+        data:user,
       };
     } catch (error) {
       throw new HttpException(
         error.message ||
           'An unexpected error occurred while verifying the token.',
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+  @Get('accept')
+  async acceptInviteToken(@Query('token') token: string) {
+    try {
+      const user =
+        await this.orgMemberInvitationsService.acceptInviteToken(token);
+      if (!user) {
+        return {
+          status: false,
+          message: 'Invalid token',
+          user: null,
+        };
+      }
+      return {
+        status: true,
+        message: 'Invitation Accepted successfully.',
+        data:user,
+      };
+    } catch (error) {
+      throw new HttpException(
+        error.message ||
+          'An unexpected error occurred while verifying the token.',
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Get('all')
+  async getOrgMemberInvitationsByOrgId(@Query('orgId') orgId: string) {
+    if (!orgId) {
+      throw new HttpException(
+        { status: false, message: 'Organization ID is required', data: null },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    try {
+      const members =
+        await this.orgMemberInvitationsService.getMemberByOrgId(orgId);
+      const pendingInvitations =
+        await this.orgMemberInvitationsService.getPendingInvitationByOrgId(
+          orgId,
+        );
+      return {
+        status: true,
+        message: 'Invitations retrieved successfully',
+        data: { members, pendingInvitations },
+      };
+    } catch (error) {
+      console.error('Error fetching invitations:', error);
+      throw new HttpException(
+        {
+          status: false,
+          message: 'An error occurred while retrieving invitations',
+          data: null,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }

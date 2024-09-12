@@ -1,0 +1,438 @@
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  // url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:postgres@localhost:5432/shopify_crm?schema=public"
+}
+
+model User {
+  id                   String               @id @default(uuid())
+  email                String               @unique
+  authenticationMethod AuthenticationMethod
+  name                 String?
+  avatarUrl            String?
+  createdAt            BigInt
+  updatedAt            BigInt
+  deletedAt            BigInt
+  LeadActivity         LeadActivity[]
+  orgMembers           OrgMember[]
+  orgMemberInvites     OrgMemberInvite[]
+  templates            Template[]
+  LeadNotes            LeadNotes[]
+}
+
+model OrgMemberInvite {
+  id             String        @id @default(uuid())
+  token          String        @unique
+  email          String
+  role           OrgMemberRole @default(MEMBER)
+  organizationId String
+  inviterId      String
+  createdAt      BigInt
+  updatedAt      BigInt
+  deletedAt      BigInt
+  inviter        User          @relation(fields: [inviterId], references: [id])
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+
+  @@unique([organizationId, email])
+}
+
+model Organization {
+  id           String            @id @default(uuid())
+  name         String
+  logo         String?
+  description  String?
+  createdAt    BigInt            @default(autoincrement())
+  updatedAt    BigInt            @default(autoincrement())
+  deletedAt    BigInt
+  Project      Project[]
+  members      OrgMember[]
+  invites      OrgMemberInvite[]
+  integrations Integration[]
+  Lead         Lead[]
+  contact      Contact[]
+  Template     Template[]
+  LeadStatus   LeadStatus[]
+  webhooks     Webhook[]
+
+  Email Email[]
+
+  MailServiceFromEmail MailServiceFromEmail[]
+  LeadProject  LeadProject[]
+  LeadActivity LeadActivity[]
+}
+
+model OrgMember {
+  id             String        @id @default(uuid())
+  organizationId String
+  userId         String
+  role           OrgMemberRole @default(MEMBER)
+  createdAt      BigInt
+  updatedAt      BigInt
+  deletedAt      BigInt
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+  user           User          @relation(fields: [userId], references: [id])
+
+  @@unique([organizationId, userId])
+}
+
+model Project {
+  id             String        @id @default(uuid())
+  name           String
+  type           String
+  data           Json
+  cliAccessToken String?
+  isSynced       Boolean       @default(false)
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+  organizationId String
+  createdAt      BigInt        @default(autoincrement())
+  updatedAt      BigInt        @default(autoincrement())
+  deletedAt      BigInt?
+  leadProject    LeadProject[]
+  integrationId  String
+  integration    Integration   @relation(fields: [integrationId], references: [id])
+}
+
+model LeadNotes {
+  id           String         @id @default(uuid())
+  leadId       String
+  data         String
+  createdAt    BigInt
+  updatedAt    BigInt
+  deletedAt    BigInt
+  lead         Lead           @relation(fields: [leadId], references: [id])
+  user         User           @relation(fields: [userId], references: [id])
+  LeadActivity LeadActivity[]
+  userId       String
+}
+
+model Lead {
+  id             String         @id @default(uuid())
+  shopifyDomain  String         @unique
+  shopifyStoreId String         @unique
+  statusId       String?
+  status         LeadStatus?    @relation(fields: [statusId], references: [id])
+  Project        LeadProject[]
+  leadSource     String?
+  shopDetails    Json?
+  industry       String?
+  createdAt      BigInt         @default(autoincrement())
+  updatedAt      BigInt         @default(autoincrement())
+  deletedAt      BigInt
+  leadActivities LeadActivity[]
+  leadNotes      LeadNotes[]
+  contacts       Contact[]
+  attachments    Attachment[]
+  integrationId  String?
+  organizationId String
+  organization   Organization   @relation(fields: [organizationId], references: [id])
+  integration    Integration?   @relation(fields: [integrationId], references: [id])
+}
+
+model LeadProject {
+  id            String       @id @default(uuid())
+  leadId        String
+  projectId     String
+  integrationId String
+  orgId         String
+  integration   Integration  @relation(fields: [integrationId], references: [id])
+  lead          Lead         @relation(fields: [leadId], references: [id])
+  project       Project      @relation(fields: [projectId], references: [id])
+  organizatioon Organization @relation(fields: [orgId], references: [id])
+  createdAt     BigInt       @default(autoincrement())
+  updatedAt     BigInt       @default(autoincrement())
+  deletedAt     BigInt
+  status        String?
+
+  @@unique([projectId, leadId])
+}
+
+model Contact {
+  id             String       @id @default(uuid())
+  firstName      String?
+  lastName       String?
+  primaryEmail   String?
+  secondaryEmail String?
+  primaryPhNo    String?
+  secondaryPhNo  String?
+  industry       String?
+  type           String?
+  leadId         String
+  lastContacted  BigInt?
+  createdAt      BigInt
+  updatedAt      BigInt
+  deletedAt      BigInt
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  integrationId  String
+  integration    Integration  @relation(fields: [integrationId], references: [id])
+  lead           Lead         @relation(fields: [leadId], references: [id])
+}
+
+model Attachment {
+  id             String @id @default(uuid())
+  attachmentUrl  String
+  attachmentType String
+  eTag           String
+  attachmentName String
+  leadId         String
+  createdAt      BigInt
+  updatedAt      BigInt
+  deletedAt      BigInt
+  lead           Lead   @relation(fields: [leadId], references: [id])
+}
+
+model LeadActivity {
+  id           String           @id @default(uuid())
+  leadId       String
+  data         Json
+  updatedAt    BigInt
+  createdAt    BigInt
+  deletedAt    BigInt
+  userId       String?
+  noteId       String?
+  type         LeadActivityType
+  orgId        String
+  organization Organization     @relation(fields: [orgId], references: [id])
+  lead         Lead             @relation(fields: [leadId], references: [id])
+  user         User?            @relation(fields: [userId], references: [id])
+  note         LeadNotes?       @relation(fields: [noteId], references: [id])
+
+  @@index([leadId, userId])
+}
+
+model Email {
+  id             String          @id @default(uuid())
+  trackingId     String          @unique
+  to             String[]
+  cc             String[]        @default([])
+  bcc            String[]        @default([])
+  status         EmailStatus     @default(SCHEDULE)
+  isOpened       Boolean         @default(false)
+  isClicked      Boolean         @default(false)
+  subject        String?
+  body           String
+  messageId      String?
+  threadId       String?
+  historyId      String?
+  labelIds       String[]        @default([])
+  sentAt         BigInt
+  openedAt       BigInt          @default(0)
+  clickedAt      BigInt          @default(0)
+  deletedAt      BigInt
+  integrationId  String
+  organizationId String
+  organization   Organization    @relation(fields: [organizationId], references: [id])
+  // TODO: run migration and generate command to add source
+  source         IntegrationType
+  EmailQueue     EmailQueue[]
+}
+
+enum EmailStatus {
+  SEND
+  SCHEDULE
+}
+
+model EmailQueue {
+  id          String      @id @default(uuid())
+  emailId     String
+  email       Email       @relation(fields: [emailId], references: [id])
+  scheduledAt BigInt
+  status      QueueStatus
+  retryCount  Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+enum QueueStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+model Integration {
+  id             String              @id @default(uuid())
+  organizationId String
+  name           String
+  data           Json // Stores API keys, tokens, etc.
+  description    String?
+  type           IntegrationType
+  category       IntegrationCategory
+  createdAt      BigInt              @default(0)
+  updatedAt      BigInt              @default(0)
+  deletedAt      BigInt?
+
+  isSingular Boolean                @default(false)
+  sharedType IntegrationSharingType
+
+  Project              Project[]
+  organization         Organization           @relation(fields: [organizationId], references: [id])
+  Lead                 Lead[]
+  Contact              Contact[]
+  LeadProject          LeadProject[]
+  Jobs                 Job[] // New relation to manage automated jobs
+  mailServiceFromEmail MailServiceFromEmail[] // Link to external "from" emails (optional for certain integrations)
+}
+
+model MailServiceFromEmail {
+  id             String          @id @default(uuid())
+  name           String
+  email          String // Store the external `from` email address for services like Mailgun, SendGrid
+  type           IntegrationType
+  integrationId  String
+  organizationId String
+  createdAt      BigInt          @default(0)
+  updatedAt      BigInt          @default(0)
+
+  integration  Integration  @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id])
+}
+
+model Job {
+  id             String      @id @default(cuid())
+  name           String // E.g., "Sync Gmail Data", "Fetch New Emails"
+  status         JobStatus // PENDING, IN_PROGRESS, COMPLETED, FAILED
+  createdAt      BigInt      @default(0)
+  updatedAt      BigInt      @default(0)
+  integrationId  String
+  integration    Integration @relation(fields: [integrationId], references: [id])
+  tasks          Task[] // A job can have multiple tasks
+  organizationId String // Useful to link with an organization
+}
+
+model Task {
+  id        String     @id @default(cuid())
+  jobId     String
+  name      String // E.g., "Fetch Email", "Store Email in DB"
+  status    TaskStatus
+  createdAt BigInt     @default(0)
+  updatedAt BigInt     @default(0)
+  job       Job        @relation(fields: [jobId], references: [id])
+}
+
+model Webhook {
+  id             String       @id @default(cuid())
+  url            String // Webhook endpoint URL
+  type           WebhookType // GMAIL_NEW_EMAIL, etc.
+  createdAt      BigInt       @default(0)
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  data           Json // Payload from webhook
+}
+
+enum JobStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+}
+
+enum TaskStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum WebhookType {
+  GMAIL_NEW_EMAIL
+  MAILGUN_EVENT
+  SENDGRID_EVENT
+}
+
+enum IntegrationType {
+  GMAIL
+  SHOPIFY
+  MAIL_GUN
+  SEND_GRID
+}
+
+enum IntegrationCategory {
+  ECOMMERCE
+  MAIL_SERVICE
+  OTHER
+}
+
+enum IntegrationSharingType {
+  PUBLIC // ORGANIZATION_WIDE
+  PRIVATE // USER_SPECIFIC
+}
+
+model Template {
+  id           String        @id @default(uuid())
+  html         String
+  name         String
+  createdAt    BigInt
+  isEnabled    Boolean
+  updatedAt    BigInt
+  deletedAt    BigInt
+  userId       String?
+  orgId        String?
+  organization Organization? @relation(fields: [orgId], references: [id])
+  user         User?         @relation(fields: [userId], references: [id])
+}
+
+model LeadStatus {
+  id             String       @id @default(uuid())
+  status         String
+  createdAt      BigInt
+  updatedAt      BigInt
+  deletedAt      BigInt
+  Lead           Lead[]
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+}
+
+enum LeadActivityType {
+  LEAD_CREATED
+  LEAD_UPDATED
+  NOTE_CREATED
+  NOTE_UPDATED
+  NOTE_DELETED
+  EMAIL
+  CALL
+  TASK
+  MEETING
+  STATUS_CHANGE
+  RELATIONSHIP_INSTALLED
+  RELATIONSHIP_UNINSTALLED
+  CREDIT_APPLIED
+  CREDIT_FAILED
+  CREDIT_PENDING
+  ONE_TIME_CHARGE_ACCEPTED
+  ONE_TIME_CHARGE_ACTIVATED
+  ONE_TIME_CHARGE_DECLINED
+  ONE_TIME_CHARGE_EXPIRED
+  RELATIONSHIP_REACTIVATED
+  RELATIONSHIP_DEACTIVATED
+  SUBSCRIPTION_APPROACHING_CAPPED_AMOUNT
+  SUBSCRIPTION_CAPPED_AMOUNT_UPDATED
+  SUBSCRIPTION_CHARGE_ACCEPTED
+  SUBSCRIPTION_CHARGE_ACTIVATED
+  SUBSCRIPTION_CHARGE_CANCELED
+  SUBSCRIPTION_CHARGE_DECLINED
+  SUBSCRIPTION_CHARGE_EXPIRED
+  SUBSCRIPTION_CHARGE_FROZEN
+  SUBSCRIPTION_CHARGE_UNFROZEN
+}
+
+enum AuthenticationMethod {
+  GOOGLE
+  MAGIC_LINK
+}
+
+enum OrgMemberRole {
+  ADMIN
+  MEMBER
+}
+
+enum AppVersion {
+  V2
+  V3
+}
+
+ 

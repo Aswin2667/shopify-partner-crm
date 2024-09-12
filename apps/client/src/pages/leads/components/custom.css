@@ -1,0 +1,37 @@
+.editor-input {
+  border-radius: 9px;
+  border: none;
+}
+
+.ql-toolbar {
+  display: flex;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  align-items: center;
+  border-bottom-width: 1px;
+  border-top-left-radius: 0.5em;
+  border-top-right-radius: 0.5em;
+}
+.ql-container {
+  min-height: 10em;
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+  background: white;
+}
+
+.ql-formats {
+  border-radius: 0.25rem;
+  color: #6b7280;
+  cursor: pointer;
+}
+.ql-formats::hover {
+  color: #111827;
+  background-color: #f3f4f6;
+}
+
+.ql-tooltip,
+.ql-editing {
+  z-index: 500;
+}

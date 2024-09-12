@@ -6,7 +6,13 @@ import { TemplateService } from '../../src/templates/template.service';
 
 describe('TemplateController (e2e)', () => {
   let app: INestApplication;
-  let templateService = { create: jest.fn(), findOne: jest.fn(), update: jest.fn(), remove: jest.fn(), findAllByUser: jest.fn() };
+  let templateService = {
+    create: jest.fn(),
+    findOne: jest.fn(),
+    update: jest.fn(),
+    remove: jest.fn(),
+    findAllByUser: jest.fn(),
+  };
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -19,8 +25,18 @@ describe('TemplateController (e2e)', () => {
   });
 
   it('/template (POST) should create a template', () => {
-    const createTemplateDto = { html: '<html><body><h1>Hello World</h1></body></html>', userId: 'user12345', scope: 'ADMIN_ONLY' };
-    templateService.create = jest.fn().mockResolvedValue({ ...createTemplateDto, id: 'tmpl12345', createdAt: Date.now(), updatedAt: Date.now(), deletedAt: 0 });
+    const createTemplateDto = {
+      html: '<html><body><h1>Hello World</h1></body></html>',
+      userId: 'user12345',
+      scope: 'ADMIN_ONLY',
+    };
+    templateService.create = jest.fn().mockResolvedValue({
+      ...createTemplateDto,
+      id: 'tmpl12345',
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      deletedAt: 0,
+    });
 
     return request(app.getHttpServer())
       .post('/template')
@@ -29,20 +45,27 @@ describe('TemplateController (e2e)', () => {
       .expect({
         status: true,
         message: 'Template created successfully.',
-            data: {
-              id: '1',
-              html: '<html><body><h1>Hello World</h1></body></html>',
-              userId: 'user12345',
-              scope: 'ADMIN_ONLY',
-              createdAt: 123123123123,
-              updatedAt: 123123123123 ,
-              deletedAt: 0
-            }
-          });
+        data: {
+          id: '1',
+          html: '<html><body><h1>Hello World</h1></body></html>',
+          userId: 'user12345',
+          scope: 'ADMIN_ONLY',
+          createdAt: 123123123123,
+          updatedAt: 123123123123,
+          deletedAt: 0,
+        },
+      });
   });
 
   it('/template/:id (GET) should return a template', () => {
-    const template = { id: 'tmpl12345', html: '<html><body><h1>Hello World</h1></body></html>', userId: 'user12345', createdAt:123123123123, updatedAt: 123123123123, deletedAt: 0 };
+    const template = {
+      id: 'tmpl12345',
+      html: '<html><body><h1>Hello World</h1></body></html>',
+      userId: 'user12345',
+      createdAt: 123123123123,
+      updatedAt: 123123123123,
+      deletedAt: 0,
+    };
     templateService.findOne = jest.fn().mockResolvedValue(template);
 
     return request(app.getHttpServer())
@@ -55,20 +78,18 @@ describe('TemplateController (e2e)', () => {
       });
   });
 
-
-
   it('/template/user/:userId (GET) should return templates for a user', () => {
     templateService.findAllByUser = jest.fn().mockResolvedValue([
-        {
-          id: '1',
-          html: '<html><body><h1>Hello World</h1></body></html>',
-          userId: 'user12345',
-          scope: 'ADMIN_ONLY',
-          createdAt: 123123123123,
-          updatedAt: 123123123123,
-          deletedAt: 0
-        }
-      ]);
+      {
+        id: '1',
+        html: '<html><body><h1>Hello World</h1></body></html>',
+        userId: 'user12345',
+        scope: 'ADMIN_ONLY',
+        createdAt: 123123123123,
+        updatedAt: 123123123123,
+        deletedAt: 0,
+      },
+    ]);
 
     return request(app.getHttpServer())
       .get('/template/user/user12345')
@@ -84,9 +105,9 @@ describe('TemplateController (e2e)', () => {
             scope: 'ADMIN_ONLY',
             createdAt: 123123123123,
             updatedAt: 123123123123,
-            deletedAt: 0
-          }
-        ]
+            deletedAt: 0,
+          },
+        ],
       });
   });
 

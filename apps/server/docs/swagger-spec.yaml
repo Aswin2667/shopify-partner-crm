@@ -41,6 +41,10 @@ tags:
     description: Operations related to Contacts
   - name: Emails
     description: Operations related to Emails
+  - name: Integrations
+    description: Operations related to Integrations
+  - name: Apps
+    description: Operations related to applications
 
 paths:
   /user:
@@ -1835,7 +1839,7 @@ paths:
                   message:
                     type: string
                     example: 'An unexpected error occurred while retrieving templates.'
-   # Leads
+    # Leads
   /leads/{appId}:
     get:
       summary: Get all leads using the appId
@@ -1865,7 +1869,7 @@ paths:
                       example: true
                     message:
                       type: string
-                      example: "Got Lead using the AppId"
+                      example: 'Got Lead using the AppId'
                     data:
                       type: object
                       properties:
@@ -1925,7 +1929,7 @@ paths:
                   message:
                     type: string
                     example: Invalid AppId
-        
+
         '401':
           description: UnAuthorized user
           content:
@@ -1954,7 +1958,7 @@ paths:
                     type: string
                     example: Lead not found
         '500':
-          description:  Internal server error
+          description: Internal server error
           content:
             application/json:
               schema:
@@ -1982,7 +1986,7 @@ paths:
           description: Unique identifier for the Lead
       responses:
         '200':
-          description:  Lead found
+          description: Lead found
           content:
             application/json:
               schema:
@@ -1993,7 +1997,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Got the user using the leadId"
+                    example: 'Got the user using the leadId'
                   data:
                     type: object
                     properties:
@@ -2040,7 +2044,6 @@ paths:
                         type: string
                         example: '4245452'
 
-
         '400':
           description: Invalid Application Id
           content:
@@ -2067,7 +2070,6 @@ paths:
                     type: string
                     example: You cant get the lead because you are unAuthorized
 
-
         '404':
           description: Leads not found for the given AppId
           content:
@@ -2080,7 +2082,7 @@ paths:
                   message:
                     type: string
         '500':
-          description:  Internal server error
+          description: Internal server error
           content:
             application/json:
               schema:
@@ -2091,7 +2093,7 @@ paths:
                   message:
                     type: string
 
-# Leads Attachments
+  # Leads Attachments
   /leads/{leadId}/attachments:
     post:
       summary: Upload attachments for the lead
@@ -2132,7 +2134,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Attachments uploaded successfully"
+                    example: 'Attachments uploaded successfully'
                   data:
                     type: object
                     properties:
@@ -2157,7 +2159,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid leadId or file format"
+                    example: 'Invalid leadId or file format'
         '401':
           description: Unauthorized
           content:
@@ -2170,7 +2172,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access"
+                    example: 'Unauthorized access'
         '404':
           description: Lead not found
           content:
@@ -2183,7 +2185,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Lead not found"
+                    example: 'Lead not found'
         '500':
           description: Internal server error
           content:
@@ -2263,7 +2265,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid leadId"
+                    example: 'Invalid leadId'
         '401':
           description: Unauthorized
           content:
@@ -2276,7 +2278,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access"
+                    example: 'Unauthorized access'
         '404':
           description: Lead not found
           content:
@@ -2289,7 +2291,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Lead not found"
+                    example: 'Lead not found'
         '500':
           description: Internal server error
           content:
@@ -2358,7 +2360,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Attachment updated successfully"
+                    example: 'Attachment updated successfully'
                   data:
                     type: object
                     properties:
@@ -2400,7 +2402,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid leadId, attachmentId, or data format"
+                    example: 'Invalid leadId, attachmentId, or data format'
         '401':
           description: Unauthorized
           content:
@@ -2413,7 +2415,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access"
+                    example: 'Unauthorized access'
         '404':
           description: Lead or Attachment not found
           content:
@@ -2426,7 +2428,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Lead or Attachment not found"
+                    example: 'Lead or Attachment not found'
         '500':
           description: Internal server error
           content:
@@ -2474,7 +2476,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid leadId or attachmentId"
+                    example: 'Invalid leadId or attachmentId'
         '401':
           description: Unauthorized
           content:
@@ -2487,7 +2489,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access"
+                    example: 'Unauthorized access'
         '404':
           description: Lead or Attachment not found
           content:
@@ -2500,7 +2502,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Lead or Attachment not found"
+                    example: 'Lead or Attachment not found'
         '500':
           description: Internal server error
           content:
@@ -2514,8 +2516,7 @@ paths:
                   message:
                     type: string
 
-
-# Lead Notes
+  # Lead Notes
   /leads/{leadId}/notes:
     post:
       summary: Create a Note for the lead
@@ -2554,7 +2555,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Note created successfully"
+                    example: 'Note created successfully'
                   data:
                     type: object
                     properties:
@@ -2566,7 +2567,7 @@ paths:
                         example: 'leadId12345'
                       data:
                         type: string
-                        example: "This is a note for the lead."
+                        example: 'This is a note for the lead.'
                       createdAt:
                         type: string
                         format: date-time
@@ -2583,7 +2584,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid leadId or data"
+                    example: 'Invalid leadId or data'
         '401':
           description: Unauthorized
           content:
@@ -2596,7 +2597,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access"
+                    example: 'Unauthorized access'
         '404':
           description: Lead not found
           content:
@@ -2609,7 +2610,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Lead not found"
+                    example: 'Lead not found'
         '500':
           description: Internal server error
           content:
@@ -2653,7 +2654,7 @@ paths:
                       example: 'leadId12345'
                     data:
                       type: string
-                      example: "This is a note for the lead."
+                      example: 'This is a note for the lead.'
                     createdAt:
                       type: string
                       format: date-time
@@ -2678,7 +2679,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid leadId"
+                    example: 'Invalid leadId'
         '401':
           description: Unauthorized
           content:
@@ -2691,7 +2692,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access"
+                    example: 'Unauthorized access'
         '404':
           description: Lead not found
           content:
@@ -2704,7 +2705,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Lead not found"
+                    example: 'Lead not found'
         '500':
           description: Internal server error
           content:
@@ -2747,7 +2748,7 @@ paths:
               properties:
                 data:
                   type: string
-                  example: "Updated note content."
+                  example: 'Updated note content.'
                   description: The updated content of the note
       responses:
         '200':
@@ -2762,7 +2763,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Note updated successfully"
+                    example: 'Note updated successfully'
                   data:
                     type: object
                     properties:
@@ -2774,7 +2775,7 @@ paths:
                         example: 'leadId12345'
                       data:
                         type: string
-                        example: "Updated note content."
+                        example: 'Updated note content.'
                       createdAt:
                         type: string
                         format: date-time
@@ -2795,7 +2796,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid leadId, noteId, or data format"
+                    example: 'Invalid leadId, noteId, or data format'
         '401':
           description: Unauthorized
           content:
@@ -2808,7 +2809,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access"
+                    example: 'Unauthorized access'
         '404':
           description: Lead or Note not found
           content:
@@ -2821,7 +2822,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Lead or Note not found"
+                    example: 'Lead or Note not found'
         '500':
           description: Internal server error
           content:
@@ -2834,7 +2835,7 @@ paths:
                     example: false
                   message:
                     type: string
-            
+
     delete:
       summary: Delete a note for the lead
       description: Deletes a specific note for a specific lead.
@@ -2869,7 +2870,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid leadId or noteId"
+                    example: 'Invalid leadId or noteId'
         '401':
           description: Unauthorized
           content:
@@ -2882,7 +2883,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access"
+                    example: 'Unauthorized access'
         '404':
           description: Lead or Note not found
           content:
@@ -2895,7 +2896,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Lead or Note not found"
+                    example: 'Lead or Note not found'
         '500':
           description: Internal server error
           content:
@@ -2909,7 +2910,7 @@ paths:
                   message:
                     type: string
 
-# Lead contacts
+  # Lead contacts
   /leads/{leadId}/contacts:
     post:
       summary: Create a contact for a lead
@@ -2923,45 +2924,45 @@ paths:
           schema:
             type: string
           required: true
-          description:  Unique identifier for the lead
+          description: Unique identifier for the lead
       requestBody:
         required: true
         content:
-          application/json: 
+          application/json:
             schema:
               type: object
               properties:
                 firstName:
                   type: string
-                  example: "John"
+                  example: 'John'
                   description: The first name of the contact
                 lastName:
                   type: string
-                  example: "Doe"
+                  example: 'Doe'
                   description: The last name of the contact
                 primaryEmail:
                   type: string
-                  example: "john.doe@example.com"
+                  example: 'john.doe@example.com'
                   description: The primary email of the contact
                 secondaryEmail:
                   type: string
-                  example: "john.doe@anotherdomain.com"
+                  example: 'john.doe@anotherdomain.com'
                   description: The secondary email of the contact
                 primaryPhNo:
                   type: string
-                  example: "+1234567890"
+                  example: '+1234567890'
                   description: The primary phone number of the contact
                 secondaryPhNo:
                   type: string
-                  example: "+0987654321"
+                  example: '+0987654321'
                   description: The secondary phone number of the contact
                 industry:
                   type: string
-                  example: "Technology"
+                  example: 'Technology'
                   description: The industry of the contact
                 type:
                   type: string
-                  example: "Client"
+                  example: 'Client'
                   description: The type of contact (e.g., Client, Partner, etc.)
                 lastContacted:
                   type: string
@@ -2970,7 +2971,7 @@ paths:
                   description: The last contacted timestamp
                 notes:
                   type: string
-                  example: "Met at the tech conference."
+                  example: 'Met at the tech conference.'
                   description: Notes about the contact
       responses:
         '201':
@@ -2985,7 +2986,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Contact created successfully"
+                    example: 'Contact created successfully'
                   data:
                     type: object
                     properties:
@@ -2997,35 +2998,35 @@ paths:
                         example: 'leadId12345'
                       firstName:
                         type: string
-                        example: "John"
+                        example: 'John'
                       lastName:
                         type: string
-                        example: "Doe"
+                        example: 'Doe'
                       primaryEmail:
                         type: string
-                        example: "john.doe@example.com"
+                        example: 'john.doe@example.com'
                       secondaryEmail:
                         type: string
-                        example: "john.doe@anotherdomain.com"
+                        example: 'john.doe@anotherdomain.com'
                       primaryPhNo:
                         type: string
-                        example: "+1234567890"
+                        example: '+1234567890'
                       secondaryPhNo:
                         type: string
-                        example: "+0987654321"
+                        example: '+0987654321'
                       industry:
                         type: string
-                        example: "Technology"
+                        example: 'Technology'
                       type:
                         type: string
-                        example: "Client"
+                        example: 'Client'
                       lastContacted:
                         type: string
                         format: date-time
                         example: '2024-07-25T12:34:56Z'
                       notes:
                         type: string
-                        example: "Met at the tech conference."
+                        example: 'Met at the tech conference.'
                       createdAt:
                         type: string
                         format: date-time
@@ -3042,7 +3043,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid leadId or data"
+                    example: 'Invalid leadId or data'
         '401':
           description: Unauthorized
           content:
@@ -3055,7 +3056,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access"
+                    example: 'Unauthorized access'
         '404':
           description: Lead not found
           content:
@@ -3068,7 +3069,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Lead not found"
+                    example: 'Lead not found'
         '500':
           description: Internal server error
           content:
@@ -3112,35 +3113,35 @@ paths:
                       example: 'leadId12345'
                     firstName:
                       type: string
-                      example: "John"
+                      example: 'John'
                     lastName:
                       type: string
-                      example: "Doe"
+                      example: 'Doe'
                     primaryEmail:
                       type: string
-                      example: "john.doe@example.com"
+                      example: 'john.doe@example.com'
                     secondaryEmail:
                       type: string
-                      example: "john.doe@anotherdomain.com"
+                      example: 'john.doe@anotherdomain.com'
                     primaryPhNo:
                       type: string
-                      example: "+1234567890"
+                      example: '+1234567890'
                     secondaryPhNo:
                       type: string
-                      example: "+0987654321"
+                      example: '+0987654321'
                     industry:
                       type: string
-                      example: "Technology"
+                      example: 'Technology'
                     type:
                       type: string
-                      example: "Client"
+                      example: 'Client'
                     lastContacted:
                       type: string
                       format: date-time
                       example: '2024-07-25T12:34:56Z'
                     notes:
                       type: string
-                      example: "Met at the tech conference."
+                      example: 'Met at the tech conference.'
                     createdAt:
                       type: string
                       format: date-time
@@ -3165,7 +3166,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid leadId"
+                    example: 'Invalid leadId'
         '401':
           description: Unauthorized
           content:
@@ -3178,7 +3179,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access"
+                    example: 'Unauthorized access'
         '404':
           description: Lead not found
           content:
@@ -3191,7 +3192,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Lead not found"
+                    example: 'Lead not found'
         '500':
           description: Internal server error
           content:
@@ -3238,7 +3239,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Contact details retrieved successfully"
+                    example: 'Contact details retrieved successfully'
                   data:
                     type: object
                     properties:
@@ -3250,35 +3251,35 @@ paths:
                         example: 'leadId12345'
                       firstName:
                         type: string
-                        example: "John"
+                        example: 'John'
                       lastName:
                         type: string
-                        example: "Doe"
+                        example: 'Doe'
                       primaryEmail:
                         type: string
-                        example: "john.doe@example.com"
+                        example: 'john.doe@example.com'
                       secondaryEmail:
                         type: string
-                        example: "john.doe@anotherdomain.com"
+                        example: 'john.doe@anotherdomain.com'
                       primaryPhNo:
                         type: string
-                        example: "+1234567890"
+                        example: '+1234567890'
                       secondaryPhNo:
                         type: string
-                        example: "+0987654321"
+                        example: '+0987654321'
                       industry:
                         type: string
-                        example: "Technology"
+                        example: 'Technology'
                       type:
                         type: string
-                        example: "Client"
+                        example: 'Client'
                       lastContacted:
                         type: string
                         format: date-time
                         example: '2024-07-25T12:34:56Z'
                       notes:
                         type: string
-                        example: "Met at the tech conference."
+                        example: 'Met at the tech conference.'
                       createdAt:
                         type: string
                         format: date-time
@@ -3303,7 +3304,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid leadId or contactId"
+                    example: 'Invalid leadId or contactId'
         '401':
           description: Unauthorized
           content:
@@ -3316,7 +3317,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access"
+                    example: 'Unauthorized access'
         '404':
           description: Lead or Contact not found
           content:
@@ -3329,7 +3330,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Lead or Contact not found"
+                    example: 'Lead or Contact not found'
         '500':
           description: Internal server error
           content:
@@ -3343,7 +3344,7 @@ paths:
                   message:
                     type: string
 
-  # org member(user) go into the specific lead and send mail to the lead contact 
+  # org member(user) go into the specific lead and send mail to the lead contact
   /leads/{leadId}/contacts/{contactId}/send-email:
     post:
       summary: Send an email to a specific contact
@@ -3373,11 +3374,11 @@ paths:
               properties:
                 subject:
                   type: string
-                  example: "Meeting Follow-Up"
+                  example: 'Meeting Follow-Up'
                   description: Subject of the email
                 messageId:
                   type: string
-                  example: "msg-id-12345"
+                  example: 'msg-id-12345'
                   description: Unique identifier for the email message
                 hasAttachments:
                   type: boolean
@@ -3385,23 +3386,23 @@ paths:
                   description: Indicates if the email has attachments
                 cc:
                   type: string
-                  example: "cc@example.com"
+                  example: 'cc@example.com'
                   description: CC email addresses
                 bcc:
                   type: string
-                  example: "bcc@example.com"
+                  example: 'bcc@example.com'
                   description: BCC email addresses
                 from:
                   type: string
-                  example: "sender@example.com"
+                  example: 'sender@example.com'
                   description: Sender email address
                 to:
                   type: string
-                  example: "contact@example.com"
+                  example: 'contact@example.com'
                   description: Recipient email address
                 userId:
                   type: string
-                  example: "userId12345"
+                  example: 'userId12345'
                   description: Identifier for the user sending the email
       responses:
         '201':
@@ -3416,7 +3417,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Email sent successfully"
+                    example: 'Email sent successfully'
                   data:
                     type: object
                     properties:
@@ -3425,28 +3426,28 @@ paths:
                         example: 'emailId12345'
                       subject:
                         type: string
-                        example: "Meeting Follow-Up"
+                        example: 'Meeting Follow-Up'
                       messageId:
                         type: string
-                        example: "msg-id-12345"
+                        example: 'msg-id-12345'
                       hasAttachments:
                         type: boolean
                         example: false
                       cc:
                         type: string
-                        example: "cc@example.com"
+                        example: 'cc@example.com'
                       bcc:
                         type: string
-                        example: "bcc@example.com"
+                        example: 'bcc@example.com'
                       from:
                         type: string
-                        example: "sender@example.com"
+                        example: 'sender@example.com'
                       to:
                         type: string
-                        example: "contact@example.com"
+                        example: 'contact@example.com'
                       userId:
                         type: string
-                        example: "userId12345"
+                        example: 'userId12345'
                       time:
                         type: string
                         format: date-time
@@ -3463,7 +3464,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid data or contact not found"
+                    example: 'Invalid data or contact not found'
         '401':
           description: Unauthorized
           content:
@@ -3476,7 +3477,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access"
+                    example: 'Unauthorized access'
         '404':
           description: Lead or Contact not found
           content:
@@ -3489,7 +3490,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Lead or Contact not found"
+                    example: 'Lead or Contact not found'
         '500':
           description: Internal server error
           content:
@@ -3530,7 +3531,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Email details retrieved successfully"
+                    example: 'Email details retrieved successfully'
                   data:
                     type: object
                     properties:
@@ -3539,28 +3540,28 @@ paths:
                         example: 'emailId12345'
                       subject:
                         type: string
-                        example: "Meeting Follow-Up"
+                        example: 'Meeting Follow-Up'
                       messageId:
                         type: string
-                        example: "msg-id-12345"
+                        example: 'msg-id-12345'
                       hasAttachments:
                         type: boolean
                         example: false
                       cc:
                         type: string
-                        example: "cc@example.com"
+                        example: 'cc@example.com'
                       bcc:
                         type: string
-                        example: "bcc@example.com"
+                        example: 'bcc@example.com'
                       from:
                         type: string
-                        example: "sender@example.com"
+                        example: 'sender@example.com'
                       to:
                         type: string
-                        example: "contact@example.com"
+                        example: 'contact@example.com'
                       userId:
                         type: string
-                        example: "userId12345"
+                        example: 'userId12345'
                       time:
                         type: string
                         format: date-time
@@ -3596,7 +3597,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid emailId"
+                    example: 'Invalid emailId'
         '401':
           description: Unauthorized
           content:
@@ -3609,7 +3610,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access"
+                    example: 'Unauthorized access'
         '404':
           description: Email not found
           content:
@@ -3622,7 +3623,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Email not found"
+                    example: 'Email not found'
         '500':
           description: Internal server error
           content:
@@ -3664,7 +3665,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Emails retrieved successfully"
+                    example: 'Emails retrieved successfully'
                   data:
                     type: array
                     items:
@@ -3675,25 +3676,25 @@ paths:
                           example: 'emailId12345'
                         subject:
                           type: string
-                          example: "Meeting Follow-Up"
+                          example: 'Meeting Follow-Up'
                         messageId:
                           type: string
-                          example: "msg-id-12345"
+                          example: 'msg-id-12345'
                         hasAttachments:
                           type: boolean
                           example: false
                         cc:
                           type: string
-                          example: "cc@example.com"
+                          example: 'cc@example.com'
                         bcc:
                           type: string
-                          example: "bcc@example.com"
+                          example: 'bcc@example.com'
                         from:
                           type: string
-                          example: "sender@example.com"
+                          example: 'sender@example.com'
                         to:
                           type: string
-                          example: "contact@example.com"
+                          example: 'contact@example.com'
                         time:
                           type: string
                           format: date-time
@@ -3729,7 +3730,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid userId"
+                    example: 'Invalid userId'
         '401':
           description: Unauthorized
           content:
@@ -3742,7 +3743,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access"
+                    example: 'Unauthorized access'
         '404':
           description: No emails found for the given userId
           content:
@@ -3755,7 +3756,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "No emails found for the given userId"
+                    example: 'No emails found for the given userId'
         '500':
           description: Internal server error
           content:
@@ -3768,7 +3769,7 @@ paths:
                     example: false
                   message:
                     type: string
-  
+
   # Get Emails Sent to Contacts for a Specific Lead
   /leads/{leadId}/emails:
     get:
@@ -3797,7 +3798,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: "Emails sent to contacts for the lead retrieved successfully"
+                    example: 'Emails sent to contacts for the lead retrieved successfully'
                   data:
                     type: array
                     items:
@@ -3808,25 +3809,25 @@ paths:
                           example: 'emailId12345'
                         subject:
                           type: string
-                          example: "Meeting Follow-Up"
+                          example: 'Meeting Follow-Up'
                         messageId:
                           type: string
-                          example: "msg-id-12345"
+                          example: 'msg-id-12345'
                         hasAttachments:
                           type: boolean
                           example: false
                         cc:
                           type: string
-                          example: "cc@example.com"
+                          example: 'cc@example.com'
                         bcc:
                           type: string
-                          example: "bcc@example.com"
+                          example: 'bcc@example.com'
                         from:
                           type: string
-                          example: "sender@example.com"
+                          example: 'sender@example.com'
                         to:
                           type: string
-                          example: "contact@example.com"
+                          example: 'contact@example.com'
                         time:
                           type: string
                           format: date-time
@@ -3862,7 +3863,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid leadId"
+                    example: 'Invalid leadId'
         '401':
           description: Unauthorized
           content:
@@ -3875,7 +3876,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access"
+                    example: 'Unauthorized access'
         '404':
           description: No emails found for the given leadId
           content:
@@ -3888,7 +3889,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "No emails found for the given leadId"
+                    example: 'No emails found for the given leadId'
         '500':
           description: Internal server error
           content:
@@ -3938,28 +3939,28 @@ paths:
                       example: 'emailId12345'
                     subject:
                       type: string
-                      example: "Meeting Follow-Up"
+                      example: 'Meeting Follow-Up'
                     messageId:
                       type: string
-                      example: "msg-id-12345"
+                      example: 'msg-id-12345'
                     hasAttachments:
                       type: boolean
                       example: false
                     cc:
                       type: string
-                      example: "cc@example.com"
+                      example: 'cc@example.com'
                     bcc:
                       type: string
-                      example: "bcc@example.com"
+                      example: 'bcc@example.com'
                     from:
                       type: string
-                      example: "sender@example.com"
+                      example: 'sender@example.com'
                     to:
                       type: string
-                      example: "contact@example.com"
+                      example: 'contact@example.com'
                     userId:
                       type: string
-                      example: "userId12345"
+                      example: 'userId12345'
                     time:
                       type: string
                       format: date-time
@@ -3976,7 +3977,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Invalid leadId or contactId"
+                    example: 'Invalid leadId or contactId'
         '401':
           description: Unauthorized
           content:
@@ -3989,7 +3990,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Unauthorized access"
+                    example: 'Unauthorized access'
         '404':
           description: Lead or Contact not found
           content:
@@ -4002,7 +4003,7 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Lead or Contact not found"
+                    example: 'Lead or Contact not found'
         '500':
           description: Internal server error
           content:
@@ -4015,4 +4016,1007 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: "Internal server error"
+                    example: 'Internal server error'
+
+  # Apps
+  /apps/{integrationId}:
+    parameters:
+      - in: path
+        name: integrationId
+        required: true
+        schema:
+          type: string
+        description: Integration ID to retrive apps list
+
+    # Get all apps of an integration by integrationId
+    get:
+      summary: Get all apps
+      operationId: getAllApps
+      tags:
+        - Apps
+      responses:
+        '200':
+          description: List of apps of an integration fetched Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'App List Fetched successfully.'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Apps'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for App. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Integration Id not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred. Please try again later.'
+
+  /apps:
+    # Create an app
+    post:
+      summary: Create an app
+      operationId: createApp
+      tags:
+        - Apps
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'My App'
+                shopifyAppId:
+                  type: number
+                  example: 142561116161
+                shopifyClientId:
+                  type: string
+                  example: 'aa34d8ba161ff72be06e138db0f5777e'
+                integrationId:
+                  type: string
+                  example: 'ck2j49r2a0d1m0741gzhjo41v'
+                organizationId:
+                  type: string
+                  example: 'ck2j49r2a0d1m0741gzhjo41v'
+
+      responses:
+        '201':
+          description: App created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'App created successfully.'
+                  data:
+                    type: object
+                    # schema:
+                    $ref: '#/components/schemas/Apps'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for App. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred. Please try again later.'
+
+  /apps/{appId}:
+    parameters:
+      - in: path
+        name: appId
+        required: true
+        schema:
+          type: string
+        description: App ID to perform operation
+
+    # Get an app by ID
+    get:
+      summary: Retrieve an app by ID
+      operationId: getAppById
+      tags:
+        - Apps
+      responses:
+        '200':
+          description: App found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'App Fetched successfully.'
+                  data:
+                    type: object
+                    $ref: '#/components/schemas/Apps'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for App. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'App Id not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred. Please try again later.'
+
+    # Update an app
+    put:
+      summary: Update an app
+      operationId: updateApp
+      tags:
+        - Apps
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'My App'
+                shopifyAppId:
+                  type: number
+                  example: 142561116161
+                shopifyClientId:
+                  type: string
+                  example: 'aa34d8ba161ff72be06e138db0f5777e'
+      responses:
+        '200':
+          description: App updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Apps'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for App. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'App Id not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred. Please try again later.'
+
+    # Delete an app
+    delete:
+      summary: Delete an app
+      operationId: deleteApp
+      tags:
+        - Apps
+      responses:
+        '204':
+          description: App deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'App deleted successfully.'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for App. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'App Id not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred. Please try again later.'
+
+  # Integrations
+  /integrations/{organizationId}:
+    parameters:
+      - in: path
+        name: organizationId
+        required: true
+        schema:
+          type: string
+        description: Organization ID to retrive Integration list
+
+    # Get all integrations by Organization Id
+    get:
+      summary: Get all integrations
+      operationId: getAllIntegrations
+      tags:
+        - Integrations
+      responses:
+        '200':
+          description: List of integrations for an organization fetched Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Integrations List Fetched successfully.'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Integrations'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for Integration. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Organization Id not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred. Please try again later.'
+
+  /integrations:
+    # Create an integration
+    post:
+      summary: Create an integration
+      operationId: createIntegration
+      tags:
+        - Integrations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'My Integration'
+                type:
+                  type: string
+                  enum:
+                    - SHOPIFY
+                    - KLAVIYO
+                    - ZAPIER
+                  example: 'SHOPIFY'
+                data:
+                  type: object
+                  example:
+                    {
+                      'accessToken': 'prtapi_eaf760b84b01f56228e266d699c42f8e',
+                      'partnerId': '3767830',
+                    }
+
+      responses:
+        '201':
+          description: Integration created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'App created successfully.'
+                  data:
+                    type: object
+                    # schema:
+                    $ref: '#/components/schemas/Integrations'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for Integration. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred. Please try again later.'
+
+  /integrations/{integrationId}:
+    parameters:
+      - in: path
+        name: integrationId
+        required: true
+        schema:
+          type: string
+        description: Integration ID to perform operation
+
+    # Get an integration by ID
+    get:
+      summary: Get an integration
+      operationId: getIntegration
+      tags:
+        - Integrations
+      responses:
+        '200':
+          description: Integration found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Integration Fetched successfully.'
+                  data:
+                    type: object
+                    $ref: '#/components/schemas/Integrations'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for Integration. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Integration Id not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred. Please try again later.'
+
+    # Update an integration
+    put:
+      summary: Update an integration
+      operationId: updateIntegration
+      tags:
+        - Integrations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'My Integration'
+                type:
+                  type: string
+                  enum:
+                    - SHOPIFY
+                    - KLAVIYO
+                    - ZAPIER
+                  example: 'SHOPIFY'
+                data:
+                  type: object
+                  example:
+                    {
+                      'accessToken': 'prtapi_eaf760b84b01f56228e266d699c42f8e',
+                      'partnerId': '3767830',
+                    }
+      responses:
+        '200':
+          description: Integration updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Integrations'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for Integration. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Integration Id not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred. Please try again later.'
+
+    # Delete an integration
+    delete:
+      summary: Delete an integration
+      operationId: deleteIntegration
+      tags:
+        - Integrations
+      responses:
+        '204':
+          description: Integration deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Integration deleted successfully.'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for Integration. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Integration Id not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred. Please try again later.'
+
+  /integrations/connect/{integrationId}:
+    post:
+      summary: Connect an integration
+      operationId: connectIntegration
+      tags:
+        - Integrations
+      parameters:
+        - name: partnerId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '3767830'
+      responses:
+        '200':
+          description: Integration connected successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Integration connected successfully.'
+                  data:
+                    type: object
+                    $ref: '#/components/schemas/Integrations'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for Integration. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Integration Id not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred. Please try again later.'
+
+  /integrations/disconnect/{integrationId}:
+    post:
+      summary: Disconnect an integration
+      operationId: disconnectIntegration
+      tags:
+        - Integrations
+      parameters:
+        - name: partnerId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '3767830'
+      responses:
+        '200':
+          description: Integration disconnected successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Integration disconnected successfully.'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Invalid data for Integration. Please check the provided data.'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Unauthorized access. Please provide a valid API key.'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Integration Id not found.'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'An unexpected error occurred. Please try again later.'

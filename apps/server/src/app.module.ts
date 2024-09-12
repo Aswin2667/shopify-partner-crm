@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
 import { UserService } from './user/user.service';
@@ -13,16 +14,73 @@ import { OrgMemberService } from './org-member/org-member.service';
 import { AuthMiddleware } from './auth/auth.middleware';
 import { TemplateController } from './templates/template.controller';
 import { TemplateService } from './templates/template.service';
+import { WinstonModule } from 'nest-winston';
+import { MulterModule } from '@nestjs/platform-express';
+import * as winston from 'winston';
+import { S3Service } from './s3/s3.service';
+import { S3Controller } from 's3.controller';
+import { BullModule, BullQueueEvents } from '@nestjs/bull';
+import { ProjectModule } from './project/project.module';
+import * as path from 'path';
+import { LeadController } from './leads/lead.controller';
+import { LeadService } from './leads/lead.service';
+import { PrismaService } from './config/prisma.service';
+import { LeadActivityService } from './lead-activity/lead-activity.service';
+import { AuthModule } from './auth/auth.module';
+import { MailModule } from './mail/mail.module';
+import { LeadActivityController } from './lead-activity/lead-activity.controller';
+import { LeadNotesController } from './notes/notes.controller';
+import { LeadNotesService } from './notes/notes.service';
+import { ContactController } from './contacts/contact.controller';
+import { ContactService } from './contacts/contact.service';
+import { IntegrationModule } from './integration/integration.module';
+import { Service } from './.service';
+import { LeadStatusModule } from './LeadStatus/lead-status.module';
 
 @Module({
-  imports: [UserModule],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: path.resolve(__dirname, '../../../../', '.env'),
+      isGlobal: true,
+    }),
+    MulterModule.register({
+      dest: './uploads',
+    }),
+    WinstonModule.forRoot({
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.simple(),
+        }),
+      ],
+    }),
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6378,
+      },
+    }),
+    BullModule.registerQueue({
+      name: 'events',
+    }),
+    MailModule,
+    ProjectModule,
+    AuthModule,
+    IntegrationModule,
+    LeadStatusModule,
+  ],
   controllers: [
     UserController,
     MagicLinkController,
     OrganizationController,
     OrgMemberInvitationsController,
     OrgMemberController,
-    TemplateController
+    TemplateController,
+    S3Controller,
+    // IntegrationsController,
+    LeadController,
+    LeadActivityController,
+    LeadNotesController,
+    ContactController,
   ],
   providers: [
     UserService,
@@ -30,7 +88,16 @@ import { TemplateService } from './templates/template.service';
     OrganizationService,
     OrgMemberInvitationsService,
     OrgMemberService,
-    TemplateService
+    TemplateService,
+    S3Service,
+    // IntegrationsService,
+    LeadService,
+    PrismaService,
+    LeadActivityService,
+    LeadActivityService,
+    LeadNotesService,
+    ContactService,
+    Service,
   ],
 })
 export class AppModule {

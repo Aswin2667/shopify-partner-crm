@@ -1,0 +1,60 @@
+.editor-input {
+    border-radius: 9px;
+    border: none;
+  }
+  .ql-toolbar {
+    display: flex;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    align-items: center;
+    border-bottom-width: 1px;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+  }
+  .ql-container {
+    min-height: 10em;
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+    background: white;
+  }
+  .ql-formats {
+    border-radius: 0.25rem;
+    color: #6B7280;
+    cursor: pointer;
+  }
+  .ql-formats::hover {
+    color: #111827;
+    background-color: #F3F4F6;
+  }
+  .ql-tooltip,
+  .ql-editing {
+    z-index: 500;
+  }
+
+  /* Custom Quill Editor Styles */
+.editor-input .ql-container {
+  border-radius: 0; /* Remove rounded corners */
+  border: 1px solid #E5E7EB; /* Border styling */
+  background-color: #F9FAFB; /* Editor background color */
+  font-size: 12px; /* Set default font size to small */
+}
+
+.editor-input .ql-toolbar {
+  order: 2; /* Move toolbar below the editor */
+  background-color: white; /* White toolbar background */
+  border-radius: 0; /* Remove rounded corners */
+  border: 1px solid #E5E7EB; /* Border styling */
+}
+
+/* For dark mode */
+body.dark-mode .editor-input .ql-container {
+  background-color: #2D2D2D; /* Dark background for editor */
+  border-color: #3A3A3A; /* Dark border color */
+}
+
+body.dark-mode .editor-input .ql-toolbar {
+  background-color: #3A3A3A; /* Dark background for toolbar */
+  border-color: #3A3A3A; /* Dark border color */
+}

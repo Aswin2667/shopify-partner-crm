@@ -33,21 +33,25 @@ export class RedisService {
   }
 
   public getBullWorkerInstance(queueName: string, callback: Processor): Worker {
-    return new Worker(queueName, async (job) => {
-      try {
-        await callback(job);
-      } catch (error) {
-        console.error('Error processing job:', error);
-        throw error;
-      }
-    }, {
-      connection: {
-        host: this.host,
-        port: this.port,
-        username: this.userName,
-        password: this.password,
-        connectTimeout: 10000,
+    return new Worker(
+      queueName,
+      async (job) => {
+        try {
+          await callback(job);
+        } catch (error) {
+          console.error('Error processing job:', error);
+          throw error;
+        }
       },
-    });
+      {
+        connection: {
+          host: this.host,
+          port: this.port,
+          username: this.userName,
+          password: this.password,
+          connectTimeout: 10000,
+        },
+      },
+    );
   }
 }
