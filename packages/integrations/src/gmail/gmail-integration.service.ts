@@ -8,6 +8,7 @@ import {
   IntegrationSharingType,
   IntegrationType,
   IntegrationCategory,
+  MailAction,
 } from '../types';
 import axios from 'axios';
 import { google } from 'googleapis';
@@ -15,6 +16,7 @@ import { ConnectConfig, GmailAction, GmailIntegrationData } from './types';
 import { Prisma, PrismaService } from '@org/data-source';
 import { DateHelper } from '@org/utils';
 import { getTrackingImage } from 'src/helper';
+import { throwError } from 'rxjs';
 
 @Injectable()
 export class GmailIntegrationService extends BaseIntegrationService<object> {
@@ -168,15 +170,27 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
   }
 
   async performAction(action: string, params: any): Promise<any> {
-    if (action === GmailAction.SEND_MAIL) {
+    if (action === MailAction.SEND_MAIL) {
       return await this.sendMail(params);
-    } else {
+    } else if (action === MailAction.SCHEDULE_MAIL) {
+      return await this.scheduleMail(params);
+    } 
+    else if(action === 'TEST'){
+      return await this.test(params);
+    }
+    else {
       throw new Error('Invalid action');
     }
   }
 
   /* PRIVATE METHODS TO PERFORM SEND MAIL ACTION STARTS */
+
+  private async test(params:any){
+    console.log(params);
+  }
+
   private async sendMail(emailData: {
+    from: { name: string; email: string };
     to: string[];
     cc: string[];
     bcc: string[];
@@ -188,6 +202,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     organizationId: string;
   }) {
     const {
+      from,
       to,
       cc,
       bcc,
@@ -213,9 +228,9 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         subject,
         customMessageId,
       );
-      const trackingId:string = uuidv4();
+      const trackingId: string = uuidv4();
       const bodyWithTrackingImage = getTrackingImage(body, trackingId);
-        
+
       console.log(bodyWithTrackingImage);
       const message = `${headers}\r\n\r\n${bodyWithTrackingImage}`;
       const encodedMessage = this.encodeMessage(message);
@@ -236,6 +251,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
 
       return await this.storeEmailInDatabase(
         response.data,
+        from,
         to,
         cc,
         bcc,
@@ -250,6 +266,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         error,
         refreshToken,
         gmailIntegrationId,
+        from,
         to,
         cc,
         bcc,
@@ -269,6 +286,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     body: string;
     integrationId: string;
     organizationId: string;
+    scheduledAt: bigint | number;
   }) {
     try {
       const {
@@ -280,8 +298,9 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         body,
         integrationId,
         organizationId,
+        scheduledAt,
       } = mailData;
-      const response = await this.prisma.email.create({
+      const mailSavedresponse = await this.prisma.email.create({
         data: {
           from,
           to,
@@ -292,9 +311,25 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
           integrationId,
           organizationId,
           source: IntegrationType.GMAIL,
-        },
+           sentAt: 0,
+         },
       });
-    } catch (error) {}
+      if (mailSavedresponse.id) {
+        const mailQueueResponse = await this.prisma.emailQueue.create({
+          data: {
+            emailId: mailSavedresponse.id,
+            scheduledAt,
+            status: 'PENDING',
+          },
+        });
+        this.logger.log('Mail scheduled successfully');
+        return mailQueueResponse;
+      }
+      throw new Error('Failed to schedule email');
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
   }
 
   private generateCustomMessageId() {
@@ -359,6 +394,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
 
   private async storeEmailInDatabase(
     emailData,
+    from,
     to,
     cc,
     bcc,
@@ -370,6 +406,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
   ) {
     return await this.prisma.email.create({
       data: {
+        from: from,
         to: to,
         cc: cc,
         bcc: bcc,
@@ -448,6 +485,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     error: any,
     refreshToken: string,
     gmailIntegrationId: string,
+    from: { name: string; email: string },
     to: string[],
     cc: string[],
     bcc: string[],
@@ -465,6 +503,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         `New access token obtained ${newAccessToken}, retrying email send...`,
       );
       await this.sendMail({
+        from,
         to,
         cc,
         bcc,

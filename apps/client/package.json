@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
-    "@org/utils": "*",
     "@org/integrations": "*",
+    "@org/utils": "*",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
@@ -57,6 +57,7 @@
     "react-resizable-panels": "^2.0.22",
     "react-select": "^5.8.0",
     "recharts": "^2.12.7",
+    "rsuite": "^5.70.2",
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",

@@ -21,6 +21,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import DateHelper from "../../../utils/DateHelper";
+import { DatePicker, Stack } from "rsuite";
+import { FaCalendar, FaClock } from "react-icons/fa";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 type Props = {};
 
@@ -32,6 +39,7 @@ const initialArgs = {
   subject: "",
   body: "",
   template: { selected: {}, all: defaultTemplates || [] },
+  scheduledAt: DateHelper.getCurrentUnixTime(),
 };
 
 const reducerFn = (prevState: any, action: any) => {
@@ -161,6 +169,7 @@ const Compose = (props: Props): JSX.Element => {
       body: compose.body,
       integrationId: compose.from.integrationId,
       organizationId,
+      scheduledAt: compose.scheduledAt,
     };
 
     console.log(mailContext);
@@ -230,8 +239,8 @@ const Compose = (props: Props): JSX.Element => {
           onValueChange={(value) => dispatch({ type: "from", payload: value })}
           // defaultValue={compose.from.data?.email}
         >
-          <SelectTrigger className="focus:outline-white">
-            <SelectValue placeholder={compose.from?.data?.email} />
+          <SelectTrigger className="">
+            <SelectValue placeholder="Select an email" />
           </SelectTrigger>
           <SelectContent>
             {fromEmail.map((integration: any) => (
@@ -378,6 +387,17 @@ const Compose = (props: Props): JSX.Element => {
           <button className="border text-gray-500 px-3 py-1 rounded-full font-semibold">
             Schedule
           </button>
+            <DatePicker
+              format="dd MMM yyyy hh:mm:ss aa"
+              showMeridian
+              caretAs={FaCalendar}
+              style={{ width: 220 }}
+            />
+          {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={["DateTimePicker"]}>
+              <DateTimePicker label="Basic date time picker" />
+            </DemoContainer>
+          </LocalizationProvider> */}
         </div>
         <div className="flex gap-3 text-gray-500">
           <button className="border  px-3 py-1 rounded-full font-semibold">

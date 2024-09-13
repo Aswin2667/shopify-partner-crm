@@ -38,7 +38,7 @@ export class EventConsumer implements OnModuleInit {
     private readonly oneTimeChargeAcceptedStrategy: OneTimeChargeAcceptedStrategy,
     private readonly oneTimeChargeActivatedStrategy: OneTimeChargeActivatedStrategy,
     private readonly oneTimeChargeDeclinedStrategy: OneTimeChargeDeclinedStrategy,
-    private readonly oneTimeChargeExpiredStrategy: OneTimeChargeExpiredStrategy,   
+    private readonly oneTimeChargeExpiredStrategy: OneTimeChargeExpiredStrategy,
     // Subscription event strategies
     private readonly subscriptionApproachingCappedAmountStrategy: SubscriptionApproachingCappedAmountStrategy,
     private readonly subscriptionCappedAmountUpdatedStrategy: SubscriptionCappedAmountUpdatedStrategy,
@@ -62,7 +62,7 @@ export class EventConsumer implements OnModuleInit {
     this.bullMQClient.createWorker('relationship-events', async (job) => {
       const eventType = job.data.eventType;
       const eventData = job.data;
-      console.log('Received event:', eventType, eventData);
+      console.log('Received event:', eventType, job.data);
       switch (eventType) {
         case 'RELATIONSHIP_INSTALLED':
           await this.relationshipInstalledStrategy.handle(eventData);

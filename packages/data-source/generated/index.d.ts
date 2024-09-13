@@ -84,6 +84,26 @@ export type EmailQueue = $Result.DefaultSelection<Prisma.$EmailQueuePayload>
  */
 export type Integration = $Result.DefaultSelection<Prisma.$IntegrationPayload>
 /**
+ * Model MailServiceFromEmail
+ * 
+ */
+export type MailServiceFromEmail = $Result.DefaultSelection<Prisma.$MailServiceFromEmailPayload>
+/**
+ * Model Job
+ * 
+ */
+export type Job = $Result.DefaultSelection<Prisma.$JobPayload>
+/**
+ * Model Task
+ * 
+ */
+export type Task = $Result.DefaultSelection<Prisma.$TaskPayload>
+/**
+ * Model Webhook
+ * 
+ */
+export type Webhook = $Result.DefaultSelection<Prisma.$WebhookPayload>
+/**
  * Model Template
  * 
  */
@@ -158,6 +178,16 @@ export const EmailStatus: {
 export type EmailStatus = (typeof EmailStatus)[keyof typeof EmailStatus]
 
 
+export const IntegrationType: {
+  GMAIL: 'GMAIL',
+  SHOPIFY: 'SHOPIFY',
+  MAIL_GUN: 'MAIL_GUN',
+  SEND_GRID: 'SEND_GRID'
+};
+
+export type IntegrationType = (typeof IntegrationType)[keyof typeof IntegrationType]
+
+
 export const QueueStatus: {
   PENDING: 'PENDING',
   SENT: 'SENT',
@@ -167,14 +197,49 @@ export const QueueStatus: {
 export type QueueStatus = (typeof QueueStatus)[keyof typeof QueueStatus]
 
 
-export const IntegrationType: {
-  GMAIL: 'GMAIL',
-  SHOPIFY: 'SHOPIFY',
-  MAIL_GUN: 'MAIL_GUN',
-  SEND_GRID: 'SEND_GRID'
+export const IntegrationCategory: {
+  ECOMMERCE: 'ECOMMERCE',
+  MAIL_SERVICE: 'MAIL_SERVICE',
+  OTHER: 'OTHER'
 };
 
-export type IntegrationType = (typeof IntegrationType)[keyof typeof IntegrationType]
+export type IntegrationCategory = (typeof IntegrationCategory)[keyof typeof IntegrationCategory]
+
+
+export const IntegrationSharingType: {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE'
+};
+
+export type IntegrationSharingType = (typeof IntegrationSharingType)[keyof typeof IntegrationSharingType]
+
+
+export const JobStatus: {
+  PENDING: 'PENDING',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
+export type JobStatus = (typeof JobStatus)[keyof typeof JobStatus]
+
+
+export const TaskStatus: {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
+export type TaskStatus = (typeof TaskStatus)[keyof typeof TaskStatus]
+
+
+export const WebhookType: {
+  GMAIL_NEW_EMAIL: 'GMAIL_NEW_EMAIL',
+  MAILGUN_EVENT: 'MAILGUN_EVENT',
+  SENDGRID_EVENT: 'SENDGRID_EVENT'
+};
+
+export type WebhookType = (typeof WebhookType)[keyof typeof WebhookType]
 
 }
 
@@ -194,13 +259,33 @@ export type EmailStatus = $Enums.EmailStatus
 
 export const EmailStatus: typeof $Enums.EmailStatus
 
+export type IntegrationType = $Enums.IntegrationType
+
+export const IntegrationType: typeof $Enums.IntegrationType
+
 export type QueueStatus = $Enums.QueueStatus
 
 export const QueueStatus: typeof $Enums.QueueStatus
 
-export type IntegrationType = $Enums.IntegrationType
+export type IntegrationCategory = $Enums.IntegrationCategory
 
-export const IntegrationType: typeof $Enums.IntegrationType
+export const IntegrationCategory: typeof $Enums.IntegrationCategory
+
+export type IntegrationSharingType = $Enums.IntegrationSharingType
+
+export const IntegrationSharingType: typeof $Enums.IntegrationSharingType
+
+export type JobStatus = $Enums.JobStatus
+
+export const JobStatus: typeof $Enums.JobStatus
+
+export type TaskStatus = $Enums.TaskStatus
+
+export const TaskStatus: typeof $Enums.TaskStatus
+
+export type WebhookType = $Enums.WebhookType
+
+export const WebhookType: typeof $Enums.WebhookType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -463,6 +548,46 @@ export class PrismaClient<
     * ```
     */
   get integration(): Prisma.IntegrationDelegate<ExtArgs>;
+
+  /**
+   * `prisma.mailServiceFromEmail`: Exposes CRUD operations for the **MailServiceFromEmail** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MailServiceFromEmails
+    * const mailServiceFromEmails = await prisma.mailServiceFromEmail.findMany()
+    * ```
+    */
+  get mailServiceFromEmail(): Prisma.MailServiceFromEmailDelegate<ExtArgs>;
+
+  /**
+   * `prisma.job`: Exposes CRUD operations for the **Job** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Jobs
+    * const jobs = await prisma.job.findMany()
+    * ```
+    */
+  get job(): Prisma.JobDelegate<ExtArgs>;
+
+  /**
+   * `prisma.task`: Exposes CRUD operations for the **Task** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tasks
+    * const tasks = await prisma.task.findMany()
+    * ```
+    */
+  get task(): Prisma.TaskDelegate<ExtArgs>;
+
+  /**
+   * `prisma.webhook`: Exposes CRUD operations for the **Webhook** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Webhooks
+    * const webhooks = await prisma.webhook.findMany()
+    * ```
+    */
+  get webhook(): Prisma.WebhookDelegate<ExtArgs>;
 
   /**
    * `prisma.template`: Exposes CRUD operations for the **Template** model.
@@ -974,6 +1099,10 @@ export namespace Prisma {
     Email: 'Email',
     EmailQueue: 'EmailQueue',
     Integration: 'Integration',
+    MailServiceFromEmail: 'MailServiceFromEmail',
+    Job: 'Job',
+    Task: 'Task',
+    Webhook: 'Webhook',
     Template: 'Template',
     LeadStatus: 'LeadStatus'
   };
@@ -991,7 +1120,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "orgMemberInvite" | "organization" | "orgMember" | "project" | "leadNotes" | "lead" | "leadProject" | "contact" | "attachment" | "leadActivity" | "email" | "emailQueue" | "integration" | "template" | "leadStatus"
+      modelProps: "user" | "orgMemberInvite" | "organization" | "orgMember" | "project" | "leadNotes" | "lead" | "leadProject" | "contact" | "attachment" | "leadActivity" | "email" | "emailQueue" | "integration" | "mailServiceFromEmail" | "job" | "task" | "webhook" | "template" | "leadStatus"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1975,6 +2104,286 @@ export namespace Prisma {
           }
         }
       }
+      MailServiceFromEmail: {
+        payload: Prisma.$MailServiceFromEmailPayload<ExtArgs>
+        fields: Prisma.MailServiceFromEmailFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MailServiceFromEmailFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MailServiceFromEmailPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MailServiceFromEmailFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MailServiceFromEmailPayload>
+          }
+          findFirst: {
+            args: Prisma.MailServiceFromEmailFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MailServiceFromEmailPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MailServiceFromEmailFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MailServiceFromEmailPayload>
+          }
+          findMany: {
+            args: Prisma.MailServiceFromEmailFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MailServiceFromEmailPayload>[]
+          }
+          create: {
+            args: Prisma.MailServiceFromEmailCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MailServiceFromEmailPayload>
+          }
+          createMany: {
+            args: Prisma.MailServiceFromEmailCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MailServiceFromEmailCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MailServiceFromEmailPayload>[]
+          }
+          delete: {
+            args: Prisma.MailServiceFromEmailDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MailServiceFromEmailPayload>
+          }
+          update: {
+            args: Prisma.MailServiceFromEmailUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MailServiceFromEmailPayload>
+          }
+          deleteMany: {
+            args: Prisma.MailServiceFromEmailDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MailServiceFromEmailUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.MailServiceFromEmailUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MailServiceFromEmailPayload>
+          }
+          aggregate: {
+            args: Prisma.MailServiceFromEmailAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMailServiceFromEmail>
+          }
+          groupBy: {
+            args: Prisma.MailServiceFromEmailGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MailServiceFromEmailGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MailServiceFromEmailCountArgs<ExtArgs>
+            result: $Utils.Optional<MailServiceFromEmailCountAggregateOutputType> | number
+          }
+        }
+      }
+      Job: {
+        payload: Prisma.$JobPayload<ExtArgs>
+        fields: Prisma.JobFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.JobFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.JobFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>
+          }
+          findFirst: {
+            args: Prisma.JobFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.JobFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>
+          }
+          findMany: {
+            args: Prisma.JobFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>[]
+          }
+          create: {
+            args: Prisma.JobCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>
+          }
+          createMany: {
+            args: Prisma.JobCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.JobCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>[]
+          }
+          delete: {
+            args: Prisma.JobDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>
+          }
+          update: {
+            args: Prisma.JobUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>
+          }
+          deleteMany: {
+            args: Prisma.JobDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.JobUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.JobUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>
+          }
+          aggregate: {
+            args: Prisma.JobAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateJob>
+          }
+          groupBy: {
+            args: Prisma.JobGroupByArgs<ExtArgs>
+            result: $Utils.Optional<JobGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.JobCountArgs<ExtArgs>
+            result: $Utils.Optional<JobCountAggregateOutputType> | number
+          }
+        }
+      }
+      Task: {
+        payload: Prisma.$TaskPayload<ExtArgs>
+        fields: Prisma.TaskFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TaskFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TaskFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
+          }
+          findFirst: {
+            args: Prisma.TaskFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TaskFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
+          }
+          findMany: {
+            args: Prisma.TaskFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>[]
+          }
+          create: {
+            args: Prisma.TaskCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
+          }
+          createMany: {
+            args: Prisma.TaskCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TaskCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>[]
+          }
+          delete: {
+            args: Prisma.TaskDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
+          }
+          update: {
+            args: Prisma.TaskUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
+          }
+          deleteMany: {
+            args: Prisma.TaskDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TaskUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.TaskUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
+          }
+          aggregate: {
+            args: Prisma.TaskAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTask>
+          }
+          groupBy: {
+            args: Prisma.TaskGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TaskGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TaskCountArgs<ExtArgs>
+            result: $Utils.Optional<TaskCountAggregateOutputType> | number
+          }
+        }
+      }
+      Webhook: {
+        payload: Prisma.$WebhookPayload<ExtArgs>
+        fields: Prisma.WebhookFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WebhookFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WebhookFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookPayload>
+          }
+          findFirst: {
+            args: Prisma.WebhookFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WebhookFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookPayload>
+          }
+          findMany: {
+            args: Prisma.WebhookFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookPayload>[]
+          }
+          create: {
+            args: Prisma.WebhookCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookPayload>
+          }
+          createMany: {
+            args: Prisma.WebhookCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WebhookCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookPayload>[]
+          }
+          delete: {
+            args: Prisma.WebhookDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookPayload>
+          }
+          update: {
+            args: Prisma.WebhookUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookPayload>
+          }
+          deleteMany: {
+            args: Prisma.WebhookDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WebhookUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.WebhookUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebhookPayload>
+          }
+          aggregate: {
+            args: Prisma.WebhookAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWebhook>
+          }
+          groupBy: {
+            args: Prisma.WebhookGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WebhookGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WebhookCountArgs<ExtArgs>
+            result: $Utils.Optional<WebhookCountAggregateOutputType> | number
+          }
+        }
+      }
       Template: {
         payload: Prisma.$TemplatePayload<ExtArgs>
         fields: Prisma.TemplateFieldRefs
@@ -2351,6 +2760,9 @@ export namespace Prisma {
     contact: number
     Template: number
     LeadStatus: number
+    webhooks: number
+    Email: number
+    MailServiceFromEmail: number
     LeadProject: number
     LeadActivity: number
   }
@@ -2364,6 +2776,9 @@ export namespace Prisma {
     contact?: boolean | OrganizationCountOutputTypeCountContactArgs
     Template?: boolean | OrganizationCountOutputTypeCountTemplateArgs
     LeadStatus?: boolean | OrganizationCountOutputTypeCountLeadStatusArgs
+    webhooks?: boolean | OrganizationCountOutputTypeCountWebhooksArgs
+    Email?: boolean | OrganizationCountOutputTypeCountEmailArgs
+    MailServiceFromEmail?: boolean | OrganizationCountOutputTypeCountMailServiceFromEmailArgs
     LeadProject?: boolean | OrganizationCountOutputTypeCountLeadProjectArgs
     LeadActivity?: boolean | OrganizationCountOutputTypeCountLeadActivityArgs
   }
@@ -2433,6 +2848,27 @@ export namespace Prisma {
    */
   export type OrganizationCountOutputTypeCountLeadStatusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LeadStatusWhereInput
+  }
+
+  /**
+   * OrganizationCountOutputType without action
+   */
+  export type OrganizationCountOutputTypeCountWebhooksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebhookWhereInput
+  }
+
+  /**
+   * OrganizationCountOutputType without action
+   */
+  export type OrganizationCountOutputTypeCountEmailArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmailWhereInput
+  }
+
+  /**
+   * OrganizationCountOutputType without action
+   */
+  export type OrganizationCountOutputTypeCountMailServiceFromEmailArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MailServiceFromEmailWhereInput
   }
 
   /**
@@ -2619,6 +3055,8 @@ export namespace Prisma {
     Lead: number
     Contact: number
     LeadProject: number
+    Jobs: number
+    mailServiceFromEmail: number
   }
 
   export type IntegrationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2626,6 +3064,8 @@ export namespace Prisma {
     Lead?: boolean | IntegrationCountOutputTypeCountLeadArgs
     Contact?: boolean | IntegrationCountOutputTypeCountContactArgs
     LeadProject?: boolean | IntegrationCountOutputTypeCountLeadProjectArgs
+    Jobs?: boolean | IntegrationCountOutputTypeCountJobsArgs
+    mailServiceFromEmail?: boolean | IntegrationCountOutputTypeCountMailServiceFromEmailArgs
   }
 
   // Custom InputTypes
@@ -2665,6 +3105,51 @@ export namespace Prisma {
    */
   export type IntegrationCountOutputTypeCountLeadProjectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LeadProjectWhereInput
+  }
+
+  /**
+   * IntegrationCountOutputType without action
+   */
+  export type IntegrationCountOutputTypeCountJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JobWhereInput
+  }
+
+  /**
+   * IntegrationCountOutputType without action
+   */
+  export type IntegrationCountOutputTypeCountMailServiceFromEmailArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MailServiceFromEmailWhereInput
+  }
+
+
+  /**
+   * Count Type JobCountOutputType
+   */
+
+  export type JobCountOutputType = {
+    tasks: number
+  }
+
+  export type JobCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tasks?: boolean | JobCountOutputTypeCountTasksArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * JobCountOutputType without action
+   */
+  export type JobCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobCountOutputType
+     */
+    select?: JobCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * JobCountOutputType without action
+   */
+  export type JobCountOutputTypeCountTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TaskWhereInput
   }
 
 
@@ -5084,6 +5569,9 @@ export namespace Prisma {
     contact?: boolean | Organization$contactArgs<ExtArgs>
     Template?: boolean | Organization$TemplateArgs<ExtArgs>
     LeadStatus?: boolean | Organization$LeadStatusArgs<ExtArgs>
+    webhooks?: boolean | Organization$webhooksArgs<ExtArgs>
+    Email?: boolean | Organization$EmailArgs<ExtArgs>
+    MailServiceFromEmail?: boolean | Organization$MailServiceFromEmailArgs<ExtArgs>
     LeadProject?: boolean | Organization$LeadProjectArgs<ExtArgs>
     LeadActivity?: boolean | Organization$LeadActivityArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
@@ -5118,6 +5606,9 @@ export namespace Prisma {
     contact?: boolean | Organization$contactArgs<ExtArgs>
     Template?: boolean | Organization$TemplateArgs<ExtArgs>
     LeadStatus?: boolean | Organization$LeadStatusArgs<ExtArgs>
+    webhooks?: boolean | Organization$webhooksArgs<ExtArgs>
+    Email?: boolean | Organization$EmailArgs<ExtArgs>
+    MailServiceFromEmail?: boolean | Organization$MailServiceFromEmailArgs<ExtArgs>
     LeadProject?: boolean | Organization$LeadProjectArgs<ExtArgs>
     LeadActivity?: boolean | Organization$LeadActivityArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
@@ -5135,6 +5626,9 @@ export namespace Prisma {
       contact: Prisma.$ContactPayload<ExtArgs>[]
       Template: Prisma.$TemplatePayload<ExtArgs>[]
       LeadStatus: Prisma.$LeadStatusPayload<ExtArgs>[]
+      webhooks: Prisma.$WebhookPayload<ExtArgs>[]
+      Email: Prisma.$EmailPayload<ExtArgs>[]
+      MailServiceFromEmail: Prisma.$MailServiceFromEmailPayload<ExtArgs>[]
       LeadProject: Prisma.$LeadProjectPayload<ExtArgs>[]
       LeadActivity: Prisma.$LeadActivityPayload<ExtArgs>[]
     }
@@ -5518,6 +6012,9 @@ export namespace Prisma {
     contact<T extends Organization$contactArgs<ExtArgs> = {}>(args?: Subset<T, Organization$contactArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findMany"> | Null>
     Template<T extends Organization$TemplateArgs<ExtArgs> = {}>(args?: Subset<T, Organization$TemplateArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemplatePayload<ExtArgs>, T, "findMany"> | Null>
     LeadStatus<T extends Organization$LeadStatusArgs<ExtArgs> = {}>(args?: Subset<T, Organization$LeadStatusArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadStatusPayload<ExtArgs>, T, "findMany"> | Null>
+    webhooks<T extends Organization$webhooksArgs<ExtArgs> = {}>(args?: Subset<T, Organization$webhooksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookPayload<ExtArgs>, T, "findMany"> | Null>
+    Email<T extends Organization$EmailArgs<ExtArgs> = {}>(args?: Subset<T, Organization$EmailArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailPayload<ExtArgs>, T, "findMany"> | Null>
+    MailServiceFromEmail<T extends Organization$MailServiceFromEmailArgs<ExtArgs> = {}>(args?: Subset<T, Organization$MailServiceFromEmailArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MailServiceFromEmailPayload<ExtArgs>, T, "findMany"> | Null>
     LeadProject<T extends Organization$LeadProjectArgs<ExtArgs> = {}>(args?: Subset<T, Organization$LeadProjectArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadProjectPayload<ExtArgs>, T, "findMany"> | Null>
     LeadActivity<T extends Organization$LeadActivityArgs<ExtArgs> = {}>(args?: Subset<T, Organization$LeadActivityArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadActivityPayload<ExtArgs>, T, "findMany"> | Null>
     /**
@@ -6027,6 +6524,66 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LeadStatusScalarFieldEnum | LeadStatusScalarFieldEnum[]
+  }
+
+  /**
+   * Organization.webhooks
+   */
+  export type Organization$webhooksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Webhook
+     */
+    select?: WebhookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookInclude<ExtArgs> | null
+    where?: WebhookWhereInput
+    orderBy?: WebhookOrderByWithRelationInput | WebhookOrderByWithRelationInput[]
+    cursor?: WebhookWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WebhookScalarFieldEnum | WebhookScalarFieldEnum[]
+  }
+
+  /**
+   * Organization.Email
+   */
+  export type Organization$EmailArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Email
+     */
+    select?: EmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailInclude<ExtArgs> | null
+    where?: EmailWhereInput
+    orderBy?: EmailOrderByWithRelationInput | EmailOrderByWithRelationInput[]
+    cursor?: EmailWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EmailScalarFieldEnum | EmailScalarFieldEnum[]
+  }
+
+  /**
+   * Organization.MailServiceFromEmail
+   */
+  export type Organization$MailServiceFromEmailArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MailServiceFromEmail
+     */
+    select?: MailServiceFromEmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MailServiceFromEmailInclude<ExtArgs> | null
+    where?: MailServiceFromEmailWhereInput
+    orderBy?: MailServiceFromEmailOrderByWithRelationInput | MailServiceFromEmailOrderByWithRelationInput[]
+    cursor?: MailServiceFromEmailWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MailServiceFromEmailScalarFieldEnum | MailServiceFromEmailScalarFieldEnum[]
   }
 
   /**
@@ -14693,149 +15250,163 @@ export namespace Prisma {
   }
 
   export type EmailAvgAggregateOutputType = {
-    sentAt: number | null
     openedAt: number | null
     clickedAt: number | null
+    sentAt: number | null
     deletedAt: number | null
   }
 
   export type EmailSumAggregateOutputType = {
-    sentAt: bigint | null
     openedAt: bigint | null
     clickedAt: bigint | null
+    sentAt: bigint | null
     deletedAt: bigint | null
   }
 
   export type EmailMinAggregateOutputType = {
     id: string | null
-    trackingId: string | null
     status: $Enums.EmailStatus | null
-    isOpened: boolean | null
-    isClicked: boolean | null
     subject: string | null
     body: string | null
+    trackingId: string | null
     messageId: string | null
     threadId: string | null
     historyId: string | null
-    sentAt: bigint | null
+    isOpened: boolean | null
     openedAt: bigint | null
+    isClicked: boolean | null
     clickedAt: bigint | null
+    sentAt: bigint | null
     deletedAt: bigint | null
     integrationId: string | null
+    organizationId: string | null
+    source: $Enums.IntegrationType | null
   }
 
   export type EmailMaxAggregateOutputType = {
     id: string | null
-    trackingId: string | null
     status: $Enums.EmailStatus | null
-    isOpened: boolean | null
-    isClicked: boolean | null
     subject: string | null
     body: string | null
+    trackingId: string | null
     messageId: string | null
     threadId: string | null
     historyId: string | null
-    sentAt: bigint | null
+    isOpened: boolean | null
     openedAt: bigint | null
+    isClicked: boolean | null
     clickedAt: bigint | null
+    sentAt: bigint | null
     deletedAt: bigint | null
     integrationId: string | null
+    organizationId: string | null
+    source: $Enums.IntegrationType | null
   }
 
   export type EmailCountAggregateOutputType = {
     id: number
-    trackingId: number
+    from: number
     to: number
     cc: number
     bcc: number
     status: number
-    isOpened: number
-    isClicked: number
     subject: number
     body: number
+    trackingId: number
     messageId: number
     threadId: number
     historyId: number
     labelIds: number
-    sentAt: number
+    isOpened: number
     openedAt: number
+    isClicked: number
     clickedAt: number
+    sentAt: number
     deletedAt: number
     integrationId: number
+    organizationId: number
+    source: number
     _all: number
   }
 
 
   export type EmailAvgAggregateInputType = {
-    sentAt?: true
     openedAt?: true
     clickedAt?: true
+    sentAt?: true
     deletedAt?: true
   }
 
   export type EmailSumAggregateInputType = {
-    sentAt?: true
     openedAt?: true
     clickedAt?: true
+    sentAt?: true
     deletedAt?: true
   }
 
   export type EmailMinAggregateInputType = {
     id?: true
-    trackingId?: true
     status?: true
-    isOpened?: true
-    isClicked?: true
     subject?: true
     body?: true
+    trackingId?: true
     messageId?: true
     threadId?: true
     historyId?: true
-    sentAt?: true
+    isOpened?: true
     openedAt?: true
+    isClicked?: true
     clickedAt?: true
+    sentAt?: true
     deletedAt?: true
     integrationId?: true
+    organizationId?: true
+    source?: true
   }
 
   export type EmailMaxAggregateInputType = {
     id?: true
-    trackingId?: true
     status?: true
-    isOpened?: true
-    isClicked?: true
     subject?: true
     body?: true
+    trackingId?: true
     messageId?: true
     threadId?: true
     historyId?: true
-    sentAt?: true
+    isOpened?: true
     openedAt?: true
+    isClicked?: true
     clickedAt?: true
+    sentAt?: true
     deletedAt?: true
     integrationId?: true
+    organizationId?: true
+    source?: true
   }
 
   export type EmailCountAggregateInputType = {
     id?: true
-    trackingId?: true
+    from?: true
     to?: true
     cc?: true
     bcc?: true
     status?: true
-    isOpened?: true
-    isClicked?: true
     subject?: true
     body?: true
+    trackingId?: true
     messageId?: true
     threadId?: true
     historyId?: true
     labelIds?: true
-    sentAt?: true
+    isOpened?: true
     openedAt?: true
+    isClicked?: true
     clickedAt?: true
+    sentAt?: true
     deletedAt?: true
     integrationId?: true
+    organizationId?: true
+    source?: true
     _all?: true
   }
 
@@ -14927,24 +15498,27 @@ export namespace Prisma {
 
   export type EmailGroupByOutputType = {
     id: string
-    trackingId: string
+    from: JsonValue
     to: string[]
     cc: string[]
     bcc: string[]
     status: $Enums.EmailStatus
-    isOpened: boolean
-    isClicked: boolean
     subject: string | null
     body: string
+    trackingId: string | null
     messageId: string | null
     threadId: string | null
     historyId: string | null
     labelIds: string[]
-    sentAt: bigint
+    isOpened: boolean
     openedAt: bigint
+    isClicked: boolean
     clickedAt: bigint
+    sentAt: bigint
     deletedAt: bigint
     integrationId: string
+    organizationId: string
+    source: $Enums.IntegrationType
     _count: EmailCountAggregateOutputType | null
     _avg: EmailAvgAggregateOutputType | null
     _sum: EmailSumAggregateOutputType | null
@@ -14968,103 +15542,121 @@ export namespace Prisma {
 
   export type EmailSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    trackingId?: boolean
+    from?: boolean
     to?: boolean
     cc?: boolean
     bcc?: boolean
     status?: boolean
-    isOpened?: boolean
-    isClicked?: boolean
     subject?: boolean
     body?: boolean
+    trackingId?: boolean
     messageId?: boolean
     threadId?: boolean
     historyId?: boolean
     labelIds?: boolean
-    sentAt?: boolean
+    isOpened?: boolean
     openedAt?: boolean
+    isClicked?: boolean
     clickedAt?: boolean
+    sentAt?: boolean
     deletedAt?: boolean
     integrationId?: boolean
+    organizationId?: boolean
+    source?: boolean
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     EmailQueue?: boolean | Email$EmailQueueArgs<ExtArgs>
     _count?: boolean | EmailCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["email"]>
 
   export type EmailSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    trackingId?: boolean
+    from?: boolean
     to?: boolean
     cc?: boolean
     bcc?: boolean
     status?: boolean
-    isOpened?: boolean
-    isClicked?: boolean
     subject?: boolean
     body?: boolean
+    trackingId?: boolean
     messageId?: boolean
     threadId?: boolean
     historyId?: boolean
     labelIds?: boolean
-    sentAt?: boolean
+    isOpened?: boolean
     openedAt?: boolean
+    isClicked?: boolean
     clickedAt?: boolean
+    sentAt?: boolean
     deletedAt?: boolean
     integrationId?: boolean
+    organizationId?: boolean
+    source?: boolean
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["email"]>
 
   export type EmailSelectScalar = {
     id?: boolean
-    trackingId?: boolean
+    from?: boolean
     to?: boolean
     cc?: boolean
     bcc?: boolean
     status?: boolean
-    isOpened?: boolean
-    isClicked?: boolean
     subject?: boolean
     body?: boolean
+    trackingId?: boolean
     messageId?: boolean
     threadId?: boolean
     historyId?: boolean
     labelIds?: boolean
-    sentAt?: boolean
+    isOpened?: boolean
     openedAt?: boolean
+    isClicked?: boolean
     clickedAt?: boolean
+    sentAt?: boolean
     deletedAt?: boolean
     integrationId?: boolean
+    organizationId?: boolean
+    source?: boolean
   }
 
   export type EmailInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     EmailQueue?: boolean | Email$EmailQueueArgs<ExtArgs>
     _count?: boolean | EmailCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type EmailIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type EmailIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
 
   export type $EmailPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Email"
     objects: {
+      organization: Prisma.$OrganizationPayload<ExtArgs>
       EmailQueue: Prisma.$EmailQueuePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      trackingId: string
+      from: Prisma.JsonValue
       to: string[]
       cc: string[]
       bcc: string[]
       status: $Enums.EmailStatus
-      isOpened: boolean
-      isClicked: boolean
       subject: string | null
       body: string
+      trackingId: string | null
       messageId: string | null
       threadId: string | null
       historyId: string | null
       labelIds: string[]
-      sentAt: bigint
+      isOpened: boolean
       openedAt: bigint
+      isClicked: boolean
       clickedAt: bigint
+      sentAt: bigint
       deletedAt: bigint
       integrationId: string
+      organizationId: string
+      source: $Enums.IntegrationType
     }, ExtArgs["result"]["email"]>
     composites: {}
   }
@@ -15429,6 +16021,7 @@ export namespace Prisma {
    */
   export interface Prisma__EmailClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     EmailQueue<T extends Email$EmailQueueArgs<ExtArgs> = {}>(args?: Subset<T, Email$EmailQueueArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailQueuePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -15460,24 +16053,27 @@ export namespace Prisma {
    */ 
   interface EmailFieldRefs {
     readonly id: FieldRef<"Email", 'String'>
-    readonly trackingId: FieldRef<"Email", 'String'>
+    readonly from: FieldRef<"Email", 'Json'>
     readonly to: FieldRef<"Email", 'String[]'>
     readonly cc: FieldRef<"Email", 'String[]'>
     readonly bcc: FieldRef<"Email", 'String[]'>
     readonly status: FieldRef<"Email", 'EmailStatus'>
-    readonly isOpened: FieldRef<"Email", 'Boolean'>
-    readonly isClicked: FieldRef<"Email", 'Boolean'>
     readonly subject: FieldRef<"Email", 'String'>
     readonly body: FieldRef<"Email", 'String'>
+    readonly trackingId: FieldRef<"Email", 'String'>
     readonly messageId: FieldRef<"Email", 'String'>
     readonly threadId: FieldRef<"Email", 'String'>
     readonly historyId: FieldRef<"Email", 'String'>
     readonly labelIds: FieldRef<"Email", 'String[]'>
-    readonly sentAt: FieldRef<"Email", 'BigInt'>
+    readonly isOpened: FieldRef<"Email", 'Boolean'>
     readonly openedAt: FieldRef<"Email", 'BigInt'>
+    readonly isClicked: FieldRef<"Email", 'Boolean'>
     readonly clickedAt: FieldRef<"Email", 'BigInt'>
+    readonly sentAt: FieldRef<"Email", 'BigInt'>
     readonly deletedAt: FieldRef<"Email", 'BigInt'>
     readonly integrationId: FieldRef<"Email", 'String'>
+    readonly organizationId: FieldRef<"Email", 'String'>
+    readonly source: FieldRef<"Email", 'IntegrationType'>
   }
     
 
@@ -15699,6 +16295,10 @@ export namespace Prisma {
      */
     data: EmailCreateManyInput | EmailCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -16848,38 +17448,44 @@ export namespace Prisma {
   export type IntegrationMinAggregateOutputType = {
     id: string | null
     organizationId: string | null
+    name: string | null
     description: string | null
     type: $Enums.IntegrationType | null
+    category: $Enums.IntegrationCategory | null
     createdAt: bigint | null
     updatedAt: bigint | null
     deletedAt: bigint | null
-    name: string | null
     isSingular: boolean | null
+    sharedType: $Enums.IntegrationSharingType | null
   }
 
   export type IntegrationMaxAggregateOutputType = {
     id: string | null
     organizationId: string | null
+    name: string | null
     description: string | null
     type: $Enums.IntegrationType | null
+    category: $Enums.IntegrationCategory | null
     createdAt: bigint | null
     updatedAt: bigint | null
     deletedAt: bigint | null
-    name: string | null
     isSingular: boolean | null
+    sharedType: $Enums.IntegrationSharingType | null
   }
 
   export type IntegrationCountAggregateOutputType = {
     id: number
     organizationId: number
+    name: number
     data: number
     description: number
     type: number
+    category: number
     createdAt: number
     updatedAt: number
     deletedAt: number
-    name: number
     isSingular: number
+    sharedType: number
     _all: number
   }
 
@@ -16899,38 +17505,44 @@ export namespace Prisma {
   export type IntegrationMinAggregateInputType = {
     id?: true
     organizationId?: true
+    name?: true
     description?: true
     type?: true
+    category?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
-    name?: true
     isSingular?: true
+    sharedType?: true
   }
 
   export type IntegrationMaxAggregateInputType = {
     id?: true
     organizationId?: true
+    name?: true
     description?: true
     type?: true
+    category?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
-    name?: true
     isSingular?: true
+    sharedType?: true
   }
 
   export type IntegrationCountAggregateInputType = {
     id?: true
     organizationId?: true
+    name?: true
     data?: true
     description?: true
     type?: true
+    category?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
-    name?: true
     isSingular?: true
+    sharedType?: true
     _all?: true
   }
 
@@ -17023,14 +17635,16 @@ export namespace Prisma {
   export type IntegrationGroupByOutputType = {
     id: string
     organizationId: string
+    name: string
     data: JsonValue
     description: string | null
     type: $Enums.IntegrationType
+    category: $Enums.IntegrationCategory
     createdAt: bigint
     updatedAt: bigint
-    deletedAt: bigint
-    name: string
+    deletedAt: bigint | null
     isSingular: boolean
+    sharedType: $Enums.IntegrationSharingType
     _count: IntegrationCountAggregateOutputType | null
     _avg: IntegrationAvgAggregateOutputType | null
     _sum: IntegrationSumAggregateOutputType | null
@@ -17055,47 +17669,55 @@ export namespace Prisma {
   export type IntegrationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     organizationId?: boolean
+    name?: boolean
     data?: boolean
     description?: boolean
     type?: boolean
+    category?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    name?: boolean
     isSingular?: boolean
+    sharedType?: boolean
     Project?: boolean | Integration$ProjectArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     Lead?: boolean | Integration$LeadArgs<ExtArgs>
     Contact?: boolean | Integration$ContactArgs<ExtArgs>
     LeadProject?: boolean | Integration$LeadProjectArgs<ExtArgs>
+    Jobs?: boolean | Integration$JobsArgs<ExtArgs>
+    mailServiceFromEmail?: boolean | Integration$mailServiceFromEmailArgs<ExtArgs>
     _count?: boolean | IntegrationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["integration"]>
 
   export type IntegrationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     organizationId?: boolean
+    name?: boolean
     data?: boolean
     description?: boolean
     type?: boolean
+    category?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    name?: boolean
     isSingular?: boolean
+    sharedType?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["integration"]>
 
   export type IntegrationSelectScalar = {
     id?: boolean
     organizationId?: boolean
+    name?: boolean
     data?: boolean
     description?: boolean
     type?: boolean
+    category?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
-    name?: boolean
     isSingular?: boolean
+    sharedType?: boolean
   }
 
   export type IntegrationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17104,6 +17726,8 @@ export namespace Prisma {
     Lead?: boolean | Integration$LeadArgs<ExtArgs>
     Contact?: boolean | Integration$ContactArgs<ExtArgs>
     LeadProject?: boolean | Integration$LeadProjectArgs<ExtArgs>
+    Jobs?: boolean | Integration$JobsArgs<ExtArgs>
+    mailServiceFromEmail?: boolean | Integration$mailServiceFromEmailArgs<ExtArgs>
     _count?: boolean | IntegrationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type IntegrationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17118,18 +17742,22 @@ export namespace Prisma {
       Lead: Prisma.$LeadPayload<ExtArgs>[]
       Contact: Prisma.$ContactPayload<ExtArgs>[]
       LeadProject: Prisma.$LeadProjectPayload<ExtArgs>[]
+      Jobs: Prisma.$JobPayload<ExtArgs>[]
+      mailServiceFromEmail: Prisma.$MailServiceFromEmailPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       organizationId: string
+      name: string
       data: Prisma.JsonValue
       description: string | null
       type: $Enums.IntegrationType
+      category: $Enums.IntegrationCategory
       createdAt: bigint
       updatedAt: bigint
-      deletedAt: bigint
-      name: string
+      deletedAt: bigint | null
       isSingular: boolean
+      sharedType: $Enums.IntegrationSharingType
     }, ExtArgs["result"]["integration"]>
     composites: {}
   }
@@ -17499,6 +18127,8 @@ export namespace Prisma {
     Lead<T extends Integration$LeadArgs<ExtArgs> = {}>(args?: Subset<T, Integration$LeadArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany"> | Null>
     Contact<T extends Integration$ContactArgs<ExtArgs> = {}>(args?: Subset<T, Integration$ContactArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findMany"> | Null>
     LeadProject<T extends Integration$LeadProjectArgs<ExtArgs> = {}>(args?: Subset<T, Integration$LeadProjectArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadProjectPayload<ExtArgs>, T, "findMany"> | Null>
+    Jobs<T extends Integration$JobsArgs<ExtArgs> = {}>(args?: Subset<T, Integration$JobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findMany"> | Null>
+    mailServiceFromEmail<T extends Integration$mailServiceFromEmailArgs<ExtArgs> = {}>(args?: Subset<T, Integration$mailServiceFromEmailArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MailServiceFromEmailPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17530,14 +18160,16 @@ export namespace Prisma {
   interface IntegrationFieldRefs {
     readonly id: FieldRef<"Integration", 'String'>
     readonly organizationId: FieldRef<"Integration", 'String'>
+    readonly name: FieldRef<"Integration", 'String'>
     readonly data: FieldRef<"Integration", 'Json'>
     readonly description: FieldRef<"Integration", 'String'>
     readonly type: FieldRef<"Integration", 'IntegrationType'>
+    readonly category: FieldRef<"Integration", 'IntegrationCategory'>
     readonly createdAt: FieldRef<"Integration", 'BigInt'>
     readonly updatedAt: FieldRef<"Integration", 'BigInt'>
     readonly deletedAt: FieldRef<"Integration", 'BigInt'>
-    readonly name: FieldRef<"Integration", 'String'>
     readonly isSingular: FieldRef<"Integration", 'Boolean'>
+    readonly sharedType: FieldRef<"Integration", 'IntegrationSharingType'>
   }
     
 
@@ -17936,6 +18568,46 @@ export namespace Prisma {
   }
 
   /**
+   * Integration.Jobs
+   */
+  export type Integration$JobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    where?: JobWhereInput
+    orderBy?: JobOrderByWithRelationInput | JobOrderByWithRelationInput[]
+    cursor?: JobWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JobScalarFieldEnum | JobScalarFieldEnum[]
+  }
+
+  /**
+   * Integration.mailServiceFromEmail
+   */
+  export type Integration$mailServiceFromEmailArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MailServiceFromEmail
+     */
+    select?: MailServiceFromEmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MailServiceFromEmailInclude<ExtArgs> | null
+    where?: MailServiceFromEmailWhereInput
+    orderBy?: MailServiceFromEmailOrderByWithRelationInput | MailServiceFromEmailOrderByWithRelationInput[]
+    cursor?: MailServiceFromEmailWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MailServiceFromEmailScalarFieldEnum | MailServiceFromEmailScalarFieldEnum[]
+  }
+
+  /**
    * Integration without action
    */
   export type IntegrationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17947,6 +18619,3998 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: IntegrationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model MailServiceFromEmail
+   */
+
+  export type AggregateMailServiceFromEmail = {
+    _count: MailServiceFromEmailCountAggregateOutputType | null
+    _avg: MailServiceFromEmailAvgAggregateOutputType | null
+    _sum: MailServiceFromEmailSumAggregateOutputType | null
+    _min: MailServiceFromEmailMinAggregateOutputType | null
+    _max: MailServiceFromEmailMaxAggregateOutputType | null
+  }
+
+  export type MailServiceFromEmailAvgAggregateOutputType = {
+    createdAt: number | null
+    updatedAt: number | null
+  }
+
+  export type MailServiceFromEmailSumAggregateOutputType = {
+    createdAt: bigint | null
+    updatedAt: bigint | null
+  }
+
+  export type MailServiceFromEmailMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    email: string | null
+    type: $Enums.IntegrationType | null
+    integrationId: string | null
+    organizationId: string | null
+    createdAt: bigint | null
+    updatedAt: bigint | null
+  }
+
+  export type MailServiceFromEmailMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    email: string | null
+    type: $Enums.IntegrationType | null
+    integrationId: string | null
+    organizationId: string | null
+    createdAt: bigint | null
+    updatedAt: bigint | null
+  }
+
+  export type MailServiceFromEmailCountAggregateOutputType = {
+    id: number
+    name: number
+    email: number
+    type: number
+    integrationId: number
+    organizationId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MailServiceFromEmailAvgAggregateInputType = {
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MailServiceFromEmailSumAggregateInputType = {
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MailServiceFromEmailMinAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    type?: true
+    integrationId?: true
+    organizationId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MailServiceFromEmailMaxAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    type?: true
+    integrationId?: true
+    organizationId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MailServiceFromEmailCountAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    type?: true
+    integrationId?: true
+    organizationId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MailServiceFromEmailAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MailServiceFromEmail to aggregate.
+     */
+    where?: MailServiceFromEmailWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MailServiceFromEmails to fetch.
+     */
+    orderBy?: MailServiceFromEmailOrderByWithRelationInput | MailServiceFromEmailOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MailServiceFromEmailWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MailServiceFromEmails from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MailServiceFromEmails.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MailServiceFromEmails
+    **/
+    _count?: true | MailServiceFromEmailCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MailServiceFromEmailAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MailServiceFromEmailSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MailServiceFromEmailMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MailServiceFromEmailMaxAggregateInputType
+  }
+
+  export type GetMailServiceFromEmailAggregateType<T extends MailServiceFromEmailAggregateArgs> = {
+        [P in keyof T & keyof AggregateMailServiceFromEmail]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMailServiceFromEmail[P]>
+      : GetScalarType<T[P], AggregateMailServiceFromEmail[P]>
+  }
+
+
+
+
+  export type MailServiceFromEmailGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MailServiceFromEmailWhereInput
+    orderBy?: MailServiceFromEmailOrderByWithAggregationInput | MailServiceFromEmailOrderByWithAggregationInput[]
+    by: MailServiceFromEmailScalarFieldEnum[] | MailServiceFromEmailScalarFieldEnum
+    having?: MailServiceFromEmailScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MailServiceFromEmailCountAggregateInputType | true
+    _avg?: MailServiceFromEmailAvgAggregateInputType
+    _sum?: MailServiceFromEmailSumAggregateInputType
+    _min?: MailServiceFromEmailMinAggregateInputType
+    _max?: MailServiceFromEmailMaxAggregateInputType
+  }
+
+  export type MailServiceFromEmailGroupByOutputType = {
+    id: string
+    name: string
+    email: string
+    type: $Enums.IntegrationType
+    integrationId: string
+    organizationId: string
+    createdAt: bigint
+    updatedAt: bigint
+    _count: MailServiceFromEmailCountAggregateOutputType | null
+    _avg: MailServiceFromEmailAvgAggregateOutputType | null
+    _sum: MailServiceFromEmailSumAggregateOutputType | null
+    _min: MailServiceFromEmailMinAggregateOutputType | null
+    _max: MailServiceFromEmailMaxAggregateOutputType | null
+  }
+
+  type GetMailServiceFromEmailGroupByPayload<T extends MailServiceFromEmailGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MailServiceFromEmailGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MailServiceFromEmailGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MailServiceFromEmailGroupByOutputType[P]>
+            : GetScalarType<T[P], MailServiceFromEmailGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MailServiceFromEmailSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    type?: boolean
+    integrationId?: boolean
+    organizationId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mailServiceFromEmail"]>
+
+  export type MailServiceFromEmailSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    type?: boolean
+    integrationId?: boolean
+    organizationId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mailServiceFromEmail"]>
+
+  export type MailServiceFromEmailSelectScalar = {
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    type?: boolean
+    integrationId?: boolean
+    organizationId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MailServiceFromEmailInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+  export type MailServiceFromEmailIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+
+  export type $MailServiceFromEmailPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MailServiceFromEmail"
+    objects: {
+      integration: Prisma.$IntegrationPayload<ExtArgs>
+      organization: Prisma.$OrganizationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      email: string
+      type: $Enums.IntegrationType
+      integrationId: string
+      organizationId: string
+      createdAt: bigint
+      updatedAt: bigint
+    }, ExtArgs["result"]["mailServiceFromEmail"]>
+    composites: {}
+  }
+
+  type MailServiceFromEmailGetPayload<S extends boolean | null | undefined | MailServiceFromEmailDefaultArgs> = $Result.GetResult<Prisma.$MailServiceFromEmailPayload, S>
+
+  type MailServiceFromEmailCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<MailServiceFromEmailFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: MailServiceFromEmailCountAggregateInputType | true
+    }
+
+  export interface MailServiceFromEmailDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MailServiceFromEmail'], meta: { name: 'MailServiceFromEmail' } }
+    /**
+     * Find zero or one MailServiceFromEmail that matches the filter.
+     * @param {MailServiceFromEmailFindUniqueArgs} args - Arguments to find a MailServiceFromEmail
+     * @example
+     * // Get one MailServiceFromEmail
+     * const mailServiceFromEmail = await prisma.mailServiceFromEmail.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MailServiceFromEmailFindUniqueArgs>(args: SelectSubset<T, MailServiceFromEmailFindUniqueArgs<ExtArgs>>): Prisma__MailServiceFromEmailClient<$Result.GetResult<Prisma.$MailServiceFromEmailPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one MailServiceFromEmail that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {MailServiceFromEmailFindUniqueOrThrowArgs} args - Arguments to find a MailServiceFromEmail
+     * @example
+     * // Get one MailServiceFromEmail
+     * const mailServiceFromEmail = await prisma.mailServiceFromEmail.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MailServiceFromEmailFindUniqueOrThrowArgs>(args: SelectSubset<T, MailServiceFromEmailFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MailServiceFromEmailClient<$Result.GetResult<Prisma.$MailServiceFromEmailPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first MailServiceFromEmail that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MailServiceFromEmailFindFirstArgs} args - Arguments to find a MailServiceFromEmail
+     * @example
+     * // Get one MailServiceFromEmail
+     * const mailServiceFromEmail = await prisma.mailServiceFromEmail.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MailServiceFromEmailFindFirstArgs>(args?: SelectSubset<T, MailServiceFromEmailFindFirstArgs<ExtArgs>>): Prisma__MailServiceFromEmailClient<$Result.GetResult<Prisma.$MailServiceFromEmailPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first MailServiceFromEmail that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MailServiceFromEmailFindFirstOrThrowArgs} args - Arguments to find a MailServiceFromEmail
+     * @example
+     * // Get one MailServiceFromEmail
+     * const mailServiceFromEmail = await prisma.mailServiceFromEmail.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MailServiceFromEmailFindFirstOrThrowArgs>(args?: SelectSubset<T, MailServiceFromEmailFindFirstOrThrowArgs<ExtArgs>>): Prisma__MailServiceFromEmailClient<$Result.GetResult<Prisma.$MailServiceFromEmailPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more MailServiceFromEmails that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MailServiceFromEmailFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MailServiceFromEmails
+     * const mailServiceFromEmails = await prisma.mailServiceFromEmail.findMany()
+     * 
+     * // Get first 10 MailServiceFromEmails
+     * const mailServiceFromEmails = await prisma.mailServiceFromEmail.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const mailServiceFromEmailWithIdOnly = await prisma.mailServiceFromEmail.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MailServiceFromEmailFindManyArgs>(args?: SelectSubset<T, MailServiceFromEmailFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MailServiceFromEmailPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a MailServiceFromEmail.
+     * @param {MailServiceFromEmailCreateArgs} args - Arguments to create a MailServiceFromEmail.
+     * @example
+     * // Create one MailServiceFromEmail
+     * const MailServiceFromEmail = await prisma.mailServiceFromEmail.create({
+     *   data: {
+     *     // ... data to create a MailServiceFromEmail
+     *   }
+     * })
+     * 
+     */
+    create<T extends MailServiceFromEmailCreateArgs>(args: SelectSubset<T, MailServiceFromEmailCreateArgs<ExtArgs>>): Prisma__MailServiceFromEmailClient<$Result.GetResult<Prisma.$MailServiceFromEmailPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many MailServiceFromEmails.
+     * @param {MailServiceFromEmailCreateManyArgs} args - Arguments to create many MailServiceFromEmails.
+     * @example
+     * // Create many MailServiceFromEmails
+     * const mailServiceFromEmail = await prisma.mailServiceFromEmail.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MailServiceFromEmailCreateManyArgs>(args?: SelectSubset<T, MailServiceFromEmailCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MailServiceFromEmails and returns the data saved in the database.
+     * @param {MailServiceFromEmailCreateManyAndReturnArgs} args - Arguments to create many MailServiceFromEmails.
+     * @example
+     * // Create many MailServiceFromEmails
+     * const mailServiceFromEmail = await prisma.mailServiceFromEmail.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MailServiceFromEmails and only return the `id`
+     * const mailServiceFromEmailWithIdOnly = await prisma.mailServiceFromEmail.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MailServiceFromEmailCreateManyAndReturnArgs>(args?: SelectSubset<T, MailServiceFromEmailCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MailServiceFromEmailPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a MailServiceFromEmail.
+     * @param {MailServiceFromEmailDeleteArgs} args - Arguments to delete one MailServiceFromEmail.
+     * @example
+     * // Delete one MailServiceFromEmail
+     * const MailServiceFromEmail = await prisma.mailServiceFromEmail.delete({
+     *   where: {
+     *     // ... filter to delete one MailServiceFromEmail
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MailServiceFromEmailDeleteArgs>(args: SelectSubset<T, MailServiceFromEmailDeleteArgs<ExtArgs>>): Prisma__MailServiceFromEmailClient<$Result.GetResult<Prisma.$MailServiceFromEmailPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one MailServiceFromEmail.
+     * @param {MailServiceFromEmailUpdateArgs} args - Arguments to update one MailServiceFromEmail.
+     * @example
+     * // Update one MailServiceFromEmail
+     * const mailServiceFromEmail = await prisma.mailServiceFromEmail.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MailServiceFromEmailUpdateArgs>(args: SelectSubset<T, MailServiceFromEmailUpdateArgs<ExtArgs>>): Prisma__MailServiceFromEmailClient<$Result.GetResult<Prisma.$MailServiceFromEmailPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more MailServiceFromEmails.
+     * @param {MailServiceFromEmailDeleteManyArgs} args - Arguments to filter MailServiceFromEmails to delete.
+     * @example
+     * // Delete a few MailServiceFromEmails
+     * const { count } = await prisma.mailServiceFromEmail.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MailServiceFromEmailDeleteManyArgs>(args?: SelectSubset<T, MailServiceFromEmailDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MailServiceFromEmails.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MailServiceFromEmailUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MailServiceFromEmails
+     * const mailServiceFromEmail = await prisma.mailServiceFromEmail.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MailServiceFromEmailUpdateManyArgs>(args: SelectSubset<T, MailServiceFromEmailUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one MailServiceFromEmail.
+     * @param {MailServiceFromEmailUpsertArgs} args - Arguments to update or create a MailServiceFromEmail.
+     * @example
+     * // Update or create a MailServiceFromEmail
+     * const mailServiceFromEmail = await prisma.mailServiceFromEmail.upsert({
+     *   create: {
+     *     // ... data to create a MailServiceFromEmail
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MailServiceFromEmail we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MailServiceFromEmailUpsertArgs>(args: SelectSubset<T, MailServiceFromEmailUpsertArgs<ExtArgs>>): Prisma__MailServiceFromEmailClient<$Result.GetResult<Prisma.$MailServiceFromEmailPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of MailServiceFromEmails.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MailServiceFromEmailCountArgs} args - Arguments to filter MailServiceFromEmails to count.
+     * @example
+     * // Count the number of MailServiceFromEmails
+     * const count = await prisma.mailServiceFromEmail.count({
+     *   where: {
+     *     // ... the filter for the MailServiceFromEmails we want to count
+     *   }
+     * })
+    **/
+    count<T extends MailServiceFromEmailCountArgs>(
+      args?: Subset<T, MailServiceFromEmailCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MailServiceFromEmailCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MailServiceFromEmail.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MailServiceFromEmailAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MailServiceFromEmailAggregateArgs>(args: Subset<T, MailServiceFromEmailAggregateArgs>): Prisma.PrismaPromise<GetMailServiceFromEmailAggregateType<T>>
+
+    /**
+     * Group by MailServiceFromEmail.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MailServiceFromEmailGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MailServiceFromEmailGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MailServiceFromEmailGroupByArgs['orderBy'] }
+        : { orderBy?: MailServiceFromEmailGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MailServiceFromEmailGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMailServiceFromEmailGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MailServiceFromEmail model
+   */
+  readonly fields: MailServiceFromEmailFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MailServiceFromEmail.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MailServiceFromEmailClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    integration<T extends IntegrationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, IntegrationDefaultArgs<ExtArgs>>): Prisma__IntegrationClient<$Result.GetResult<Prisma.$IntegrationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MailServiceFromEmail model
+   */ 
+  interface MailServiceFromEmailFieldRefs {
+    readonly id: FieldRef<"MailServiceFromEmail", 'String'>
+    readonly name: FieldRef<"MailServiceFromEmail", 'String'>
+    readonly email: FieldRef<"MailServiceFromEmail", 'String'>
+    readonly type: FieldRef<"MailServiceFromEmail", 'IntegrationType'>
+    readonly integrationId: FieldRef<"MailServiceFromEmail", 'String'>
+    readonly organizationId: FieldRef<"MailServiceFromEmail", 'String'>
+    readonly createdAt: FieldRef<"MailServiceFromEmail", 'BigInt'>
+    readonly updatedAt: FieldRef<"MailServiceFromEmail", 'BigInt'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MailServiceFromEmail findUnique
+   */
+  export type MailServiceFromEmailFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MailServiceFromEmail
+     */
+    select?: MailServiceFromEmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MailServiceFromEmailInclude<ExtArgs> | null
+    /**
+     * Filter, which MailServiceFromEmail to fetch.
+     */
+    where: MailServiceFromEmailWhereUniqueInput
+  }
+
+  /**
+   * MailServiceFromEmail findUniqueOrThrow
+   */
+  export type MailServiceFromEmailFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MailServiceFromEmail
+     */
+    select?: MailServiceFromEmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MailServiceFromEmailInclude<ExtArgs> | null
+    /**
+     * Filter, which MailServiceFromEmail to fetch.
+     */
+    where: MailServiceFromEmailWhereUniqueInput
+  }
+
+  /**
+   * MailServiceFromEmail findFirst
+   */
+  export type MailServiceFromEmailFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MailServiceFromEmail
+     */
+    select?: MailServiceFromEmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MailServiceFromEmailInclude<ExtArgs> | null
+    /**
+     * Filter, which MailServiceFromEmail to fetch.
+     */
+    where?: MailServiceFromEmailWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MailServiceFromEmails to fetch.
+     */
+    orderBy?: MailServiceFromEmailOrderByWithRelationInput | MailServiceFromEmailOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MailServiceFromEmails.
+     */
+    cursor?: MailServiceFromEmailWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MailServiceFromEmails from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MailServiceFromEmails.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MailServiceFromEmails.
+     */
+    distinct?: MailServiceFromEmailScalarFieldEnum | MailServiceFromEmailScalarFieldEnum[]
+  }
+
+  /**
+   * MailServiceFromEmail findFirstOrThrow
+   */
+  export type MailServiceFromEmailFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MailServiceFromEmail
+     */
+    select?: MailServiceFromEmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MailServiceFromEmailInclude<ExtArgs> | null
+    /**
+     * Filter, which MailServiceFromEmail to fetch.
+     */
+    where?: MailServiceFromEmailWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MailServiceFromEmails to fetch.
+     */
+    orderBy?: MailServiceFromEmailOrderByWithRelationInput | MailServiceFromEmailOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MailServiceFromEmails.
+     */
+    cursor?: MailServiceFromEmailWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MailServiceFromEmails from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MailServiceFromEmails.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MailServiceFromEmails.
+     */
+    distinct?: MailServiceFromEmailScalarFieldEnum | MailServiceFromEmailScalarFieldEnum[]
+  }
+
+  /**
+   * MailServiceFromEmail findMany
+   */
+  export type MailServiceFromEmailFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MailServiceFromEmail
+     */
+    select?: MailServiceFromEmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MailServiceFromEmailInclude<ExtArgs> | null
+    /**
+     * Filter, which MailServiceFromEmails to fetch.
+     */
+    where?: MailServiceFromEmailWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MailServiceFromEmails to fetch.
+     */
+    orderBy?: MailServiceFromEmailOrderByWithRelationInput | MailServiceFromEmailOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MailServiceFromEmails.
+     */
+    cursor?: MailServiceFromEmailWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MailServiceFromEmails from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MailServiceFromEmails.
+     */
+    skip?: number
+    distinct?: MailServiceFromEmailScalarFieldEnum | MailServiceFromEmailScalarFieldEnum[]
+  }
+
+  /**
+   * MailServiceFromEmail create
+   */
+  export type MailServiceFromEmailCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MailServiceFromEmail
+     */
+    select?: MailServiceFromEmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MailServiceFromEmailInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MailServiceFromEmail.
+     */
+    data: XOR<MailServiceFromEmailCreateInput, MailServiceFromEmailUncheckedCreateInput>
+  }
+
+  /**
+   * MailServiceFromEmail createMany
+   */
+  export type MailServiceFromEmailCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MailServiceFromEmails.
+     */
+    data: MailServiceFromEmailCreateManyInput | MailServiceFromEmailCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MailServiceFromEmail createManyAndReturn
+   */
+  export type MailServiceFromEmailCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MailServiceFromEmail
+     */
+    select?: MailServiceFromEmailSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many MailServiceFromEmails.
+     */
+    data: MailServiceFromEmailCreateManyInput | MailServiceFromEmailCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MailServiceFromEmailIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MailServiceFromEmail update
+   */
+  export type MailServiceFromEmailUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MailServiceFromEmail
+     */
+    select?: MailServiceFromEmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MailServiceFromEmailInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MailServiceFromEmail.
+     */
+    data: XOR<MailServiceFromEmailUpdateInput, MailServiceFromEmailUncheckedUpdateInput>
+    /**
+     * Choose, which MailServiceFromEmail to update.
+     */
+    where: MailServiceFromEmailWhereUniqueInput
+  }
+
+  /**
+   * MailServiceFromEmail updateMany
+   */
+  export type MailServiceFromEmailUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MailServiceFromEmails.
+     */
+    data: XOR<MailServiceFromEmailUpdateManyMutationInput, MailServiceFromEmailUncheckedUpdateManyInput>
+    /**
+     * Filter which MailServiceFromEmails to update
+     */
+    where?: MailServiceFromEmailWhereInput
+  }
+
+  /**
+   * MailServiceFromEmail upsert
+   */
+  export type MailServiceFromEmailUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MailServiceFromEmail
+     */
+    select?: MailServiceFromEmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MailServiceFromEmailInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MailServiceFromEmail to update in case it exists.
+     */
+    where: MailServiceFromEmailWhereUniqueInput
+    /**
+     * In case the MailServiceFromEmail found by the `where` argument doesn't exist, create a new MailServiceFromEmail with this data.
+     */
+    create: XOR<MailServiceFromEmailCreateInput, MailServiceFromEmailUncheckedCreateInput>
+    /**
+     * In case the MailServiceFromEmail was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MailServiceFromEmailUpdateInput, MailServiceFromEmailUncheckedUpdateInput>
+  }
+
+  /**
+   * MailServiceFromEmail delete
+   */
+  export type MailServiceFromEmailDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MailServiceFromEmail
+     */
+    select?: MailServiceFromEmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MailServiceFromEmailInclude<ExtArgs> | null
+    /**
+     * Filter which MailServiceFromEmail to delete.
+     */
+    where: MailServiceFromEmailWhereUniqueInput
+  }
+
+  /**
+   * MailServiceFromEmail deleteMany
+   */
+  export type MailServiceFromEmailDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MailServiceFromEmails to delete
+     */
+    where?: MailServiceFromEmailWhereInput
+  }
+
+  /**
+   * MailServiceFromEmail without action
+   */
+  export type MailServiceFromEmailDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MailServiceFromEmail
+     */
+    select?: MailServiceFromEmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MailServiceFromEmailInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Job
+   */
+
+  export type AggregateJob = {
+    _count: JobCountAggregateOutputType | null
+    _avg: JobAvgAggregateOutputType | null
+    _sum: JobSumAggregateOutputType | null
+    _min: JobMinAggregateOutputType | null
+    _max: JobMaxAggregateOutputType | null
+  }
+
+  export type JobAvgAggregateOutputType = {
+    createdAt: number | null
+    updatedAt: number | null
+  }
+
+  export type JobSumAggregateOutputType = {
+    createdAt: bigint | null
+    updatedAt: bigint | null
+  }
+
+  export type JobMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    status: $Enums.JobStatus | null
+    createdAt: bigint | null
+    updatedAt: bigint | null
+    integrationId: string | null
+    organizationId: string | null
+  }
+
+  export type JobMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    status: $Enums.JobStatus | null
+    createdAt: bigint | null
+    updatedAt: bigint | null
+    integrationId: string | null
+    organizationId: string | null
+  }
+
+  export type JobCountAggregateOutputType = {
+    id: number
+    name: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    integrationId: number
+    organizationId: number
+    _all: number
+  }
+
+
+  export type JobAvgAggregateInputType = {
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type JobSumAggregateInputType = {
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type JobMinAggregateInputType = {
+    id?: true
+    name?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    integrationId?: true
+    organizationId?: true
+  }
+
+  export type JobMaxAggregateInputType = {
+    id?: true
+    name?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    integrationId?: true
+    organizationId?: true
+  }
+
+  export type JobCountAggregateInputType = {
+    id?: true
+    name?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    integrationId?: true
+    organizationId?: true
+    _all?: true
+  }
+
+  export type JobAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Job to aggregate.
+     */
+    where?: JobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Jobs to fetch.
+     */
+    orderBy?: JobOrderByWithRelationInput | JobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: JobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Jobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Jobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Jobs
+    **/
+    _count?: true | JobCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: JobAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: JobSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: JobMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: JobMaxAggregateInputType
+  }
+
+  export type GetJobAggregateType<T extends JobAggregateArgs> = {
+        [P in keyof T & keyof AggregateJob]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateJob[P]>
+      : GetScalarType<T[P], AggregateJob[P]>
+  }
+
+
+
+
+  export type JobGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JobWhereInput
+    orderBy?: JobOrderByWithAggregationInput | JobOrderByWithAggregationInput[]
+    by: JobScalarFieldEnum[] | JobScalarFieldEnum
+    having?: JobScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: JobCountAggregateInputType | true
+    _avg?: JobAvgAggregateInputType
+    _sum?: JobSumAggregateInputType
+    _min?: JobMinAggregateInputType
+    _max?: JobMaxAggregateInputType
+  }
+
+  export type JobGroupByOutputType = {
+    id: string
+    name: string
+    status: $Enums.JobStatus
+    createdAt: bigint
+    updatedAt: bigint
+    integrationId: string
+    organizationId: string
+    _count: JobCountAggregateOutputType | null
+    _avg: JobAvgAggregateOutputType | null
+    _sum: JobSumAggregateOutputType | null
+    _min: JobMinAggregateOutputType | null
+    _max: JobMaxAggregateOutputType | null
+  }
+
+  type GetJobGroupByPayload<T extends JobGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<JobGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof JobGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], JobGroupByOutputType[P]>
+            : GetScalarType<T[P], JobGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type JobSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    integrationId?: boolean
+    organizationId?: boolean
+    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
+    tasks?: boolean | Job$tasksArgs<ExtArgs>
+    _count?: boolean | JobCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["job"]>
+
+  export type JobSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    integrationId?: boolean
+    organizationId?: boolean
+    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["job"]>
+
+  export type JobSelectScalar = {
+    id?: boolean
+    name?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    integrationId?: boolean
+    organizationId?: boolean
+  }
+
+  export type JobInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
+    tasks?: boolean | Job$tasksArgs<ExtArgs>
+    _count?: boolean | JobCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type JobIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
+  }
+
+  export type $JobPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Job"
+    objects: {
+      integration: Prisma.$IntegrationPayload<ExtArgs>
+      tasks: Prisma.$TaskPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      status: $Enums.JobStatus
+      createdAt: bigint
+      updatedAt: bigint
+      integrationId: string
+      organizationId: string
+    }, ExtArgs["result"]["job"]>
+    composites: {}
+  }
+
+  type JobGetPayload<S extends boolean | null | undefined | JobDefaultArgs> = $Result.GetResult<Prisma.$JobPayload, S>
+
+  type JobCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<JobFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: JobCountAggregateInputType | true
+    }
+
+  export interface JobDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Job'], meta: { name: 'Job' } }
+    /**
+     * Find zero or one Job that matches the filter.
+     * @param {JobFindUniqueArgs} args - Arguments to find a Job
+     * @example
+     * // Get one Job
+     * const job = await prisma.job.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends JobFindUniqueArgs>(args: SelectSubset<T, JobFindUniqueArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Job that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {JobFindUniqueOrThrowArgs} args - Arguments to find a Job
+     * @example
+     * // Get one Job
+     * const job = await prisma.job.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends JobFindUniqueOrThrowArgs>(args: SelectSubset<T, JobFindUniqueOrThrowArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Job that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobFindFirstArgs} args - Arguments to find a Job
+     * @example
+     * // Get one Job
+     * const job = await prisma.job.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends JobFindFirstArgs>(args?: SelectSubset<T, JobFindFirstArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Job that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobFindFirstOrThrowArgs} args - Arguments to find a Job
+     * @example
+     * // Get one Job
+     * const job = await prisma.job.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends JobFindFirstOrThrowArgs>(args?: SelectSubset<T, JobFindFirstOrThrowArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Jobs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Jobs
+     * const jobs = await prisma.job.findMany()
+     * 
+     * // Get first 10 Jobs
+     * const jobs = await prisma.job.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const jobWithIdOnly = await prisma.job.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends JobFindManyArgs>(args?: SelectSubset<T, JobFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Job.
+     * @param {JobCreateArgs} args - Arguments to create a Job.
+     * @example
+     * // Create one Job
+     * const Job = await prisma.job.create({
+     *   data: {
+     *     // ... data to create a Job
+     *   }
+     * })
+     * 
+     */
+    create<T extends JobCreateArgs>(args: SelectSubset<T, JobCreateArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Jobs.
+     * @param {JobCreateManyArgs} args - Arguments to create many Jobs.
+     * @example
+     * // Create many Jobs
+     * const job = await prisma.job.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends JobCreateManyArgs>(args?: SelectSubset<T, JobCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Jobs and returns the data saved in the database.
+     * @param {JobCreateManyAndReturnArgs} args - Arguments to create many Jobs.
+     * @example
+     * // Create many Jobs
+     * const job = await prisma.job.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Jobs and only return the `id`
+     * const jobWithIdOnly = await prisma.job.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends JobCreateManyAndReturnArgs>(args?: SelectSubset<T, JobCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Job.
+     * @param {JobDeleteArgs} args - Arguments to delete one Job.
+     * @example
+     * // Delete one Job
+     * const Job = await prisma.job.delete({
+     *   where: {
+     *     // ... filter to delete one Job
+     *   }
+     * })
+     * 
+     */
+    delete<T extends JobDeleteArgs>(args: SelectSubset<T, JobDeleteArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Job.
+     * @param {JobUpdateArgs} args - Arguments to update one Job.
+     * @example
+     * // Update one Job
+     * const job = await prisma.job.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends JobUpdateArgs>(args: SelectSubset<T, JobUpdateArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Jobs.
+     * @param {JobDeleteManyArgs} args - Arguments to filter Jobs to delete.
+     * @example
+     * // Delete a few Jobs
+     * const { count } = await prisma.job.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends JobDeleteManyArgs>(args?: SelectSubset<T, JobDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Jobs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Jobs
+     * const job = await prisma.job.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends JobUpdateManyArgs>(args: SelectSubset<T, JobUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Job.
+     * @param {JobUpsertArgs} args - Arguments to update or create a Job.
+     * @example
+     * // Update or create a Job
+     * const job = await prisma.job.upsert({
+     *   create: {
+     *     // ... data to create a Job
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Job we want to update
+     *   }
+     * })
+     */
+    upsert<T extends JobUpsertArgs>(args: SelectSubset<T, JobUpsertArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Jobs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobCountArgs} args - Arguments to filter Jobs to count.
+     * @example
+     * // Count the number of Jobs
+     * const count = await prisma.job.count({
+     *   where: {
+     *     // ... the filter for the Jobs we want to count
+     *   }
+     * })
+    **/
+    count<T extends JobCountArgs>(
+      args?: Subset<T, JobCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], JobCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Job.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends JobAggregateArgs>(args: Subset<T, JobAggregateArgs>): Prisma.PrismaPromise<GetJobAggregateType<T>>
+
+    /**
+     * Group by Job.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends JobGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: JobGroupByArgs['orderBy'] }
+        : { orderBy?: JobGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, JobGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetJobGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Job model
+   */
+  readonly fields: JobFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Job.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__JobClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    integration<T extends IntegrationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, IntegrationDefaultArgs<ExtArgs>>): Prisma__IntegrationClient<$Result.GetResult<Prisma.$IntegrationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    tasks<T extends Job$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Job$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Job model
+   */ 
+  interface JobFieldRefs {
+    readonly id: FieldRef<"Job", 'String'>
+    readonly name: FieldRef<"Job", 'String'>
+    readonly status: FieldRef<"Job", 'JobStatus'>
+    readonly createdAt: FieldRef<"Job", 'BigInt'>
+    readonly updatedAt: FieldRef<"Job", 'BigInt'>
+    readonly integrationId: FieldRef<"Job", 'String'>
+    readonly organizationId: FieldRef<"Job", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Job findUnique
+   */
+  export type JobFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * Filter, which Job to fetch.
+     */
+    where: JobWhereUniqueInput
+  }
+
+  /**
+   * Job findUniqueOrThrow
+   */
+  export type JobFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * Filter, which Job to fetch.
+     */
+    where: JobWhereUniqueInput
+  }
+
+  /**
+   * Job findFirst
+   */
+  export type JobFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * Filter, which Job to fetch.
+     */
+    where?: JobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Jobs to fetch.
+     */
+    orderBy?: JobOrderByWithRelationInput | JobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Jobs.
+     */
+    cursor?: JobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Jobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Jobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Jobs.
+     */
+    distinct?: JobScalarFieldEnum | JobScalarFieldEnum[]
+  }
+
+  /**
+   * Job findFirstOrThrow
+   */
+  export type JobFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * Filter, which Job to fetch.
+     */
+    where?: JobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Jobs to fetch.
+     */
+    orderBy?: JobOrderByWithRelationInput | JobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Jobs.
+     */
+    cursor?: JobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Jobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Jobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Jobs.
+     */
+    distinct?: JobScalarFieldEnum | JobScalarFieldEnum[]
+  }
+
+  /**
+   * Job findMany
+   */
+  export type JobFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * Filter, which Jobs to fetch.
+     */
+    where?: JobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Jobs to fetch.
+     */
+    orderBy?: JobOrderByWithRelationInput | JobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Jobs.
+     */
+    cursor?: JobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Jobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Jobs.
+     */
+    skip?: number
+    distinct?: JobScalarFieldEnum | JobScalarFieldEnum[]
+  }
+
+  /**
+   * Job create
+   */
+  export type JobCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Job.
+     */
+    data: XOR<JobCreateInput, JobUncheckedCreateInput>
+  }
+
+  /**
+   * Job createMany
+   */
+  export type JobCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Jobs.
+     */
+    data: JobCreateManyInput | JobCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Job createManyAndReturn
+   */
+  export type JobCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Jobs.
+     */
+    data: JobCreateManyInput | JobCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Job update
+   */
+  export type JobUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Job.
+     */
+    data: XOR<JobUpdateInput, JobUncheckedUpdateInput>
+    /**
+     * Choose, which Job to update.
+     */
+    where: JobWhereUniqueInput
+  }
+
+  /**
+   * Job updateMany
+   */
+  export type JobUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Jobs.
+     */
+    data: XOR<JobUpdateManyMutationInput, JobUncheckedUpdateManyInput>
+    /**
+     * Filter which Jobs to update
+     */
+    where?: JobWhereInput
+  }
+
+  /**
+   * Job upsert
+   */
+  export type JobUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Job to update in case it exists.
+     */
+    where: JobWhereUniqueInput
+    /**
+     * In case the Job found by the `where` argument doesn't exist, create a new Job with this data.
+     */
+    create: XOR<JobCreateInput, JobUncheckedCreateInput>
+    /**
+     * In case the Job was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<JobUpdateInput, JobUncheckedUpdateInput>
+  }
+
+  /**
+   * Job delete
+   */
+  export type JobDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+    /**
+     * Filter which Job to delete.
+     */
+    where: JobWhereUniqueInput
+  }
+
+  /**
+   * Job deleteMany
+   */
+  export type JobDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Jobs to delete
+     */
+    where?: JobWhereInput
+  }
+
+  /**
+   * Job.tasks
+   */
+  export type Job$tasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    where?: TaskWhereInput
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    cursor?: TaskWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
+  }
+
+  /**
+   * Job without action
+   */
+  export type JobDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Task
+   */
+
+  export type AggregateTask = {
+    _count: TaskCountAggregateOutputType | null
+    _avg: TaskAvgAggregateOutputType | null
+    _sum: TaskSumAggregateOutputType | null
+    _min: TaskMinAggregateOutputType | null
+    _max: TaskMaxAggregateOutputType | null
+  }
+
+  export type TaskAvgAggregateOutputType = {
+    createdAt: number | null
+    updatedAt: number | null
+  }
+
+  export type TaskSumAggregateOutputType = {
+    createdAt: bigint | null
+    updatedAt: bigint | null
+  }
+
+  export type TaskMinAggregateOutputType = {
+    id: string | null
+    jobId: string | null
+    name: string | null
+    status: $Enums.TaskStatus | null
+    createdAt: bigint | null
+    updatedAt: bigint | null
+  }
+
+  export type TaskMaxAggregateOutputType = {
+    id: string | null
+    jobId: string | null
+    name: string | null
+    status: $Enums.TaskStatus | null
+    createdAt: bigint | null
+    updatedAt: bigint | null
+  }
+
+  export type TaskCountAggregateOutputType = {
+    id: number
+    jobId: number
+    name: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TaskAvgAggregateInputType = {
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TaskSumAggregateInputType = {
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TaskMinAggregateInputType = {
+    id?: true
+    jobId?: true
+    name?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TaskMaxAggregateInputType = {
+    id?: true
+    jobId?: true
+    name?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TaskCountAggregateInputType = {
+    id?: true
+    jobId?: true
+    name?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TaskAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Task to aggregate.
+     */
+    where?: TaskWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tasks to fetch.
+     */
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TaskWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tasks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tasks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Tasks
+    **/
+    _count?: true | TaskCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TaskAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TaskSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TaskMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TaskMaxAggregateInputType
+  }
+
+  export type GetTaskAggregateType<T extends TaskAggregateArgs> = {
+        [P in keyof T & keyof AggregateTask]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTask[P]>
+      : GetScalarType<T[P], AggregateTask[P]>
+  }
+
+
+
+
+  export type TaskGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TaskWhereInput
+    orderBy?: TaskOrderByWithAggregationInput | TaskOrderByWithAggregationInput[]
+    by: TaskScalarFieldEnum[] | TaskScalarFieldEnum
+    having?: TaskScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TaskCountAggregateInputType | true
+    _avg?: TaskAvgAggregateInputType
+    _sum?: TaskSumAggregateInputType
+    _min?: TaskMinAggregateInputType
+    _max?: TaskMaxAggregateInputType
+  }
+
+  export type TaskGroupByOutputType = {
+    id: string
+    jobId: string
+    name: string
+    status: $Enums.TaskStatus
+    createdAt: bigint
+    updatedAt: bigint
+    _count: TaskCountAggregateOutputType | null
+    _avg: TaskAvgAggregateOutputType | null
+    _sum: TaskSumAggregateOutputType | null
+    _min: TaskMinAggregateOutputType | null
+    _max: TaskMaxAggregateOutputType | null
+  }
+
+  type GetTaskGroupByPayload<T extends TaskGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TaskGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TaskGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TaskGroupByOutputType[P]>
+            : GetScalarType<T[P], TaskGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TaskSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    jobId?: boolean
+    name?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    job?: boolean | JobDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["task"]>
+
+  export type TaskSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    jobId?: boolean
+    name?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    job?: boolean | JobDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["task"]>
+
+  export type TaskSelectScalar = {
+    id?: boolean
+    jobId?: boolean
+    name?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    job?: boolean | JobDefaultArgs<ExtArgs>
+  }
+  export type TaskIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    job?: boolean | JobDefaultArgs<ExtArgs>
+  }
+
+  export type $TaskPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Task"
+    objects: {
+      job: Prisma.$JobPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      jobId: string
+      name: string
+      status: $Enums.TaskStatus
+      createdAt: bigint
+      updatedAt: bigint
+    }, ExtArgs["result"]["task"]>
+    composites: {}
+  }
+
+  type TaskGetPayload<S extends boolean | null | undefined | TaskDefaultArgs> = $Result.GetResult<Prisma.$TaskPayload, S>
+
+  type TaskCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<TaskFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: TaskCountAggregateInputType | true
+    }
+
+  export interface TaskDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Task'], meta: { name: 'Task' } }
+    /**
+     * Find zero or one Task that matches the filter.
+     * @param {TaskFindUniqueArgs} args - Arguments to find a Task
+     * @example
+     * // Get one Task
+     * const task = await prisma.task.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TaskFindUniqueArgs>(args: SelectSubset<T, TaskFindUniqueArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Task that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {TaskFindUniqueOrThrowArgs} args - Arguments to find a Task
+     * @example
+     * // Get one Task
+     * const task = await prisma.task.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TaskFindUniqueOrThrowArgs>(args: SelectSubset<T, TaskFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Task that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskFindFirstArgs} args - Arguments to find a Task
+     * @example
+     * // Get one Task
+     * const task = await prisma.task.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TaskFindFirstArgs>(args?: SelectSubset<T, TaskFindFirstArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Task that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskFindFirstOrThrowArgs} args - Arguments to find a Task
+     * @example
+     * // Get one Task
+     * const task = await prisma.task.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TaskFindFirstOrThrowArgs>(args?: SelectSubset<T, TaskFindFirstOrThrowArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Tasks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Tasks
+     * const tasks = await prisma.task.findMany()
+     * 
+     * // Get first 10 Tasks
+     * const tasks = await prisma.task.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const taskWithIdOnly = await prisma.task.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TaskFindManyArgs>(args?: SelectSubset<T, TaskFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Task.
+     * @param {TaskCreateArgs} args - Arguments to create a Task.
+     * @example
+     * // Create one Task
+     * const Task = await prisma.task.create({
+     *   data: {
+     *     // ... data to create a Task
+     *   }
+     * })
+     * 
+     */
+    create<T extends TaskCreateArgs>(args: SelectSubset<T, TaskCreateArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Tasks.
+     * @param {TaskCreateManyArgs} args - Arguments to create many Tasks.
+     * @example
+     * // Create many Tasks
+     * const task = await prisma.task.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TaskCreateManyArgs>(args?: SelectSubset<T, TaskCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Tasks and returns the data saved in the database.
+     * @param {TaskCreateManyAndReturnArgs} args - Arguments to create many Tasks.
+     * @example
+     * // Create many Tasks
+     * const task = await prisma.task.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Tasks and only return the `id`
+     * const taskWithIdOnly = await prisma.task.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TaskCreateManyAndReturnArgs>(args?: SelectSubset<T, TaskCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Task.
+     * @param {TaskDeleteArgs} args - Arguments to delete one Task.
+     * @example
+     * // Delete one Task
+     * const Task = await prisma.task.delete({
+     *   where: {
+     *     // ... filter to delete one Task
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TaskDeleteArgs>(args: SelectSubset<T, TaskDeleteArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Task.
+     * @param {TaskUpdateArgs} args - Arguments to update one Task.
+     * @example
+     * // Update one Task
+     * const task = await prisma.task.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TaskUpdateArgs>(args: SelectSubset<T, TaskUpdateArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Tasks.
+     * @param {TaskDeleteManyArgs} args - Arguments to filter Tasks to delete.
+     * @example
+     * // Delete a few Tasks
+     * const { count } = await prisma.task.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TaskDeleteManyArgs>(args?: SelectSubset<T, TaskDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tasks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Tasks
+     * const task = await prisma.task.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TaskUpdateManyArgs>(args: SelectSubset<T, TaskUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Task.
+     * @param {TaskUpsertArgs} args - Arguments to update or create a Task.
+     * @example
+     * // Update or create a Task
+     * const task = await prisma.task.upsert({
+     *   create: {
+     *     // ... data to create a Task
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Task we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TaskUpsertArgs>(args: SelectSubset<T, TaskUpsertArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Tasks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskCountArgs} args - Arguments to filter Tasks to count.
+     * @example
+     * // Count the number of Tasks
+     * const count = await prisma.task.count({
+     *   where: {
+     *     // ... the filter for the Tasks we want to count
+     *   }
+     * })
+    **/
+    count<T extends TaskCountArgs>(
+      args?: Subset<T, TaskCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TaskCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Task.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TaskAggregateArgs>(args: Subset<T, TaskAggregateArgs>): Prisma.PrismaPromise<GetTaskAggregateType<T>>
+
+    /**
+     * Group by Task.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TaskGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TaskGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TaskGroupByArgs['orderBy'] }
+        : { orderBy?: TaskGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TaskGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTaskGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Task model
+   */
+  readonly fields: TaskFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Task.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TaskClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    job<T extends JobDefaultArgs<ExtArgs> = {}>(args?: Subset<T, JobDefaultArgs<ExtArgs>>): Prisma__JobClient<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Task model
+   */ 
+  interface TaskFieldRefs {
+    readonly id: FieldRef<"Task", 'String'>
+    readonly jobId: FieldRef<"Task", 'String'>
+    readonly name: FieldRef<"Task", 'String'>
+    readonly status: FieldRef<"Task", 'TaskStatus'>
+    readonly createdAt: FieldRef<"Task", 'BigInt'>
+    readonly updatedAt: FieldRef<"Task", 'BigInt'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Task findUnique
+   */
+  export type TaskFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * Filter, which Task to fetch.
+     */
+    where: TaskWhereUniqueInput
+  }
+
+  /**
+   * Task findUniqueOrThrow
+   */
+  export type TaskFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * Filter, which Task to fetch.
+     */
+    where: TaskWhereUniqueInput
+  }
+
+  /**
+   * Task findFirst
+   */
+  export type TaskFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * Filter, which Task to fetch.
+     */
+    where?: TaskWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tasks to fetch.
+     */
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tasks.
+     */
+    cursor?: TaskWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tasks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tasks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tasks.
+     */
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
+  }
+
+  /**
+   * Task findFirstOrThrow
+   */
+  export type TaskFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * Filter, which Task to fetch.
+     */
+    where?: TaskWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tasks to fetch.
+     */
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tasks.
+     */
+    cursor?: TaskWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tasks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tasks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tasks.
+     */
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
+  }
+
+  /**
+   * Task findMany
+   */
+  export type TaskFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * Filter, which Tasks to fetch.
+     */
+    where?: TaskWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tasks to fetch.
+     */
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Tasks.
+     */
+    cursor?: TaskWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tasks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tasks.
+     */
+    skip?: number
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
+  }
+
+  /**
+   * Task create
+   */
+  export type TaskCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Task.
+     */
+    data: XOR<TaskCreateInput, TaskUncheckedCreateInput>
+  }
+
+  /**
+   * Task createMany
+   */
+  export type TaskCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Tasks.
+     */
+    data: TaskCreateManyInput | TaskCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Task createManyAndReturn
+   */
+  export type TaskCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Tasks.
+     */
+    data: TaskCreateManyInput | TaskCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Task update
+   */
+  export type TaskUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Task.
+     */
+    data: XOR<TaskUpdateInput, TaskUncheckedUpdateInput>
+    /**
+     * Choose, which Task to update.
+     */
+    where: TaskWhereUniqueInput
+  }
+
+  /**
+   * Task updateMany
+   */
+  export type TaskUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Tasks.
+     */
+    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyInput>
+    /**
+     * Filter which Tasks to update
+     */
+    where?: TaskWhereInput
+  }
+
+  /**
+   * Task upsert
+   */
+  export type TaskUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Task to update in case it exists.
+     */
+    where: TaskWhereUniqueInput
+    /**
+     * In case the Task found by the `where` argument doesn't exist, create a new Task with this data.
+     */
+    create: XOR<TaskCreateInput, TaskUncheckedCreateInput>
+    /**
+     * In case the Task was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TaskUpdateInput, TaskUncheckedUpdateInput>
+  }
+
+  /**
+   * Task delete
+   */
+  export type TaskDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    /**
+     * Filter which Task to delete.
+     */
+    where: TaskWhereUniqueInput
+  }
+
+  /**
+   * Task deleteMany
+   */
+  export type TaskDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Tasks to delete
+     */
+    where?: TaskWhereInput
+  }
+
+  /**
+   * Task without action
+   */
+  export type TaskDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Webhook
+   */
+
+  export type AggregateWebhook = {
+    _count: WebhookCountAggregateOutputType | null
+    _avg: WebhookAvgAggregateOutputType | null
+    _sum: WebhookSumAggregateOutputType | null
+    _min: WebhookMinAggregateOutputType | null
+    _max: WebhookMaxAggregateOutputType | null
+  }
+
+  export type WebhookAvgAggregateOutputType = {
+    createdAt: number | null
+  }
+
+  export type WebhookSumAggregateOutputType = {
+    createdAt: bigint | null
+  }
+
+  export type WebhookMinAggregateOutputType = {
+    id: string | null
+    url: string | null
+    type: $Enums.WebhookType | null
+    createdAt: bigint | null
+    organizationId: string | null
+  }
+
+  export type WebhookMaxAggregateOutputType = {
+    id: string | null
+    url: string | null
+    type: $Enums.WebhookType | null
+    createdAt: bigint | null
+    organizationId: string | null
+  }
+
+  export type WebhookCountAggregateOutputType = {
+    id: number
+    url: number
+    type: number
+    createdAt: number
+    organizationId: number
+    data: number
+    _all: number
+  }
+
+
+  export type WebhookAvgAggregateInputType = {
+    createdAt?: true
+  }
+
+  export type WebhookSumAggregateInputType = {
+    createdAt?: true
+  }
+
+  export type WebhookMinAggregateInputType = {
+    id?: true
+    url?: true
+    type?: true
+    createdAt?: true
+    organizationId?: true
+  }
+
+  export type WebhookMaxAggregateInputType = {
+    id?: true
+    url?: true
+    type?: true
+    createdAt?: true
+    organizationId?: true
+  }
+
+  export type WebhookCountAggregateInputType = {
+    id?: true
+    url?: true
+    type?: true
+    createdAt?: true
+    organizationId?: true
+    data?: true
+    _all?: true
+  }
+
+  export type WebhookAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Webhook to aggregate.
+     */
+    where?: WebhookWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Webhooks to fetch.
+     */
+    orderBy?: WebhookOrderByWithRelationInput | WebhookOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WebhookWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Webhooks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Webhooks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Webhooks
+    **/
+    _count?: true | WebhookCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WebhookAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WebhookSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WebhookMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WebhookMaxAggregateInputType
+  }
+
+  export type GetWebhookAggregateType<T extends WebhookAggregateArgs> = {
+        [P in keyof T & keyof AggregateWebhook]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebhook[P]>
+      : GetScalarType<T[P], AggregateWebhook[P]>
+  }
+
+
+
+
+  export type WebhookGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebhookWhereInput
+    orderBy?: WebhookOrderByWithAggregationInput | WebhookOrderByWithAggregationInput[]
+    by: WebhookScalarFieldEnum[] | WebhookScalarFieldEnum
+    having?: WebhookScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WebhookCountAggregateInputType | true
+    _avg?: WebhookAvgAggregateInputType
+    _sum?: WebhookSumAggregateInputType
+    _min?: WebhookMinAggregateInputType
+    _max?: WebhookMaxAggregateInputType
+  }
+
+  export type WebhookGroupByOutputType = {
+    id: string
+    url: string
+    type: $Enums.WebhookType
+    createdAt: bigint
+    organizationId: string
+    data: JsonValue
+    _count: WebhookCountAggregateOutputType | null
+    _avg: WebhookAvgAggregateOutputType | null
+    _sum: WebhookSumAggregateOutputType | null
+    _min: WebhookMinAggregateOutputType | null
+    _max: WebhookMaxAggregateOutputType | null
+  }
+
+  type GetWebhookGroupByPayload<T extends WebhookGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WebhookGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WebhookGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WebhookGroupByOutputType[P]>
+            : GetScalarType<T[P], WebhookGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WebhookSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    url?: boolean
+    type?: boolean
+    createdAt?: boolean
+    organizationId?: boolean
+    data?: boolean
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["webhook"]>
+
+  export type WebhookSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    url?: boolean
+    type?: boolean
+    createdAt?: boolean
+    organizationId?: boolean
+    data?: boolean
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["webhook"]>
+
+  export type WebhookSelectScalar = {
+    id?: boolean
+    url?: boolean
+    type?: boolean
+    createdAt?: boolean
+    organizationId?: boolean
+    data?: boolean
+  }
+
+  export type WebhookInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+  export type WebhookIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+
+  export type $WebhookPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Webhook"
+    objects: {
+      organization: Prisma.$OrganizationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      url: string
+      type: $Enums.WebhookType
+      createdAt: bigint
+      organizationId: string
+      data: Prisma.JsonValue
+    }, ExtArgs["result"]["webhook"]>
+    composites: {}
+  }
+
+  type WebhookGetPayload<S extends boolean | null | undefined | WebhookDefaultArgs> = $Result.GetResult<Prisma.$WebhookPayload, S>
+
+  type WebhookCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<WebhookFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: WebhookCountAggregateInputType | true
+    }
+
+  export interface WebhookDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Webhook'], meta: { name: 'Webhook' } }
+    /**
+     * Find zero or one Webhook that matches the filter.
+     * @param {WebhookFindUniqueArgs} args - Arguments to find a Webhook
+     * @example
+     * // Get one Webhook
+     * const webhook = await prisma.webhook.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WebhookFindUniqueArgs>(args: SelectSubset<T, WebhookFindUniqueArgs<ExtArgs>>): Prisma__WebhookClient<$Result.GetResult<Prisma.$WebhookPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Webhook that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {WebhookFindUniqueOrThrowArgs} args - Arguments to find a Webhook
+     * @example
+     * // Get one Webhook
+     * const webhook = await prisma.webhook.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WebhookFindUniqueOrThrowArgs>(args: SelectSubset<T, WebhookFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WebhookClient<$Result.GetResult<Prisma.$WebhookPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Webhook that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookFindFirstArgs} args - Arguments to find a Webhook
+     * @example
+     * // Get one Webhook
+     * const webhook = await prisma.webhook.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WebhookFindFirstArgs>(args?: SelectSubset<T, WebhookFindFirstArgs<ExtArgs>>): Prisma__WebhookClient<$Result.GetResult<Prisma.$WebhookPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Webhook that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookFindFirstOrThrowArgs} args - Arguments to find a Webhook
+     * @example
+     * // Get one Webhook
+     * const webhook = await prisma.webhook.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WebhookFindFirstOrThrowArgs>(args?: SelectSubset<T, WebhookFindFirstOrThrowArgs<ExtArgs>>): Prisma__WebhookClient<$Result.GetResult<Prisma.$WebhookPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Webhooks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Webhooks
+     * const webhooks = await prisma.webhook.findMany()
+     * 
+     * // Get first 10 Webhooks
+     * const webhooks = await prisma.webhook.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const webhookWithIdOnly = await prisma.webhook.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WebhookFindManyArgs>(args?: SelectSubset<T, WebhookFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Webhook.
+     * @param {WebhookCreateArgs} args - Arguments to create a Webhook.
+     * @example
+     * // Create one Webhook
+     * const Webhook = await prisma.webhook.create({
+     *   data: {
+     *     // ... data to create a Webhook
+     *   }
+     * })
+     * 
+     */
+    create<T extends WebhookCreateArgs>(args: SelectSubset<T, WebhookCreateArgs<ExtArgs>>): Prisma__WebhookClient<$Result.GetResult<Prisma.$WebhookPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Webhooks.
+     * @param {WebhookCreateManyArgs} args - Arguments to create many Webhooks.
+     * @example
+     * // Create many Webhooks
+     * const webhook = await prisma.webhook.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WebhookCreateManyArgs>(args?: SelectSubset<T, WebhookCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Webhooks and returns the data saved in the database.
+     * @param {WebhookCreateManyAndReturnArgs} args - Arguments to create many Webhooks.
+     * @example
+     * // Create many Webhooks
+     * const webhook = await prisma.webhook.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Webhooks and only return the `id`
+     * const webhookWithIdOnly = await prisma.webhook.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WebhookCreateManyAndReturnArgs>(args?: SelectSubset<T, WebhookCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Webhook.
+     * @param {WebhookDeleteArgs} args - Arguments to delete one Webhook.
+     * @example
+     * // Delete one Webhook
+     * const Webhook = await prisma.webhook.delete({
+     *   where: {
+     *     // ... filter to delete one Webhook
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WebhookDeleteArgs>(args: SelectSubset<T, WebhookDeleteArgs<ExtArgs>>): Prisma__WebhookClient<$Result.GetResult<Prisma.$WebhookPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Webhook.
+     * @param {WebhookUpdateArgs} args - Arguments to update one Webhook.
+     * @example
+     * // Update one Webhook
+     * const webhook = await prisma.webhook.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WebhookUpdateArgs>(args: SelectSubset<T, WebhookUpdateArgs<ExtArgs>>): Prisma__WebhookClient<$Result.GetResult<Prisma.$WebhookPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Webhooks.
+     * @param {WebhookDeleteManyArgs} args - Arguments to filter Webhooks to delete.
+     * @example
+     * // Delete a few Webhooks
+     * const { count } = await prisma.webhook.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WebhookDeleteManyArgs>(args?: SelectSubset<T, WebhookDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Webhooks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Webhooks
+     * const webhook = await prisma.webhook.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WebhookUpdateManyArgs>(args: SelectSubset<T, WebhookUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Webhook.
+     * @param {WebhookUpsertArgs} args - Arguments to update or create a Webhook.
+     * @example
+     * // Update or create a Webhook
+     * const webhook = await prisma.webhook.upsert({
+     *   create: {
+     *     // ... data to create a Webhook
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Webhook we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WebhookUpsertArgs>(args: SelectSubset<T, WebhookUpsertArgs<ExtArgs>>): Prisma__WebhookClient<$Result.GetResult<Prisma.$WebhookPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Webhooks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookCountArgs} args - Arguments to filter Webhooks to count.
+     * @example
+     * // Count the number of Webhooks
+     * const count = await prisma.webhook.count({
+     *   where: {
+     *     // ... the filter for the Webhooks we want to count
+     *   }
+     * })
+    **/
+    count<T extends WebhookCountArgs>(
+      args?: Subset<T, WebhookCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebhookCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Webhook.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WebhookAggregateArgs>(args: Subset<T, WebhookAggregateArgs>): Prisma.PrismaPromise<GetWebhookAggregateType<T>>
+
+    /**
+     * Group by Webhook.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebhookGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WebhookGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebhookGroupByArgs['orderBy'] }
+        : { orderBy?: WebhookGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WebhookGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebhookGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Webhook model
+   */
+  readonly fields: WebhookFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Webhook.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WebhookClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Webhook model
+   */ 
+  interface WebhookFieldRefs {
+    readonly id: FieldRef<"Webhook", 'String'>
+    readonly url: FieldRef<"Webhook", 'String'>
+    readonly type: FieldRef<"Webhook", 'WebhookType'>
+    readonly createdAt: FieldRef<"Webhook", 'BigInt'>
+    readonly organizationId: FieldRef<"Webhook", 'String'>
+    readonly data: FieldRef<"Webhook", 'Json'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Webhook findUnique
+   */
+  export type WebhookFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Webhook
+     */
+    select?: WebhookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookInclude<ExtArgs> | null
+    /**
+     * Filter, which Webhook to fetch.
+     */
+    where: WebhookWhereUniqueInput
+  }
+
+  /**
+   * Webhook findUniqueOrThrow
+   */
+  export type WebhookFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Webhook
+     */
+    select?: WebhookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookInclude<ExtArgs> | null
+    /**
+     * Filter, which Webhook to fetch.
+     */
+    where: WebhookWhereUniqueInput
+  }
+
+  /**
+   * Webhook findFirst
+   */
+  export type WebhookFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Webhook
+     */
+    select?: WebhookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookInclude<ExtArgs> | null
+    /**
+     * Filter, which Webhook to fetch.
+     */
+    where?: WebhookWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Webhooks to fetch.
+     */
+    orderBy?: WebhookOrderByWithRelationInput | WebhookOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Webhooks.
+     */
+    cursor?: WebhookWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Webhooks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Webhooks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Webhooks.
+     */
+    distinct?: WebhookScalarFieldEnum | WebhookScalarFieldEnum[]
+  }
+
+  /**
+   * Webhook findFirstOrThrow
+   */
+  export type WebhookFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Webhook
+     */
+    select?: WebhookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookInclude<ExtArgs> | null
+    /**
+     * Filter, which Webhook to fetch.
+     */
+    where?: WebhookWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Webhooks to fetch.
+     */
+    orderBy?: WebhookOrderByWithRelationInput | WebhookOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Webhooks.
+     */
+    cursor?: WebhookWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Webhooks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Webhooks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Webhooks.
+     */
+    distinct?: WebhookScalarFieldEnum | WebhookScalarFieldEnum[]
+  }
+
+  /**
+   * Webhook findMany
+   */
+  export type WebhookFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Webhook
+     */
+    select?: WebhookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookInclude<ExtArgs> | null
+    /**
+     * Filter, which Webhooks to fetch.
+     */
+    where?: WebhookWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Webhooks to fetch.
+     */
+    orderBy?: WebhookOrderByWithRelationInput | WebhookOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Webhooks.
+     */
+    cursor?: WebhookWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Webhooks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Webhooks.
+     */
+    skip?: number
+    distinct?: WebhookScalarFieldEnum | WebhookScalarFieldEnum[]
+  }
+
+  /**
+   * Webhook create
+   */
+  export type WebhookCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Webhook
+     */
+    select?: WebhookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Webhook.
+     */
+    data: XOR<WebhookCreateInput, WebhookUncheckedCreateInput>
+  }
+
+  /**
+   * Webhook createMany
+   */
+  export type WebhookCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Webhooks.
+     */
+    data: WebhookCreateManyInput | WebhookCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Webhook createManyAndReturn
+   */
+  export type WebhookCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Webhook
+     */
+    select?: WebhookSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Webhooks.
+     */
+    data: WebhookCreateManyInput | WebhookCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Webhook update
+   */
+  export type WebhookUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Webhook
+     */
+    select?: WebhookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Webhook.
+     */
+    data: XOR<WebhookUpdateInput, WebhookUncheckedUpdateInput>
+    /**
+     * Choose, which Webhook to update.
+     */
+    where: WebhookWhereUniqueInput
+  }
+
+  /**
+   * Webhook updateMany
+   */
+  export type WebhookUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Webhooks.
+     */
+    data: XOR<WebhookUpdateManyMutationInput, WebhookUncheckedUpdateManyInput>
+    /**
+     * Filter which Webhooks to update
+     */
+    where?: WebhookWhereInput
+  }
+
+  /**
+   * Webhook upsert
+   */
+  export type WebhookUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Webhook
+     */
+    select?: WebhookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Webhook to update in case it exists.
+     */
+    where: WebhookWhereUniqueInput
+    /**
+     * In case the Webhook found by the `where` argument doesn't exist, create a new Webhook with this data.
+     */
+    create: XOR<WebhookCreateInput, WebhookUncheckedCreateInput>
+    /**
+     * In case the Webhook was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WebhookUpdateInput, WebhookUncheckedUpdateInput>
+  }
+
+  /**
+   * Webhook delete
+   */
+  export type WebhookDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Webhook
+     */
+    select?: WebhookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookInclude<ExtArgs> | null
+    /**
+     * Filter which Webhook to delete.
+     */
+    where: WebhookWhereUniqueInput
+  }
+
+  /**
+   * Webhook deleteMany
+   */
+  export type WebhookDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Webhooks to delete
+     */
+    where?: WebhookWhereInput
+  }
+
+  /**
+   * Webhook without action
+   */
+  export type WebhookDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Webhook
+     */
+    select?: WebhookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WebhookInclude<ExtArgs> | null
   }
 
 
@@ -20209,24 +24873,27 @@ export namespace Prisma {
 
   export const EmailScalarFieldEnum: {
     id: 'id',
-    trackingId: 'trackingId',
+    from: 'from',
     to: 'to',
     cc: 'cc',
     bcc: 'bcc',
     status: 'status',
-    isOpened: 'isOpened',
-    isClicked: 'isClicked',
     subject: 'subject',
     body: 'body',
+    trackingId: 'trackingId',
     messageId: 'messageId',
     threadId: 'threadId',
     historyId: 'historyId',
     labelIds: 'labelIds',
-    sentAt: 'sentAt',
+    isOpened: 'isOpened',
     openedAt: 'openedAt',
+    isClicked: 'isClicked',
     clickedAt: 'clickedAt',
+    sentAt: 'sentAt',
     deletedAt: 'deletedAt',
-    integrationId: 'integrationId'
+    integrationId: 'integrationId',
+    organizationId: 'organizationId',
+    source: 'source'
   };
 
   export type EmailScalarFieldEnum = (typeof EmailScalarFieldEnum)[keyof typeof EmailScalarFieldEnum]
@@ -20248,17 +24915,70 @@ export namespace Prisma {
   export const IntegrationScalarFieldEnum: {
     id: 'id',
     organizationId: 'organizationId',
+    name: 'name',
     data: 'data',
     description: 'description',
     type: 'type',
+    category: 'category',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deletedAt: 'deletedAt',
-    name: 'name',
-    isSingular: 'isSingular'
+    isSingular: 'isSingular',
+    sharedType: 'sharedType'
   };
 
   export type IntegrationScalarFieldEnum = (typeof IntegrationScalarFieldEnum)[keyof typeof IntegrationScalarFieldEnum]
+
+
+  export const MailServiceFromEmailScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    email: 'email',
+    type: 'type',
+    integrationId: 'integrationId',
+    organizationId: 'organizationId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MailServiceFromEmailScalarFieldEnum = (typeof MailServiceFromEmailScalarFieldEnum)[keyof typeof MailServiceFromEmailScalarFieldEnum]
+
+
+  export const JobScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    integrationId: 'integrationId',
+    organizationId: 'organizationId'
+  };
+
+  export type JobScalarFieldEnum = (typeof JobScalarFieldEnum)[keyof typeof JobScalarFieldEnum]
+
+
+  export const TaskScalarFieldEnum: {
+    id: 'id',
+    jobId: 'jobId',
+    name: 'name',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
+
+
+  export const WebhookScalarFieldEnum: {
+    id: 'id',
+    url: 'url',
+    type: 'type',
+    createdAt: 'createdAt',
+    organizationId: 'organizationId',
+    data: 'data'
+  };
+
+  export type WebhookScalarFieldEnum = (typeof WebhookScalarFieldEnum)[keyof typeof WebhookScalarFieldEnum]
 
 
   export const TemplateScalarFieldEnum: {
@@ -20440,6 +25160,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'IntegrationType'
+   */
+  export type EnumIntegrationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IntegrationType'>
+    
+
+
+  /**
+   * Reference to a field of type 'IntegrationType[]'
+   */
+  export type ListEnumIntegrationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IntegrationType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'QueueStatus'
    */
   export type EnumQueueStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueueStatus'>
@@ -20482,16 +25216,72 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'IntegrationType'
+   * Reference to a field of type 'IntegrationCategory'
    */
-  export type EnumIntegrationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IntegrationType'>
+  export type EnumIntegrationCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IntegrationCategory'>
     
 
 
   /**
-   * Reference to a field of type 'IntegrationType[]'
+   * Reference to a field of type 'IntegrationCategory[]'
    */
-  export type ListEnumIntegrationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IntegrationType[]'>
+  export type ListEnumIntegrationCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IntegrationCategory[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'IntegrationSharingType'
+   */
+  export type EnumIntegrationSharingTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IntegrationSharingType'>
+    
+
+
+  /**
+   * Reference to a field of type 'IntegrationSharingType[]'
+   */
+  export type ListEnumIntegrationSharingTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IntegrationSharingType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'JobStatus'
+   */
+  export type EnumJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JobStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'JobStatus[]'
+   */
+  export type ListEnumJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JobStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TaskStatus'
+   */
+  export type EnumTaskStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'TaskStatus[]'
+   */
+  export type ListEnumTaskStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'WebhookType'
+   */
+  export type EnumWebhookTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WebhookType'>
+    
+
+
+  /**
+   * Reference to a field of type 'WebhookType[]'
+   */
+  export type ListEnumWebhookTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WebhookType[]'>
     
 
 
@@ -20696,6 +25486,9 @@ export namespace Prisma {
     contact?: ContactListRelationFilter
     Template?: TemplateListRelationFilter
     LeadStatus?: LeadStatusListRelationFilter
+    webhooks?: WebhookListRelationFilter
+    Email?: EmailListRelationFilter
+    MailServiceFromEmail?: MailServiceFromEmailListRelationFilter
     LeadProject?: LeadProjectListRelationFilter
     LeadActivity?: LeadActivityListRelationFilter
   }
@@ -20716,6 +25509,9 @@ export namespace Prisma {
     contact?: ContactOrderByRelationAggregateInput
     Template?: TemplateOrderByRelationAggregateInput
     LeadStatus?: LeadStatusOrderByRelationAggregateInput
+    webhooks?: WebhookOrderByRelationAggregateInput
+    Email?: EmailOrderByRelationAggregateInput
+    MailServiceFromEmail?: MailServiceFromEmailOrderByRelationAggregateInput
     LeadProject?: LeadProjectOrderByRelationAggregateInput
     LeadActivity?: LeadActivityOrderByRelationAggregateInput
   }
@@ -20739,6 +25535,9 @@ export namespace Prisma {
     contact?: ContactListRelationFilter
     Template?: TemplateListRelationFilter
     LeadStatus?: LeadStatusListRelationFilter
+    webhooks?: WebhookListRelationFilter
+    Email?: EmailListRelationFilter
+    MailServiceFromEmail?: MailServiceFromEmailListRelationFilter
     LeadProject?: LeadProjectListRelationFilter
     LeadActivity?: LeadActivityListRelationFilter
   }, "id">
@@ -21499,47 +26298,55 @@ export namespace Prisma {
     OR?: EmailWhereInput[]
     NOT?: EmailWhereInput | EmailWhereInput[]
     id?: StringFilter<"Email"> | string
-    trackingId?: StringFilter<"Email"> | string
+    from?: JsonFilter<"Email">
     to?: StringNullableListFilter<"Email">
     cc?: StringNullableListFilter<"Email">
     bcc?: StringNullableListFilter<"Email">
     status?: EnumEmailStatusFilter<"Email"> | $Enums.EmailStatus
-    isOpened?: BoolFilter<"Email"> | boolean
-    isClicked?: BoolFilter<"Email"> | boolean
     subject?: StringNullableFilter<"Email"> | string | null
     body?: StringFilter<"Email"> | string
+    trackingId?: StringNullableFilter<"Email"> | string | null
     messageId?: StringNullableFilter<"Email"> | string | null
     threadId?: StringNullableFilter<"Email"> | string | null
     historyId?: StringNullableFilter<"Email"> | string | null
     labelIds?: StringNullableListFilter<"Email">
-    sentAt?: BigIntFilter<"Email"> | bigint | number
+    isOpened?: BoolFilter<"Email"> | boolean
     openedAt?: BigIntFilter<"Email"> | bigint | number
+    isClicked?: BoolFilter<"Email"> | boolean
     clickedAt?: BigIntFilter<"Email"> | bigint | number
+    sentAt?: BigIntFilter<"Email"> | bigint | number
     deletedAt?: BigIntFilter<"Email"> | bigint | number
     integrationId?: StringFilter<"Email"> | string
+    organizationId?: StringFilter<"Email"> | string
+    source?: EnumIntegrationTypeFilter<"Email"> | $Enums.IntegrationType
+    organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     EmailQueue?: EmailQueueListRelationFilter
   }
 
   export type EmailOrderByWithRelationInput = {
     id?: SortOrder
-    trackingId?: SortOrder
+    from?: SortOrder
     to?: SortOrder
     cc?: SortOrder
     bcc?: SortOrder
     status?: SortOrder
-    isOpened?: SortOrder
-    isClicked?: SortOrder
     subject?: SortOrderInput | SortOrder
     body?: SortOrder
+    trackingId?: SortOrderInput | SortOrder
     messageId?: SortOrderInput | SortOrder
     threadId?: SortOrderInput | SortOrder
     historyId?: SortOrderInput | SortOrder
     labelIds?: SortOrder
-    sentAt?: SortOrder
+    isOpened?: SortOrder
     openedAt?: SortOrder
+    isClicked?: SortOrder
     clickedAt?: SortOrder
+    sentAt?: SortOrder
     deletedAt?: SortOrder
     integrationId?: SortOrder
+    organizationId?: SortOrder
+    source?: SortOrder
+    organization?: OrganizationOrderByWithRelationInput
     EmailQueue?: EmailQueueOrderByRelationAggregateInput
   }
 
@@ -21549,46 +26356,53 @@ export namespace Prisma {
     AND?: EmailWhereInput | EmailWhereInput[]
     OR?: EmailWhereInput[]
     NOT?: EmailWhereInput | EmailWhereInput[]
+    from?: JsonFilter<"Email">
     to?: StringNullableListFilter<"Email">
     cc?: StringNullableListFilter<"Email">
     bcc?: StringNullableListFilter<"Email">
     status?: EnumEmailStatusFilter<"Email"> | $Enums.EmailStatus
-    isOpened?: BoolFilter<"Email"> | boolean
-    isClicked?: BoolFilter<"Email"> | boolean
     subject?: StringNullableFilter<"Email"> | string | null
     body?: StringFilter<"Email"> | string
     messageId?: StringNullableFilter<"Email"> | string | null
     threadId?: StringNullableFilter<"Email"> | string | null
     historyId?: StringNullableFilter<"Email"> | string | null
     labelIds?: StringNullableListFilter<"Email">
-    sentAt?: BigIntFilter<"Email"> | bigint | number
+    isOpened?: BoolFilter<"Email"> | boolean
     openedAt?: BigIntFilter<"Email"> | bigint | number
+    isClicked?: BoolFilter<"Email"> | boolean
     clickedAt?: BigIntFilter<"Email"> | bigint | number
+    sentAt?: BigIntFilter<"Email"> | bigint | number
     deletedAt?: BigIntFilter<"Email"> | bigint | number
     integrationId?: StringFilter<"Email"> | string
+    organizationId?: StringFilter<"Email"> | string
+    source?: EnumIntegrationTypeFilter<"Email"> | $Enums.IntegrationType
+    organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     EmailQueue?: EmailQueueListRelationFilter
   }, "id" | "trackingId">
 
   export type EmailOrderByWithAggregationInput = {
     id?: SortOrder
-    trackingId?: SortOrder
+    from?: SortOrder
     to?: SortOrder
     cc?: SortOrder
     bcc?: SortOrder
     status?: SortOrder
-    isOpened?: SortOrder
-    isClicked?: SortOrder
     subject?: SortOrderInput | SortOrder
     body?: SortOrder
+    trackingId?: SortOrderInput | SortOrder
     messageId?: SortOrderInput | SortOrder
     threadId?: SortOrderInput | SortOrder
     historyId?: SortOrderInput | SortOrder
     labelIds?: SortOrder
-    sentAt?: SortOrder
+    isOpened?: SortOrder
     openedAt?: SortOrder
+    isClicked?: SortOrder
     clickedAt?: SortOrder
+    sentAt?: SortOrder
     deletedAt?: SortOrder
     integrationId?: SortOrder
+    organizationId?: SortOrder
+    source?: SortOrder
     _count?: EmailCountOrderByAggregateInput
     _avg?: EmailAvgOrderByAggregateInput
     _max?: EmailMaxOrderByAggregateInput
@@ -21601,24 +26415,27 @@ export namespace Prisma {
     OR?: EmailScalarWhereWithAggregatesInput[]
     NOT?: EmailScalarWhereWithAggregatesInput | EmailScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Email"> | string
-    trackingId?: StringWithAggregatesFilter<"Email"> | string
+    from?: JsonWithAggregatesFilter<"Email">
     to?: StringNullableListFilter<"Email">
     cc?: StringNullableListFilter<"Email">
     bcc?: StringNullableListFilter<"Email">
     status?: EnumEmailStatusWithAggregatesFilter<"Email"> | $Enums.EmailStatus
-    isOpened?: BoolWithAggregatesFilter<"Email"> | boolean
-    isClicked?: BoolWithAggregatesFilter<"Email"> | boolean
     subject?: StringNullableWithAggregatesFilter<"Email"> | string | null
     body?: StringWithAggregatesFilter<"Email"> | string
+    trackingId?: StringNullableWithAggregatesFilter<"Email"> | string | null
     messageId?: StringNullableWithAggregatesFilter<"Email"> | string | null
     threadId?: StringNullableWithAggregatesFilter<"Email"> | string | null
     historyId?: StringNullableWithAggregatesFilter<"Email"> | string | null
     labelIds?: StringNullableListFilter<"Email">
-    sentAt?: BigIntWithAggregatesFilter<"Email"> | bigint | number
+    isOpened?: BoolWithAggregatesFilter<"Email"> | boolean
     openedAt?: BigIntWithAggregatesFilter<"Email"> | bigint | number
+    isClicked?: BoolWithAggregatesFilter<"Email"> | boolean
     clickedAt?: BigIntWithAggregatesFilter<"Email"> | bigint | number
+    sentAt?: BigIntWithAggregatesFilter<"Email"> | bigint | number
     deletedAt?: BigIntWithAggregatesFilter<"Email"> | bigint | number
     integrationId?: StringWithAggregatesFilter<"Email"> | string
+    organizationId?: StringWithAggregatesFilter<"Email"> | string
+    source?: EnumIntegrationTypeWithAggregatesFilter<"Email"> | $Enums.IntegrationType
   }
 
   export type EmailQueueWhereInput = {
@@ -21694,37 +26511,45 @@ export namespace Prisma {
     NOT?: IntegrationWhereInput | IntegrationWhereInput[]
     id?: StringFilter<"Integration"> | string
     organizationId?: StringFilter<"Integration"> | string
+    name?: StringFilter<"Integration"> | string
     data?: JsonFilter<"Integration">
     description?: StringNullableFilter<"Integration"> | string | null
     type?: EnumIntegrationTypeFilter<"Integration"> | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFilter<"Integration"> | $Enums.IntegrationCategory
     createdAt?: BigIntFilter<"Integration"> | bigint | number
     updatedAt?: BigIntFilter<"Integration"> | bigint | number
-    deletedAt?: BigIntFilter<"Integration"> | bigint | number
-    name?: StringFilter<"Integration"> | string
+    deletedAt?: BigIntNullableFilter<"Integration"> | bigint | number | null
     isSingular?: BoolFilter<"Integration"> | boolean
+    sharedType?: EnumIntegrationSharingTypeFilter<"Integration"> | $Enums.IntegrationSharingType
     Project?: ProjectListRelationFilter
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     Lead?: LeadListRelationFilter
     Contact?: ContactListRelationFilter
     LeadProject?: LeadProjectListRelationFilter
+    Jobs?: JobListRelationFilter
+    mailServiceFromEmail?: MailServiceFromEmailListRelationFilter
   }
 
   export type IntegrationOrderByWithRelationInput = {
     id?: SortOrder
     organizationId?: SortOrder
+    name?: SortOrder
     data?: SortOrder
     description?: SortOrderInput | SortOrder
     type?: SortOrder
+    category?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrder
-    name?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     isSingular?: SortOrder
+    sharedType?: SortOrder
     Project?: ProjectOrderByRelationAggregateInput
     organization?: OrganizationOrderByWithRelationInput
     Lead?: LeadOrderByRelationAggregateInput
     Contact?: ContactOrderByRelationAggregateInput
     LeadProject?: LeadProjectOrderByRelationAggregateInput
+    Jobs?: JobOrderByRelationAggregateInput
+    mailServiceFromEmail?: MailServiceFromEmailOrderByRelationAggregateInput
   }
 
   export type IntegrationWhereUniqueInput = Prisma.AtLeast<{
@@ -21733,32 +26558,38 @@ export namespace Prisma {
     OR?: IntegrationWhereInput[]
     NOT?: IntegrationWhereInput | IntegrationWhereInput[]
     organizationId?: StringFilter<"Integration"> | string
+    name?: StringFilter<"Integration"> | string
     data?: JsonFilter<"Integration">
     description?: StringNullableFilter<"Integration"> | string | null
     type?: EnumIntegrationTypeFilter<"Integration"> | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFilter<"Integration"> | $Enums.IntegrationCategory
     createdAt?: BigIntFilter<"Integration"> | bigint | number
     updatedAt?: BigIntFilter<"Integration"> | bigint | number
-    deletedAt?: BigIntFilter<"Integration"> | bigint | number
-    name?: StringFilter<"Integration"> | string
+    deletedAt?: BigIntNullableFilter<"Integration"> | bigint | number | null
     isSingular?: BoolFilter<"Integration"> | boolean
+    sharedType?: EnumIntegrationSharingTypeFilter<"Integration"> | $Enums.IntegrationSharingType
     Project?: ProjectListRelationFilter
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     Lead?: LeadListRelationFilter
     Contact?: ContactListRelationFilter
     LeadProject?: LeadProjectListRelationFilter
+    Jobs?: JobListRelationFilter
+    mailServiceFromEmail?: MailServiceFromEmailListRelationFilter
   }, "id">
 
   export type IntegrationOrderByWithAggregationInput = {
     id?: SortOrder
     organizationId?: SortOrder
+    name?: SortOrder
     data?: SortOrder
     description?: SortOrderInput | SortOrder
     type?: SortOrder
+    category?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    deletedAt?: SortOrder
-    name?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     isSingular?: SortOrder
+    sharedType?: SortOrder
     _count?: IntegrationCountOrderByAggregateInput
     _avg?: IntegrationAvgOrderByAggregateInput
     _max?: IntegrationMaxOrderByAggregateInput
@@ -21772,14 +26603,285 @@ export namespace Prisma {
     NOT?: IntegrationScalarWhereWithAggregatesInput | IntegrationScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Integration"> | string
     organizationId?: StringWithAggregatesFilter<"Integration"> | string
+    name?: StringWithAggregatesFilter<"Integration"> | string
     data?: JsonWithAggregatesFilter<"Integration">
     description?: StringNullableWithAggregatesFilter<"Integration"> | string | null
     type?: EnumIntegrationTypeWithAggregatesFilter<"Integration"> | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryWithAggregatesFilter<"Integration"> | $Enums.IntegrationCategory
     createdAt?: BigIntWithAggregatesFilter<"Integration"> | bigint | number
     updatedAt?: BigIntWithAggregatesFilter<"Integration"> | bigint | number
-    deletedAt?: BigIntWithAggregatesFilter<"Integration"> | bigint | number
-    name?: StringWithAggregatesFilter<"Integration"> | string
+    deletedAt?: BigIntNullableWithAggregatesFilter<"Integration"> | bigint | number | null
     isSingular?: BoolWithAggregatesFilter<"Integration"> | boolean
+    sharedType?: EnumIntegrationSharingTypeWithAggregatesFilter<"Integration"> | $Enums.IntegrationSharingType
+  }
+
+  export type MailServiceFromEmailWhereInput = {
+    AND?: MailServiceFromEmailWhereInput | MailServiceFromEmailWhereInput[]
+    OR?: MailServiceFromEmailWhereInput[]
+    NOT?: MailServiceFromEmailWhereInput | MailServiceFromEmailWhereInput[]
+    id?: StringFilter<"MailServiceFromEmail"> | string
+    name?: StringFilter<"MailServiceFromEmail"> | string
+    email?: StringFilter<"MailServiceFromEmail"> | string
+    type?: EnumIntegrationTypeFilter<"MailServiceFromEmail"> | $Enums.IntegrationType
+    integrationId?: StringFilter<"MailServiceFromEmail"> | string
+    organizationId?: StringFilter<"MailServiceFromEmail"> | string
+    createdAt?: BigIntFilter<"MailServiceFromEmail"> | bigint | number
+    updatedAt?: BigIntFilter<"MailServiceFromEmail"> | bigint | number
+    integration?: XOR<IntegrationRelationFilter, IntegrationWhereInput>
+    organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
+  }
+
+  export type MailServiceFromEmailOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    type?: SortOrder
+    integrationId?: SortOrder
+    organizationId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    integration?: IntegrationOrderByWithRelationInput
+    organization?: OrganizationOrderByWithRelationInput
+  }
+
+  export type MailServiceFromEmailWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MailServiceFromEmailWhereInput | MailServiceFromEmailWhereInput[]
+    OR?: MailServiceFromEmailWhereInput[]
+    NOT?: MailServiceFromEmailWhereInput | MailServiceFromEmailWhereInput[]
+    name?: StringFilter<"MailServiceFromEmail"> | string
+    email?: StringFilter<"MailServiceFromEmail"> | string
+    type?: EnumIntegrationTypeFilter<"MailServiceFromEmail"> | $Enums.IntegrationType
+    integrationId?: StringFilter<"MailServiceFromEmail"> | string
+    organizationId?: StringFilter<"MailServiceFromEmail"> | string
+    createdAt?: BigIntFilter<"MailServiceFromEmail"> | bigint | number
+    updatedAt?: BigIntFilter<"MailServiceFromEmail"> | bigint | number
+    integration?: XOR<IntegrationRelationFilter, IntegrationWhereInput>
+    organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
+  }, "id">
+
+  export type MailServiceFromEmailOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    type?: SortOrder
+    integrationId?: SortOrder
+    organizationId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MailServiceFromEmailCountOrderByAggregateInput
+    _avg?: MailServiceFromEmailAvgOrderByAggregateInput
+    _max?: MailServiceFromEmailMaxOrderByAggregateInput
+    _min?: MailServiceFromEmailMinOrderByAggregateInput
+    _sum?: MailServiceFromEmailSumOrderByAggregateInput
+  }
+
+  export type MailServiceFromEmailScalarWhereWithAggregatesInput = {
+    AND?: MailServiceFromEmailScalarWhereWithAggregatesInput | MailServiceFromEmailScalarWhereWithAggregatesInput[]
+    OR?: MailServiceFromEmailScalarWhereWithAggregatesInput[]
+    NOT?: MailServiceFromEmailScalarWhereWithAggregatesInput | MailServiceFromEmailScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MailServiceFromEmail"> | string
+    name?: StringWithAggregatesFilter<"MailServiceFromEmail"> | string
+    email?: StringWithAggregatesFilter<"MailServiceFromEmail"> | string
+    type?: EnumIntegrationTypeWithAggregatesFilter<"MailServiceFromEmail"> | $Enums.IntegrationType
+    integrationId?: StringWithAggregatesFilter<"MailServiceFromEmail"> | string
+    organizationId?: StringWithAggregatesFilter<"MailServiceFromEmail"> | string
+    createdAt?: BigIntWithAggregatesFilter<"MailServiceFromEmail"> | bigint | number
+    updatedAt?: BigIntWithAggregatesFilter<"MailServiceFromEmail"> | bigint | number
+  }
+
+  export type JobWhereInput = {
+    AND?: JobWhereInput | JobWhereInput[]
+    OR?: JobWhereInput[]
+    NOT?: JobWhereInput | JobWhereInput[]
+    id?: StringFilter<"Job"> | string
+    name?: StringFilter<"Job"> | string
+    status?: EnumJobStatusFilter<"Job"> | $Enums.JobStatus
+    createdAt?: BigIntFilter<"Job"> | bigint | number
+    updatedAt?: BigIntFilter<"Job"> | bigint | number
+    integrationId?: StringFilter<"Job"> | string
+    organizationId?: StringFilter<"Job"> | string
+    integration?: XOR<IntegrationRelationFilter, IntegrationWhereInput>
+    tasks?: TaskListRelationFilter
+  }
+
+  export type JobOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    integrationId?: SortOrder
+    organizationId?: SortOrder
+    integration?: IntegrationOrderByWithRelationInput
+    tasks?: TaskOrderByRelationAggregateInput
+  }
+
+  export type JobWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: JobWhereInput | JobWhereInput[]
+    OR?: JobWhereInput[]
+    NOT?: JobWhereInput | JobWhereInput[]
+    name?: StringFilter<"Job"> | string
+    status?: EnumJobStatusFilter<"Job"> | $Enums.JobStatus
+    createdAt?: BigIntFilter<"Job"> | bigint | number
+    updatedAt?: BigIntFilter<"Job"> | bigint | number
+    integrationId?: StringFilter<"Job"> | string
+    organizationId?: StringFilter<"Job"> | string
+    integration?: XOR<IntegrationRelationFilter, IntegrationWhereInput>
+    tasks?: TaskListRelationFilter
+  }, "id">
+
+  export type JobOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    integrationId?: SortOrder
+    organizationId?: SortOrder
+    _count?: JobCountOrderByAggregateInput
+    _avg?: JobAvgOrderByAggregateInput
+    _max?: JobMaxOrderByAggregateInput
+    _min?: JobMinOrderByAggregateInput
+    _sum?: JobSumOrderByAggregateInput
+  }
+
+  export type JobScalarWhereWithAggregatesInput = {
+    AND?: JobScalarWhereWithAggregatesInput | JobScalarWhereWithAggregatesInput[]
+    OR?: JobScalarWhereWithAggregatesInput[]
+    NOT?: JobScalarWhereWithAggregatesInput | JobScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Job"> | string
+    name?: StringWithAggregatesFilter<"Job"> | string
+    status?: EnumJobStatusWithAggregatesFilter<"Job"> | $Enums.JobStatus
+    createdAt?: BigIntWithAggregatesFilter<"Job"> | bigint | number
+    updatedAt?: BigIntWithAggregatesFilter<"Job"> | bigint | number
+    integrationId?: StringWithAggregatesFilter<"Job"> | string
+    organizationId?: StringWithAggregatesFilter<"Job"> | string
+  }
+
+  export type TaskWhereInput = {
+    AND?: TaskWhereInput | TaskWhereInput[]
+    OR?: TaskWhereInput[]
+    NOT?: TaskWhereInput | TaskWhereInput[]
+    id?: StringFilter<"Task"> | string
+    jobId?: StringFilter<"Task"> | string
+    name?: StringFilter<"Task"> | string
+    status?: EnumTaskStatusFilter<"Task"> | $Enums.TaskStatus
+    createdAt?: BigIntFilter<"Task"> | bigint | number
+    updatedAt?: BigIntFilter<"Task"> | bigint | number
+    job?: XOR<JobRelationFilter, JobWhereInput>
+  }
+
+  export type TaskOrderByWithRelationInput = {
+    id?: SortOrder
+    jobId?: SortOrder
+    name?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    job?: JobOrderByWithRelationInput
+  }
+
+  export type TaskWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TaskWhereInput | TaskWhereInput[]
+    OR?: TaskWhereInput[]
+    NOT?: TaskWhereInput | TaskWhereInput[]
+    jobId?: StringFilter<"Task"> | string
+    name?: StringFilter<"Task"> | string
+    status?: EnumTaskStatusFilter<"Task"> | $Enums.TaskStatus
+    createdAt?: BigIntFilter<"Task"> | bigint | number
+    updatedAt?: BigIntFilter<"Task"> | bigint | number
+    job?: XOR<JobRelationFilter, JobWhereInput>
+  }, "id">
+
+  export type TaskOrderByWithAggregationInput = {
+    id?: SortOrder
+    jobId?: SortOrder
+    name?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TaskCountOrderByAggregateInput
+    _avg?: TaskAvgOrderByAggregateInput
+    _max?: TaskMaxOrderByAggregateInput
+    _min?: TaskMinOrderByAggregateInput
+    _sum?: TaskSumOrderByAggregateInput
+  }
+
+  export type TaskScalarWhereWithAggregatesInput = {
+    AND?: TaskScalarWhereWithAggregatesInput | TaskScalarWhereWithAggregatesInput[]
+    OR?: TaskScalarWhereWithAggregatesInput[]
+    NOT?: TaskScalarWhereWithAggregatesInput | TaskScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Task"> | string
+    jobId?: StringWithAggregatesFilter<"Task"> | string
+    name?: StringWithAggregatesFilter<"Task"> | string
+    status?: EnumTaskStatusWithAggregatesFilter<"Task"> | $Enums.TaskStatus
+    createdAt?: BigIntWithAggregatesFilter<"Task"> | bigint | number
+    updatedAt?: BigIntWithAggregatesFilter<"Task"> | bigint | number
+  }
+
+  export type WebhookWhereInput = {
+    AND?: WebhookWhereInput | WebhookWhereInput[]
+    OR?: WebhookWhereInput[]
+    NOT?: WebhookWhereInput | WebhookWhereInput[]
+    id?: StringFilter<"Webhook"> | string
+    url?: StringFilter<"Webhook"> | string
+    type?: EnumWebhookTypeFilter<"Webhook"> | $Enums.WebhookType
+    createdAt?: BigIntFilter<"Webhook"> | bigint | number
+    organizationId?: StringFilter<"Webhook"> | string
+    data?: JsonFilter<"Webhook">
+    organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
+  }
+
+  export type WebhookOrderByWithRelationInput = {
+    id?: SortOrder
+    url?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+    organizationId?: SortOrder
+    data?: SortOrder
+    organization?: OrganizationOrderByWithRelationInput
+  }
+
+  export type WebhookWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: WebhookWhereInput | WebhookWhereInput[]
+    OR?: WebhookWhereInput[]
+    NOT?: WebhookWhereInput | WebhookWhereInput[]
+    url?: StringFilter<"Webhook"> | string
+    type?: EnumWebhookTypeFilter<"Webhook"> | $Enums.WebhookType
+    createdAt?: BigIntFilter<"Webhook"> | bigint | number
+    organizationId?: StringFilter<"Webhook"> | string
+    data?: JsonFilter<"Webhook">
+    organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
+  }, "id">
+
+  export type WebhookOrderByWithAggregationInput = {
+    id?: SortOrder
+    url?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+    organizationId?: SortOrder
+    data?: SortOrder
+    _count?: WebhookCountOrderByAggregateInput
+    _avg?: WebhookAvgOrderByAggregateInput
+    _max?: WebhookMaxOrderByAggregateInput
+    _min?: WebhookMinOrderByAggregateInput
+    _sum?: WebhookSumOrderByAggregateInput
+  }
+
+  export type WebhookScalarWhereWithAggregatesInput = {
+    AND?: WebhookScalarWhereWithAggregatesInput | WebhookScalarWhereWithAggregatesInput[]
+    OR?: WebhookScalarWhereWithAggregatesInput[]
+    NOT?: WebhookScalarWhereWithAggregatesInput | WebhookScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Webhook"> | string
+    url?: StringWithAggregatesFilter<"Webhook"> | string
+    type?: EnumWebhookTypeWithAggregatesFilter<"Webhook"> | $Enums.WebhookType
+    createdAt?: BigIntWithAggregatesFilter<"Webhook"> | bigint | number
+    organizationId?: StringWithAggregatesFilter<"Webhook"> | string
+    data?: JsonWithAggregatesFilter<"Webhook">
   }
 
   export type TemplateWhereInput = {
@@ -22122,6 +27224,9 @@ export namespace Prisma {
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookCreateNestedManyWithoutOrganizationInput
+    Email?: EmailCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
   }
@@ -22142,6 +27247,9 @@ export namespace Prisma {
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutOrganizationInput
+    Email?: EmailUncheckedCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
   }
@@ -22162,6 +27270,9 @@ export namespace Prisma {
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
   }
@@ -22182,6 +27293,9 @@ export namespace Prisma {
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
   }
@@ -22960,160 +28074,180 @@ export namespace Prisma {
 
   export type EmailCreateInput = {
     id?: string
-    trackingId: string
+    from: JsonNullValueInput | InputJsonValue
     to?: EmailCreatetoInput | string[]
     cc?: EmailCreateccInput | string[]
     bcc?: EmailCreatebccInput | string[]
     status?: $Enums.EmailStatus
-    isOpened?: boolean
-    isClicked?: boolean
     subject?: string | null
     body: string
+    trackingId?: string | null
     messageId?: string | null
     threadId?: string | null
     historyId?: string | null
     labelIds?: EmailCreatelabelIdsInput | string[]
-    sentAt: bigint | number
+    isOpened?: boolean
     openedAt?: bigint | number
+    isClicked?: boolean
     clickedAt?: bigint | number
-    deletedAt: bigint | number
+    sentAt: bigint | number
+    deletedAt?: bigint | number
     integrationId: string
+    source: $Enums.IntegrationType
+    organization: OrganizationCreateNestedOneWithoutEmailInput
     EmailQueue?: EmailQueueCreateNestedManyWithoutEmailInput
   }
 
   export type EmailUncheckedCreateInput = {
     id?: string
-    trackingId: string
+    from: JsonNullValueInput | InputJsonValue
     to?: EmailCreatetoInput | string[]
     cc?: EmailCreateccInput | string[]
     bcc?: EmailCreatebccInput | string[]
     status?: $Enums.EmailStatus
-    isOpened?: boolean
-    isClicked?: boolean
     subject?: string | null
     body: string
+    trackingId?: string | null
     messageId?: string | null
     threadId?: string | null
     historyId?: string | null
     labelIds?: EmailCreatelabelIdsInput | string[]
-    sentAt: bigint | number
+    isOpened?: boolean
     openedAt?: bigint | number
+    isClicked?: boolean
     clickedAt?: bigint | number
-    deletedAt: bigint | number
+    sentAt: bigint | number
+    deletedAt?: bigint | number
     integrationId: string
+    organizationId: string
+    source: $Enums.IntegrationType
     EmailQueue?: EmailQueueUncheckedCreateNestedManyWithoutEmailInput
   }
 
   export type EmailUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    trackingId?: StringFieldUpdateOperationsInput | string
+    from?: JsonNullValueInput | InputJsonValue
     to?: EmailUpdatetoInput | string[]
     cc?: EmailUpdateccInput | string[]
     bcc?: EmailUpdatebccInput | string[]
     status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
-    isOpened?: BoolFieldUpdateOperationsInput | boolean
-    isClicked?: BoolFieldUpdateOperationsInput | boolean
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
+    trackingId?: NullableStringFieldUpdateOperationsInput | string | null
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
     threadId?: NullableStringFieldUpdateOperationsInput | string | null
     historyId?: NullableStringFieldUpdateOperationsInput | string | null
     labelIds?: EmailUpdatelabelIdsInput | string[]
-    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
     openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
     clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
+    source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    organization?: OrganizationUpdateOneRequiredWithoutEmailNestedInput
     EmailQueue?: EmailQueueUpdateManyWithoutEmailNestedInput
   }
 
   export type EmailUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    trackingId?: StringFieldUpdateOperationsInput | string
+    from?: JsonNullValueInput | InputJsonValue
     to?: EmailUpdatetoInput | string[]
     cc?: EmailUpdateccInput | string[]
     bcc?: EmailUpdatebccInput | string[]
     status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
-    isOpened?: BoolFieldUpdateOperationsInput | boolean
-    isClicked?: BoolFieldUpdateOperationsInput | boolean
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
+    trackingId?: NullableStringFieldUpdateOperationsInput | string | null
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
     threadId?: NullableStringFieldUpdateOperationsInput | string | null
     historyId?: NullableStringFieldUpdateOperationsInput | string | null
     labelIds?: EmailUpdatelabelIdsInput | string[]
-    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
     openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
     clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
     EmailQueue?: EmailQueueUncheckedUpdateManyWithoutEmailNestedInput
   }
 
   export type EmailCreateManyInput = {
     id?: string
-    trackingId: string
+    from: JsonNullValueInput | InputJsonValue
     to?: EmailCreatetoInput | string[]
     cc?: EmailCreateccInput | string[]
     bcc?: EmailCreatebccInput | string[]
     status?: $Enums.EmailStatus
-    isOpened?: boolean
-    isClicked?: boolean
     subject?: string | null
     body: string
+    trackingId?: string | null
     messageId?: string | null
     threadId?: string | null
     historyId?: string | null
     labelIds?: EmailCreatelabelIdsInput | string[]
-    sentAt: bigint | number
+    isOpened?: boolean
     openedAt?: bigint | number
+    isClicked?: boolean
     clickedAt?: bigint | number
-    deletedAt: bigint | number
+    sentAt: bigint | number
+    deletedAt?: bigint | number
     integrationId: string
+    organizationId: string
+    source: $Enums.IntegrationType
   }
 
   export type EmailUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    trackingId?: StringFieldUpdateOperationsInput | string
+    from?: JsonNullValueInput | InputJsonValue
     to?: EmailUpdatetoInput | string[]
     cc?: EmailUpdateccInput | string[]
     bcc?: EmailUpdatebccInput | string[]
     status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
-    isOpened?: BoolFieldUpdateOperationsInput | boolean
-    isClicked?: BoolFieldUpdateOperationsInput | boolean
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
+    trackingId?: NullableStringFieldUpdateOperationsInput | string | null
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
     threadId?: NullableStringFieldUpdateOperationsInput | string | null
     historyId?: NullableStringFieldUpdateOperationsInput | string | null
     labelIds?: EmailUpdatelabelIdsInput | string[]
-    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
     openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
     clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
+    source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
   }
 
   export type EmailUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    trackingId?: StringFieldUpdateOperationsInput | string
+    from?: JsonNullValueInput | InputJsonValue
     to?: EmailUpdatetoInput | string[]
     cc?: EmailUpdateccInput | string[]
     bcc?: EmailUpdatebccInput | string[]
     status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
-    isOpened?: BoolFieldUpdateOperationsInput | boolean
-    isClicked?: BoolFieldUpdateOperationsInput | boolean
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
+    trackingId?: NullableStringFieldUpdateOperationsInput | string | null
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
     threadId?: NullableStringFieldUpdateOperationsInput | string | null
     historyId?: NullableStringFieldUpdateOperationsInput | string | null
     labelIds?: EmailUpdatelabelIdsInput | string[]
-    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
     openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
     clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
   }
 
   export type EmailQueueCreateInput = {
@@ -23187,108 +28321,402 @@ export namespace Prisma {
 
   export type IntegrationCreateInput = {
     id?: string
+    name: string
     data: JsonNullValueInput | InputJsonValue
     description?: string | null
     type: $Enums.IntegrationType
-    createdAt: bigint | number
-    updatedAt: bigint | number
-    deletedAt: bigint | number
-    name: string
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
     isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
     Project?: ProjectCreateNestedManyWithoutIntegrationInput
     organization: OrganizationCreateNestedOneWithoutIntegrationsInput
     Lead?: LeadCreateNestedManyWithoutIntegrationInput
     Contact?: ContactCreateNestedManyWithoutIntegrationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutIntegrationInput
+    Jobs?: JobCreateNestedManyWithoutIntegrationInput
+    mailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutIntegrationInput
   }
 
   export type IntegrationUncheckedCreateInput = {
     id?: string
     organizationId: string
+    name: string
     data: JsonNullValueInput | InputJsonValue
     description?: string | null
     type: $Enums.IntegrationType
-    createdAt: bigint | number
-    updatedAt: bigint | number
-    deletedAt: bigint | number
-    name: string
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
     isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
     Project?: ProjectUncheckedCreateNestedManyWithoutIntegrationInput
     Lead?: LeadUncheckedCreateNestedManyWithoutIntegrationInput
     Contact?: ContactUncheckedCreateNestedManyWithoutIntegrationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutIntegrationInput
+    Jobs?: JobUncheckedCreateNestedManyWithoutIntegrationInput
+    mailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutIntegrationInput
   }
 
   export type IntegrationUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
     Project?: ProjectUpdateManyWithoutIntegrationNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutIntegrationsNestedInput
     Lead?: LeadUpdateManyWithoutIntegrationNestedInput
     Contact?: ContactUpdateManyWithoutIntegrationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutIntegrationNestedInput
+    Jobs?: JobUpdateManyWithoutIntegrationNestedInput
+    mailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutIntegrationNestedInput
   }
 
   export type IntegrationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
     Project?: ProjectUncheckedUpdateManyWithoutIntegrationNestedInput
     Lead?: LeadUncheckedUpdateManyWithoutIntegrationNestedInput
     Contact?: ContactUncheckedUpdateManyWithoutIntegrationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutIntegrationNestedInput
+    Jobs?: JobUncheckedUpdateManyWithoutIntegrationNestedInput
+    mailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutIntegrationNestedInput
   }
 
   export type IntegrationCreateManyInput = {
     id?: string
     organizationId: string
+    name: string
     data: JsonNullValueInput | InputJsonValue
     description?: string | null
     type: $Enums.IntegrationType
-    createdAt: bigint | number
-    updatedAt: bigint | number
-    deletedAt: bigint | number
-    name: string
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
     isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
   }
 
   export type IntegrationUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
   }
 
   export type IntegrationUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
+  }
+
+  export type MailServiceFromEmailCreateInput = {
+    id?: string
+    name: string
+    email: string
+    type: $Enums.IntegrationType
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    integration: IntegrationCreateNestedOneWithoutMailServiceFromEmailInput
+    organization: OrganizationCreateNestedOneWithoutMailServiceFromEmailInput
+  }
+
+  export type MailServiceFromEmailUncheckedCreateInput = {
+    id?: string
+    name: string
+    email: string
+    type: $Enums.IntegrationType
+    integrationId: string
+    organizationId: string
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+  }
+
+  export type MailServiceFromEmailUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integration?: IntegrationUpdateOneRequiredWithoutMailServiceFromEmailNestedInput
+    organization?: OrganizationUpdateOneRequiredWithoutMailServiceFromEmailNestedInput
+  }
+
+  export type MailServiceFromEmailUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    integrationId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type MailServiceFromEmailCreateManyInput = {
+    id?: string
+    name: string
+    email: string
+    type: $Enums.IntegrationType
+    integrationId: string
+    organizationId: string
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+  }
+
+  export type MailServiceFromEmailUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type MailServiceFromEmailUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    integrationId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type JobCreateInput = {
+    id?: string
+    name: string
+    status: $Enums.JobStatus
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    organizationId: string
+    integration: IntegrationCreateNestedOneWithoutJobsInput
+    tasks?: TaskCreateNestedManyWithoutJobInput
+  }
+
+  export type JobUncheckedCreateInput = {
+    id?: string
+    name: string
+    status: $Enums.JobStatus
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    integrationId: string
+    organizationId: string
+    tasks?: TaskUncheckedCreateNestedManyWithoutJobInput
+  }
+
+  export type JobUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    integration?: IntegrationUpdateOneRequiredWithoutJobsNestedInput
+    tasks?: TaskUpdateManyWithoutJobNestedInput
+  }
+
+  export type JobUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integrationId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    tasks?: TaskUncheckedUpdateManyWithoutJobNestedInput
+  }
+
+  export type JobCreateManyInput = {
+    id?: string
+    name: string
+    status: $Enums.JobStatus
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    integrationId: string
+    organizationId: string
+  }
+
+  export type JobUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type JobUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integrationId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TaskCreateInput = {
+    id?: string
+    name: string
+    status: $Enums.TaskStatus
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    job: JobCreateNestedOneWithoutTasksInput
+  }
+
+  export type TaskUncheckedCreateInput = {
+    id?: string
+    jobId: string
+    name: string
+    status: $Enums.TaskStatus
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+  }
+
+  export type TaskUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    job?: JobUpdateOneRequiredWithoutTasksNestedInput
+  }
+
+  export type TaskUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jobId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type TaskCreateManyInput = {
+    id?: string
+    jobId: string
+    name: string
+    status: $Enums.TaskStatus
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+  }
+
+  export type TaskUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type TaskUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    jobId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type WebhookCreateInput = {
+    id?: string
+    url: string
+    type: $Enums.WebhookType
+    createdAt?: bigint | number
+    data: JsonNullValueInput | InputJsonValue
+    organization: OrganizationCreateNestedOneWithoutWebhooksInput
+  }
+
+  export type WebhookUncheckedCreateInput = {
+    id?: string
+    url: string
+    type: $Enums.WebhookType
+    createdAt?: bigint | number
+    organizationId: string
+    data: JsonNullValueInput | InputJsonValue
+  }
+
+  export type WebhookUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: EnumWebhookTypeFieldUpdateOperationsInput | $Enums.WebhookType
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    data?: JsonNullValueInput | InputJsonValue
+    organization?: OrganizationUpdateOneRequiredWithoutWebhooksNestedInput
+  }
+
+  export type WebhookUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: EnumWebhookTypeFieldUpdateOperationsInput | $Enums.WebhookType
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type WebhookCreateManyInput = {
+    id?: string
+    url: string
+    type: $Enums.WebhookType
+    createdAt?: bigint | number
+    organizationId: string
+    data: JsonNullValueInput | InputJsonValue
+  }
+
+  export type WebhookUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: EnumWebhookTypeFieldUpdateOperationsInput | $Enums.WebhookType
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    data?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type WebhookUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: EnumWebhookTypeFieldUpdateOperationsInput | $Enums.WebhookType
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
   }
 
   export type TemplateCreateInput = {
@@ -23759,6 +29187,24 @@ export namespace Prisma {
     none?: LeadStatusWhereInput
   }
 
+  export type WebhookListRelationFilter = {
+    every?: WebhookWhereInput
+    some?: WebhookWhereInput
+    none?: WebhookWhereInput
+  }
+
+  export type EmailListRelationFilter = {
+    every?: EmailWhereInput
+    some?: EmailWhereInput
+    none?: EmailWhereInput
+  }
+
+  export type MailServiceFromEmailListRelationFilter = {
+    every?: MailServiceFromEmailWhereInput
+    some?: MailServiceFromEmailWhereInput
+    none?: MailServiceFromEmailWhereInput
+  }
+
   export type LeadProjectListRelationFilter = {
     every?: LeadProjectWhereInput
     some?: LeadProjectWhereInput
@@ -23782,6 +29228,18 @@ export namespace Prisma {
   }
 
   export type LeadStatusOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WebhookOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type EmailOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MailServiceFromEmailOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -24459,6 +29917,13 @@ export namespace Prisma {
     not?: NestedEnumEmailStatusFilter<$PrismaModel> | $Enums.EmailStatus
   }
 
+  export type EnumIntegrationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationType | EnumIntegrationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationType[] | ListEnumIntegrationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationType[] | ListEnumIntegrationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationTypeFilter<$PrismaModel> | $Enums.IntegrationType
+  }
+
   export type EmailQueueListRelationFilter = {
     every?: EmailQueueWhereInput
     some?: EmailQueueWhereInput
@@ -24471,73 +29936,80 @@ export namespace Prisma {
 
   export type EmailCountOrderByAggregateInput = {
     id?: SortOrder
-    trackingId?: SortOrder
+    from?: SortOrder
     to?: SortOrder
     cc?: SortOrder
     bcc?: SortOrder
     status?: SortOrder
-    isOpened?: SortOrder
-    isClicked?: SortOrder
     subject?: SortOrder
     body?: SortOrder
+    trackingId?: SortOrder
     messageId?: SortOrder
     threadId?: SortOrder
     historyId?: SortOrder
     labelIds?: SortOrder
-    sentAt?: SortOrder
+    isOpened?: SortOrder
     openedAt?: SortOrder
+    isClicked?: SortOrder
     clickedAt?: SortOrder
+    sentAt?: SortOrder
     deletedAt?: SortOrder
     integrationId?: SortOrder
+    organizationId?: SortOrder
+    source?: SortOrder
   }
 
   export type EmailAvgOrderByAggregateInput = {
-    sentAt?: SortOrder
     openedAt?: SortOrder
     clickedAt?: SortOrder
+    sentAt?: SortOrder
     deletedAt?: SortOrder
   }
 
   export type EmailMaxOrderByAggregateInput = {
     id?: SortOrder
-    trackingId?: SortOrder
     status?: SortOrder
-    isOpened?: SortOrder
-    isClicked?: SortOrder
     subject?: SortOrder
     body?: SortOrder
+    trackingId?: SortOrder
     messageId?: SortOrder
     threadId?: SortOrder
     historyId?: SortOrder
-    sentAt?: SortOrder
+    isOpened?: SortOrder
     openedAt?: SortOrder
+    isClicked?: SortOrder
     clickedAt?: SortOrder
+    sentAt?: SortOrder
     deletedAt?: SortOrder
     integrationId?: SortOrder
+    organizationId?: SortOrder
+    source?: SortOrder
   }
 
   export type EmailMinOrderByAggregateInput = {
     id?: SortOrder
-    trackingId?: SortOrder
     status?: SortOrder
-    isOpened?: SortOrder
-    isClicked?: SortOrder
     subject?: SortOrder
     body?: SortOrder
+    trackingId?: SortOrder
     messageId?: SortOrder
     threadId?: SortOrder
     historyId?: SortOrder
-    sentAt?: SortOrder
+    isOpened?: SortOrder
     openedAt?: SortOrder
+    isClicked?: SortOrder
     clickedAt?: SortOrder
+    sentAt?: SortOrder
     deletedAt?: SortOrder
     integrationId?: SortOrder
+    organizationId?: SortOrder
+    source?: SortOrder
   }
 
   export type EmailSumOrderByAggregateInput = {
-    sentAt?: SortOrder
     openedAt?: SortOrder
     clickedAt?: SortOrder
+    sentAt?: SortOrder
     deletedAt?: SortOrder
   }
 
@@ -24549,6 +30021,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumEmailStatusFilter<$PrismaModel>
     _max?: NestedEnumEmailStatusFilter<$PrismaModel>
+  }
+
+  export type EnumIntegrationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationType | EnumIntegrationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationType[] | ListEnumIntegrationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationType[] | ListEnumIntegrationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationTypeWithAggregatesFilter<$PrismaModel> | $Enums.IntegrationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIntegrationTypeFilter<$PrismaModel>
+    _max?: NestedEnumIntegrationTypeFilter<$PrismaModel>
   }
 
   export type EnumQueueStatusFilter<$PrismaModel = never> = {
@@ -24665,24 +30147,43 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type EnumIntegrationTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.IntegrationType | EnumIntegrationTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.IntegrationType[] | ListEnumIntegrationTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.IntegrationType[] | ListEnumIntegrationTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumIntegrationTypeFilter<$PrismaModel> | $Enums.IntegrationType
+  export type EnumIntegrationCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationCategory | EnumIntegrationCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationCategory[] | ListEnumIntegrationCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationCategory[] | ListEnumIntegrationCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationCategoryFilter<$PrismaModel> | $Enums.IntegrationCategory
+  }
+
+  export type EnumIntegrationSharingTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationSharingType | EnumIntegrationSharingTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationSharingType[] | ListEnumIntegrationSharingTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationSharingType[] | ListEnumIntegrationSharingTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationSharingTypeFilter<$PrismaModel> | $Enums.IntegrationSharingType
+  }
+
+  export type JobListRelationFilter = {
+    every?: JobWhereInput
+    some?: JobWhereInput
+    none?: JobWhereInput
+  }
+
+  export type JobOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type IntegrationCountOrderByAggregateInput = {
     id?: SortOrder
     organizationId?: SortOrder
+    name?: SortOrder
     data?: SortOrder
     description?: SortOrder
     type?: SortOrder
+    category?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    name?: SortOrder
     isSingular?: SortOrder
+    sharedType?: SortOrder
   }
 
   export type IntegrationAvgOrderByAggregateInput = {
@@ -24694,25 +30195,29 @@ export namespace Prisma {
   export type IntegrationMaxOrderByAggregateInput = {
     id?: SortOrder
     organizationId?: SortOrder
+    name?: SortOrder
     description?: SortOrder
     type?: SortOrder
+    category?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    name?: SortOrder
     isSingular?: SortOrder
+    sharedType?: SortOrder
   }
 
   export type IntegrationMinOrderByAggregateInput = {
     id?: SortOrder
     organizationId?: SortOrder
+    name?: SortOrder
     description?: SortOrder
     type?: SortOrder
+    category?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
-    name?: SortOrder
     isSingular?: SortOrder
+    sharedType?: SortOrder
   }
 
   export type IntegrationSumOrderByAggregateInput = {
@@ -24721,14 +30226,243 @@ export namespace Prisma {
     deletedAt?: SortOrder
   }
 
-  export type EnumIntegrationTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.IntegrationType | EnumIntegrationTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.IntegrationType[] | ListEnumIntegrationTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.IntegrationType[] | ListEnumIntegrationTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumIntegrationTypeWithAggregatesFilter<$PrismaModel> | $Enums.IntegrationType
+  export type EnumIntegrationCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationCategory | EnumIntegrationCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationCategory[] | ListEnumIntegrationCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationCategory[] | ListEnumIntegrationCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationCategoryWithAggregatesFilter<$PrismaModel> | $Enums.IntegrationCategory
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumIntegrationTypeFilter<$PrismaModel>
-    _max?: NestedEnumIntegrationTypeFilter<$PrismaModel>
+    _min?: NestedEnumIntegrationCategoryFilter<$PrismaModel>
+    _max?: NestedEnumIntegrationCategoryFilter<$PrismaModel>
+  }
+
+  export type EnumIntegrationSharingTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationSharingType | EnumIntegrationSharingTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationSharingType[] | ListEnumIntegrationSharingTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationSharingType[] | ListEnumIntegrationSharingTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationSharingTypeWithAggregatesFilter<$PrismaModel> | $Enums.IntegrationSharingType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIntegrationSharingTypeFilter<$PrismaModel>
+    _max?: NestedEnumIntegrationSharingTypeFilter<$PrismaModel>
+  }
+
+  export type MailServiceFromEmailCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    type?: SortOrder
+    integrationId?: SortOrder
+    organizationId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MailServiceFromEmailAvgOrderByAggregateInput = {
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MailServiceFromEmailMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    type?: SortOrder
+    integrationId?: SortOrder
+    organizationId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MailServiceFromEmailMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    type?: SortOrder
+    integrationId?: SortOrder
+    organizationId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MailServiceFromEmailSumOrderByAggregateInput = {
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumJobStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumJobStatusFilter<$PrismaModel> | $Enums.JobStatus
+  }
+
+  export type TaskListRelationFilter = {
+    every?: TaskWhereInput
+    some?: TaskWhereInput
+    none?: TaskWhereInput
+  }
+
+  export type TaskOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type JobCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    integrationId?: SortOrder
+    organizationId?: SortOrder
+  }
+
+  export type JobAvgOrderByAggregateInput = {
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type JobMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    integrationId?: SortOrder
+    organizationId?: SortOrder
+  }
+
+  export type JobMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    integrationId?: SortOrder
+    organizationId?: SortOrder
+  }
+
+  export type JobSumOrderByAggregateInput = {
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumJobStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumJobStatusWithAggregatesFilter<$PrismaModel> | $Enums.JobStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumJobStatusFilter<$PrismaModel>
+    _max?: NestedEnumJobStatusFilter<$PrismaModel>
+  }
+
+  export type EnumTaskStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskStatus | EnumTaskStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskStatus[] | ListEnumTaskStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskStatus[] | ListEnumTaskStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskStatusFilter<$PrismaModel> | $Enums.TaskStatus
+  }
+
+  export type JobRelationFilter = {
+    is?: JobWhereInput
+    isNot?: JobWhereInput
+  }
+
+  export type TaskCountOrderByAggregateInput = {
+    id?: SortOrder
+    jobId?: SortOrder
+    name?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TaskAvgOrderByAggregateInput = {
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TaskMaxOrderByAggregateInput = {
+    id?: SortOrder
+    jobId?: SortOrder
+    name?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TaskMinOrderByAggregateInput = {
+    id?: SortOrder
+    jobId?: SortOrder
+    name?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TaskSumOrderByAggregateInput = {
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumTaskStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskStatus | EnumTaskStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskStatus[] | ListEnumTaskStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskStatus[] | ListEnumTaskStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskStatusWithAggregatesFilter<$PrismaModel> | $Enums.TaskStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTaskStatusFilter<$PrismaModel>
+    _max?: NestedEnumTaskStatusFilter<$PrismaModel>
+  }
+
+  export type EnumWebhookTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.WebhookType | EnumWebhookTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.WebhookType[] | ListEnumWebhookTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WebhookType[] | ListEnumWebhookTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumWebhookTypeFilter<$PrismaModel> | $Enums.WebhookType
+  }
+
+  export type WebhookCountOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+    organizationId?: SortOrder
+    data?: SortOrder
+  }
+
+  export type WebhookAvgOrderByAggregateInput = {
+    createdAt?: SortOrder
+  }
+
+  export type WebhookMaxOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+    organizationId?: SortOrder
+  }
+
+  export type WebhookMinOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+    organizationId?: SortOrder
+  }
+
+  export type WebhookSumOrderByAggregateInput = {
+    createdAt?: SortOrder
+  }
+
+  export type EnumWebhookTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WebhookType | EnumWebhookTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.WebhookType[] | ListEnumWebhookTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WebhookType[] | ListEnumWebhookTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumWebhookTypeWithAggregatesFilter<$PrismaModel> | $Enums.WebhookType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWebhookTypeFilter<$PrismaModel>
+    _max?: NestedEnumWebhookTypeFilter<$PrismaModel>
   }
 
   export type OrganizationNullableRelationFilter = {
@@ -25141,6 +30875,27 @@ export namespace Prisma {
     connect?: LeadStatusWhereUniqueInput | LeadStatusWhereUniqueInput[]
   }
 
+  export type WebhookCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<WebhookCreateWithoutOrganizationInput, WebhookUncheckedCreateWithoutOrganizationInput> | WebhookCreateWithoutOrganizationInput[] | WebhookUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: WebhookCreateOrConnectWithoutOrganizationInput | WebhookCreateOrConnectWithoutOrganizationInput[]
+    createMany?: WebhookCreateManyOrganizationInputEnvelope
+    connect?: WebhookWhereUniqueInput | WebhookWhereUniqueInput[]
+  }
+
+  export type EmailCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<EmailCreateWithoutOrganizationInput, EmailUncheckedCreateWithoutOrganizationInput> | EmailCreateWithoutOrganizationInput[] | EmailUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: EmailCreateOrConnectWithoutOrganizationInput | EmailCreateOrConnectWithoutOrganizationInput[]
+    createMany?: EmailCreateManyOrganizationInputEnvelope
+    connect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+  }
+
+  export type MailServiceFromEmailCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<MailServiceFromEmailCreateWithoutOrganizationInput, MailServiceFromEmailUncheckedCreateWithoutOrganizationInput> | MailServiceFromEmailCreateWithoutOrganizationInput[] | MailServiceFromEmailUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: MailServiceFromEmailCreateOrConnectWithoutOrganizationInput | MailServiceFromEmailCreateOrConnectWithoutOrganizationInput[]
+    createMany?: MailServiceFromEmailCreateManyOrganizationInputEnvelope
+    connect?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+  }
+
   export type LeadProjectCreateNestedManyWithoutOrganizatioonInput = {
     create?: XOR<LeadProjectCreateWithoutOrganizatioonInput, LeadProjectUncheckedCreateWithoutOrganizatioonInput> | LeadProjectCreateWithoutOrganizatioonInput[] | LeadProjectUncheckedCreateWithoutOrganizatioonInput[]
     connectOrCreate?: LeadProjectCreateOrConnectWithoutOrganizatioonInput | LeadProjectCreateOrConnectWithoutOrganizatioonInput[]
@@ -25209,6 +30964,27 @@ export namespace Prisma {
     connectOrCreate?: LeadStatusCreateOrConnectWithoutOrganizationInput | LeadStatusCreateOrConnectWithoutOrganizationInput[]
     createMany?: LeadStatusCreateManyOrganizationInputEnvelope
     connect?: LeadStatusWhereUniqueInput | LeadStatusWhereUniqueInput[]
+  }
+
+  export type WebhookUncheckedCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<WebhookCreateWithoutOrganizationInput, WebhookUncheckedCreateWithoutOrganizationInput> | WebhookCreateWithoutOrganizationInput[] | WebhookUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: WebhookCreateOrConnectWithoutOrganizationInput | WebhookCreateOrConnectWithoutOrganizationInput[]
+    createMany?: WebhookCreateManyOrganizationInputEnvelope
+    connect?: WebhookWhereUniqueInput | WebhookWhereUniqueInput[]
+  }
+
+  export type EmailUncheckedCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<EmailCreateWithoutOrganizationInput, EmailUncheckedCreateWithoutOrganizationInput> | EmailCreateWithoutOrganizationInput[] | EmailUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: EmailCreateOrConnectWithoutOrganizationInput | EmailCreateOrConnectWithoutOrganizationInput[]
+    createMany?: EmailCreateManyOrganizationInputEnvelope
+    connect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+  }
+
+  export type MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<MailServiceFromEmailCreateWithoutOrganizationInput, MailServiceFromEmailUncheckedCreateWithoutOrganizationInput> | MailServiceFromEmailCreateWithoutOrganizationInput[] | MailServiceFromEmailUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: MailServiceFromEmailCreateOrConnectWithoutOrganizationInput | MailServiceFromEmailCreateOrConnectWithoutOrganizationInput[]
+    createMany?: MailServiceFromEmailCreateManyOrganizationInputEnvelope
+    connect?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
   }
 
   export type LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput = {
@@ -25335,6 +31111,48 @@ export namespace Prisma {
     update?: LeadStatusUpdateWithWhereUniqueWithoutOrganizationInput | LeadStatusUpdateWithWhereUniqueWithoutOrganizationInput[]
     updateMany?: LeadStatusUpdateManyWithWhereWithoutOrganizationInput | LeadStatusUpdateManyWithWhereWithoutOrganizationInput[]
     deleteMany?: LeadStatusScalarWhereInput | LeadStatusScalarWhereInput[]
+  }
+
+  export type WebhookUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<WebhookCreateWithoutOrganizationInput, WebhookUncheckedCreateWithoutOrganizationInput> | WebhookCreateWithoutOrganizationInput[] | WebhookUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: WebhookCreateOrConnectWithoutOrganizationInput | WebhookCreateOrConnectWithoutOrganizationInput[]
+    upsert?: WebhookUpsertWithWhereUniqueWithoutOrganizationInput | WebhookUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: WebhookCreateManyOrganizationInputEnvelope
+    set?: WebhookWhereUniqueInput | WebhookWhereUniqueInput[]
+    disconnect?: WebhookWhereUniqueInput | WebhookWhereUniqueInput[]
+    delete?: WebhookWhereUniqueInput | WebhookWhereUniqueInput[]
+    connect?: WebhookWhereUniqueInput | WebhookWhereUniqueInput[]
+    update?: WebhookUpdateWithWhereUniqueWithoutOrganizationInput | WebhookUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: WebhookUpdateManyWithWhereWithoutOrganizationInput | WebhookUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: WebhookScalarWhereInput | WebhookScalarWhereInput[]
+  }
+
+  export type EmailUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<EmailCreateWithoutOrganizationInput, EmailUncheckedCreateWithoutOrganizationInput> | EmailCreateWithoutOrganizationInput[] | EmailUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: EmailCreateOrConnectWithoutOrganizationInput | EmailCreateOrConnectWithoutOrganizationInput[]
+    upsert?: EmailUpsertWithWhereUniqueWithoutOrganizationInput | EmailUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: EmailCreateManyOrganizationInputEnvelope
+    set?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    disconnect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    delete?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    connect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    update?: EmailUpdateWithWhereUniqueWithoutOrganizationInput | EmailUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: EmailUpdateManyWithWhereWithoutOrganizationInput | EmailUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: EmailScalarWhereInput | EmailScalarWhereInput[]
+  }
+
+  export type MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<MailServiceFromEmailCreateWithoutOrganizationInput, MailServiceFromEmailUncheckedCreateWithoutOrganizationInput> | MailServiceFromEmailCreateWithoutOrganizationInput[] | MailServiceFromEmailUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: MailServiceFromEmailCreateOrConnectWithoutOrganizationInput | MailServiceFromEmailCreateOrConnectWithoutOrganizationInput[]
+    upsert?: MailServiceFromEmailUpsertWithWhereUniqueWithoutOrganizationInput | MailServiceFromEmailUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: MailServiceFromEmailCreateManyOrganizationInputEnvelope
+    set?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+    disconnect?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+    delete?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+    connect?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+    update?: MailServiceFromEmailUpdateWithWhereUniqueWithoutOrganizationInput | MailServiceFromEmailUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: MailServiceFromEmailUpdateManyWithWhereWithoutOrganizationInput | MailServiceFromEmailUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: MailServiceFromEmailScalarWhereInput | MailServiceFromEmailScalarWhereInput[]
   }
 
   export type LeadProjectUpdateManyWithoutOrganizatioonNestedInput = {
@@ -25475,6 +31293,48 @@ export namespace Prisma {
     update?: LeadStatusUpdateWithWhereUniqueWithoutOrganizationInput | LeadStatusUpdateWithWhereUniqueWithoutOrganizationInput[]
     updateMany?: LeadStatusUpdateManyWithWhereWithoutOrganizationInput | LeadStatusUpdateManyWithWhereWithoutOrganizationInput[]
     deleteMany?: LeadStatusScalarWhereInput | LeadStatusScalarWhereInput[]
+  }
+
+  export type WebhookUncheckedUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<WebhookCreateWithoutOrganizationInput, WebhookUncheckedCreateWithoutOrganizationInput> | WebhookCreateWithoutOrganizationInput[] | WebhookUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: WebhookCreateOrConnectWithoutOrganizationInput | WebhookCreateOrConnectWithoutOrganizationInput[]
+    upsert?: WebhookUpsertWithWhereUniqueWithoutOrganizationInput | WebhookUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: WebhookCreateManyOrganizationInputEnvelope
+    set?: WebhookWhereUniqueInput | WebhookWhereUniqueInput[]
+    disconnect?: WebhookWhereUniqueInput | WebhookWhereUniqueInput[]
+    delete?: WebhookWhereUniqueInput | WebhookWhereUniqueInput[]
+    connect?: WebhookWhereUniqueInput | WebhookWhereUniqueInput[]
+    update?: WebhookUpdateWithWhereUniqueWithoutOrganizationInput | WebhookUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: WebhookUpdateManyWithWhereWithoutOrganizationInput | WebhookUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: WebhookScalarWhereInput | WebhookScalarWhereInput[]
+  }
+
+  export type EmailUncheckedUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<EmailCreateWithoutOrganizationInput, EmailUncheckedCreateWithoutOrganizationInput> | EmailCreateWithoutOrganizationInput[] | EmailUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: EmailCreateOrConnectWithoutOrganizationInput | EmailCreateOrConnectWithoutOrganizationInput[]
+    upsert?: EmailUpsertWithWhereUniqueWithoutOrganizationInput | EmailUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: EmailCreateManyOrganizationInputEnvelope
+    set?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    disconnect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    delete?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    connect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    update?: EmailUpdateWithWhereUniqueWithoutOrganizationInput | EmailUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: EmailUpdateManyWithWhereWithoutOrganizationInput | EmailUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: EmailScalarWhereInput | EmailScalarWhereInput[]
+  }
+
+  export type MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<MailServiceFromEmailCreateWithoutOrganizationInput, MailServiceFromEmailUncheckedCreateWithoutOrganizationInput> | MailServiceFromEmailCreateWithoutOrganizationInput[] | MailServiceFromEmailUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: MailServiceFromEmailCreateOrConnectWithoutOrganizationInput | MailServiceFromEmailCreateOrConnectWithoutOrganizationInput[]
+    upsert?: MailServiceFromEmailUpsertWithWhereUniqueWithoutOrganizationInput | MailServiceFromEmailUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: MailServiceFromEmailCreateManyOrganizationInputEnvelope
+    set?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+    disconnect?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+    delete?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+    connect?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+    update?: MailServiceFromEmailUpdateWithWhereUniqueWithoutOrganizationInput | MailServiceFromEmailUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: MailServiceFromEmailUpdateManyWithWhereWithoutOrganizationInput | MailServiceFromEmailUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: MailServiceFromEmailScalarWhereInput | MailServiceFromEmailScalarWhereInput[]
   }
 
   export type LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput = {
@@ -26133,6 +31993,12 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type OrganizationCreateNestedOneWithoutEmailInput = {
+    create?: XOR<OrganizationCreateWithoutEmailInput, OrganizationUncheckedCreateWithoutEmailInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutEmailInput
+    connect?: OrganizationWhereUniqueInput
+  }
+
   export type EmailQueueCreateNestedManyWithoutEmailInput = {
     create?: XOR<EmailQueueCreateWithoutEmailInput, EmailQueueUncheckedCreateWithoutEmailInput> | EmailQueueCreateWithoutEmailInput[] | EmailQueueUncheckedCreateWithoutEmailInput[]
     connectOrCreate?: EmailQueueCreateOrConnectWithoutEmailInput | EmailQueueCreateOrConnectWithoutEmailInput[]
@@ -26169,6 +32035,18 @@ export namespace Prisma {
   export type EmailUpdatelabelIdsInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type EnumIntegrationTypeFieldUpdateOperationsInput = {
+    set?: $Enums.IntegrationType
+  }
+
+  export type OrganizationUpdateOneRequiredWithoutEmailNestedInput = {
+    create?: XOR<OrganizationCreateWithoutEmailInput, OrganizationUncheckedCreateWithoutEmailInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutEmailInput
+    upsert?: OrganizationUpsertWithoutEmailInput
+    connect?: OrganizationWhereUniqueInput
+    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutEmailInput, OrganizationUpdateWithoutEmailInput>, OrganizationUncheckedUpdateWithoutEmailInput>
   }
 
   export type EmailQueueUpdateManyWithoutEmailNestedInput = {
@@ -26263,6 +32141,20 @@ export namespace Prisma {
     connect?: LeadProjectWhereUniqueInput | LeadProjectWhereUniqueInput[]
   }
 
+  export type JobCreateNestedManyWithoutIntegrationInput = {
+    create?: XOR<JobCreateWithoutIntegrationInput, JobUncheckedCreateWithoutIntegrationInput> | JobCreateWithoutIntegrationInput[] | JobUncheckedCreateWithoutIntegrationInput[]
+    connectOrCreate?: JobCreateOrConnectWithoutIntegrationInput | JobCreateOrConnectWithoutIntegrationInput[]
+    createMany?: JobCreateManyIntegrationInputEnvelope
+    connect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+  }
+
+  export type MailServiceFromEmailCreateNestedManyWithoutIntegrationInput = {
+    create?: XOR<MailServiceFromEmailCreateWithoutIntegrationInput, MailServiceFromEmailUncheckedCreateWithoutIntegrationInput> | MailServiceFromEmailCreateWithoutIntegrationInput[] | MailServiceFromEmailUncheckedCreateWithoutIntegrationInput[]
+    connectOrCreate?: MailServiceFromEmailCreateOrConnectWithoutIntegrationInput | MailServiceFromEmailCreateOrConnectWithoutIntegrationInput[]
+    createMany?: MailServiceFromEmailCreateManyIntegrationInputEnvelope
+    connect?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+  }
+
   export type ProjectUncheckedCreateNestedManyWithoutIntegrationInput = {
     create?: XOR<ProjectCreateWithoutIntegrationInput, ProjectUncheckedCreateWithoutIntegrationInput> | ProjectCreateWithoutIntegrationInput[] | ProjectUncheckedCreateWithoutIntegrationInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutIntegrationInput | ProjectCreateOrConnectWithoutIntegrationInput[]
@@ -26291,8 +32183,26 @@ export namespace Prisma {
     connect?: LeadProjectWhereUniqueInput | LeadProjectWhereUniqueInput[]
   }
 
-  export type EnumIntegrationTypeFieldUpdateOperationsInput = {
-    set?: $Enums.IntegrationType
+  export type JobUncheckedCreateNestedManyWithoutIntegrationInput = {
+    create?: XOR<JobCreateWithoutIntegrationInput, JobUncheckedCreateWithoutIntegrationInput> | JobCreateWithoutIntegrationInput[] | JobUncheckedCreateWithoutIntegrationInput[]
+    connectOrCreate?: JobCreateOrConnectWithoutIntegrationInput | JobCreateOrConnectWithoutIntegrationInput[]
+    createMany?: JobCreateManyIntegrationInputEnvelope
+    connect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+  }
+
+  export type MailServiceFromEmailUncheckedCreateNestedManyWithoutIntegrationInput = {
+    create?: XOR<MailServiceFromEmailCreateWithoutIntegrationInput, MailServiceFromEmailUncheckedCreateWithoutIntegrationInput> | MailServiceFromEmailCreateWithoutIntegrationInput[] | MailServiceFromEmailUncheckedCreateWithoutIntegrationInput[]
+    connectOrCreate?: MailServiceFromEmailCreateOrConnectWithoutIntegrationInput | MailServiceFromEmailCreateOrConnectWithoutIntegrationInput[]
+    createMany?: MailServiceFromEmailCreateManyIntegrationInputEnvelope
+    connect?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+  }
+
+  export type EnumIntegrationCategoryFieldUpdateOperationsInput = {
+    set?: $Enums.IntegrationCategory
+  }
+
+  export type EnumIntegrationSharingTypeFieldUpdateOperationsInput = {
+    set?: $Enums.IntegrationSharingType
   }
 
   export type ProjectUpdateManyWithoutIntegrationNestedInput = {
@@ -26359,6 +32269,34 @@ export namespace Prisma {
     deleteMany?: LeadProjectScalarWhereInput | LeadProjectScalarWhereInput[]
   }
 
+  export type JobUpdateManyWithoutIntegrationNestedInput = {
+    create?: XOR<JobCreateWithoutIntegrationInput, JobUncheckedCreateWithoutIntegrationInput> | JobCreateWithoutIntegrationInput[] | JobUncheckedCreateWithoutIntegrationInput[]
+    connectOrCreate?: JobCreateOrConnectWithoutIntegrationInput | JobCreateOrConnectWithoutIntegrationInput[]
+    upsert?: JobUpsertWithWhereUniqueWithoutIntegrationInput | JobUpsertWithWhereUniqueWithoutIntegrationInput[]
+    createMany?: JobCreateManyIntegrationInputEnvelope
+    set?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    disconnect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    delete?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    connect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    update?: JobUpdateWithWhereUniqueWithoutIntegrationInput | JobUpdateWithWhereUniqueWithoutIntegrationInput[]
+    updateMany?: JobUpdateManyWithWhereWithoutIntegrationInput | JobUpdateManyWithWhereWithoutIntegrationInput[]
+    deleteMany?: JobScalarWhereInput | JobScalarWhereInput[]
+  }
+
+  export type MailServiceFromEmailUpdateManyWithoutIntegrationNestedInput = {
+    create?: XOR<MailServiceFromEmailCreateWithoutIntegrationInput, MailServiceFromEmailUncheckedCreateWithoutIntegrationInput> | MailServiceFromEmailCreateWithoutIntegrationInput[] | MailServiceFromEmailUncheckedCreateWithoutIntegrationInput[]
+    connectOrCreate?: MailServiceFromEmailCreateOrConnectWithoutIntegrationInput | MailServiceFromEmailCreateOrConnectWithoutIntegrationInput[]
+    upsert?: MailServiceFromEmailUpsertWithWhereUniqueWithoutIntegrationInput | MailServiceFromEmailUpsertWithWhereUniqueWithoutIntegrationInput[]
+    createMany?: MailServiceFromEmailCreateManyIntegrationInputEnvelope
+    set?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+    disconnect?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+    delete?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+    connect?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+    update?: MailServiceFromEmailUpdateWithWhereUniqueWithoutIntegrationInput | MailServiceFromEmailUpdateWithWhereUniqueWithoutIntegrationInput[]
+    updateMany?: MailServiceFromEmailUpdateManyWithWhereWithoutIntegrationInput | MailServiceFromEmailUpdateManyWithWhereWithoutIntegrationInput[]
+    deleteMany?: MailServiceFromEmailScalarWhereInput | MailServiceFromEmailScalarWhereInput[]
+  }
+
   export type ProjectUncheckedUpdateManyWithoutIntegrationNestedInput = {
     create?: XOR<ProjectCreateWithoutIntegrationInput, ProjectUncheckedCreateWithoutIntegrationInput> | ProjectCreateWithoutIntegrationInput[] | ProjectUncheckedCreateWithoutIntegrationInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutIntegrationInput | ProjectCreateOrConnectWithoutIntegrationInput[]
@@ -26413,6 +32351,158 @@ export namespace Prisma {
     update?: LeadProjectUpdateWithWhereUniqueWithoutIntegrationInput | LeadProjectUpdateWithWhereUniqueWithoutIntegrationInput[]
     updateMany?: LeadProjectUpdateManyWithWhereWithoutIntegrationInput | LeadProjectUpdateManyWithWhereWithoutIntegrationInput[]
     deleteMany?: LeadProjectScalarWhereInput | LeadProjectScalarWhereInput[]
+  }
+
+  export type JobUncheckedUpdateManyWithoutIntegrationNestedInput = {
+    create?: XOR<JobCreateWithoutIntegrationInput, JobUncheckedCreateWithoutIntegrationInput> | JobCreateWithoutIntegrationInput[] | JobUncheckedCreateWithoutIntegrationInput[]
+    connectOrCreate?: JobCreateOrConnectWithoutIntegrationInput | JobCreateOrConnectWithoutIntegrationInput[]
+    upsert?: JobUpsertWithWhereUniqueWithoutIntegrationInput | JobUpsertWithWhereUniqueWithoutIntegrationInput[]
+    createMany?: JobCreateManyIntegrationInputEnvelope
+    set?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    disconnect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    delete?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    connect?: JobWhereUniqueInput | JobWhereUniqueInput[]
+    update?: JobUpdateWithWhereUniqueWithoutIntegrationInput | JobUpdateWithWhereUniqueWithoutIntegrationInput[]
+    updateMany?: JobUpdateManyWithWhereWithoutIntegrationInput | JobUpdateManyWithWhereWithoutIntegrationInput[]
+    deleteMany?: JobScalarWhereInput | JobScalarWhereInput[]
+  }
+
+  export type MailServiceFromEmailUncheckedUpdateManyWithoutIntegrationNestedInput = {
+    create?: XOR<MailServiceFromEmailCreateWithoutIntegrationInput, MailServiceFromEmailUncheckedCreateWithoutIntegrationInput> | MailServiceFromEmailCreateWithoutIntegrationInput[] | MailServiceFromEmailUncheckedCreateWithoutIntegrationInput[]
+    connectOrCreate?: MailServiceFromEmailCreateOrConnectWithoutIntegrationInput | MailServiceFromEmailCreateOrConnectWithoutIntegrationInput[]
+    upsert?: MailServiceFromEmailUpsertWithWhereUniqueWithoutIntegrationInput | MailServiceFromEmailUpsertWithWhereUniqueWithoutIntegrationInput[]
+    createMany?: MailServiceFromEmailCreateManyIntegrationInputEnvelope
+    set?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+    disconnect?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+    delete?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+    connect?: MailServiceFromEmailWhereUniqueInput | MailServiceFromEmailWhereUniqueInput[]
+    update?: MailServiceFromEmailUpdateWithWhereUniqueWithoutIntegrationInput | MailServiceFromEmailUpdateWithWhereUniqueWithoutIntegrationInput[]
+    updateMany?: MailServiceFromEmailUpdateManyWithWhereWithoutIntegrationInput | MailServiceFromEmailUpdateManyWithWhereWithoutIntegrationInput[]
+    deleteMany?: MailServiceFromEmailScalarWhereInput | MailServiceFromEmailScalarWhereInput[]
+  }
+
+  export type IntegrationCreateNestedOneWithoutMailServiceFromEmailInput = {
+    create?: XOR<IntegrationCreateWithoutMailServiceFromEmailInput, IntegrationUncheckedCreateWithoutMailServiceFromEmailInput>
+    connectOrCreate?: IntegrationCreateOrConnectWithoutMailServiceFromEmailInput
+    connect?: IntegrationWhereUniqueInput
+  }
+
+  export type OrganizationCreateNestedOneWithoutMailServiceFromEmailInput = {
+    create?: XOR<OrganizationCreateWithoutMailServiceFromEmailInput, OrganizationUncheckedCreateWithoutMailServiceFromEmailInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutMailServiceFromEmailInput
+    connect?: OrganizationWhereUniqueInput
+  }
+
+  export type IntegrationUpdateOneRequiredWithoutMailServiceFromEmailNestedInput = {
+    create?: XOR<IntegrationCreateWithoutMailServiceFromEmailInput, IntegrationUncheckedCreateWithoutMailServiceFromEmailInput>
+    connectOrCreate?: IntegrationCreateOrConnectWithoutMailServiceFromEmailInput
+    upsert?: IntegrationUpsertWithoutMailServiceFromEmailInput
+    connect?: IntegrationWhereUniqueInput
+    update?: XOR<XOR<IntegrationUpdateToOneWithWhereWithoutMailServiceFromEmailInput, IntegrationUpdateWithoutMailServiceFromEmailInput>, IntegrationUncheckedUpdateWithoutMailServiceFromEmailInput>
+  }
+
+  export type OrganizationUpdateOneRequiredWithoutMailServiceFromEmailNestedInput = {
+    create?: XOR<OrganizationCreateWithoutMailServiceFromEmailInput, OrganizationUncheckedCreateWithoutMailServiceFromEmailInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutMailServiceFromEmailInput
+    upsert?: OrganizationUpsertWithoutMailServiceFromEmailInput
+    connect?: OrganizationWhereUniqueInput
+    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutMailServiceFromEmailInput, OrganizationUpdateWithoutMailServiceFromEmailInput>, OrganizationUncheckedUpdateWithoutMailServiceFromEmailInput>
+  }
+
+  export type IntegrationCreateNestedOneWithoutJobsInput = {
+    create?: XOR<IntegrationCreateWithoutJobsInput, IntegrationUncheckedCreateWithoutJobsInput>
+    connectOrCreate?: IntegrationCreateOrConnectWithoutJobsInput
+    connect?: IntegrationWhereUniqueInput
+  }
+
+  export type TaskCreateNestedManyWithoutJobInput = {
+    create?: XOR<TaskCreateWithoutJobInput, TaskUncheckedCreateWithoutJobInput> | TaskCreateWithoutJobInput[] | TaskUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutJobInput | TaskCreateOrConnectWithoutJobInput[]
+    createMany?: TaskCreateManyJobInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
+  export type TaskUncheckedCreateNestedManyWithoutJobInput = {
+    create?: XOR<TaskCreateWithoutJobInput, TaskUncheckedCreateWithoutJobInput> | TaskCreateWithoutJobInput[] | TaskUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutJobInput | TaskCreateOrConnectWithoutJobInput[]
+    createMany?: TaskCreateManyJobInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
+  export type EnumJobStatusFieldUpdateOperationsInput = {
+    set?: $Enums.JobStatus
+  }
+
+  export type IntegrationUpdateOneRequiredWithoutJobsNestedInput = {
+    create?: XOR<IntegrationCreateWithoutJobsInput, IntegrationUncheckedCreateWithoutJobsInput>
+    connectOrCreate?: IntegrationCreateOrConnectWithoutJobsInput
+    upsert?: IntegrationUpsertWithoutJobsInput
+    connect?: IntegrationWhereUniqueInput
+    update?: XOR<XOR<IntegrationUpdateToOneWithWhereWithoutJobsInput, IntegrationUpdateWithoutJobsInput>, IntegrationUncheckedUpdateWithoutJobsInput>
+  }
+
+  export type TaskUpdateManyWithoutJobNestedInput = {
+    create?: XOR<TaskCreateWithoutJobInput, TaskUncheckedCreateWithoutJobInput> | TaskCreateWithoutJobInput[] | TaskUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutJobInput | TaskCreateOrConnectWithoutJobInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutJobInput | TaskUpsertWithWhereUniqueWithoutJobInput[]
+    createMany?: TaskCreateManyJobInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutJobInput | TaskUpdateWithWhereUniqueWithoutJobInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutJobInput | TaskUpdateManyWithWhereWithoutJobInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
+  }
+
+  export type TaskUncheckedUpdateManyWithoutJobNestedInput = {
+    create?: XOR<TaskCreateWithoutJobInput, TaskUncheckedCreateWithoutJobInput> | TaskCreateWithoutJobInput[] | TaskUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutJobInput | TaskCreateOrConnectWithoutJobInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutJobInput | TaskUpsertWithWhereUniqueWithoutJobInput[]
+    createMany?: TaskCreateManyJobInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutJobInput | TaskUpdateWithWhereUniqueWithoutJobInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutJobInput | TaskUpdateManyWithWhereWithoutJobInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
+  }
+
+  export type JobCreateNestedOneWithoutTasksInput = {
+    create?: XOR<JobCreateWithoutTasksInput, JobUncheckedCreateWithoutTasksInput>
+    connectOrCreate?: JobCreateOrConnectWithoutTasksInput
+    connect?: JobWhereUniqueInput
+  }
+
+  export type EnumTaskStatusFieldUpdateOperationsInput = {
+    set?: $Enums.TaskStatus
+  }
+
+  export type JobUpdateOneRequiredWithoutTasksNestedInput = {
+    create?: XOR<JobCreateWithoutTasksInput, JobUncheckedCreateWithoutTasksInput>
+    connectOrCreate?: JobCreateOrConnectWithoutTasksInput
+    upsert?: JobUpsertWithoutTasksInput
+    connect?: JobWhereUniqueInput
+    update?: XOR<XOR<JobUpdateToOneWithWhereWithoutTasksInput, JobUpdateWithoutTasksInput>, JobUncheckedUpdateWithoutTasksInput>
+  }
+
+  export type OrganizationCreateNestedOneWithoutWebhooksInput = {
+    create?: XOR<OrganizationCreateWithoutWebhooksInput, OrganizationUncheckedCreateWithoutWebhooksInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutWebhooksInput
+    connect?: OrganizationWhereUniqueInput
+  }
+
+  export type EnumWebhookTypeFieldUpdateOperationsInput = {
+    set?: $Enums.WebhookType
+  }
+
+  export type OrganizationUpdateOneRequiredWithoutWebhooksNestedInput = {
+    create?: XOR<OrganizationCreateWithoutWebhooksInput, OrganizationUncheckedCreateWithoutWebhooksInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutWebhooksInput
+    upsert?: OrganizationUpsertWithoutWebhooksInput
+    connect?: OrganizationWhereUniqueInput
+    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutWebhooksInput, OrganizationUpdateWithoutWebhooksInput>, OrganizationUncheckedUpdateWithoutWebhooksInput>
   }
 
   export type OrganizationCreateNestedOneWithoutTemplateInput = {
@@ -26778,6 +32868,13 @@ export namespace Prisma {
     not?: NestedEnumEmailStatusFilter<$PrismaModel> | $Enums.EmailStatus
   }
 
+  export type NestedEnumIntegrationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationType | EnumIntegrationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationType[] | ListEnumIntegrationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationType[] | ListEnumIntegrationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationTypeFilter<$PrismaModel> | $Enums.IntegrationType
+  }
+
   export type NestedEnumEmailStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.EmailStatus | EnumEmailStatusFieldRefInput<$PrismaModel>
     in?: $Enums.EmailStatus[] | ListEnumEmailStatusFieldRefInput<$PrismaModel>
@@ -26786,6 +32883,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumEmailStatusFilter<$PrismaModel>
     _max?: NestedEnumEmailStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumIntegrationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationType | EnumIntegrationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationType[] | ListEnumIntegrationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationType[] | ListEnumIntegrationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationTypeWithAggregatesFilter<$PrismaModel> | $Enums.IntegrationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIntegrationTypeFilter<$PrismaModel>
+    _max?: NestedEnumIntegrationTypeFilter<$PrismaModel>
   }
 
   export type NestedEnumQueueStatusFilter<$PrismaModel = never> = {
@@ -26846,21 +32953,89 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedEnumIntegrationTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.IntegrationType | EnumIntegrationTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.IntegrationType[] | ListEnumIntegrationTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.IntegrationType[] | ListEnumIntegrationTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumIntegrationTypeFilter<$PrismaModel> | $Enums.IntegrationType
+  export type NestedEnumIntegrationCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationCategory | EnumIntegrationCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationCategory[] | ListEnumIntegrationCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationCategory[] | ListEnumIntegrationCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationCategoryFilter<$PrismaModel> | $Enums.IntegrationCategory
   }
 
-  export type NestedEnumIntegrationTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.IntegrationType | EnumIntegrationTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.IntegrationType[] | ListEnumIntegrationTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.IntegrationType[] | ListEnumIntegrationTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumIntegrationTypeWithAggregatesFilter<$PrismaModel> | $Enums.IntegrationType
+  export type NestedEnumIntegrationSharingTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationSharingType | EnumIntegrationSharingTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationSharingType[] | ListEnumIntegrationSharingTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationSharingType[] | ListEnumIntegrationSharingTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationSharingTypeFilter<$PrismaModel> | $Enums.IntegrationSharingType
+  }
+
+  export type NestedEnumIntegrationCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationCategory | EnumIntegrationCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationCategory[] | ListEnumIntegrationCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationCategory[] | ListEnumIntegrationCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationCategoryWithAggregatesFilter<$PrismaModel> | $Enums.IntegrationCategory
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumIntegrationTypeFilter<$PrismaModel>
-    _max?: NestedEnumIntegrationTypeFilter<$PrismaModel>
+    _min?: NestedEnumIntegrationCategoryFilter<$PrismaModel>
+    _max?: NestedEnumIntegrationCategoryFilter<$PrismaModel>
+  }
+
+  export type NestedEnumIntegrationSharingTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IntegrationSharingType | EnumIntegrationSharingTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.IntegrationSharingType[] | ListEnumIntegrationSharingTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IntegrationSharingType[] | ListEnumIntegrationSharingTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIntegrationSharingTypeWithAggregatesFilter<$PrismaModel> | $Enums.IntegrationSharingType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIntegrationSharingTypeFilter<$PrismaModel>
+    _max?: NestedEnumIntegrationSharingTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumJobStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumJobStatusFilter<$PrismaModel> | $Enums.JobStatus
+  }
+
+  export type NestedEnumJobStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumJobStatusWithAggregatesFilter<$PrismaModel> | $Enums.JobStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumJobStatusFilter<$PrismaModel>
+    _max?: NestedEnumJobStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTaskStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskStatus | EnumTaskStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskStatus[] | ListEnumTaskStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskStatus[] | ListEnumTaskStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskStatusFilter<$PrismaModel> | $Enums.TaskStatus
+  }
+
+  export type NestedEnumTaskStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskStatus | EnumTaskStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskStatus[] | ListEnumTaskStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskStatus[] | ListEnumTaskStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskStatusWithAggregatesFilter<$PrismaModel> | $Enums.TaskStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTaskStatusFilter<$PrismaModel>
+    _max?: NestedEnumTaskStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumWebhookTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.WebhookType | EnumWebhookTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.WebhookType[] | ListEnumWebhookTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WebhookType[] | ListEnumWebhookTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumWebhookTypeFilter<$PrismaModel> | $Enums.WebhookType
+  }
+
+  export type NestedEnumWebhookTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WebhookType | EnumWebhookTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.WebhookType[] | ListEnumWebhookTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WebhookType[] | ListEnumWebhookTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumWebhookTypeWithAggregatesFilter<$PrismaModel> | $Enums.WebhookType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWebhookTypeFilter<$PrismaModel>
+    _max?: NestedEnumWebhookTypeFilter<$PrismaModel>
   }
 
   export type LeadActivityCreateWithoutUserInput = {
@@ -27221,6 +33396,9 @@ export namespace Prisma {
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookCreateNestedManyWithoutOrganizationInput
+    Email?: EmailCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
   }
@@ -27240,6 +33418,9 @@ export namespace Prisma {
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutOrganizationInput
+    Email?: EmailUncheckedCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
   }
@@ -27316,6 +33497,9 @@ export namespace Prisma {
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
   }
@@ -27335,6 +33519,9 @@ export namespace Prisma {
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
   }
@@ -27439,34 +33626,42 @@ export namespace Prisma {
 
   export type IntegrationCreateWithoutOrganizationInput = {
     id?: string
+    name: string
     data: JsonNullValueInput | InputJsonValue
     description?: string | null
     type: $Enums.IntegrationType
-    createdAt: bigint | number
-    updatedAt: bigint | number
-    deletedAt: bigint | number
-    name: string
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
     isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
     Project?: ProjectCreateNestedManyWithoutIntegrationInput
     Lead?: LeadCreateNestedManyWithoutIntegrationInput
     Contact?: ContactCreateNestedManyWithoutIntegrationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutIntegrationInput
+    Jobs?: JobCreateNestedManyWithoutIntegrationInput
+    mailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutIntegrationInput
   }
 
   export type IntegrationUncheckedCreateWithoutOrganizationInput = {
     id?: string
+    name: string
     data: JsonNullValueInput | InputJsonValue
     description?: string | null
     type: $Enums.IntegrationType
-    createdAt: bigint | number
-    updatedAt: bigint | number
-    deletedAt: bigint | number
-    name: string
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
     isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
     Project?: ProjectUncheckedCreateNestedManyWithoutIntegrationInput
     Lead?: LeadUncheckedCreateNestedManyWithoutIntegrationInput
     Contact?: ContactUncheckedCreateNestedManyWithoutIntegrationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutIntegrationInput
+    Jobs?: JobUncheckedCreateNestedManyWithoutIntegrationInput
+    mailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutIntegrationInput
   }
 
   export type IntegrationCreateOrConnectWithoutOrganizationInput = {
@@ -27633,6 +33828,122 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type WebhookCreateWithoutOrganizationInput = {
+    id?: string
+    url: string
+    type: $Enums.WebhookType
+    createdAt?: bigint | number
+    data: JsonNullValueInput | InputJsonValue
+  }
+
+  export type WebhookUncheckedCreateWithoutOrganizationInput = {
+    id?: string
+    url: string
+    type: $Enums.WebhookType
+    createdAt?: bigint | number
+    data: JsonNullValueInput | InputJsonValue
+  }
+
+  export type WebhookCreateOrConnectWithoutOrganizationInput = {
+    where: WebhookWhereUniqueInput
+    create: XOR<WebhookCreateWithoutOrganizationInput, WebhookUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type WebhookCreateManyOrganizationInputEnvelope = {
+    data: WebhookCreateManyOrganizationInput | WebhookCreateManyOrganizationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EmailCreateWithoutOrganizationInput = {
+    id?: string
+    from: JsonNullValueInput | InputJsonValue
+    to?: EmailCreatetoInput | string[]
+    cc?: EmailCreateccInput | string[]
+    bcc?: EmailCreatebccInput | string[]
+    status?: $Enums.EmailStatus
+    subject?: string | null
+    body: string
+    trackingId?: string | null
+    messageId?: string | null
+    threadId?: string | null
+    historyId?: string | null
+    labelIds?: EmailCreatelabelIdsInput | string[]
+    isOpened?: boolean
+    openedAt?: bigint | number
+    isClicked?: boolean
+    clickedAt?: bigint | number
+    sentAt: bigint | number
+    deletedAt?: bigint | number
+    integrationId: string
+    source: $Enums.IntegrationType
+    EmailQueue?: EmailQueueCreateNestedManyWithoutEmailInput
+  }
+
+  export type EmailUncheckedCreateWithoutOrganizationInput = {
+    id?: string
+    from: JsonNullValueInput | InputJsonValue
+    to?: EmailCreatetoInput | string[]
+    cc?: EmailCreateccInput | string[]
+    bcc?: EmailCreatebccInput | string[]
+    status?: $Enums.EmailStatus
+    subject?: string | null
+    body: string
+    trackingId?: string | null
+    messageId?: string | null
+    threadId?: string | null
+    historyId?: string | null
+    labelIds?: EmailCreatelabelIdsInput | string[]
+    isOpened?: boolean
+    openedAt?: bigint | number
+    isClicked?: boolean
+    clickedAt?: bigint | number
+    sentAt: bigint | number
+    deletedAt?: bigint | number
+    integrationId: string
+    source: $Enums.IntegrationType
+    EmailQueue?: EmailQueueUncheckedCreateNestedManyWithoutEmailInput
+  }
+
+  export type EmailCreateOrConnectWithoutOrganizationInput = {
+    where: EmailWhereUniqueInput
+    create: XOR<EmailCreateWithoutOrganizationInput, EmailUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type EmailCreateManyOrganizationInputEnvelope = {
+    data: EmailCreateManyOrganizationInput | EmailCreateManyOrganizationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MailServiceFromEmailCreateWithoutOrganizationInput = {
+    id?: string
+    name: string
+    email: string
+    type: $Enums.IntegrationType
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    integration: IntegrationCreateNestedOneWithoutMailServiceFromEmailInput
+  }
+
+  export type MailServiceFromEmailUncheckedCreateWithoutOrganizationInput = {
+    id?: string
+    name: string
+    email: string
+    type: $Enums.IntegrationType
+    integrationId: string
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+  }
+
+  export type MailServiceFromEmailCreateOrConnectWithoutOrganizationInput = {
+    where: MailServiceFromEmailWhereUniqueInput
+    create: XOR<MailServiceFromEmailCreateWithoutOrganizationInput, MailServiceFromEmailUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type MailServiceFromEmailCreateManyOrganizationInputEnvelope = {
+    data: MailServiceFromEmailCreateManyOrganizationInput | MailServiceFromEmailCreateManyOrganizationInput[]
+    skipDuplicates?: boolean
+  }
+
   export type LeadProjectCreateWithoutOrganizatioonInput = {
     id?: string
     createdAt?: bigint | number
@@ -27786,14 +34097,16 @@ export namespace Prisma {
     NOT?: IntegrationScalarWhereInput | IntegrationScalarWhereInput[]
     id?: StringFilter<"Integration"> | string
     organizationId?: StringFilter<"Integration"> | string
+    name?: StringFilter<"Integration"> | string
     data?: JsonFilter<"Integration">
     description?: StringNullableFilter<"Integration"> | string | null
     type?: EnumIntegrationTypeFilter<"Integration"> | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFilter<"Integration"> | $Enums.IntegrationCategory
     createdAt?: BigIntFilter<"Integration"> | bigint | number
     updatedAt?: BigIntFilter<"Integration"> | bigint | number
-    deletedAt?: BigIntFilter<"Integration"> | bigint | number
-    name?: StringFilter<"Integration"> | string
+    deletedAt?: BigIntNullableFilter<"Integration"> | bigint | number | null
     isSingular?: BoolFilter<"Integration"> | boolean
+    sharedType?: EnumIntegrationSharingTypeFilter<"Integration"> | $Enums.IntegrationSharingType
   }
 
   export type LeadUpsertWithWhereUniqueWithoutOrganizationInput = {
@@ -27912,6 +34225,108 @@ export namespace Prisma {
     organizationId?: StringFilter<"LeadStatus"> | string
   }
 
+  export type WebhookUpsertWithWhereUniqueWithoutOrganizationInput = {
+    where: WebhookWhereUniqueInput
+    update: XOR<WebhookUpdateWithoutOrganizationInput, WebhookUncheckedUpdateWithoutOrganizationInput>
+    create: XOR<WebhookCreateWithoutOrganizationInput, WebhookUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type WebhookUpdateWithWhereUniqueWithoutOrganizationInput = {
+    where: WebhookWhereUniqueInput
+    data: XOR<WebhookUpdateWithoutOrganizationInput, WebhookUncheckedUpdateWithoutOrganizationInput>
+  }
+
+  export type WebhookUpdateManyWithWhereWithoutOrganizationInput = {
+    where: WebhookScalarWhereInput
+    data: XOR<WebhookUpdateManyMutationInput, WebhookUncheckedUpdateManyWithoutOrganizationInput>
+  }
+
+  export type WebhookScalarWhereInput = {
+    AND?: WebhookScalarWhereInput | WebhookScalarWhereInput[]
+    OR?: WebhookScalarWhereInput[]
+    NOT?: WebhookScalarWhereInput | WebhookScalarWhereInput[]
+    id?: StringFilter<"Webhook"> | string
+    url?: StringFilter<"Webhook"> | string
+    type?: EnumWebhookTypeFilter<"Webhook"> | $Enums.WebhookType
+    createdAt?: BigIntFilter<"Webhook"> | bigint | number
+    organizationId?: StringFilter<"Webhook"> | string
+    data?: JsonFilter<"Webhook">
+  }
+
+  export type EmailUpsertWithWhereUniqueWithoutOrganizationInput = {
+    where: EmailWhereUniqueInput
+    update: XOR<EmailUpdateWithoutOrganizationInput, EmailUncheckedUpdateWithoutOrganizationInput>
+    create: XOR<EmailCreateWithoutOrganizationInput, EmailUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type EmailUpdateWithWhereUniqueWithoutOrganizationInput = {
+    where: EmailWhereUniqueInput
+    data: XOR<EmailUpdateWithoutOrganizationInput, EmailUncheckedUpdateWithoutOrganizationInput>
+  }
+
+  export type EmailUpdateManyWithWhereWithoutOrganizationInput = {
+    where: EmailScalarWhereInput
+    data: XOR<EmailUpdateManyMutationInput, EmailUncheckedUpdateManyWithoutOrganizationInput>
+  }
+
+  export type EmailScalarWhereInput = {
+    AND?: EmailScalarWhereInput | EmailScalarWhereInput[]
+    OR?: EmailScalarWhereInput[]
+    NOT?: EmailScalarWhereInput | EmailScalarWhereInput[]
+    id?: StringFilter<"Email"> | string
+    from?: JsonFilter<"Email">
+    to?: StringNullableListFilter<"Email">
+    cc?: StringNullableListFilter<"Email">
+    bcc?: StringNullableListFilter<"Email">
+    status?: EnumEmailStatusFilter<"Email"> | $Enums.EmailStatus
+    subject?: StringNullableFilter<"Email"> | string | null
+    body?: StringFilter<"Email"> | string
+    trackingId?: StringNullableFilter<"Email"> | string | null
+    messageId?: StringNullableFilter<"Email"> | string | null
+    threadId?: StringNullableFilter<"Email"> | string | null
+    historyId?: StringNullableFilter<"Email"> | string | null
+    labelIds?: StringNullableListFilter<"Email">
+    isOpened?: BoolFilter<"Email"> | boolean
+    openedAt?: BigIntFilter<"Email"> | bigint | number
+    isClicked?: BoolFilter<"Email"> | boolean
+    clickedAt?: BigIntFilter<"Email"> | bigint | number
+    sentAt?: BigIntFilter<"Email"> | bigint | number
+    deletedAt?: BigIntFilter<"Email"> | bigint | number
+    integrationId?: StringFilter<"Email"> | string
+    organizationId?: StringFilter<"Email"> | string
+    source?: EnumIntegrationTypeFilter<"Email"> | $Enums.IntegrationType
+  }
+
+  export type MailServiceFromEmailUpsertWithWhereUniqueWithoutOrganizationInput = {
+    where: MailServiceFromEmailWhereUniqueInput
+    update: XOR<MailServiceFromEmailUpdateWithoutOrganizationInput, MailServiceFromEmailUncheckedUpdateWithoutOrganizationInput>
+    create: XOR<MailServiceFromEmailCreateWithoutOrganizationInput, MailServiceFromEmailUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type MailServiceFromEmailUpdateWithWhereUniqueWithoutOrganizationInput = {
+    where: MailServiceFromEmailWhereUniqueInput
+    data: XOR<MailServiceFromEmailUpdateWithoutOrganizationInput, MailServiceFromEmailUncheckedUpdateWithoutOrganizationInput>
+  }
+
+  export type MailServiceFromEmailUpdateManyWithWhereWithoutOrganizationInput = {
+    where: MailServiceFromEmailScalarWhereInput
+    data: XOR<MailServiceFromEmailUpdateManyMutationInput, MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationInput>
+  }
+
+  export type MailServiceFromEmailScalarWhereInput = {
+    AND?: MailServiceFromEmailScalarWhereInput | MailServiceFromEmailScalarWhereInput[]
+    OR?: MailServiceFromEmailScalarWhereInput[]
+    NOT?: MailServiceFromEmailScalarWhereInput | MailServiceFromEmailScalarWhereInput[]
+    id?: StringFilter<"MailServiceFromEmail"> | string
+    name?: StringFilter<"MailServiceFromEmail"> | string
+    email?: StringFilter<"MailServiceFromEmail"> | string
+    type?: EnumIntegrationTypeFilter<"MailServiceFromEmail"> | $Enums.IntegrationType
+    integrationId?: StringFilter<"MailServiceFromEmail"> | string
+    organizationId?: StringFilter<"MailServiceFromEmail"> | string
+    createdAt?: BigIntFilter<"MailServiceFromEmail"> | bigint | number
+    updatedAt?: BigIntFilter<"MailServiceFromEmail"> | bigint | number
+  }
+
   export type LeadProjectUpsertWithWhereUniqueWithoutOrganizatioonInput = {
     where: LeadProjectWhereUniqueInput
     update: XOR<LeadProjectUpdateWithoutOrganizatioonInput, LeadProjectUncheckedUpdateWithoutOrganizatioonInput>
@@ -27974,6 +34389,9 @@ export namespace Prisma {
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookCreateNestedManyWithoutOrganizationInput
+    Email?: EmailCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
   }
@@ -27993,6 +34411,9 @@ export namespace Prisma {
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutOrganizationInput
+    Email?: EmailUncheckedCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
   }
@@ -28063,6 +34484,9 @@ export namespace Prisma {
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
   }
@@ -28082,6 +34506,9 @@ export namespace Prisma {
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
   }
@@ -28142,6 +34569,9 @@ export namespace Prisma {
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookCreateNestedManyWithoutOrganizationInput
+    Email?: EmailCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
   }
@@ -28161,6 +34591,9 @@ export namespace Prisma {
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutOrganizationInput
+    Email?: EmailUncheckedCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
   }
@@ -28204,34 +34637,42 @@ export namespace Prisma {
 
   export type IntegrationCreateWithoutProjectInput = {
     id?: string
+    name: string
     data: JsonNullValueInput | InputJsonValue
     description?: string | null
     type: $Enums.IntegrationType
-    createdAt: bigint | number
-    updatedAt: bigint | number
-    deletedAt: bigint | number
-    name: string
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
     isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
     organization: OrganizationCreateNestedOneWithoutIntegrationsInput
     Lead?: LeadCreateNestedManyWithoutIntegrationInput
     Contact?: ContactCreateNestedManyWithoutIntegrationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutIntegrationInput
+    Jobs?: JobCreateNestedManyWithoutIntegrationInput
+    mailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutIntegrationInput
   }
 
   export type IntegrationUncheckedCreateWithoutProjectInput = {
     id?: string
     organizationId: string
+    name: string
     data: JsonNullValueInput | InputJsonValue
     description?: string | null
     type: $Enums.IntegrationType
-    createdAt: bigint | number
-    updatedAt: bigint | number
-    deletedAt: bigint | number
-    name: string
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
     isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
     Lead?: LeadUncheckedCreateNestedManyWithoutIntegrationInput
     Contact?: ContactUncheckedCreateNestedManyWithoutIntegrationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutIntegrationInput
+    Jobs?: JobUncheckedCreateNestedManyWithoutIntegrationInput
+    mailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutIntegrationInput
   }
 
   export type IntegrationCreateOrConnectWithoutProjectInput = {
@@ -28265,6 +34706,9 @@ export namespace Prisma {
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
   }
@@ -28284,6 +34728,9 @@ export namespace Prisma {
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
   }
@@ -28317,34 +34764,42 @@ export namespace Prisma {
 
   export type IntegrationUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
     organization?: OrganizationUpdateOneRequiredWithoutIntegrationsNestedInput
     Lead?: LeadUpdateManyWithoutIntegrationNestedInput
     Contact?: ContactUpdateManyWithoutIntegrationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutIntegrationNestedInput
+    Jobs?: JobUpdateManyWithoutIntegrationNestedInput
+    mailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutIntegrationNestedInput
   }
 
   export type IntegrationUncheckedUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
     Lead?: LeadUncheckedUpdateManyWithoutIntegrationNestedInput
     Contact?: ContactUncheckedUpdateManyWithoutIntegrationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutIntegrationNestedInput
+    Jobs?: JobUncheckedUpdateManyWithoutIntegrationNestedInput
+    mailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutIntegrationNestedInput
   }
 
   export type LeadCreateWithoutLeadNotesInput = {
@@ -28777,6 +35232,9 @@ export namespace Prisma {
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookCreateNestedManyWithoutOrganizationInput
+    Email?: EmailCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
   }
@@ -28796,6 +35254,9 @@ export namespace Prisma {
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutOrganizationInput
+    Email?: EmailUncheckedCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
   }
@@ -28807,34 +35268,42 @@ export namespace Prisma {
 
   export type IntegrationCreateWithoutLeadInput = {
     id?: string
+    name: string
     data: JsonNullValueInput | InputJsonValue
     description?: string | null
     type: $Enums.IntegrationType
-    createdAt: bigint | number
-    updatedAt: bigint | number
-    deletedAt: bigint | number
-    name: string
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
     isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
     Project?: ProjectCreateNestedManyWithoutIntegrationInput
     organization: OrganizationCreateNestedOneWithoutIntegrationsInput
     Contact?: ContactCreateNestedManyWithoutIntegrationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutIntegrationInput
+    Jobs?: JobCreateNestedManyWithoutIntegrationInput
+    mailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutIntegrationInput
   }
 
   export type IntegrationUncheckedCreateWithoutLeadInput = {
     id?: string
     organizationId: string
+    name: string
     data: JsonNullValueInput | InputJsonValue
     description?: string | null
     type: $Enums.IntegrationType
-    createdAt: bigint | number
-    updatedAt: bigint | number
-    deletedAt: bigint | number
-    name: string
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
     isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
     Project?: ProjectUncheckedCreateNestedManyWithoutIntegrationInput
     Contact?: ContactUncheckedCreateNestedManyWithoutIntegrationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutIntegrationInput
+    Jobs?: JobUncheckedCreateNestedManyWithoutIntegrationInput
+    mailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutIntegrationInput
   }
 
   export type IntegrationCreateOrConnectWithoutLeadInput = {
@@ -28992,6 +35461,9 @@ export namespace Prisma {
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
   }
@@ -29011,6 +35483,9 @@ export namespace Prisma {
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
   }
@@ -29028,66 +35503,82 @@ export namespace Prisma {
 
   export type IntegrationUpdateWithoutLeadInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
     Project?: ProjectUpdateManyWithoutIntegrationNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutIntegrationsNestedInput
     Contact?: ContactUpdateManyWithoutIntegrationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutIntegrationNestedInput
+    Jobs?: JobUpdateManyWithoutIntegrationNestedInput
+    mailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutIntegrationNestedInput
   }
 
   export type IntegrationUncheckedUpdateWithoutLeadInput = {
     id?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
     Project?: ProjectUncheckedUpdateManyWithoutIntegrationNestedInput
     Contact?: ContactUncheckedUpdateManyWithoutIntegrationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutIntegrationNestedInput
+    Jobs?: JobUncheckedUpdateManyWithoutIntegrationNestedInput
+    mailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutIntegrationNestedInput
   }
 
   export type IntegrationCreateWithoutLeadProjectInput = {
     id?: string
+    name: string
     data: JsonNullValueInput | InputJsonValue
     description?: string | null
     type: $Enums.IntegrationType
-    createdAt: bigint | number
-    updatedAt: bigint | number
-    deletedAt: bigint | number
-    name: string
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
     isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
     Project?: ProjectCreateNestedManyWithoutIntegrationInput
     organization: OrganizationCreateNestedOneWithoutIntegrationsInput
     Lead?: LeadCreateNestedManyWithoutIntegrationInput
     Contact?: ContactCreateNestedManyWithoutIntegrationInput
+    Jobs?: JobCreateNestedManyWithoutIntegrationInput
+    mailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutIntegrationInput
   }
 
   export type IntegrationUncheckedCreateWithoutLeadProjectInput = {
     id?: string
     organizationId: string
+    name: string
     data: JsonNullValueInput | InputJsonValue
     description?: string | null
     type: $Enums.IntegrationType
-    createdAt: bigint | number
-    updatedAt: bigint | number
-    deletedAt: bigint | number
-    name: string
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
     isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
     Project?: ProjectUncheckedCreateNestedManyWithoutIntegrationInput
     Lead?: LeadUncheckedCreateNestedManyWithoutIntegrationInput
     Contact?: ContactUncheckedCreateNestedManyWithoutIntegrationInput
+    Jobs?: JobUncheckedCreateNestedManyWithoutIntegrationInput
+    mailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutIntegrationInput
   }
 
   export type IntegrationCreateOrConnectWithoutLeadProjectInput = {
@@ -29187,6 +35678,9 @@ export namespace Prisma {
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookCreateNestedManyWithoutOrganizationInput
+    Email?: EmailCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
   }
 
@@ -29206,6 +35700,9 @@ export namespace Prisma {
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutOrganizationInput
+    Email?: EmailUncheckedCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
@@ -29227,34 +35724,42 @@ export namespace Prisma {
 
   export type IntegrationUpdateWithoutLeadProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
     Project?: ProjectUpdateManyWithoutIntegrationNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutIntegrationsNestedInput
     Lead?: LeadUpdateManyWithoutIntegrationNestedInput
     Contact?: ContactUpdateManyWithoutIntegrationNestedInput
+    Jobs?: JobUpdateManyWithoutIntegrationNestedInput
+    mailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutIntegrationNestedInput
   }
 
   export type IntegrationUncheckedUpdateWithoutLeadProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
     Project?: ProjectUncheckedUpdateManyWithoutIntegrationNestedInput
     Lead?: LeadUncheckedUpdateManyWithoutIntegrationNestedInput
     Contact?: ContactUncheckedUpdateManyWithoutIntegrationNestedInput
+    Jobs?: JobUncheckedUpdateManyWithoutIntegrationNestedInput
+    mailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutIntegrationNestedInput
   }
 
   export type LeadUpsertWithoutProjectInput = {
@@ -29372,6 +35877,9 @@ export namespace Prisma {
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
   }
 
@@ -29391,6 +35899,9 @@ export namespace Prisma {
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
@@ -29409,6 +35920,9 @@ export namespace Prisma {
     Lead?: LeadCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookCreateNestedManyWithoutOrganizationInput
+    Email?: EmailCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
   }
@@ -29428,6 +35942,9 @@ export namespace Prisma {
     Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutOrganizationInput
+    Email?: EmailUncheckedCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
   }
@@ -29439,34 +35956,42 @@ export namespace Prisma {
 
   export type IntegrationCreateWithoutContactInput = {
     id?: string
+    name: string
     data: JsonNullValueInput | InputJsonValue
     description?: string | null
     type: $Enums.IntegrationType
-    createdAt: bigint | number
-    updatedAt: bigint | number
-    deletedAt: bigint | number
-    name: string
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
     isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
     Project?: ProjectCreateNestedManyWithoutIntegrationInput
     organization: OrganizationCreateNestedOneWithoutIntegrationsInput
     Lead?: LeadCreateNestedManyWithoutIntegrationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutIntegrationInput
+    Jobs?: JobCreateNestedManyWithoutIntegrationInput
+    mailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutIntegrationInput
   }
 
   export type IntegrationUncheckedCreateWithoutContactInput = {
     id?: string
     organizationId: string
+    name: string
     data: JsonNullValueInput | InputJsonValue
     description?: string | null
     type: $Enums.IntegrationType
-    createdAt: bigint | number
-    updatedAt: bigint | number
-    deletedAt: bigint | number
-    name: string
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
     isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
     Project?: ProjectUncheckedCreateNestedManyWithoutIntegrationInput
     Lead?: LeadUncheckedCreateNestedManyWithoutIntegrationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutIntegrationInput
+    Jobs?: JobUncheckedCreateNestedManyWithoutIntegrationInput
+    mailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutIntegrationInput
   }
 
   export type IntegrationCreateOrConnectWithoutContactInput = {
@@ -29543,6 +36068,9 @@ export namespace Prisma {
     Lead?: LeadUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
   }
@@ -29562,6 +36090,9 @@ export namespace Prisma {
     Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
   }
@@ -29579,34 +36110,42 @@ export namespace Prisma {
 
   export type IntegrationUpdateWithoutContactInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
     Project?: ProjectUpdateManyWithoutIntegrationNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutIntegrationsNestedInput
     Lead?: LeadUpdateManyWithoutIntegrationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutIntegrationNestedInput
+    Jobs?: JobUpdateManyWithoutIntegrationNestedInput
+    mailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutIntegrationNestedInput
   }
 
   export type IntegrationUncheckedUpdateWithoutContactInput = {
     id?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
     Project?: ProjectUncheckedUpdateManyWithoutIntegrationNestedInput
     Lead?: LeadUncheckedUpdateManyWithoutIntegrationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutIntegrationNestedInput
+    Jobs?: JobUncheckedUpdateManyWithoutIntegrationNestedInput
+    mailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutIntegrationNestedInput
   }
 
   export type LeadUpsertWithoutContactsInput = {
@@ -29766,6 +36305,9 @@ export namespace Prisma {
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookCreateNestedManyWithoutOrganizationInput
+    Email?: EmailCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
   }
 
@@ -29785,6 +36327,9 @@ export namespace Prisma {
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutOrganizationInput
+    Email?: EmailUncheckedCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
   }
 
@@ -29923,6 +36468,9 @@ export namespace Prisma {
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
   }
 
@@ -29942,6 +36490,9 @@ export namespace Prisma {
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
   }
 
@@ -30066,6 +36617,55 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type OrganizationCreateWithoutEmailInput = {
+    id?: string
+    name: string
+    logo?: string | null
+    description?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    Project?: ProjectCreateNestedManyWithoutOrganizationInput
+    members?: OrgMemberCreateNestedManyWithoutOrganizationInput
+    invites?: OrgMemberInviteCreateNestedManyWithoutOrganizationInput
+    integrations?: IntegrationCreateNestedManyWithoutOrganizationInput
+    Lead?: LeadCreateNestedManyWithoutOrganizationInput
+    contact?: ContactCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
+    LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationUncheckedCreateWithoutEmailInput = {
+    id?: string
+    name: string
+    logo?: string | null
+    description?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
+    members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
+    invites?: OrgMemberInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    integrations?: IntegrationUncheckedCreateNestedManyWithoutOrganizationInput
+    Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
+    contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
+    LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationCreateOrConnectWithoutEmailInput = {
+    where: OrganizationWhereUniqueInput
+    create: XOR<OrganizationCreateWithoutEmailInput, OrganizationUncheckedCreateWithoutEmailInput>
+  }
+
   export type EmailQueueCreateWithoutEmailInput = {
     id?: string
     scheduledAt: bigint | number
@@ -30092,6 +36692,61 @@ export namespace Prisma {
   export type EmailQueueCreateManyEmailInputEnvelope = {
     data: EmailQueueCreateManyEmailInput | EmailQueueCreateManyEmailInput[]
     skipDuplicates?: boolean
+  }
+
+  export type OrganizationUpsertWithoutEmailInput = {
+    update: XOR<OrganizationUpdateWithoutEmailInput, OrganizationUncheckedUpdateWithoutEmailInput>
+    create: XOR<OrganizationCreateWithoutEmailInput, OrganizationUncheckedCreateWithoutEmailInput>
+    where?: OrganizationWhereInput
+  }
+
+  export type OrganizationUpdateToOneWithWhereWithoutEmailInput = {
+    where?: OrganizationWhereInput
+    data: XOR<OrganizationUpdateWithoutEmailInput, OrganizationUncheckedUpdateWithoutEmailInput>
+  }
+
+  export type OrganizationUpdateWithoutEmailInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    Project?: ProjectUpdateManyWithoutOrganizationNestedInput
+    members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
+    invites?: OrgMemberInviteUpdateManyWithoutOrganizationNestedInput
+    integrations?: IntegrationUpdateManyWithoutOrganizationNestedInput
+    Lead?: LeadUpdateManyWithoutOrganizationNestedInput
+    contact?: ContactUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
+    LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
+  }
+
+  export type OrganizationUncheckedUpdateWithoutEmailInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
+    members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
+    invites?: OrgMemberInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    integrations?: IntegrationUncheckedUpdateManyWithoutOrganizationNestedInput
+    Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
+    contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
+    LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type EmailQueueUpsertWithWhereUniqueWithoutEmailInput = {
@@ -30125,46 +36780,52 @@ export namespace Prisma {
 
   export type EmailCreateWithoutEmailQueueInput = {
     id?: string
-    trackingId: string
+    from: JsonNullValueInput | InputJsonValue
     to?: EmailCreatetoInput | string[]
     cc?: EmailCreateccInput | string[]
     bcc?: EmailCreatebccInput | string[]
     status?: $Enums.EmailStatus
-    isOpened?: boolean
-    isClicked?: boolean
     subject?: string | null
     body: string
+    trackingId?: string | null
     messageId?: string | null
     threadId?: string | null
     historyId?: string | null
     labelIds?: EmailCreatelabelIdsInput | string[]
-    sentAt: bigint | number
+    isOpened?: boolean
     openedAt?: bigint | number
+    isClicked?: boolean
     clickedAt?: bigint | number
-    deletedAt: bigint | number
+    sentAt: bigint | number
+    deletedAt?: bigint | number
     integrationId: string
+    source: $Enums.IntegrationType
+    organization: OrganizationCreateNestedOneWithoutEmailInput
   }
 
   export type EmailUncheckedCreateWithoutEmailQueueInput = {
     id?: string
-    trackingId: string
+    from: JsonNullValueInput | InputJsonValue
     to?: EmailCreatetoInput | string[]
     cc?: EmailCreateccInput | string[]
     bcc?: EmailCreatebccInput | string[]
     status?: $Enums.EmailStatus
-    isOpened?: boolean
-    isClicked?: boolean
     subject?: string | null
     body: string
+    trackingId?: string | null
     messageId?: string | null
     threadId?: string | null
     historyId?: string | null
     labelIds?: EmailCreatelabelIdsInput | string[]
-    sentAt: bigint | number
+    isOpened?: boolean
     openedAt?: bigint | number
+    isClicked?: boolean
     clickedAt?: bigint | number
-    deletedAt: bigint | number
+    sentAt: bigint | number
+    deletedAt?: bigint | number
     integrationId: string
+    organizationId: string
+    source: $Enums.IntegrationType
   }
 
   export type EmailCreateOrConnectWithoutEmailQueueInput = {
@@ -30185,46 +36846,52 @@ export namespace Prisma {
 
   export type EmailUpdateWithoutEmailQueueInput = {
     id?: StringFieldUpdateOperationsInput | string
-    trackingId?: StringFieldUpdateOperationsInput | string
+    from?: JsonNullValueInput | InputJsonValue
     to?: EmailUpdatetoInput | string[]
     cc?: EmailUpdateccInput | string[]
     bcc?: EmailUpdatebccInput | string[]
     status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
-    isOpened?: BoolFieldUpdateOperationsInput | boolean
-    isClicked?: BoolFieldUpdateOperationsInput | boolean
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
+    trackingId?: NullableStringFieldUpdateOperationsInput | string | null
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
     threadId?: NullableStringFieldUpdateOperationsInput | string | null
     historyId?: NullableStringFieldUpdateOperationsInput | string | null
     labelIds?: EmailUpdatelabelIdsInput | string[]
-    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
     openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
     clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
+    source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    organization?: OrganizationUpdateOneRequiredWithoutEmailNestedInput
   }
 
   export type EmailUncheckedUpdateWithoutEmailQueueInput = {
     id?: StringFieldUpdateOperationsInput | string
-    trackingId?: StringFieldUpdateOperationsInput | string
+    from?: JsonNullValueInput | InputJsonValue
     to?: EmailUpdatetoInput | string[]
     cc?: EmailUpdateccInput | string[]
     bcc?: EmailUpdatebccInput | string[]
     status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
-    isOpened?: BoolFieldUpdateOperationsInput | boolean
-    isClicked?: BoolFieldUpdateOperationsInput | boolean
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
+    trackingId?: NullableStringFieldUpdateOperationsInput | string | null
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
     threadId?: NullableStringFieldUpdateOperationsInput | string | null
     historyId?: NullableStringFieldUpdateOperationsInput | string | null
     labelIds?: EmailUpdatelabelIdsInput | string[]
-    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
     openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
     clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
   }
 
   export type ProjectCreateWithoutIntegrationInput = {
@@ -30280,6 +36947,9 @@ export namespace Prisma {
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookCreateNestedManyWithoutOrganizationInput
+    Email?: EmailCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
   }
@@ -30299,6 +36969,9 @@ export namespace Prisma {
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutOrganizationInput
+    Email?: EmailUncheckedCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
   }
@@ -30434,6 +37107,66 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type JobCreateWithoutIntegrationInput = {
+    id?: string
+    name: string
+    status: $Enums.JobStatus
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    organizationId: string
+    tasks?: TaskCreateNestedManyWithoutJobInput
+  }
+
+  export type JobUncheckedCreateWithoutIntegrationInput = {
+    id?: string
+    name: string
+    status: $Enums.JobStatus
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    organizationId: string
+    tasks?: TaskUncheckedCreateNestedManyWithoutJobInput
+  }
+
+  export type JobCreateOrConnectWithoutIntegrationInput = {
+    where: JobWhereUniqueInput
+    create: XOR<JobCreateWithoutIntegrationInput, JobUncheckedCreateWithoutIntegrationInput>
+  }
+
+  export type JobCreateManyIntegrationInputEnvelope = {
+    data: JobCreateManyIntegrationInput | JobCreateManyIntegrationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MailServiceFromEmailCreateWithoutIntegrationInput = {
+    id?: string
+    name: string
+    email: string
+    type: $Enums.IntegrationType
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    organization: OrganizationCreateNestedOneWithoutMailServiceFromEmailInput
+  }
+
+  export type MailServiceFromEmailUncheckedCreateWithoutIntegrationInput = {
+    id?: string
+    name: string
+    email: string
+    type: $Enums.IntegrationType
+    organizationId: string
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+  }
+
+  export type MailServiceFromEmailCreateOrConnectWithoutIntegrationInput = {
+    where: MailServiceFromEmailWhereUniqueInput
+    create: XOR<MailServiceFromEmailCreateWithoutIntegrationInput, MailServiceFromEmailUncheckedCreateWithoutIntegrationInput>
+  }
+
+  export type MailServiceFromEmailCreateManyIntegrationInputEnvelope = {
+    data: MailServiceFromEmailCreateManyIntegrationInput | MailServiceFromEmailCreateManyIntegrationInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProjectUpsertWithWhereUniqueWithoutIntegrationInput = {
     where: ProjectWhereUniqueInput
     update: XOR<ProjectUpdateWithoutIntegrationInput, ProjectUncheckedUpdateWithoutIntegrationInput>
@@ -30476,6 +37209,9 @@ export namespace Prisma {
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
   }
@@ -30495,6 +37231,9 @@ export namespace Prisma {
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
   }
@@ -30547,6 +37286,561 @@ export namespace Prisma {
     data: XOR<LeadProjectUpdateManyMutationInput, LeadProjectUncheckedUpdateManyWithoutIntegrationInput>
   }
 
+  export type JobUpsertWithWhereUniqueWithoutIntegrationInput = {
+    where: JobWhereUniqueInput
+    update: XOR<JobUpdateWithoutIntegrationInput, JobUncheckedUpdateWithoutIntegrationInput>
+    create: XOR<JobCreateWithoutIntegrationInput, JobUncheckedCreateWithoutIntegrationInput>
+  }
+
+  export type JobUpdateWithWhereUniqueWithoutIntegrationInput = {
+    where: JobWhereUniqueInput
+    data: XOR<JobUpdateWithoutIntegrationInput, JobUncheckedUpdateWithoutIntegrationInput>
+  }
+
+  export type JobUpdateManyWithWhereWithoutIntegrationInput = {
+    where: JobScalarWhereInput
+    data: XOR<JobUpdateManyMutationInput, JobUncheckedUpdateManyWithoutIntegrationInput>
+  }
+
+  export type JobScalarWhereInput = {
+    AND?: JobScalarWhereInput | JobScalarWhereInput[]
+    OR?: JobScalarWhereInput[]
+    NOT?: JobScalarWhereInput | JobScalarWhereInput[]
+    id?: StringFilter<"Job"> | string
+    name?: StringFilter<"Job"> | string
+    status?: EnumJobStatusFilter<"Job"> | $Enums.JobStatus
+    createdAt?: BigIntFilter<"Job"> | bigint | number
+    updatedAt?: BigIntFilter<"Job"> | bigint | number
+    integrationId?: StringFilter<"Job"> | string
+    organizationId?: StringFilter<"Job"> | string
+  }
+
+  export type MailServiceFromEmailUpsertWithWhereUniqueWithoutIntegrationInput = {
+    where: MailServiceFromEmailWhereUniqueInput
+    update: XOR<MailServiceFromEmailUpdateWithoutIntegrationInput, MailServiceFromEmailUncheckedUpdateWithoutIntegrationInput>
+    create: XOR<MailServiceFromEmailCreateWithoutIntegrationInput, MailServiceFromEmailUncheckedCreateWithoutIntegrationInput>
+  }
+
+  export type MailServiceFromEmailUpdateWithWhereUniqueWithoutIntegrationInput = {
+    where: MailServiceFromEmailWhereUniqueInput
+    data: XOR<MailServiceFromEmailUpdateWithoutIntegrationInput, MailServiceFromEmailUncheckedUpdateWithoutIntegrationInput>
+  }
+
+  export type MailServiceFromEmailUpdateManyWithWhereWithoutIntegrationInput = {
+    where: MailServiceFromEmailScalarWhereInput
+    data: XOR<MailServiceFromEmailUpdateManyMutationInput, MailServiceFromEmailUncheckedUpdateManyWithoutIntegrationInput>
+  }
+
+  export type IntegrationCreateWithoutMailServiceFromEmailInput = {
+    id?: string
+    name: string
+    data: JsonNullValueInput | InputJsonValue
+    description?: string | null
+    type: $Enums.IntegrationType
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
+    isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
+    Project?: ProjectCreateNestedManyWithoutIntegrationInput
+    organization: OrganizationCreateNestedOneWithoutIntegrationsInput
+    Lead?: LeadCreateNestedManyWithoutIntegrationInput
+    Contact?: ContactCreateNestedManyWithoutIntegrationInput
+    LeadProject?: LeadProjectCreateNestedManyWithoutIntegrationInput
+    Jobs?: JobCreateNestedManyWithoutIntegrationInput
+  }
+
+  export type IntegrationUncheckedCreateWithoutMailServiceFromEmailInput = {
+    id?: string
+    organizationId: string
+    name: string
+    data: JsonNullValueInput | InputJsonValue
+    description?: string | null
+    type: $Enums.IntegrationType
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
+    isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
+    Project?: ProjectUncheckedCreateNestedManyWithoutIntegrationInput
+    Lead?: LeadUncheckedCreateNestedManyWithoutIntegrationInput
+    Contact?: ContactUncheckedCreateNestedManyWithoutIntegrationInput
+    LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutIntegrationInput
+    Jobs?: JobUncheckedCreateNestedManyWithoutIntegrationInput
+  }
+
+  export type IntegrationCreateOrConnectWithoutMailServiceFromEmailInput = {
+    where: IntegrationWhereUniqueInput
+    create: XOR<IntegrationCreateWithoutMailServiceFromEmailInput, IntegrationUncheckedCreateWithoutMailServiceFromEmailInput>
+  }
+
+  export type OrganizationCreateWithoutMailServiceFromEmailInput = {
+    id?: string
+    name: string
+    logo?: string | null
+    description?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    Project?: ProjectCreateNestedManyWithoutOrganizationInput
+    members?: OrgMemberCreateNestedManyWithoutOrganizationInput
+    invites?: OrgMemberInviteCreateNestedManyWithoutOrganizationInput
+    integrations?: IntegrationCreateNestedManyWithoutOrganizationInput
+    Lead?: LeadCreateNestedManyWithoutOrganizationInput
+    contact?: ContactCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookCreateNestedManyWithoutOrganizationInput
+    Email?: EmailCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
+    LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationUncheckedCreateWithoutMailServiceFromEmailInput = {
+    id?: string
+    name: string
+    logo?: string | null
+    description?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
+    members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
+    invites?: OrgMemberInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    integrations?: IntegrationUncheckedCreateNestedManyWithoutOrganizationInput
+    Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
+    contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutOrganizationInput
+    Email?: EmailUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
+    LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationCreateOrConnectWithoutMailServiceFromEmailInput = {
+    where: OrganizationWhereUniqueInput
+    create: XOR<OrganizationCreateWithoutMailServiceFromEmailInput, OrganizationUncheckedCreateWithoutMailServiceFromEmailInput>
+  }
+
+  export type IntegrationUpsertWithoutMailServiceFromEmailInput = {
+    update: XOR<IntegrationUpdateWithoutMailServiceFromEmailInput, IntegrationUncheckedUpdateWithoutMailServiceFromEmailInput>
+    create: XOR<IntegrationCreateWithoutMailServiceFromEmailInput, IntegrationUncheckedCreateWithoutMailServiceFromEmailInput>
+    where?: IntegrationWhereInput
+  }
+
+  export type IntegrationUpdateToOneWithWhereWithoutMailServiceFromEmailInput = {
+    where?: IntegrationWhereInput
+    data: XOR<IntegrationUpdateWithoutMailServiceFromEmailInput, IntegrationUncheckedUpdateWithoutMailServiceFromEmailInput>
+  }
+
+  export type IntegrationUpdateWithoutMailServiceFromEmailInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
+    Project?: ProjectUpdateManyWithoutIntegrationNestedInput
+    organization?: OrganizationUpdateOneRequiredWithoutIntegrationsNestedInput
+    Lead?: LeadUpdateManyWithoutIntegrationNestedInput
+    Contact?: ContactUpdateManyWithoutIntegrationNestedInput
+    LeadProject?: LeadProjectUpdateManyWithoutIntegrationNestedInput
+    Jobs?: JobUpdateManyWithoutIntegrationNestedInput
+  }
+
+  export type IntegrationUncheckedUpdateWithoutMailServiceFromEmailInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
+    Project?: ProjectUncheckedUpdateManyWithoutIntegrationNestedInput
+    Lead?: LeadUncheckedUpdateManyWithoutIntegrationNestedInput
+    Contact?: ContactUncheckedUpdateManyWithoutIntegrationNestedInput
+    LeadProject?: LeadProjectUncheckedUpdateManyWithoutIntegrationNestedInput
+    Jobs?: JobUncheckedUpdateManyWithoutIntegrationNestedInput
+  }
+
+  export type OrganizationUpsertWithoutMailServiceFromEmailInput = {
+    update: XOR<OrganizationUpdateWithoutMailServiceFromEmailInput, OrganizationUncheckedUpdateWithoutMailServiceFromEmailInput>
+    create: XOR<OrganizationCreateWithoutMailServiceFromEmailInput, OrganizationUncheckedCreateWithoutMailServiceFromEmailInput>
+    where?: OrganizationWhereInput
+  }
+
+  export type OrganizationUpdateToOneWithWhereWithoutMailServiceFromEmailInput = {
+    where?: OrganizationWhereInput
+    data: XOR<OrganizationUpdateWithoutMailServiceFromEmailInput, OrganizationUncheckedUpdateWithoutMailServiceFromEmailInput>
+  }
+
+  export type OrganizationUpdateWithoutMailServiceFromEmailInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    Project?: ProjectUpdateManyWithoutOrganizationNestedInput
+    members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
+    invites?: OrgMemberInviteUpdateManyWithoutOrganizationNestedInput
+    integrations?: IntegrationUpdateManyWithoutOrganizationNestedInput
+    Lead?: LeadUpdateManyWithoutOrganizationNestedInput
+    contact?: ContactUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
+    LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
+  }
+
+  export type OrganizationUncheckedUpdateWithoutMailServiceFromEmailInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
+    members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
+    invites?: OrgMemberInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    integrations?: IntegrationUncheckedUpdateManyWithoutOrganizationNestedInput
+    Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
+    contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
+    LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+  }
+
+  export type IntegrationCreateWithoutJobsInput = {
+    id?: string
+    name: string
+    data: JsonNullValueInput | InputJsonValue
+    description?: string | null
+    type: $Enums.IntegrationType
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
+    isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
+    Project?: ProjectCreateNestedManyWithoutIntegrationInput
+    organization: OrganizationCreateNestedOneWithoutIntegrationsInput
+    Lead?: LeadCreateNestedManyWithoutIntegrationInput
+    Contact?: ContactCreateNestedManyWithoutIntegrationInput
+    LeadProject?: LeadProjectCreateNestedManyWithoutIntegrationInput
+    mailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutIntegrationInput
+  }
+
+  export type IntegrationUncheckedCreateWithoutJobsInput = {
+    id?: string
+    organizationId: string
+    name: string
+    data: JsonNullValueInput | InputJsonValue
+    description?: string | null
+    type: $Enums.IntegrationType
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
+    isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
+    Project?: ProjectUncheckedCreateNestedManyWithoutIntegrationInput
+    Lead?: LeadUncheckedCreateNestedManyWithoutIntegrationInput
+    Contact?: ContactUncheckedCreateNestedManyWithoutIntegrationInput
+    LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutIntegrationInput
+    mailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutIntegrationInput
+  }
+
+  export type IntegrationCreateOrConnectWithoutJobsInput = {
+    where: IntegrationWhereUniqueInput
+    create: XOR<IntegrationCreateWithoutJobsInput, IntegrationUncheckedCreateWithoutJobsInput>
+  }
+
+  export type TaskCreateWithoutJobInput = {
+    id?: string
+    name: string
+    status: $Enums.TaskStatus
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+  }
+
+  export type TaskUncheckedCreateWithoutJobInput = {
+    id?: string
+    name: string
+    status: $Enums.TaskStatus
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+  }
+
+  export type TaskCreateOrConnectWithoutJobInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutJobInput, TaskUncheckedCreateWithoutJobInput>
+  }
+
+  export type TaskCreateManyJobInputEnvelope = {
+    data: TaskCreateManyJobInput | TaskCreateManyJobInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type IntegrationUpsertWithoutJobsInput = {
+    update: XOR<IntegrationUpdateWithoutJobsInput, IntegrationUncheckedUpdateWithoutJobsInput>
+    create: XOR<IntegrationCreateWithoutJobsInput, IntegrationUncheckedCreateWithoutJobsInput>
+    where?: IntegrationWhereInput
+  }
+
+  export type IntegrationUpdateToOneWithWhereWithoutJobsInput = {
+    where?: IntegrationWhereInput
+    data: XOR<IntegrationUpdateWithoutJobsInput, IntegrationUncheckedUpdateWithoutJobsInput>
+  }
+
+  export type IntegrationUpdateWithoutJobsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
+    Project?: ProjectUpdateManyWithoutIntegrationNestedInput
+    organization?: OrganizationUpdateOneRequiredWithoutIntegrationsNestedInput
+    Lead?: LeadUpdateManyWithoutIntegrationNestedInput
+    Contact?: ContactUpdateManyWithoutIntegrationNestedInput
+    LeadProject?: LeadProjectUpdateManyWithoutIntegrationNestedInput
+    mailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutIntegrationNestedInput
+  }
+
+  export type IntegrationUncheckedUpdateWithoutJobsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
+    Project?: ProjectUncheckedUpdateManyWithoutIntegrationNestedInput
+    Lead?: LeadUncheckedUpdateManyWithoutIntegrationNestedInput
+    Contact?: ContactUncheckedUpdateManyWithoutIntegrationNestedInput
+    LeadProject?: LeadProjectUncheckedUpdateManyWithoutIntegrationNestedInput
+    mailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutIntegrationNestedInput
+  }
+
+  export type TaskUpsertWithWhereUniqueWithoutJobInput = {
+    where: TaskWhereUniqueInput
+    update: XOR<TaskUpdateWithoutJobInput, TaskUncheckedUpdateWithoutJobInput>
+    create: XOR<TaskCreateWithoutJobInput, TaskUncheckedCreateWithoutJobInput>
+  }
+
+  export type TaskUpdateWithWhereUniqueWithoutJobInput = {
+    where: TaskWhereUniqueInput
+    data: XOR<TaskUpdateWithoutJobInput, TaskUncheckedUpdateWithoutJobInput>
+  }
+
+  export type TaskUpdateManyWithWhereWithoutJobInput = {
+    where: TaskScalarWhereInput
+    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutJobInput>
+  }
+
+  export type TaskScalarWhereInput = {
+    AND?: TaskScalarWhereInput | TaskScalarWhereInput[]
+    OR?: TaskScalarWhereInput[]
+    NOT?: TaskScalarWhereInput | TaskScalarWhereInput[]
+    id?: StringFilter<"Task"> | string
+    jobId?: StringFilter<"Task"> | string
+    name?: StringFilter<"Task"> | string
+    status?: EnumTaskStatusFilter<"Task"> | $Enums.TaskStatus
+    createdAt?: BigIntFilter<"Task"> | bigint | number
+    updatedAt?: BigIntFilter<"Task"> | bigint | number
+  }
+
+  export type JobCreateWithoutTasksInput = {
+    id?: string
+    name: string
+    status: $Enums.JobStatus
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    organizationId: string
+    integration: IntegrationCreateNestedOneWithoutJobsInput
+  }
+
+  export type JobUncheckedCreateWithoutTasksInput = {
+    id?: string
+    name: string
+    status: $Enums.JobStatus
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    integrationId: string
+    organizationId: string
+  }
+
+  export type JobCreateOrConnectWithoutTasksInput = {
+    where: JobWhereUniqueInput
+    create: XOR<JobCreateWithoutTasksInput, JobUncheckedCreateWithoutTasksInput>
+  }
+
+  export type JobUpsertWithoutTasksInput = {
+    update: XOR<JobUpdateWithoutTasksInput, JobUncheckedUpdateWithoutTasksInput>
+    create: XOR<JobCreateWithoutTasksInput, JobUncheckedCreateWithoutTasksInput>
+    where?: JobWhereInput
+  }
+
+  export type JobUpdateToOneWithWhereWithoutTasksInput = {
+    where?: JobWhereInput
+    data: XOR<JobUpdateWithoutTasksInput, JobUncheckedUpdateWithoutTasksInput>
+  }
+
+  export type JobUpdateWithoutTasksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    integration?: IntegrationUpdateOneRequiredWithoutJobsNestedInput
+  }
+
+  export type JobUncheckedUpdateWithoutTasksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integrationId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type OrganizationCreateWithoutWebhooksInput = {
+    id?: string
+    name: string
+    logo?: string | null
+    description?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    Project?: ProjectCreateNestedManyWithoutOrganizationInput
+    members?: OrgMemberCreateNestedManyWithoutOrganizationInput
+    invites?: OrgMemberInviteCreateNestedManyWithoutOrganizationInput
+    integrations?: IntegrationCreateNestedManyWithoutOrganizationInput
+    Lead?: LeadCreateNestedManyWithoutOrganizationInput
+    contact?: ContactCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    Email?: EmailCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
+    LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationUncheckedCreateWithoutWebhooksInput = {
+    id?: string
+    name: string
+    logo?: string | null
+    description?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
+    members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
+    invites?: OrgMemberInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    integrations?: IntegrationUncheckedCreateNestedManyWithoutOrganizationInput
+    Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
+    contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    Email?: EmailUncheckedCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
+    LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationCreateOrConnectWithoutWebhooksInput = {
+    where: OrganizationWhereUniqueInput
+    create: XOR<OrganizationCreateWithoutWebhooksInput, OrganizationUncheckedCreateWithoutWebhooksInput>
+  }
+
+  export type OrganizationUpsertWithoutWebhooksInput = {
+    update: XOR<OrganizationUpdateWithoutWebhooksInput, OrganizationUncheckedUpdateWithoutWebhooksInput>
+    create: XOR<OrganizationCreateWithoutWebhooksInput, OrganizationUncheckedCreateWithoutWebhooksInput>
+    where?: OrganizationWhereInput
+  }
+
+  export type OrganizationUpdateToOneWithWhereWithoutWebhooksInput = {
+    where?: OrganizationWhereInput
+    data: XOR<OrganizationUpdateWithoutWebhooksInput, OrganizationUncheckedUpdateWithoutWebhooksInput>
+  }
+
+  export type OrganizationUpdateWithoutWebhooksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    Project?: ProjectUpdateManyWithoutOrganizationNestedInput
+    members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
+    invites?: OrgMemberInviteUpdateManyWithoutOrganizationNestedInput
+    integrations?: IntegrationUpdateManyWithoutOrganizationNestedInput
+    Lead?: LeadUpdateManyWithoutOrganizationNestedInput
+    contact?: ContactUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
+    LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
+  }
+
+  export type OrganizationUncheckedUpdateWithoutWebhooksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
+    members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
+    invites?: OrgMemberInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    integrations?: IntegrationUncheckedUpdateManyWithoutOrganizationNestedInput
+    Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
+    contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
+    LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+  }
+
   export type OrganizationCreateWithoutTemplateInput = {
     id?: string
     name: string
@@ -30562,6 +37856,9 @@ export namespace Prisma {
     Lead?: LeadCreateNestedManyWithoutOrganizationInput
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookCreateNestedManyWithoutOrganizationInput
+    Email?: EmailCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
   }
@@ -30581,6 +37878,9 @@ export namespace Prisma {
     Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutOrganizationInput
+    Email?: EmailUncheckedCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
   }
@@ -30651,6 +37951,9 @@ export namespace Prisma {
     Lead?: LeadUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
   }
@@ -30670,6 +37973,9 @@ export namespace Prisma {
     Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
   }
@@ -30778,6 +38084,9 @@ export namespace Prisma {
     Lead?: LeadCreateNestedManyWithoutOrganizationInput
     contact?: ContactCreateNestedManyWithoutOrganizationInput
     Template?: TemplateCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookCreateNestedManyWithoutOrganizationInput
+    Email?: EmailCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
   }
@@ -30797,6 +38106,9 @@ export namespace Prisma {
     Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
     contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
     Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutOrganizationInput
+    Email?: EmailUncheckedCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
   }
@@ -30848,6 +38160,9 @@ export namespace Prisma {
     Lead?: LeadUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
   }
@@ -30867,6 +38182,9 @@ export namespace Prisma {
     Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
     contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
     Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
   }
@@ -31116,14 +38434,16 @@ export namespace Prisma {
 
   export type IntegrationCreateManyOrganizationInput = {
     id?: string
+    name: string
     data: JsonNullValueInput | InputJsonValue
     description?: string | null
     type: $Enums.IntegrationType
-    createdAt: bigint | number
-    updatedAt: bigint | number
-    deletedAt: bigint | number
-    name: string
+    category: $Enums.IntegrationCategory
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt?: bigint | number | null
     isSingular?: boolean
+    sharedType: $Enums.IntegrationSharingType
   }
 
   export type LeadCreateManyOrganizationInput = {
@@ -31175,6 +38495,48 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+  }
+
+  export type WebhookCreateManyOrganizationInput = {
+    id?: string
+    url: string
+    type: $Enums.WebhookType
+    createdAt?: bigint | number
+    data: JsonNullValueInput | InputJsonValue
+  }
+
+  export type EmailCreateManyOrganizationInput = {
+    id?: string
+    from: JsonNullValueInput | InputJsonValue
+    to?: EmailCreatetoInput | string[]
+    cc?: EmailCreateccInput | string[]
+    bcc?: EmailCreatebccInput | string[]
+    status?: $Enums.EmailStatus
+    subject?: string | null
+    body: string
+    trackingId?: string | null
+    messageId?: string | null
+    threadId?: string | null
+    historyId?: string | null
+    labelIds?: EmailCreatelabelIdsInput | string[]
+    isOpened?: boolean
+    openedAt?: bigint | number
+    isClicked?: boolean
+    clickedAt?: bigint | number
+    sentAt: bigint | number
+    deletedAt?: bigint | number
+    integrationId: string
+    source: $Enums.IntegrationType
+  }
+
+  export type MailServiceFromEmailCreateManyOrganizationInput = {
+    id?: string
+    name: string
+    email: string
+    type: $Enums.IntegrationType
+    integrationId: string
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
   }
 
   export type LeadProjectCreateManyOrganizatioonInput = {
@@ -31303,46 +38665,56 @@ export namespace Prisma {
 
   export type IntegrationUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
     Project?: ProjectUpdateManyWithoutIntegrationNestedInput
     Lead?: LeadUpdateManyWithoutIntegrationNestedInput
     Contact?: ContactUpdateManyWithoutIntegrationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutIntegrationNestedInput
+    Jobs?: JobUpdateManyWithoutIntegrationNestedInput
+    mailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutIntegrationNestedInput
   }
 
   export type IntegrationUncheckedUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
     Project?: ProjectUncheckedUpdateManyWithoutIntegrationNestedInput
     Lead?: LeadUncheckedUpdateManyWithoutIntegrationNestedInput
     Contact?: ContactUncheckedUpdateManyWithoutIntegrationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutIntegrationNestedInput
+    Jobs?: JobUncheckedUpdateManyWithoutIntegrationNestedInput
+    mailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutIntegrationNestedInput
   }
 
   export type IntegrationUncheckedUpdateManyWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    category?: EnumIntegrationCategoryFieldUpdateOperationsInput | $Enums.IntegrationCategory
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     isSingular?: BoolFieldUpdateOperationsInput | boolean
+    sharedType?: EnumIntegrationSharingTypeFieldUpdateOperationsInput | $Enums.IntegrationSharingType
   }
 
   export type LeadUpdateWithoutOrganizationInput = {
@@ -31508,6 +38880,134 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type WebhookUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: EnumWebhookTypeFieldUpdateOperationsInput | $Enums.WebhookType
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    data?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type WebhookUncheckedUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: EnumWebhookTypeFieldUpdateOperationsInput | $Enums.WebhookType
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    data?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type WebhookUncheckedUpdateManyWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: EnumWebhookTypeFieldUpdateOperationsInput | $Enums.WebhookType
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    data?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type EmailUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    from?: JsonNullValueInput | InputJsonValue
+    to?: EmailUpdatetoInput | string[]
+    cc?: EmailUpdateccInput | string[]
+    bcc?: EmailUpdatebccInput | string[]
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    trackingId?: NullableStringFieldUpdateOperationsInput | string | null
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    threadId?: NullableStringFieldUpdateOperationsInput | string | null
+    historyId?: NullableStringFieldUpdateOperationsInput | string | null
+    labelIds?: EmailUpdatelabelIdsInput | string[]
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
+    openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
+    clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integrationId?: StringFieldUpdateOperationsInput | string
+    source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    EmailQueue?: EmailQueueUpdateManyWithoutEmailNestedInput
+  }
+
+  export type EmailUncheckedUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    from?: JsonNullValueInput | InputJsonValue
+    to?: EmailUpdatetoInput | string[]
+    cc?: EmailUpdateccInput | string[]
+    bcc?: EmailUpdatebccInput | string[]
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    trackingId?: NullableStringFieldUpdateOperationsInput | string | null
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    threadId?: NullableStringFieldUpdateOperationsInput | string | null
+    historyId?: NullableStringFieldUpdateOperationsInput | string | null
+    labelIds?: EmailUpdatelabelIdsInput | string[]
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
+    openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
+    clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integrationId?: StringFieldUpdateOperationsInput | string
+    source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    EmailQueue?: EmailQueueUncheckedUpdateManyWithoutEmailNestedInput
+  }
+
+  export type EmailUncheckedUpdateManyWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    from?: JsonNullValueInput | InputJsonValue
+    to?: EmailUpdatetoInput | string[]
+    cc?: EmailUpdateccInput | string[]
+    bcc?: EmailUpdatebccInput | string[]
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    trackingId?: NullableStringFieldUpdateOperationsInput | string | null
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    threadId?: NullableStringFieldUpdateOperationsInput | string | null
+    historyId?: NullableStringFieldUpdateOperationsInput | string | null
+    labelIds?: EmailUpdatelabelIdsInput | string[]
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
+    openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
+    clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integrationId?: StringFieldUpdateOperationsInput | string
+    source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+  }
+
+  export type MailServiceFromEmailUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integration?: IntegrationUpdateOneRequiredWithoutMailServiceFromEmailNestedInput
+  }
+
+  export type MailServiceFromEmailUncheckedUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    integrationId?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    integrationId?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type LeadProjectUpdateWithoutOrganizatioonInput = {
@@ -32009,6 +39509,25 @@ export namespace Prisma {
     status?: string | null
   }
 
+  export type JobCreateManyIntegrationInput = {
+    id?: string
+    name: string
+    status: $Enums.JobStatus
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    organizationId: string
+  }
+
+  export type MailServiceFromEmailCreateManyIntegrationInput = {
+    id?: string
+    name: string
+    email: string
+    type: $Enums.IntegrationType
+    organizationId: string
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+  }
+
   export type ProjectUpdateWithoutIntegrationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -32189,6 +39708,97 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type JobUpdateWithoutIntegrationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    tasks?: TaskUpdateManyWithoutJobNestedInput
+  }
+
+  export type JobUncheckedUpdateWithoutIntegrationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    tasks?: TaskUncheckedUpdateManyWithoutJobNestedInput
+  }
+
+  export type JobUncheckedUpdateManyWithoutIntegrationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type MailServiceFromEmailUpdateWithoutIntegrationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    organization?: OrganizationUpdateOneRequiredWithoutMailServiceFromEmailNestedInput
+  }
+
+  export type MailServiceFromEmailUncheckedUpdateWithoutIntegrationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type MailServiceFromEmailUncheckedUpdateManyWithoutIntegrationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    type?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type TaskCreateManyJobInput = {
+    id?: string
+    name: string
+    status: $Enums.TaskStatus
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+  }
+
+  export type TaskUpdateWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type TaskUncheckedUpdateWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type TaskUncheckedUpdateManyWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
   export type LeadCreateManyStatusInput = {
     id?: string
     shopifyDomain: string
@@ -32289,6 +39899,10 @@ export namespace Prisma {
      */
     export type IntegrationCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = IntegrationCountOutputTypeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use JobCountOutputTypeDefaultArgs instead
+     */
+    export type JobCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = JobCountOutputTypeDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use LeadStatusCountOutputTypeDefaultArgs instead
      */
     export type LeadStatusCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = LeadStatusCountOutputTypeDefaultArgs<ExtArgs>
@@ -32348,6 +39962,22 @@ export namespace Prisma {
      * @deprecated Use IntegrationDefaultArgs instead
      */
     export type IntegrationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = IntegrationDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use MailServiceFromEmailDefaultArgs instead
+     */
+    export type MailServiceFromEmailArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MailServiceFromEmailDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use JobDefaultArgs instead
+     */
+    export type JobArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = JobDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use TaskDefaultArgs instead
+     */
+    export type TaskArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TaskDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use WebhookDefaultArgs instead
+     */
+    export type WebhookArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = WebhookDefaultArgs<ExtArgs>
     /**
      * @deprecated Use TemplateDefaultArgs instead
      */
