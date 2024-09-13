@@ -174,12 +174,21 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
       return await this.sendMail(params);
     } else if (action === MailAction.SCHEDULE_MAIL) {
       return await this.scheduleMail(params);
-    } else {
+    } 
+    else if(action === 'TEST'){
+      return await this.test(params);
+    }
+    else {
       throw new Error('Invalid action');
     }
   }
 
   /* PRIVATE METHODS TO PERFORM SEND MAIL ACTION STARTS */
+
+  private async test(params:any){
+    console.log(params);
+  }
+
   private async sendMail(emailData: {
     from: { name: string; email: string };
     to: string[];

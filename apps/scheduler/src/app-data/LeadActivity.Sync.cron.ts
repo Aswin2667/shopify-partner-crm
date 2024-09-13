@@ -19,6 +19,8 @@ export class AppService {
 
   @Cron('*/1 * * * * *')
   async handleCron() {
+    console.log("345345345345")
+
     const eventData = {
       eventType: 'RELATIONSHIP_INSTALLED',
       eventId: 'eventPayload.eventId', // Ensure these fields are included in EventDto
@@ -82,6 +84,7 @@ export class AppService {
 
   @Cron('*/5 * * * * *')
   async handleCron2() {
+    console.log("sdfsdf")
     const apps: [] = await this.PrismaService.$queryRaw`
       SELECT 
         i."id" AS "integrationId",
