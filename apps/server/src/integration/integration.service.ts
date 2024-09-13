@@ -37,6 +37,7 @@ export class IntegrationService {
         data: {
           ...(config as BaseIntegration),
           // Use validated data
+          
         },
       });
     } catch (error) {

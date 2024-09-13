@@ -302,8 +302,8 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
           integrationId,
           organizationId,
           source: IntegrationType.GMAIL,
-          sentAt: 0,
-        },
+           sentAt: 0,
+         },
       });
       if (mailSavedresponse.id) {
         const mailQueueResponse = await this.prisma.emailQueue.create({
