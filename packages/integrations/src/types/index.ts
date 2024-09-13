@@ -40,3 +40,8 @@ export enum IntegrationSharingType {
   PUBLIC = 'PUBLIC',
   PRIVATE = 'PRIVATE',
 }
+
+export enum MailAction {
+  SEND_MAIL = 'SEND_MAIL',
+  SCHEDULE_MAIL = 'SCHEDULE_MAIL',
+}

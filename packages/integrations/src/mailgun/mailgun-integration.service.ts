@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { MailgunIntegration } from './mailgun-integration.interface';
 import { BaseIntegrationService } from 'src/base/base-integration.service';
 import {
@@ -7,6 +7,7 @@ import {
   IntegrationData,
   IntegrationSharingType,
   IntegrationType,
+  MailAction,
 } from 'src/types';
 import { Prisma, PrismaService } from '@org/data-source';
 import { validateIntegration } from 'src/validation';
@@ -28,6 +29,9 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
     logo: 'https://seeklogo.com/images/M/mailgun-logo-5388F66106-seeklogo.com.png',
     authType: 'CREDENTIALS',
   };
+
+  private readonly logger = new Logger(MailgunIntegrationService.name);
+
   constructor(private readonly prisma: PrismaService) {
     super();
   }
@@ -87,14 +91,71 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
     throw new Error('Method not implemented.');
   }
   async performAction(action: string, params: any): Promise<any> {
-    if (action === 'SEND_MAIL') {
+    if (action === MailAction.SEND_MAIL) {
       return await this.sendMail(params);
+    }
+    if (action === MailAction.SCHEDULE_MAIL) {
+      return await this.scheduleMail(params);
     } else {
       throw new Error('Invalid action');
     }
   }
 
   //  private methods for to perform the action
+
+  private async scheduleMail(mailData: {
+    from: { name: string; email: string };
+    to: string[];
+    cc: string[];
+    bcc: string[];
+    subject: string;
+    body: string;
+    integrationId: string;
+    organizationId: string;
+  }) {
+    try {
+      const {
+        from,
+        to,
+        cc,
+        bcc,
+        subject,
+        body,
+        integrationId,
+        organizationId,
+      } = mailData;
+      const mailSavedresponse = await this.prisma.email.create({
+        data: {
+          from,
+          to,
+          cc,
+          bcc,
+          subject,
+          body,
+          integrationId,
+          organizationId,
+          source: IntegrationType.MAIL_GUN,
+          sentAt: 0,
+        },
+      });
+      if (mailSavedresponse.id) {
+        const mailQueueResponse = await this.prisma.emailQueue.create({
+          data: {
+            emailId: mailSavedresponse.id,
+            scheduledAt: DateHelper.getCurrentUnixTime(),
+            status: 'PENDING',
+          },
+        });
+        this.logger.log('Mail scheduled successfully');
+        return mailQueueResponse;
+      }
+      throw new Error('Failed to schedule email');
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  }
+
   private async sendMail(emailData: {
     to: string[];
     cc: string[];

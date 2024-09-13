@@ -208,27 +208,31 @@ model LeadActivity {
 
 model Email {
   id             String          @id @default(uuid())
-  trackingId     String          @unique
+  from           Json
   to             String[]
   cc             String[]        @default([])
   bcc            String[]        @default([])
   status         EmailStatus     @default(SCHEDULE)
-  isOpened       Boolean         @default(false)
-  isClicked      Boolean         @default(false)
   subject        String?
   body           String
+
+  trackingId     String?          @unique
   messageId      String?
   threadId       String?
   historyId      String?
+
   labelIds       String[]        @default([])
-  sentAt         BigInt
+  isOpened       Boolean         @default(false)
   openedAt       BigInt          @default(0)
+  isClicked      Boolean         @default(false)
   clickedAt      BigInt          @default(0)
-  deletedAt      BigInt
+
+  sentAt         BigInt
+  deletedAt      BigInt          @default(0)
   integrationId  String
   organizationId String
+
   organization   Organization    @relation(fields: [organizationId], references: [id])
-  // TODO: run migration and generate command to add source
   source         IntegrationType
   EmailQueue     EmailQueue[]
 }
