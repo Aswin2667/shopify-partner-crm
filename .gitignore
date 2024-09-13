@@ -21,6 +21,7 @@ coverage
 # Vercel
 .vercel
 
+
 # Build Outputs
 .next/
 out/
@@ -38,3 +39,4 @@ yarn-error.log*
 *.pem
 
 client_secrets.json
+generated
