@@ -292,6 +292,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
           integrationId,
           organizationId,
           source: IntegrationType.GMAIL,
+          
         },
       });
     } catch (error) {}

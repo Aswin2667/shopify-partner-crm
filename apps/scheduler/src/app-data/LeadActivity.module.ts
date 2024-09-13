@@ -6,7 +6,6 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { BullModule } from '@nestjs/bull';
 import { DataSourceModule, PrismaService } from '@org/data-source';
 import { LeadActivitySyncService } from './LeadActivity.Sync.service';
-import { AppModule } from 'src/app.module';
 import { AppService } from './LeadActivity.Sync.cron';
 
 @Module({
