@@ -227,7 +227,7 @@ model Email {
   isClicked Boolean  @default(false)
   clickedAt BigInt   @default(0)
 
-  sentAt         BigInt
+  sentAt         BigInt @default(0)
   deletedAt      BigInt @default(0)
   integrationId  String
   organizationId String

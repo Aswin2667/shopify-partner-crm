@@ -13,10 +13,11 @@ import {
 import axios from 'axios';
 import { google } from 'googleapis';
 import { ConnectConfig, GmailAction, GmailIntegrationData } from './types';
-import { Prisma, PrismaService } from '@org/data-source';
+import { Email, Prisma, PrismaService } from '@org/data-source';
 import { DateHelper } from '@org/utils';
 import { getTrackingImage } from 'src/helper';
 import { throwError } from 'rxjs';
+import { SendGridIntegrationService } from 'src/sendgrid';
 
 @Injectable()
 export class GmailIntegrationService extends BaseIntegrationService<object> {
@@ -174,45 +175,29 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
       return await this.sendMail(params);
     } else if (action === MailAction.SCHEDULE_MAIL) {
       return await this.scheduleMail(params);
-    } 
-    else if(action === 'TEST'){
+    } else if (action === 'TEST') {
       return await this.test(params);
-    }
-    else {
+    } else {
       throw new Error('Invalid action');
     }
   }
 
   /* PRIVATE METHODS TO PERFORM SEND MAIL ACTION STARTS */
 
-  private async test(params:any){
+  private async test(params: any) {
     console.log(params);
   }
 
-  private async sendMail(emailData: {
-    from: { name: string; email: string };
-    to: string[];
-    cc: string[];
-    bcc: string[];
-    subject: string;
-    body: string;
-    refreshToken: string;
-    accessToken: string;
-    gmailIntegrationId: string;
-    organizationId: string;
-  }) {
-    const {
-      from,
-      to,
-      cc,
-      bcc,
-      subject,
-      body,
-      gmailIntegrationId,
-      accessToken,
-      refreshToken,
-      organizationId,
-    } = emailData;
+  private async sendMail(emailData: Email) {
+    const { from, to, cc, bcc, subject, body, integrationId, organizationId } =
+      emailData;
+    const integration = await this.getIntegrationById(integrationId);
+
+    const { accessToken, refreshToken } = integration.data as {
+      accessToken: string;
+      refreshToken: string;
+    };
+
     try {
       await this.verifyToken(accessToken);
       this.oauth2Client.setCredentials({ access_token: accessToken });
@@ -249,31 +234,14 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
 
       this.logger.log('Mail sent successfully');
 
-      return await this.storeEmailInDatabase(
+      const updatedMailResponse = await this.updateEmailInDatabase(
+        emailData.id,
         response.data,
-        from,
-        to,
-        cc,
-        bcc,
-        subject,
-        body,
-        gmailIntegrationId,
-        organizationId,
         trackingId,
       );
+      return updatedMailResponse;
     } catch (error) {
-      await this.handleError(
-        error,
-        refreshToken,
-        gmailIntegrationId,
-        from,
-        to,
-        cc,
-        bcc,
-        subject,
-        body,
-        organizationId,
-      );
+      await this.handleError(error, refreshToken, integrationId, emailData);
     }
   }
 
@@ -287,6 +255,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     integrationId: string;
     organizationId: string;
     scheduledAt: bigint | number;
+    source: IntegrationType;
   }) {
     try {
       const {
@@ -299,6 +268,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         integrationId,
         organizationId,
         scheduledAt,
+        source,
       } = mailData;
       const mailSavedresponse = await this.prisma.email.create({
         data: {
@@ -310,9 +280,8 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
           body,
           integrationId,
           organizationId,
-          source: IntegrationType.GMAIL,
-           sentAt: 0,
-         },
+          source,
+        },
       });
       if (mailSavedresponse.id) {
         const mailQueueResponse = await this.prisma.emailQueue.create({
@@ -323,6 +292,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
           },
         });
         this.logger.log('Mail scheduled successfully');
+        console.log(mailSavedresponse);
         return mailQueueResponse;
       }
       throw new Error('Failed to schedule email');
@@ -392,36 +362,18 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     );
   }
 
-  private async storeEmailInDatabase(
-    emailData,
-    from,
-    to,
-    cc,
-    bcc,
-    subject,
-    body,
-    gmailIntegrationId,
-    organizationId,
-    trackingId,
-  ) {
-    return await this.prisma.email.create({
+  private async updateEmailInDatabase(emailId, emailData, trackingId) {
+    return await this.prisma.email.update({
+      where: {
+        id: emailId,
+      },
       data: {
-        from: from,
-        to: to,
-        cc: cc,
-        bcc: bcc,
-        subject: subject,
-        body: emailData.payload.body.data,
         messageId: emailData.id,
         threadId: emailData.threadId,
         historyId: emailData.historyId,
         labelIds: emailData.labelIds,
         sentAt: DateHelper.getCurrentUnixTime(),
-        status: 'SCHEDULE',
-        deletedAt: BigInt(0),
-        integrationId: gmailIntegrationId,
-        organizationId,
-        source: IntegrationType.GMAIL,
+        status: 'SEND',
         trackingId: trackingId,
       },
     });
@@ -485,13 +437,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     error: any,
     refreshToken: string,
     gmailIntegrationId: string,
-    from: { name: string; email: string },
-    to: string[],
-    cc: string[],
-    bcc: string[],
-    subject: string,
-    body: string,
-    organizationId: string,
+    emailData: Email,
   ) {
     if (error.response?.status === 401) {
       this.logger.log('Access token invalid, refreshing token...');
@@ -502,20 +448,27 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
       this.logger.log(
         `New access token obtained ${newAccessToken}, retrying email send...`,
       );
-      await this.sendMail({
-        from,
-        to,
-        cc,
-        bcc,
-        subject,
-        body,
-        refreshToken,
-        accessToken: newAccessToken,
-        gmailIntegrationId,
-        organizationId,
-      });
+      await this.sendMail(emailData);
     } else {
       this.logger.error('Error sending email:', error.message);
+      throw error;
+    }
+  }
+
+  private async getIntegrationById(integrationId: string) {
+    try {
+      const integration = await this.prisma.integration.findUnique({
+        where: {
+          id: integrationId,
+        },
+      });
+
+      if (!integration) {
+        throw new Error(`Integration With Id ${integrationId} Not Found`);
+      }
+
+      return integration;
+    } catch (error) {
       throw error;
     }
   }

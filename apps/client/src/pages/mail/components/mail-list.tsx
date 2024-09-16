@@ -1,6 +1,5 @@
 import { ComponentProps } from "react";
-import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
-
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -61,6 +60,8 @@ export function MailList({ items }: MailListProps) {
               </div>
               <div className="text-xs font-medium">{item.subject}</div>
             </div>
+            {/* const decodedHtml = encodedHtml.replace(/\\u003C/g, "<").replace(/\\u003E/g, ">");
+             */}
             <div className="line-clamp-2 text-xs text-muted-foreground">
               {item.text.substring(0, 300)}
             </div>

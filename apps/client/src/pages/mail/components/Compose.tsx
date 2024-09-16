@@ -22,24 +22,21 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import DateHelper from "../../../utils/DateHelper";
-import { DatePicker, Stack } from "rsuite";
-import { FaCalendar, FaClock } from "react-icons/fa";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { DatePicker } from "rsuite";
+import "rsuite/DatePicker/styles/index.css";
+import { FaCalendar } from "react-icons/fa";
 
 type Props = {};
 
 const initialArgs = {
-  from: {},
+  from: null,
   to: [],
   cc: { isEnabled: false, value: [] },
   bcc: { isEnabled: false, value: [] },
   subject: "",
   body: "",
   template: { selected: {}, all: defaultTemplates || [] },
-  scheduledAt: DateHelper.getCurrentUnixTime(),
+  scheduledAt: null,
 };
 
 const reducerFn = (prevState: any, action: any) => {
@@ -124,6 +121,9 @@ const reducerFn = (prevState: any, action: any) => {
           },
         };
   }
+  if (action.type === "scheduledAt") {
+    return { ...prevState, scheduledAt: action.payload };
+  }
   if (action.type === "clear") {
     return initialArgs;
   }
@@ -144,9 +144,6 @@ const Compose = (props: Props): JSX.Element => {
     (integration: any) => integration.mailServiceFromEmail
   );
   console.log(compose);
-  const gmailIntegrations = integrations.filter(
-    (integration: any) => integration.type === "GMAIL"
-  );
 
   const { mutate: sendMail } = useMutation({
     mutationFn: async (data: any) =>
@@ -155,7 +152,7 @@ const Compose = (props: Props): JSX.Element => {
         "SCHEDULE_MAIL",
         data
       ),
-    onSuccess: (res) => console.log(res),
+  onSuccess: (res) => dispatch({type: "clear"}),
     onError: (error) => console.error(error),
   });
 
@@ -169,7 +166,10 @@ const Compose = (props: Props): JSX.Element => {
       body: compose.body,
       integrationId: compose.from.integrationId,
       organizationId,
-      scheduledAt: compose.scheduledAt,
+      source: compose.from.type,
+      scheduledAt: compose.scheduledAt
+        ? compose.scheduledAt
+        : DateHelper.getCurrentUnixTime(),
     };
 
     console.log(mailContext);
@@ -378,26 +378,25 @@ const Compose = (props: Props): JSX.Element => {
       <div className="flex justify-between p-4">
         <div className="flex gap-3">
           <button
-            className="bg-blue-500 text-white px-3 py-1 rounded-full font-semibold disabled:bg-blue-300 disabled:cursor-not-allowed"
+            className="bg-blue-500 text-white px-3 py-1 rounded-md font-semibold disabled:bg-blue-300 disabled:cursor-not-allowed"
             onClick={sendHandler}
             disabled={!compose.from?.type}
           >
             Send
           </button>
-          <button className="border text-gray-500 px-3 py-1 rounded-full font-semibold">
-            Schedule
-          </button>
-            <DatePicker
-              format="dd MMM yyyy hh:mm:ss aa"
-              showMeridian
-              caretAs={FaCalendar}
-              style={{ width: 220 }}
-            />
-          {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={["DateTimePicker"]}>
-              <DateTimePicker label="Basic date time picker" />
-            </DemoContainer>
-          </LocalizationProvider> */}
+          <DatePicker
+            format="dd MMM yyyy hh:mm:ss aa"
+            placeholder="Schedule"
+            showMeridian
+            caretAs={FaCalendar}
+            disabled={!compose.from?.type}
+            onChange={(e) =>
+              dispatch({
+                type: "scheduledAt",
+                payload: DateHelper.convertToUnixTimestamp(e && (e as any)),
+              })
+            }
+          />
         </div>
         <div className="flex gap-3 text-gray-500">
           <button className="border  px-3 py-1 rounded-full font-semibold">

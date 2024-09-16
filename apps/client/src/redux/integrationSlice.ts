@@ -3,8 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState: any = {
   presentIntegrations: [],
   integrations: [],
-  currentIntegration: null,
-  gmail: null,
 };
 
 const integrationSlice = createSlice({
@@ -16,13 +14,6 @@ const integrationSlice = createSlice({
     },
     setIntegrations: (state, action) => {
       state.integrations = action.payload;
-    },
-    setCurrentIntegration: (state, action) => {
-      console.log(action.payload);
-      state.currentIntegration = action.payload;
-    },
-    setGmailIntegration: (state, action) => {
-      state.gmail = action.payload;
     },
     reset: (state) => {
       state.currentIntegration = null;

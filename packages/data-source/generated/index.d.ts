@@ -28090,7 +28090,7 @@ export namespace Prisma {
     openedAt?: bigint | number
     isClicked?: boolean
     clickedAt?: bigint | number
-    sentAt: bigint | number
+    sentAt?: bigint | number
     deletedAt?: bigint | number
     integrationId: string
     source: $Enums.IntegrationType
@@ -28116,7 +28116,7 @@ export namespace Prisma {
     openedAt?: bigint | number
     isClicked?: boolean
     clickedAt?: bigint | number
-    sentAt: bigint | number
+    sentAt?: bigint | number
     deletedAt?: bigint | number
     integrationId: string
     organizationId: string
@@ -28194,7 +28194,7 @@ export namespace Prisma {
     openedAt?: bigint | number
     isClicked?: boolean
     clickedAt?: bigint | number
-    sentAt: bigint | number
+    sentAt?: bigint | number
     deletedAt?: bigint | number
     integrationId: string
     organizationId: string
@@ -33872,7 +33872,7 @@ export namespace Prisma {
     openedAt?: bigint | number
     isClicked?: boolean
     clickedAt?: bigint | number
-    sentAt: bigint | number
+    sentAt?: bigint | number
     deletedAt?: bigint | number
     integrationId: string
     source: $Enums.IntegrationType
@@ -33897,7 +33897,7 @@ export namespace Prisma {
     openedAt?: bigint | number
     isClicked?: boolean
     clickedAt?: bigint | number
-    sentAt: bigint | number
+    sentAt?: bigint | number
     deletedAt?: bigint | number
     integrationId: string
     source: $Enums.IntegrationType
@@ -36796,7 +36796,7 @@ export namespace Prisma {
     openedAt?: bigint | number
     isClicked?: boolean
     clickedAt?: bigint | number
-    sentAt: bigint | number
+    sentAt?: bigint | number
     deletedAt?: bigint | number
     integrationId: string
     source: $Enums.IntegrationType
@@ -36821,7 +36821,7 @@ export namespace Prisma {
     openedAt?: bigint | number
     isClicked?: boolean
     clickedAt?: bigint | number
-    sentAt: bigint | number
+    sentAt?: bigint | number
     deletedAt?: bigint | number
     integrationId: string
     organizationId: string
@@ -38523,7 +38523,7 @@ export namespace Prisma {
     openedAt?: bigint | number
     isClicked?: boolean
     clickedAt?: bigint | number
-    sentAt: bigint | number
+    sentAt?: bigint | number
     deletedAt?: bigint | number
     integrationId: string
     source: $Enums.IntegrationType

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   currentOrganization: null,
   organizations: [],
+  emails: [],
 };
 
 const organizationSlice = createSlice({
@@ -14,6 +15,9 @@ const organizationSlice = createSlice({
     },
     setOrganizations: (state, action) => {
       state.organizations = action.payload;
+    },
+    setEmails: (state, action) => {
+      state.emails = action.payload;
     },
   },
 });

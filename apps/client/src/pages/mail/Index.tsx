@@ -6,20 +6,38 @@ import { useQuery } from "@tanstack/react-query";
 import { useQueryEvents } from "@/hooks/useQueryEvents";
 import IntegrationService from "@/services/IntegrationService";
 import { useParams } from "react-router-dom";
-import { integrationAction } from "@/redux/integrationSlice";
+import { organizationAction } from "@/redux/organizationSlice";
+import MailService from "@/services/MailService";
 
 export default function MailPage() {
   const dispatch = useDispatch();
   const { organizationId } = useParams();
 
-  const { integrations } = useSelector((state: any) => state.integration);
-
-  const gmailIntegrations = integrations.filter(
-    (integration: any) => integration.type === "GMAIL"
+  useQueryEvents(
+    useQuery({
+      queryKey: ["getAllMailsByOrgId", organizationId],
+      queryFn: async () =>
+        await MailService.getMailsByOrgId(organizationId as string),
+    }),
+    {
+      onSuccess: (response: any) => {
+        dispatch(organizationAction.setEmails(response.data));
+      },
+      onError: (error) => console.error(error),
+    }
   );
+
+  const { integrations } = useSelector((state: any) => state.integration);
+  const { emails } = useSelector((state: any) => state.organization);
+  console.log(emails);
+
+  const mailIntegrations = integrations.filter(
+    (integration: any) => integration.category === "MAIL_SERVICE"
+  );
+
   return (
     <div className="p-4">
-      {gmailIntegrations.length > 0 ? (
+      {mailIntegrations.length > 0 ? (
         <Mail
           accounts={accounts}
           mails={mails}

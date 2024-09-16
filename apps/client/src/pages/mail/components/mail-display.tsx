@@ -212,6 +212,8 @@ export function MailDisplay({ mail }: MailDisplayProps) {
             )}
           </div>
           <Separator />
+          {/* const decodedHtml = encodedHtml.replace(/\\u003C/g, "<").replace(/\\u003E/g, ">");
+           */}
           <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
             {mail.text}
           </div>
