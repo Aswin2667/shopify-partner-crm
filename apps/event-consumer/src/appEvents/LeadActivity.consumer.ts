@@ -7,13 +7,13 @@ import { PrismaService } from '@org/data-source';
 export class AppInstallsUninstallsEventsProcessor {
   constructor(private readonly prisma: PrismaService) {}
 
-  @Process('APP_INSTALLED_BY_NEW_LEAD')
+  @Process('APP_INSTALLED_UNINSTALLED')
   async handleAppSyncNewLead(job: Job) {
     // console.log(job)
     await this.processEvents(job);
   }
 
-  @Process('APP_INSTALLED_BY_EXISTING_LEAD')
+  @Process('APP_INSTALLED_UNINSTALLED_AFTER')
   async handleAppSyncExistingLead(job: Job) {
     // console.log(job)
     await this.processEvents(job);
@@ -71,7 +71,7 @@ export class AppInstallsUninstallsEventsProcessor {
               },
             });
 
-            // console.log('New Lead Created:', newLead.id);
+            console.log('New Lead Created:', newLead.id);
 
             // Create leadProject for this appId with integrationId
             const newLeadProject = await this.prisma.leadProject.create({
@@ -86,7 +86,7 @@ export class AppInstallsUninstallsEventsProcessor {
               },
             });
 
-            // console.log('LeadProject Created: ', newLeadProject.id);
+            console.log('LeadProject Created: ', newLeadProject.id);
 
             // Create leadActivity for new lead
             await this.prisma.leadActivity.create({

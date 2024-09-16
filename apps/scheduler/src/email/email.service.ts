@@ -30,10 +30,11 @@ export class EmailCronService {
           email: true,
         },
       });
-      console.log(emailsToSend);
+      // console.log(emailsToSend);
       for (const emailQueueEntry of emailsToSend) {
+        console.log(emailQueueEntry);
         try {
-            this.IntegrationManager.performIntegrationAction('GMAIL' as any, 'TEST', emailQueueEntry.email);
+            // this.IntegrationManager.performIntegrationAction('GMAIL' as any, 'TEST', emailQueueEntry.email);
 
           // Send the email logic goes here
         //   const email = await this.prisma.email.update({
@@ -44,7 +45,7 @@ export class EmailCronService {
         //     },
         //   });
 
-          this.logger.log(`Email sent successfully: ${emailQueueEntry.emailId}`);
+          // this.logger.log(`Email sent successfully: ${emailQueueEntry.emailId}`);
 
         } catch (error) {
           this.logger.error(`Failed to send email ${emailQueueEntry.emailId}`, error.stack);
