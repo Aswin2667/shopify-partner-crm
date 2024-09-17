@@ -25,7 +25,6 @@ export default class DateHelper {
 
     const formattedDate = dateFormatter.format(date);
     const formattedTime = timeFormatter.format(date);
-
     return `At ${formattedDate} at ${formattedTime}`;
   }
   public static convertToDateString(unixTimestamp: number) {

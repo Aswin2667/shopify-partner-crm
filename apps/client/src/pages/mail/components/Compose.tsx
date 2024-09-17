@@ -240,7 +240,7 @@ const Compose = (props: Props): JSX.Element => {
           // defaultValue={compose.from.data?.email}
         >
           <SelectTrigger className="">
-            <SelectValue placeholder="Select an email" />
+            <SelectValue placeholder="Select a Method" />
           </SelectTrigger>
           <SelectContent>
             {fromEmail.map((integration: any) => (

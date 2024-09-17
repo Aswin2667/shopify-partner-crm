@@ -8,7 +8,7 @@ import { useMail } from "../use-mail";
 import { NavLink, useParams } from "react-router-dom";
 
 interface MailListProps {
-  items: Mail[];
+  items: any[];
 }
 
 export function MailList({ items }: MailListProps) {
@@ -36,10 +36,10 @@ export function MailList({ items }: MailListProps) {
               <div className="flex items-center">
                 <div className="flex items-center gap-2">
                   <NavLink
-                    className="font-semibold hover:text-blue-600 underline transition-all ease-linear"
-                    to={`/${organizationId}/leads/${item.id}`}
+                    className="font-semibold hover:text-blue-600 underline transition-all ease-linear capitalize"
+                    to={`/${organizationId}/leads/${item.id}/emails`}
                   >
-                    {item.name}
+                    {item.from.name}
                   </NavLink>
                   {!item.read && (
                     <span className="flex h-2 w-2 rounded-full bg-blue-600" />
@@ -53,9 +53,9 @@ export function MailList({ items }: MailListProps) {
                       : "text-muted-foreground"
                   )}
                 >
-                  {formatDistanceToNow(new Date(item.date), {
+                  {/* {formatDistanceToNow(new Date(item.date), {
                     addSuffix: true,
-                  })}
+                  })} */}
                 </div>
               </div>
               <div className="text-xs font-medium">{item.subject}</div>
@@ -63,11 +63,11 @@ export function MailList({ items }: MailListProps) {
             {/* const decodedHtml = encodedHtml.replace(/\\u003C/g, "<").replace(/\\u003E/g, ">");
              */}
             <div className="line-clamp-2 text-xs text-muted-foreground">
-              {item.text.substring(0, 300)}
+              {item.body}
             </div>
-            {item.labels.length ? (
+            {item.labelIds.length ? (
               <div className="flex items-center gap-2">
-                {item.labels.map((label) => (
+                {item.labelIds.map((label: any) => (
                   <Badge key={label} variant={getBadgeVariantFromLabel(label)}>
                     {label}
                   </Badge>

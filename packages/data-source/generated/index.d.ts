@@ -2958,6 +2958,7 @@ export namespace Prisma {
     leadNotes: number
     contacts: number
     attachments: number
+    Email: number
   }
 
   export type LeadCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2966,6 +2967,7 @@ export namespace Prisma {
     leadNotes?: boolean | LeadCountOutputTypeCountLeadNotesArgs
     contacts?: boolean | LeadCountOutputTypeCountContactsArgs
     attachments?: boolean | LeadCountOutputTypeCountAttachmentsArgs
+    Email?: boolean | LeadCountOutputTypeCountEmailArgs
   }
 
   // Custom InputTypes
@@ -3012,6 +3014,13 @@ export namespace Prisma {
    */
   export type LeadCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AttachmentWhereInput
+  }
+
+  /**
+   * LeadCountOutputType without action
+   */
+  export type LeadCountOutputTypeCountEmailArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmailWhereInput
   }
 
 
@@ -10018,6 +10027,7 @@ export namespace Prisma {
     attachments?: boolean | Lead$attachmentsArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     integration?: boolean | Lead$integrationArgs<ExtArgs>
+    Email?: boolean | Lead$EmailArgs<ExtArgs>
     _count?: boolean | LeadCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lead"]>
 
@@ -10063,6 +10073,7 @@ export namespace Prisma {
     attachments?: boolean | Lead$attachmentsArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     integration?: boolean | Lead$integrationArgs<ExtArgs>
+    Email?: boolean | Lead$EmailArgs<ExtArgs>
     _count?: boolean | LeadCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LeadIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10082,6 +10093,7 @@ export namespace Prisma {
       attachments: Prisma.$AttachmentPayload<ExtArgs>[]
       organization: Prisma.$OrganizationPayload<ExtArgs>
       integration: Prisma.$IntegrationPayload<ExtArgs> | null
+      Email: Prisma.$EmailPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10468,6 +10480,7 @@ export namespace Prisma {
     attachments<T extends Lead$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Lead$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany"> | Null>
     organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     integration<T extends Lead$integrationArgs<ExtArgs> = {}>(args?: Subset<T, Lead$integrationArgs<ExtArgs>>): Prisma__IntegrationClient<$Result.GetResult<Prisma.$IntegrationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    Email<T extends Lead$EmailArgs<ExtArgs> = {}>(args?: Subset<T, Lead$EmailArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10954,6 +10967,26 @@ export namespace Prisma {
      */
     include?: IntegrationInclude<ExtArgs> | null
     where?: IntegrationWhereInput
+  }
+
+  /**
+   * Lead.Email
+   */
+  export type Lead$EmailArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Email
+     */
+    select?: EmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailInclude<ExtArgs> | null
+    where?: EmailWhereInput
+    orderBy?: EmailOrderByWithRelationInput | EmailOrderByWithRelationInput[]
+    cursor?: EmailWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EmailScalarFieldEnum | EmailScalarFieldEnum[]
   }
 
   /**
@@ -15268,6 +15301,7 @@ export namespace Prisma {
     status: $Enums.EmailStatus | null
     subject: string | null
     body: string | null
+    html: string | null
     trackingId: string | null
     messageId: string | null
     threadId: string | null
@@ -15280,6 +15314,7 @@ export namespace Prisma {
     deletedAt: bigint | null
     integrationId: string | null
     organizationId: string | null
+    leadId: string | null
     source: $Enums.IntegrationType | null
   }
 
@@ -15288,6 +15323,7 @@ export namespace Prisma {
     status: $Enums.EmailStatus | null
     subject: string | null
     body: string | null
+    html: string | null
     trackingId: string | null
     messageId: string | null
     threadId: string | null
@@ -15300,6 +15336,7 @@ export namespace Prisma {
     deletedAt: bigint | null
     integrationId: string | null
     organizationId: string | null
+    leadId: string | null
     source: $Enums.IntegrationType | null
   }
 
@@ -15312,6 +15349,7 @@ export namespace Prisma {
     status: number
     subject: number
     body: number
+    html: number
     trackingId: number
     messageId: number
     threadId: number
@@ -15325,6 +15363,7 @@ export namespace Prisma {
     deletedAt: number
     integrationId: number
     organizationId: number
+    leadId: number
     source: number
     _all: number
   }
@@ -15349,6 +15388,7 @@ export namespace Prisma {
     status?: true
     subject?: true
     body?: true
+    html?: true
     trackingId?: true
     messageId?: true
     threadId?: true
@@ -15361,6 +15401,7 @@ export namespace Prisma {
     deletedAt?: true
     integrationId?: true
     organizationId?: true
+    leadId?: true
     source?: true
   }
 
@@ -15369,6 +15410,7 @@ export namespace Prisma {
     status?: true
     subject?: true
     body?: true
+    html?: true
     trackingId?: true
     messageId?: true
     threadId?: true
@@ -15381,6 +15423,7 @@ export namespace Prisma {
     deletedAt?: true
     integrationId?: true
     organizationId?: true
+    leadId?: true
     source?: true
   }
 
@@ -15393,6 +15436,7 @@ export namespace Prisma {
     status?: true
     subject?: true
     body?: true
+    html?: true
     trackingId?: true
     messageId?: true
     threadId?: true
@@ -15406,6 +15450,7 @@ export namespace Prisma {
     deletedAt?: true
     integrationId?: true
     organizationId?: true
+    leadId?: true
     source?: true
     _all?: true
   }
@@ -15505,6 +15550,7 @@ export namespace Prisma {
     status: $Enums.EmailStatus
     subject: string | null
     body: string
+    html: string | null
     trackingId: string | null
     messageId: string | null
     threadId: string | null
@@ -15518,6 +15564,7 @@ export namespace Prisma {
     deletedAt: bigint
     integrationId: string
     organizationId: string
+    leadId: string | null
     source: $Enums.IntegrationType
     _count: EmailCountAggregateOutputType | null
     _avg: EmailAvgAggregateOutputType | null
@@ -15549,6 +15596,7 @@ export namespace Prisma {
     status?: boolean
     subject?: boolean
     body?: boolean
+    html?: boolean
     trackingId?: boolean
     messageId?: boolean
     threadId?: boolean
@@ -15562,7 +15610,9 @@ export namespace Prisma {
     deletedAt?: boolean
     integrationId?: boolean
     organizationId?: boolean
+    leadId?: boolean
     source?: boolean
+    lead?: boolean | Email$leadArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     EmailQueue?: boolean | Email$EmailQueueArgs<ExtArgs>
     _count?: boolean | EmailCountOutputTypeDefaultArgs<ExtArgs>
@@ -15577,6 +15627,7 @@ export namespace Prisma {
     status?: boolean
     subject?: boolean
     body?: boolean
+    html?: boolean
     trackingId?: boolean
     messageId?: boolean
     threadId?: boolean
@@ -15590,7 +15641,9 @@ export namespace Prisma {
     deletedAt?: boolean
     integrationId?: boolean
     organizationId?: boolean
+    leadId?: boolean
     source?: boolean
+    lead?: boolean | Email$leadArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["email"]>
 
@@ -15603,6 +15656,7 @@ export namespace Prisma {
     status?: boolean
     subject?: boolean
     body?: boolean
+    html?: boolean
     trackingId?: boolean
     messageId?: boolean
     threadId?: boolean
@@ -15616,21 +15670,25 @@ export namespace Prisma {
     deletedAt?: boolean
     integrationId?: boolean
     organizationId?: boolean
+    leadId?: boolean
     source?: boolean
   }
 
   export type EmailInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lead?: boolean | Email$leadArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     EmailQueue?: boolean | Email$EmailQueueArgs<ExtArgs>
     _count?: boolean | EmailCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type EmailIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lead?: boolean | Email$leadArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
   }
 
   export type $EmailPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Email"
     objects: {
+      lead: Prisma.$LeadPayload<ExtArgs> | null
       organization: Prisma.$OrganizationPayload<ExtArgs>
       EmailQueue: Prisma.$EmailQueuePayload<ExtArgs>[]
     }
@@ -15643,6 +15701,7 @@ export namespace Prisma {
       status: $Enums.EmailStatus
       subject: string | null
       body: string
+      html: string | null
       trackingId: string | null
       messageId: string | null
       threadId: string | null
@@ -15656,6 +15715,7 @@ export namespace Prisma {
       deletedAt: bigint
       integrationId: string
       organizationId: string
+      leadId: string | null
       source: $Enums.IntegrationType
     }, ExtArgs["result"]["email"]>
     composites: {}
@@ -16021,6 +16081,7 @@ export namespace Prisma {
    */
   export interface Prisma__EmailClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    lead<T extends Email$leadArgs<ExtArgs> = {}>(args?: Subset<T, Email$leadArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     EmailQueue<T extends Email$EmailQueueArgs<ExtArgs> = {}>(args?: Subset<T, Email$EmailQueueArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailQueuePayload<ExtArgs>, T, "findMany"> | Null>
     /**
@@ -16060,6 +16121,7 @@ export namespace Prisma {
     readonly status: FieldRef<"Email", 'EmailStatus'>
     readonly subject: FieldRef<"Email", 'String'>
     readonly body: FieldRef<"Email", 'String'>
+    readonly html: FieldRef<"Email", 'String'>
     readonly trackingId: FieldRef<"Email", 'String'>
     readonly messageId: FieldRef<"Email", 'String'>
     readonly threadId: FieldRef<"Email", 'String'>
@@ -16073,6 +16135,7 @@ export namespace Prisma {
     readonly deletedAt: FieldRef<"Email", 'BigInt'>
     readonly integrationId: FieldRef<"Email", 'String'>
     readonly organizationId: FieldRef<"Email", 'String'>
+    readonly leadId: FieldRef<"Email", 'String'>
     readonly source: FieldRef<"Email", 'IntegrationType'>
   }
     
@@ -16389,6 +16452,21 @@ export namespace Prisma {
      * Filter which Emails to delete
      */
     where?: EmailWhereInput
+  }
+
+  /**
+   * Email.lead
+   */
+  export type Email$leadArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Lead
+     */
+    select?: LeadSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeadInclude<ExtArgs> | null
+    where?: LeadWhereInput
   }
 
   /**
@@ -24880,6 +24958,7 @@ export namespace Prisma {
     status: 'status',
     subject: 'subject',
     body: 'body',
+    html: 'html',
     trackingId: 'trackingId',
     messageId: 'messageId',
     threadId: 'threadId',
@@ -24893,6 +24972,7 @@ export namespace Prisma {
     deletedAt: 'deletedAt',
     integrationId: 'integrationId',
     organizationId: 'organizationId',
+    leadId: 'leadId',
     source: 'source'
   };
 
@@ -25831,6 +25911,7 @@ export namespace Prisma {
     attachments?: AttachmentListRelationFilter
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     integration?: XOR<IntegrationNullableRelationFilter, IntegrationWhereInput> | null
+    Email?: EmailListRelationFilter
   }
 
   export type LeadOrderByWithRelationInput = {
@@ -25854,6 +25935,7 @@ export namespace Prisma {
     attachments?: AttachmentOrderByRelationAggregateInput
     organization?: OrganizationOrderByWithRelationInput
     integration?: IntegrationOrderByWithRelationInput
+    Email?: EmailOrderByRelationAggregateInput
   }
 
   export type LeadWhereUniqueInput = Prisma.AtLeast<{
@@ -25880,6 +25962,7 @@ export namespace Prisma {
     attachments?: AttachmentListRelationFilter
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     integration?: XOR<IntegrationNullableRelationFilter, IntegrationWhereInput> | null
+    Email?: EmailListRelationFilter
   }, "id" | "shopifyDomain" | "shopifyStoreId">
 
   export type LeadOrderByWithAggregationInput = {
@@ -26305,6 +26388,7 @@ export namespace Prisma {
     status?: EnumEmailStatusFilter<"Email"> | $Enums.EmailStatus
     subject?: StringNullableFilter<"Email"> | string | null
     body?: StringFilter<"Email"> | string
+    html?: StringNullableFilter<"Email"> | string | null
     trackingId?: StringNullableFilter<"Email"> | string | null
     messageId?: StringNullableFilter<"Email"> | string | null
     threadId?: StringNullableFilter<"Email"> | string | null
@@ -26318,7 +26402,9 @@ export namespace Prisma {
     deletedAt?: BigIntFilter<"Email"> | bigint | number
     integrationId?: StringFilter<"Email"> | string
     organizationId?: StringFilter<"Email"> | string
+    leadId?: StringNullableFilter<"Email"> | string | null
     source?: EnumIntegrationTypeFilter<"Email"> | $Enums.IntegrationType
+    lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     EmailQueue?: EmailQueueListRelationFilter
   }
@@ -26332,6 +26418,7 @@ export namespace Prisma {
     status?: SortOrder
     subject?: SortOrderInput | SortOrder
     body?: SortOrder
+    html?: SortOrderInput | SortOrder
     trackingId?: SortOrderInput | SortOrder
     messageId?: SortOrderInput | SortOrder
     threadId?: SortOrderInput | SortOrder
@@ -26345,7 +26432,9 @@ export namespace Prisma {
     deletedAt?: SortOrder
     integrationId?: SortOrder
     organizationId?: SortOrder
+    leadId?: SortOrderInput | SortOrder
     source?: SortOrder
+    lead?: LeadOrderByWithRelationInput
     organization?: OrganizationOrderByWithRelationInput
     EmailQueue?: EmailQueueOrderByRelationAggregateInput
   }
@@ -26363,6 +26452,7 @@ export namespace Prisma {
     status?: EnumEmailStatusFilter<"Email"> | $Enums.EmailStatus
     subject?: StringNullableFilter<"Email"> | string | null
     body?: StringFilter<"Email"> | string
+    html?: StringNullableFilter<"Email"> | string | null
     messageId?: StringNullableFilter<"Email"> | string | null
     threadId?: StringNullableFilter<"Email"> | string | null
     historyId?: StringNullableFilter<"Email"> | string | null
@@ -26375,7 +26465,9 @@ export namespace Prisma {
     deletedAt?: BigIntFilter<"Email"> | bigint | number
     integrationId?: StringFilter<"Email"> | string
     organizationId?: StringFilter<"Email"> | string
+    leadId?: StringNullableFilter<"Email"> | string | null
     source?: EnumIntegrationTypeFilter<"Email"> | $Enums.IntegrationType
+    lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     EmailQueue?: EmailQueueListRelationFilter
   }, "id" | "trackingId">
@@ -26389,6 +26481,7 @@ export namespace Prisma {
     status?: SortOrder
     subject?: SortOrderInput | SortOrder
     body?: SortOrder
+    html?: SortOrderInput | SortOrder
     trackingId?: SortOrderInput | SortOrder
     messageId?: SortOrderInput | SortOrder
     threadId?: SortOrderInput | SortOrder
@@ -26402,6 +26495,7 @@ export namespace Prisma {
     deletedAt?: SortOrder
     integrationId?: SortOrder
     organizationId?: SortOrder
+    leadId?: SortOrderInput | SortOrder
     source?: SortOrder
     _count?: EmailCountOrderByAggregateInput
     _avg?: EmailAvgOrderByAggregateInput
@@ -26422,6 +26516,7 @@ export namespace Prisma {
     status?: EnumEmailStatusWithAggregatesFilter<"Email"> | $Enums.EmailStatus
     subject?: StringNullableWithAggregatesFilter<"Email"> | string | null
     body?: StringWithAggregatesFilter<"Email"> | string
+    html?: StringNullableWithAggregatesFilter<"Email"> | string | null
     trackingId?: StringNullableWithAggregatesFilter<"Email"> | string | null
     messageId?: StringNullableWithAggregatesFilter<"Email"> | string | null
     threadId?: StringNullableWithAggregatesFilter<"Email"> | string | null
@@ -26435,6 +26530,7 @@ export namespace Prisma {
     deletedAt?: BigIntWithAggregatesFilter<"Email"> | bigint | number
     integrationId?: StringWithAggregatesFilter<"Email"> | string
     organizationId?: StringWithAggregatesFilter<"Email"> | string
+    leadId?: StringNullableWithAggregatesFilter<"Email"> | string | null
     source?: EnumIntegrationTypeWithAggregatesFilter<"Email"> | $Enums.IntegrationType
   }
 
@@ -27588,6 +27684,7 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutLeadInput
     organization: OrganizationCreateNestedOneWithoutLeadInput
     integration?: IntegrationCreateNestedOneWithoutLeadInput
+    Email?: EmailCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateInput = {
@@ -27608,6 +27705,7 @@ export namespace Prisma {
     leadNotes?: LeadNotesUncheckedCreateNestedManyWithoutLeadInput
     contacts?: ContactUncheckedCreateNestedManyWithoutLeadInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutLeadInput
+    Email?: EmailUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUpdateInput = {
@@ -27628,6 +27726,7 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutLeadNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutLeadNestedInput
     integration?: IntegrationUpdateOneWithoutLeadNestedInput
+    Email?: EmailUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateInput = {
@@ -27648,6 +27747,7 @@ export namespace Prisma {
     leadNotes?: LeadNotesUncheckedUpdateManyWithoutLeadNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutLeadNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutLeadNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadCreateManyInput = {
@@ -28081,6 +28181,7 @@ export namespace Prisma {
     status?: $Enums.EmailStatus
     subject?: string | null
     body: string
+    html?: string | null
     trackingId?: string | null
     messageId?: string | null
     threadId?: string | null
@@ -28094,6 +28195,7 @@ export namespace Prisma {
     deletedAt?: bigint | number
     integrationId: string
     source: $Enums.IntegrationType
+    lead?: LeadCreateNestedOneWithoutEmailInput
     organization: OrganizationCreateNestedOneWithoutEmailInput
     EmailQueue?: EmailQueueCreateNestedManyWithoutEmailInput
   }
@@ -28107,6 +28209,7 @@ export namespace Prisma {
     status?: $Enums.EmailStatus
     subject?: string | null
     body: string
+    html?: string | null
     trackingId?: string | null
     messageId?: string | null
     threadId?: string | null
@@ -28120,6 +28223,7 @@ export namespace Prisma {
     deletedAt?: bigint | number
     integrationId: string
     organizationId: string
+    leadId?: string | null
     source: $Enums.IntegrationType
     EmailQueue?: EmailQueueUncheckedCreateNestedManyWithoutEmailInput
   }
@@ -28133,6 +28237,7 @@ export namespace Prisma {
     status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
     trackingId?: NullableStringFieldUpdateOperationsInput | string | null
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
     threadId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28146,6 +28251,7 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    lead?: LeadUpdateOneWithoutEmailNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutEmailNestedInput
     EmailQueue?: EmailQueueUpdateManyWithoutEmailNestedInput
   }
@@ -28159,6 +28265,7 @@ export namespace Prisma {
     status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
     trackingId?: NullableStringFieldUpdateOperationsInput | string | null
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
     threadId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28172,6 +28279,7 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
     EmailQueue?: EmailQueueUncheckedUpdateManyWithoutEmailNestedInput
   }
@@ -28185,6 +28293,7 @@ export namespace Prisma {
     status?: $Enums.EmailStatus
     subject?: string | null
     body: string
+    html?: string | null
     trackingId?: string | null
     messageId?: string | null
     threadId?: string | null
@@ -28198,6 +28307,7 @@ export namespace Prisma {
     deletedAt?: bigint | number
     integrationId: string
     organizationId: string
+    leadId?: string | null
     source: $Enums.IntegrationType
   }
 
@@ -28210,6 +28320,7 @@ export namespace Prisma {
     status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
     trackingId?: NullableStringFieldUpdateOperationsInput | string | null
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
     threadId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28234,6 +28345,7 @@ export namespace Prisma {
     status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
     trackingId?: NullableStringFieldUpdateOperationsInput | string | null
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
     threadId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28247,6 +28359,7 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
   }
 
@@ -29924,6 +30037,11 @@ export namespace Prisma {
     not?: NestedEnumIntegrationTypeFilter<$PrismaModel> | $Enums.IntegrationType
   }
 
+  export type LeadNullableRelationFilter = {
+    is?: LeadWhereInput | null
+    isNot?: LeadWhereInput | null
+  }
+
   export type EmailQueueListRelationFilter = {
     every?: EmailQueueWhereInput
     some?: EmailQueueWhereInput
@@ -29943,6 +30061,7 @@ export namespace Prisma {
     status?: SortOrder
     subject?: SortOrder
     body?: SortOrder
+    html?: SortOrder
     trackingId?: SortOrder
     messageId?: SortOrder
     threadId?: SortOrder
@@ -29956,6 +30075,7 @@ export namespace Prisma {
     deletedAt?: SortOrder
     integrationId?: SortOrder
     organizationId?: SortOrder
+    leadId?: SortOrder
     source?: SortOrder
   }
 
@@ -29971,6 +30091,7 @@ export namespace Prisma {
     status?: SortOrder
     subject?: SortOrder
     body?: SortOrder
+    html?: SortOrder
     trackingId?: SortOrder
     messageId?: SortOrder
     threadId?: SortOrder
@@ -29983,6 +30104,7 @@ export namespace Prisma {
     deletedAt?: SortOrder
     integrationId?: SortOrder
     organizationId?: SortOrder
+    leadId?: SortOrder
     source?: SortOrder
   }
 
@@ -29991,6 +30113,7 @@ export namespace Prisma {
     status?: SortOrder
     subject?: SortOrder
     body?: SortOrder
+    html?: SortOrder
     trackingId?: SortOrder
     messageId?: SortOrder
     threadId?: SortOrder
@@ -30003,6 +30126,7 @@ export namespace Prisma {
     deletedAt?: SortOrder
     integrationId?: SortOrder
     organizationId?: SortOrder
+    leadId?: SortOrder
     source?: SortOrder
   }
 
@@ -31598,6 +31722,13 @@ export namespace Prisma {
     connect?: IntegrationWhereUniqueInput
   }
 
+  export type EmailCreateNestedManyWithoutLeadInput = {
+    create?: XOR<EmailCreateWithoutLeadInput, EmailUncheckedCreateWithoutLeadInput> | EmailCreateWithoutLeadInput[] | EmailUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: EmailCreateOrConnectWithoutLeadInput | EmailCreateOrConnectWithoutLeadInput[]
+    createMany?: EmailCreateManyLeadInputEnvelope
+    connect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+  }
+
   export type LeadProjectUncheckedCreateNestedManyWithoutLeadInput = {
     create?: XOR<LeadProjectCreateWithoutLeadInput, LeadProjectUncheckedCreateWithoutLeadInput> | LeadProjectCreateWithoutLeadInput[] | LeadProjectUncheckedCreateWithoutLeadInput[]
     connectOrCreate?: LeadProjectCreateOrConnectWithoutLeadInput | LeadProjectCreateOrConnectWithoutLeadInput[]
@@ -31631,6 +31762,13 @@ export namespace Prisma {
     connectOrCreate?: AttachmentCreateOrConnectWithoutLeadInput | AttachmentCreateOrConnectWithoutLeadInput[]
     createMany?: AttachmentCreateManyLeadInputEnvelope
     connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+  }
+
+  export type EmailUncheckedCreateNestedManyWithoutLeadInput = {
+    create?: XOR<EmailCreateWithoutLeadInput, EmailUncheckedCreateWithoutLeadInput> | EmailCreateWithoutLeadInput[] | EmailUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: EmailCreateOrConnectWithoutLeadInput | EmailCreateOrConnectWithoutLeadInput[]
+    createMany?: EmailCreateManyLeadInputEnvelope
+    connect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
   }
 
   export type LeadStatusUpdateOneWithoutLeadNestedInput = {
@@ -31731,6 +31869,20 @@ export namespace Prisma {
     update?: XOR<XOR<IntegrationUpdateToOneWithWhereWithoutLeadInput, IntegrationUpdateWithoutLeadInput>, IntegrationUncheckedUpdateWithoutLeadInput>
   }
 
+  export type EmailUpdateManyWithoutLeadNestedInput = {
+    create?: XOR<EmailCreateWithoutLeadInput, EmailUncheckedCreateWithoutLeadInput> | EmailCreateWithoutLeadInput[] | EmailUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: EmailCreateOrConnectWithoutLeadInput | EmailCreateOrConnectWithoutLeadInput[]
+    upsert?: EmailUpsertWithWhereUniqueWithoutLeadInput | EmailUpsertWithWhereUniqueWithoutLeadInput[]
+    createMany?: EmailCreateManyLeadInputEnvelope
+    set?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    disconnect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    delete?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    connect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    update?: EmailUpdateWithWhereUniqueWithoutLeadInput | EmailUpdateWithWhereUniqueWithoutLeadInput[]
+    updateMany?: EmailUpdateManyWithWhereWithoutLeadInput | EmailUpdateManyWithWhereWithoutLeadInput[]
+    deleteMany?: EmailScalarWhereInput | EmailScalarWhereInput[]
+  }
+
   export type LeadProjectUncheckedUpdateManyWithoutLeadNestedInput = {
     create?: XOR<LeadProjectCreateWithoutLeadInput, LeadProjectUncheckedCreateWithoutLeadInput> | LeadProjectCreateWithoutLeadInput[] | LeadProjectUncheckedCreateWithoutLeadInput[]
     connectOrCreate?: LeadProjectCreateOrConnectWithoutLeadInput | LeadProjectCreateOrConnectWithoutLeadInput[]
@@ -31799,6 +31951,20 @@ export namespace Prisma {
     update?: AttachmentUpdateWithWhereUniqueWithoutLeadInput | AttachmentUpdateWithWhereUniqueWithoutLeadInput[]
     updateMany?: AttachmentUpdateManyWithWhereWithoutLeadInput | AttachmentUpdateManyWithWhereWithoutLeadInput[]
     deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+  }
+
+  export type EmailUncheckedUpdateManyWithoutLeadNestedInput = {
+    create?: XOR<EmailCreateWithoutLeadInput, EmailUncheckedCreateWithoutLeadInput> | EmailCreateWithoutLeadInput[] | EmailUncheckedCreateWithoutLeadInput[]
+    connectOrCreate?: EmailCreateOrConnectWithoutLeadInput | EmailCreateOrConnectWithoutLeadInput[]
+    upsert?: EmailUpsertWithWhereUniqueWithoutLeadInput | EmailUpsertWithWhereUniqueWithoutLeadInput[]
+    createMany?: EmailCreateManyLeadInputEnvelope
+    set?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    disconnect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    delete?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    connect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    update?: EmailUpdateWithWhereUniqueWithoutLeadInput | EmailUpdateWithWhereUniqueWithoutLeadInput[]
+    updateMany?: EmailUpdateManyWithWhereWithoutLeadInput | EmailUpdateManyWithWhereWithoutLeadInput[]
+    deleteMany?: EmailScalarWhereInput | EmailScalarWhereInput[]
   }
 
   export type IntegrationCreateNestedOneWithoutLeadProjectInput = {
@@ -31993,6 +32159,12 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type LeadCreateNestedOneWithoutEmailInput = {
+    create?: XOR<LeadCreateWithoutEmailInput, LeadUncheckedCreateWithoutEmailInput>
+    connectOrCreate?: LeadCreateOrConnectWithoutEmailInput
+    connect?: LeadWhereUniqueInput
+  }
+
   export type OrganizationCreateNestedOneWithoutEmailInput = {
     create?: XOR<OrganizationCreateWithoutEmailInput, OrganizationUncheckedCreateWithoutEmailInput>
     connectOrCreate?: OrganizationCreateOrConnectWithoutEmailInput
@@ -32039,6 +32211,16 @@ export namespace Prisma {
 
   export type EnumIntegrationTypeFieldUpdateOperationsInput = {
     set?: $Enums.IntegrationType
+  }
+
+  export type LeadUpdateOneWithoutEmailNestedInput = {
+    create?: XOR<LeadCreateWithoutEmailInput, LeadUncheckedCreateWithoutEmailInput>
+    connectOrCreate?: LeadCreateOrConnectWithoutEmailInput
+    upsert?: LeadUpsertWithoutEmailInput
+    disconnect?: LeadWhereInput | boolean
+    delete?: LeadWhereInput | boolean
+    connect?: LeadWhereUniqueInput
+    update?: XOR<XOR<LeadUpdateToOneWithWhereWithoutEmailInput, LeadUpdateWithoutEmailInput>, LeadUncheckedUpdateWithoutEmailInput>
   }
 
   export type OrganizationUpdateOneRequiredWithoutEmailNestedInput = {
@@ -33691,6 +33873,7 @@ export namespace Prisma {
     contacts?: ContactCreateNestedManyWithoutLeadInput
     attachments?: AttachmentCreateNestedManyWithoutLeadInput
     integration?: IntegrationCreateNestedOneWithoutLeadInput
+    Email?: EmailCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutOrganizationInput = {
@@ -33710,6 +33893,7 @@ export namespace Prisma {
     leadNotes?: LeadNotesUncheckedCreateNestedManyWithoutLeadInput
     contacts?: ContactUncheckedCreateNestedManyWithoutLeadInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutLeadInput
+    Email?: EmailUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutOrganizationInput = {
@@ -33863,6 +34047,7 @@ export namespace Prisma {
     status?: $Enums.EmailStatus
     subject?: string | null
     body: string
+    html?: string | null
     trackingId?: string | null
     messageId?: string | null
     threadId?: string | null
@@ -33876,6 +34061,7 @@ export namespace Prisma {
     deletedAt?: bigint | number
     integrationId: string
     source: $Enums.IntegrationType
+    lead?: LeadCreateNestedOneWithoutEmailInput
     EmailQueue?: EmailQueueCreateNestedManyWithoutEmailInput
   }
 
@@ -33888,6 +34074,7 @@ export namespace Prisma {
     status?: $Enums.EmailStatus
     subject?: string | null
     body: string
+    html?: string | null
     trackingId?: string | null
     messageId?: string | null
     threadId?: string | null
@@ -33900,6 +34087,7 @@ export namespace Prisma {
     sentAt?: bigint | number
     deletedAt?: bigint | number
     integrationId: string
+    leadId?: string | null
     source: $Enums.IntegrationType
     EmailQueue?: EmailQueueUncheckedCreateNestedManyWithoutEmailInput
   }
@@ -34281,6 +34469,7 @@ export namespace Prisma {
     status?: EnumEmailStatusFilter<"Email"> | $Enums.EmailStatus
     subject?: StringNullableFilter<"Email"> | string | null
     body?: StringFilter<"Email"> | string
+    html?: StringNullableFilter<"Email"> | string | null
     trackingId?: StringNullableFilter<"Email"> | string | null
     messageId?: StringNullableFilter<"Email"> | string | null
     threadId?: StringNullableFilter<"Email"> | string | null
@@ -34294,6 +34483,7 @@ export namespace Prisma {
     deletedAt?: BigIntFilter<"Email"> | bigint | number
     integrationId?: StringFilter<"Email"> | string
     organizationId?: StringFilter<"Email"> | string
+    leadId?: StringNullableFilter<"Email"> | string | null
     source?: EnumIntegrationTypeFilter<"Email"> | $Enums.IntegrationType
   }
 
@@ -34819,6 +35009,7 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutLeadInput
     organization: OrganizationCreateNestedOneWithoutLeadInput
     integration?: IntegrationCreateNestedOneWithoutLeadInput
+    Email?: EmailCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutLeadNotesInput = {
@@ -34838,6 +35029,7 @@ export namespace Prisma {
     leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutLeadInput
     contacts?: ContactUncheckedCreateNestedManyWithoutLeadInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutLeadInput
+    Email?: EmailUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutLeadNotesInput = {
@@ -34942,6 +35134,7 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutLeadNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutLeadNestedInput
     integration?: IntegrationUpdateOneWithoutLeadNestedInput
+    Email?: EmailUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutLeadNotesInput = {
@@ -34961,6 +35154,7 @@ export namespace Prisma {
     leadActivities?: LeadActivityUncheckedUpdateManyWithoutLeadNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutLeadNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutLeadNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type UserUpsertWithoutLeadNotesInput = {
@@ -35311,6 +35505,70 @@ export namespace Prisma {
     create: XOR<IntegrationCreateWithoutLeadInput, IntegrationUncheckedCreateWithoutLeadInput>
   }
 
+  export type EmailCreateWithoutLeadInput = {
+    id?: string
+    from: JsonNullValueInput | InputJsonValue
+    to?: EmailCreatetoInput | string[]
+    cc?: EmailCreateccInput | string[]
+    bcc?: EmailCreatebccInput | string[]
+    status?: $Enums.EmailStatus
+    subject?: string | null
+    body: string
+    html?: string | null
+    trackingId?: string | null
+    messageId?: string | null
+    threadId?: string | null
+    historyId?: string | null
+    labelIds?: EmailCreatelabelIdsInput | string[]
+    isOpened?: boolean
+    openedAt?: bigint | number
+    isClicked?: boolean
+    clickedAt?: bigint | number
+    sentAt?: bigint | number
+    deletedAt?: bigint | number
+    integrationId: string
+    source: $Enums.IntegrationType
+    organization: OrganizationCreateNestedOneWithoutEmailInput
+    EmailQueue?: EmailQueueCreateNestedManyWithoutEmailInput
+  }
+
+  export type EmailUncheckedCreateWithoutLeadInput = {
+    id?: string
+    from: JsonNullValueInput | InputJsonValue
+    to?: EmailCreatetoInput | string[]
+    cc?: EmailCreateccInput | string[]
+    bcc?: EmailCreatebccInput | string[]
+    status?: $Enums.EmailStatus
+    subject?: string | null
+    body: string
+    html?: string | null
+    trackingId?: string | null
+    messageId?: string | null
+    threadId?: string | null
+    historyId?: string | null
+    labelIds?: EmailCreatelabelIdsInput | string[]
+    isOpened?: boolean
+    openedAt?: bigint | number
+    isClicked?: boolean
+    clickedAt?: bigint | number
+    sentAt?: bigint | number
+    deletedAt?: bigint | number
+    integrationId: string
+    organizationId: string
+    source: $Enums.IntegrationType
+    EmailQueue?: EmailQueueUncheckedCreateNestedManyWithoutEmailInput
+  }
+
+  export type EmailCreateOrConnectWithoutLeadInput = {
+    where: EmailWhereUniqueInput
+    create: XOR<EmailCreateWithoutLeadInput, EmailUncheckedCreateWithoutLeadInput>
+  }
+
+  export type EmailCreateManyLeadInputEnvelope = {
+    data: EmailCreateManyLeadInput | EmailCreateManyLeadInput[]
+    skipDuplicates?: boolean
+  }
+
   export type LeadStatusUpsertWithoutLeadInput = {
     update: XOR<LeadStatusUpdateWithoutLeadInput, LeadStatusUncheckedUpdateWithoutLeadInput>
     create: XOR<LeadStatusCreateWithoutLeadInput, LeadStatusUncheckedCreateWithoutLeadInput>
@@ -35541,6 +35799,22 @@ export namespace Prisma {
     mailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutIntegrationNestedInput
   }
 
+  export type EmailUpsertWithWhereUniqueWithoutLeadInput = {
+    where: EmailWhereUniqueInput
+    update: XOR<EmailUpdateWithoutLeadInput, EmailUncheckedUpdateWithoutLeadInput>
+    create: XOR<EmailCreateWithoutLeadInput, EmailUncheckedCreateWithoutLeadInput>
+  }
+
+  export type EmailUpdateWithWhereUniqueWithoutLeadInput = {
+    where: EmailWhereUniqueInput
+    data: XOR<EmailUpdateWithoutLeadInput, EmailUncheckedUpdateWithoutLeadInput>
+  }
+
+  export type EmailUpdateManyWithWhereWithoutLeadInput = {
+    where: EmailScalarWhereInput
+    data: XOR<EmailUpdateManyMutationInput, EmailUncheckedUpdateManyWithoutLeadInput>
+  }
+
   export type IntegrationCreateWithoutLeadProjectInput = {
     id?: string
     name: string
@@ -35603,6 +35877,7 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutLeadInput
     organization: OrganizationCreateNestedOneWithoutLeadInput
     integration?: IntegrationCreateNestedOneWithoutLeadInput
+    Email?: EmailCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutProjectInput = {
@@ -35622,6 +35897,7 @@ export namespace Prisma {
     leadNotes?: LeadNotesUncheckedCreateNestedManyWithoutLeadInput
     contacts?: ContactUncheckedCreateNestedManyWithoutLeadInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutLeadInput
+    Email?: EmailUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutProjectInput = {
@@ -35790,6 +36066,7 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutLeadNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutLeadNestedInput
     integration?: IntegrationUpdateOneWithoutLeadNestedInput
+    Email?: EmailUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutProjectInput = {
@@ -35809,6 +36086,7 @@ export namespace Prisma {
     leadNotes?: LeadNotesUncheckedUpdateManyWithoutLeadNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutLeadNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutLeadNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type ProjectUpsertWithoutLeadProjectInput = {
@@ -36016,6 +36294,7 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutLeadInput
     organization: OrganizationCreateNestedOneWithoutLeadInput
     integration?: IntegrationCreateNestedOneWithoutLeadInput
+    Email?: EmailCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutContactsInput = {
@@ -36035,6 +36314,7 @@ export namespace Prisma {
     leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutLeadInput
     leadNotes?: LeadNotesUncheckedCreateNestedManyWithoutLeadInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutLeadInput
+    Email?: EmailUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutContactsInput = {
@@ -36176,6 +36456,7 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutLeadNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutLeadNestedInput
     integration?: IntegrationUpdateOneWithoutLeadNestedInput
+    Email?: EmailUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutContactsInput = {
@@ -36195,6 +36476,7 @@ export namespace Prisma {
     leadActivities?: LeadActivityUncheckedUpdateManyWithoutLeadNestedInput
     leadNotes?: LeadNotesUncheckedUpdateManyWithoutLeadNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutLeadNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadCreateWithoutAttachmentsInput = {
@@ -36214,6 +36496,7 @@ export namespace Prisma {
     contacts?: ContactCreateNestedManyWithoutLeadInput
     organization: OrganizationCreateNestedOneWithoutLeadInput
     integration?: IntegrationCreateNestedOneWithoutLeadInput
+    Email?: EmailCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutAttachmentsInput = {
@@ -36233,6 +36516,7 @@ export namespace Prisma {
     leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutLeadInput
     leadNotes?: LeadNotesUncheckedCreateNestedManyWithoutLeadInput
     contacts?: ContactUncheckedCreateNestedManyWithoutLeadInput
+    Email?: EmailUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutAttachmentsInput = {
@@ -36268,6 +36552,7 @@ export namespace Prisma {
     contacts?: ContactUpdateManyWithoutLeadNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutLeadNestedInput
     integration?: IntegrationUpdateOneWithoutLeadNestedInput
+    Email?: EmailUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutAttachmentsInput = {
@@ -36287,6 +36572,7 @@ export namespace Prisma {
     leadActivities?: LeadActivityUncheckedUpdateManyWithoutLeadNestedInput
     leadNotes?: LeadNotesUncheckedUpdateManyWithoutLeadNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutLeadNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type OrganizationCreateWithoutLeadActivityInput = {
@@ -36355,6 +36641,7 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutLeadInput
     organization: OrganizationCreateNestedOneWithoutLeadInput
     integration?: IntegrationCreateNestedOneWithoutLeadInput
+    Email?: EmailCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutLeadActivitiesInput = {
@@ -36374,6 +36661,7 @@ export namespace Prisma {
     leadNotes?: LeadNotesUncheckedCreateNestedManyWithoutLeadInput
     contacts?: ContactUncheckedCreateNestedManyWithoutLeadInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutLeadInput
+    Email?: EmailUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutLeadActivitiesInput = {
@@ -36524,6 +36812,7 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutLeadNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutLeadNestedInput
     integration?: IntegrationUpdateOneWithoutLeadNestedInput
+    Email?: EmailUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutLeadActivitiesInput = {
@@ -36543,6 +36832,7 @@ export namespace Prisma {
     leadNotes?: LeadNotesUncheckedUpdateManyWithoutLeadNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutLeadNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutLeadNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type UserUpsertWithoutLeadActivityInput = {
@@ -36615,6 +36905,51 @@ export namespace Prisma {
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type LeadCreateWithoutEmailInput = {
+    id?: string
+    shopifyDomain: string
+    shopifyStoreId: string
+    leadSource?: string | null
+    shopDetails?: NullableJsonNullValueInput | InputJsonValue
+    industry?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    status?: LeadStatusCreateNestedOneWithoutLeadInput
+    Project?: LeadProjectCreateNestedManyWithoutLeadInput
+    leadActivities?: LeadActivityCreateNestedManyWithoutLeadInput
+    leadNotes?: LeadNotesCreateNestedManyWithoutLeadInput
+    contacts?: ContactCreateNestedManyWithoutLeadInput
+    attachments?: AttachmentCreateNestedManyWithoutLeadInput
+    organization: OrganizationCreateNestedOneWithoutLeadInput
+    integration?: IntegrationCreateNestedOneWithoutLeadInput
+  }
+
+  export type LeadUncheckedCreateWithoutEmailInput = {
+    id?: string
+    shopifyDomain: string
+    shopifyStoreId: string
+    statusId?: string | null
+    leadSource?: string | null
+    shopDetails?: NullableJsonNullValueInput | InputJsonValue
+    industry?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    integrationId?: string | null
+    organizationId: string
+    Project?: LeadProjectUncheckedCreateNestedManyWithoutLeadInput
+    leadActivities?: LeadActivityUncheckedCreateNestedManyWithoutLeadInput
+    leadNotes?: LeadNotesUncheckedCreateNestedManyWithoutLeadInput
+    contacts?: ContactUncheckedCreateNestedManyWithoutLeadInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutLeadInput
+  }
+
+  export type LeadCreateOrConnectWithoutEmailInput = {
+    where: LeadWhereUniqueInput
+    create: XOR<LeadCreateWithoutEmailInput, LeadUncheckedCreateWithoutEmailInput>
   }
 
   export type OrganizationCreateWithoutEmailInput = {
@@ -36692,6 +37027,57 @@ export namespace Prisma {
   export type EmailQueueCreateManyEmailInputEnvelope = {
     data: EmailQueueCreateManyEmailInput | EmailQueueCreateManyEmailInput[]
     skipDuplicates?: boolean
+  }
+
+  export type LeadUpsertWithoutEmailInput = {
+    update: XOR<LeadUpdateWithoutEmailInput, LeadUncheckedUpdateWithoutEmailInput>
+    create: XOR<LeadCreateWithoutEmailInput, LeadUncheckedCreateWithoutEmailInput>
+    where?: LeadWhereInput
+  }
+
+  export type LeadUpdateToOneWithWhereWithoutEmailInput = {
+    where?: LeadWhereInput
+    data: XOR<LeadUpdateWithoutEmailInput, LeadUncheckedUpdateWithoutEmailInput>
+  }
+
+  export type LeadUpdateWithoutEmailInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shopifyDomain?: StringFieldUpdateOperationsInput | string
+    shopifyStoreId?: StringFieldUpdateOperationsInput | string
+    leadSource?: NullableStringFieldUpdateOperationsInput | string | null
+    shopDetails?: NullableJsonNullValueInput | InputJsonValue
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: LeadStatusUpdateOneWithoutLeadNestedInput
+    Project?: LeadProjectUpdateManyWithoutLeadNestedInput
+    leadActivities?: LeadActivityUpdateManyWithoutLeadNestedInput
+    leadNotes?: LeadNotesUpdateManyWithoutLeadNestedInput
+    contacts?: ContactUpdateManyWithoutLeadNestedInput
+    attachments?: AttachmentUpdateManyWithoutLeadNestedInput
+    organization?: OrganizationUpdateOneRequiredWithoutLeadNestedInput
+    integration?: IntegrationUpdateOneWithoutLeadNestedInput
+  }
+
+  export type LeadUncheckedUpdateWithoutEmailInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shopifyDomain?: StringFieldUpdateOperationsInput | string
+    shopifyStoreId?: StringFieldUpdateOperationsInput | string
+    statusId?: NullableStringFieldUpdateOperationsInput | string | null
+    leadSource?: NullableStringFieldUpdateOperationsInput | string | null
+    shopDetails?: NullableJsonNullValueInput | InputJsonValue
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    Project?: LeadProjectUncheckedUpdateManyWithoutLeadNestedInput
+    leadActivities?: LeadActivityUncheckedUpdateManyWithoutLeadNestedInput
+    leadNotes?: LeadNotesUncheckedUpdateManyWithoutLeadNestedInput
+    contacts?: ContactUncheckedUpdateManyWithoutLeadNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type OrganizationUpsertWithoutEmailInput = {
@@ -36787,6 +37173,7 @@ export namespace Prisma {
     status?: $Enums.EmailStatus
     subject?: string | null
     body: string
+    html?: string | null
     trackingId?: string | null
     messageId?: string | null
     threadId?: string | null
@@ -36800,6 +37187,7 @@ export namespace Prisma {
     deletedAt?: bigint | number
     integrationId: string
     source: $Enums.IntegrationType
+    lead?: LeadCreateNestedOneWithoutEmailInput
     organization: OrganizationCreateNestedOneWithoutEmailInput
   }
 
@@ -36812,6 +37200,7 @@ export namespace Prisma {
     status?: $Enums.EmailStatus
     subject?: string | null
     body: string
+    html?: string | null
     trackingId?: string | null
     messageId?: string | null
     threadId?: string | null
@@ -36825,6 +37214,7 @@ export namespace Prisma {
     deletedAt?: bigint | number
     integrationId: string
     organizationId: string
+    leadId?: string | null
     source: $Enums.IntegrationType
   }
 
@@ -36853,6 +37243,7 @@ export namespace Prisma {
     status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
     trackingId?: NullableStringFieldUpdateOperationsInput | string | null
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
     threadId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36866,6 +37257,7 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    lead?: LeadUpdateOneWithoutEmailNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutEmailNestedInput
   }
 
@@ -36878,6 +37270,7 @@ export namespace Prisma {
     status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
     trackingId?: NullableStringFieldUpdateOperationsInput | string | null
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
     threadId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36891,6 +37284,7 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
   }
 
@@ -36998,6 +37392,7 @@ export namespace Prisma {
     contacts?: ContactCreateNestedManyWithoutLeadInput
     attachments?: AttachmentCreateNestedManyWithoutLeadInput
     organization: OrganizationCreateNestedOneWithoutLeadInput
+    Email?: EmailCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutIntegrationInput = {
@@ -37017,6 +37412,7 @@ export namespace Prisma {
     leadNotes?: LeadNotesUncheckedCreateNestedManyWithoutLeadInput
     contacts?: ContactUncheckedCreateNestedManyWithoutLeadInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutLeadInput
+    Email?: EmailUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutIntegrationInput = {
@@ -38038,6 +38434,7 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutLeadInput
     organization: OrganizationCreateNestedOneWithoutLeadInput
     integration?: IntegrationCreateNestedOneWithoutLeadInput
+    Email?: EmailCreateNestedManyWithoutLeadInput
   }
 
   export type LeadUncheckedCreateWithoutStatusInput = {
@@ -38057,6 +38454,7 @@ export namespace Prisma {
     leadNotes?: LeadNotesUncheckedCreateNestedManyWithoutLeadInput
     contacts?: ContactUncheckedCreateNestedManyWithoutLeadInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutLeadInput
+    Email?: EmailUncheckedCreateNestedManyWithoutLeadInput
   }
 
   export type LeadCreateOrConnectWithoutStatusInput = {
@@ -38514,6 +38912,7 @@ export namespace Prisma {
     status?: $Enums.EmailStatus
     subject?: string | null
     body: string
+    html?: string | null
     trackingId?: string | null
     messageId?: string | null
     threadId?: string | null
@@ -38526,6 +38925,7 @@ export namespace Prisma {
     sentAt?: bigint | number
     deletedAt?: bigint | number
     integrationId: string
+    leadId?: string | null
     source: $Enums.IntegrationType
   }
 
@@ -38734,6 +39134,7 @@ export namespace Prisma {
     contacts?: ContactUpdateManyWithoutLeadNestedInput
     attachments?: AttachmentUpdateManyWithoutLeadNestedInput
     integration?: IntegrationUpdateOneWithoutLeadNestedInput
+    Email?: EmailUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutOrganizationInput = {
@@ -38753,6 +39154,7 @@ export namespace Prisma {
     leadNotes?: LeadNotesUncheckedUpdateManyWithoutLeadNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutLeadNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutLeadNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateManyWithoutOrganizationInput = {
@@ -38915,6 +39317,7 @@ export namespace Prisma {
     status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
     trackingId?: NullableStringFieldUpdateOperationsInput | string | null
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
     threadId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38928,6 +39331,7 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    lead?: LeadUpdateOneWithoutEmailNestedInput
     EmailQueue?: EmailQueueUpdateManyWithoutEmailNestedInput
   }
 
@@ -38940,6 +39344,7 @@ export namespace Prisma {
     status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
     trackingId?: NullableStringFieldUpdateOperationsInput | string | null
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
     threadId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38952,6 +39357,7 @@ export namespace Prisma {
     sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
     EmailQueue?: EmailQueueUncheckedUpdateManyWithoutEmailNestedInput
   }
@@ -38965,6 +39371,7 @@ export namespace Prisma {
     status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
     subject?: NullableStringFieldUpdateOperationsInput | string | null
     body?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
     trackingId?: NullableStringFieldUpdateOperationsInput | string | null
     messageId?: NullableStringFieldUpdateOperationsInput | string | null
     threadId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38977,6 +39384,7 @@ export namespace Prisma {
     sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
   }
 
@@ -39232,6 +39640,32 @@ export namespace Prisma {
     deletedAt: bigint | number
   }
 
+  export type EmailCreateManyLeadInput = {
+    id?: string
+    from: JsonNullValueInput | InputJsonValue
+    to?: EmailCreatetoInput | string[]
+    cc?: EmailCreateccInput | string[]
+    bcc?: EmailCreatebccInput | string[]
+    status?: $Enums.EmailStatus
+    subject?: string | null
+    body: string
+    html?: string | null
+    trackingId?: string | null
+    messageId?: string | null
+    threadId?: string | null
+    historyId?: string | null
+    labelIds?: EmailCreatelabelIdsInput | string[]
+    isOpened?: boolean
+    openedAt?: bigint | number
+    isClicked?: boolean
+    clickedAt?: bigint | number
+    sentAt?: bigint | number
+    deletedAt?: bigint | number
+    integrationId: string
+    organizationId: string
+    source: $Enums.IntegrationType
+  }
+
   export type LeadProjectUpdateWithoutLeadInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -39417,6 +39851,86 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
+  export type EmailUpdateWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    from?: JsonNullValueInput | InputJsonValue
+    to?: EmailUpdatetoInput | string[]
+    cc?: EmailUpdateccInput | string[]
+    bcc?: EmailUpdatebccInput | string[]
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingId?: NullableStringFieldUpdateOperationsInput | string | null
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    threadId?: NullableStringFieldUpdateOperationsInput | string | null
+    historyId?: NullableStringFieldUpdateOperationsInput | string | null
+    labelIds?: EmailUpdatelabelIdsInput | string[]
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
+    openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
+    clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integrationId?: StringFieldUpdateOperationsInput | string
+    source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    organization?: OrganizationUpdateOneRequiredWithoutEmailNestedInput
+    EmailQueue?: EmailQueueUpdateManyWithoutEmailNestedInput
+  }
+
+  export type EmailUncheckedUpdateWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    from?: JsonNullValueInput | InputJsonValue
+    to?: EmailUpdatetoInput | string[]
+    cc?: EmailUpdateccInput | string[]
+    bcc?: EmailUpdatebccInput | string[]
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingId?: NullableStringFieldUpdateOperationsInput | string | null
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    threadId?: NullableStringFieldUpdateOperationsInput | string | null
+    historyId?: NullableStringFieldUpdateOperationsInput | string | null
+    labelIds?: EmailUpdatelabelIdsInput | string[]
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
+    openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
+    clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integrationId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    EmailQueue?: EmailQueueUncheckedUpdateManyWithoutEmailNestedInput
+  }
+
+  export type EmailUncheckedUpdateManyWithoutLeadInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    from?: JsonNullValueInput | InputJsonValue
+    to?: EmailUpdatetoInput | string[]
+    cc?: EmailUpdateccInput | string[]
+    bcc?: EmailUpdatebccInput | string[]
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingId?: NullableStringFieldUpdateOperationsInput | string | null
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    threadId?: NullableStringFieldUpdateOperationsInput | string | null
+    historyId?: NullableStringFieldUpdateOperationsInput | string | null
+    labelIds?: EmailUpdatelabelIdsInput | string[]
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
+    openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
+    clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integrationId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+  }
+
   export type EmailQueueCreateManyEmailInput = {
     id?: string
     scheduledAt: bigint | number
@@ -39586,6 +40100,7 @@ export namespace Prisma {
     contacts?: ContactUpdateManyWithoutLeadNestedInput
     attachments?: AttachmentUpdateManyWithoutLeadNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutLeadNestedInput
+    Email?: EmailUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutIntegrationInput = {
@@ -39605,6 +40120,7 @@ export namespace Prisma {
     leadNotes?: LeadNotesUncheckedUpdateManyWithoutLeadNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutLeadNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutLeadNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateManyWithoutIntegrationInput = {
@@ -39830,6 +40346,7 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutLeadNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutLeadNestedInput
     integration?: IntegrationUpdateOneWithoutLeadNestedInput
+    Email?: EmailUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateWithoutStatusInput = {
@@ -39849,6 +40366,7 @@ export namespace Prisma {
     leadNotes?: LeadNotesUncheckedUpdateManyWithoutLeadNestedInput
     contacts?: ContactUncheckedUpdateManyWithoutLeadNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutLeadNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutLeadNestedInput
   }
 
   export type LeadUncheckedUpdateManyWithoutStatusInput = {

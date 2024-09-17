@@ -1,7 +1,7 @@
-import { addDays } from "date-fns/addDays";
-import { addHours } from "date-fns/addHours";
-import { format } from "date-fns/format";
-import { nextSaturday } from "date-fns/nextSaturday";
+import addDays from "date-fns/addDays";
+import addHours from "date-fns/addHours";
+import format from "date-fns/format";
+import nextSaturday from "date-fns/nextSaturday";
 import {
   Archive,
   ArchiveX,
@@ -38,6 +38,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import DateHelper from "../../../utils/DateHelper";
 
 interface MailDisplayProps {
   mail: any | null;
@@ -189,50 +190,44 @@ export function MailDisplay({ mail }: MailDisplayProps) {
           <div className="flex items-start p-4">
             <div className="flex items-start gap-4 text-sm">
               <Avatar>
-                <AvatarImage alt={mail.name} />
-                <AvatarFallback>
-                  {mail.name
+                <AvatarImage alt={mail.from.name} />
+                <AvatarFallback className="capitalize">
+                  {mail.from.name
                     .split(" ")
                     .map((chunk: any) => chunk[0])
                     .join("")}
                 </AvatarFallback>
               </Avatar>
               <div className="grid gap-1">
-                <div className="font-semibold">{mail.name}</div>
+                <div className="font-semibold capitalize">{mail.from.name}</div>
                 <div className="line-clamp-1 text-xs">{mail.subject}</div>
                 <div className="line-clamp-1 text-xs">
-                  <span className="font-medium">Reply-To:</span> {mail.email}
+                  <span className="font-medium">Reply-To:</span> {mail.to}
                 </div>
               </div>
             </div>
-            {mail.date && (
+            {mail.sentAt && (
               <div className="ml-auto text-xs text-muted-foreground">
-                {format(new Date(mail.date), "PPpp")}
+                {DateHelper.formatTimestamp(mail.sentAt)}
               </div>
             )}
           </div>
           <Separator />
           {/* const decodedHtml = encodedHtml.replace(/\\u003C/g, "<").replace(/\\u003E/g, ">");
            */}
-          <div className="flex-1 whitespace-pre-wrap p-4 text-sm">
-            {mail.text}
-          </div>
+          <div
+            className="flex-1 whitespace-pre-wrap p-4 text-sm"
+            dangerouslySetInnerHTML={{ __html: mail.body }}
+          />
           <Separator className="mt-auto" />
           <div className="p-4">
             <form>
               <div className="grid gap-4">
                 <Textarea
-                  className="p-4"
-                  placeholder={`Reply ${mail.name}...`}
+                  className="p-4 capitalize"
+                  placeholder={`Reply ${mail.from.name}...`}
                 />
                 <div className="flex items-center">
-                  <Label
-                    htmlFor="mute"
-                    className="flex items-center gap-2 text-xs font-normal"
-                  >
-                    <Switch id="mute" aria-label="Mute thread" /> Mute this
-                    thread
-                  </Label>
                   <Button
                     onClick={(e) => e.preventDefault()}
                     size="sm"

@@ -132,6 +132,8 @@ model Lead {
   organizationId String
   organization   Organization   @relation(fields: [organizationId], references: [id])
   integration    Integration?   @relation(fields: [integrationId], references: [id])
+
+  Email Email[]
 }
 
 model LeadProject {
@@ -215,6 +217,7 @@ model Email {
   status  EmailStatus @default(SCHEDULE)
   subject String?
   body    String
+  html    String?
 
   trackingId String? @unique
   messageId  String?
@@ -227,11 +230,13 @@ model Email {
   isClicked Boolean  @default(false)
   clickedAt BigInt   @default(0)
 
-  sentAt         BigInt @default(0)
-  deletedAt      BigInt @default(0)
+  sentAt         BigInt  @default(0)
+  deletedAt      BigInt  @default(0)
   integrationId  String
   organizationId String
+  leadId         String?
 
+  lead         Lead?           @relation(fields: [leadId], references: [id])
   organization Organization    @relation(fields: [organizationId], references: [id])
   source       IntegrationType
   EmailQueue   EmailQueue[]

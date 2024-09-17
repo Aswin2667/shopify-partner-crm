@@ -34,13 +34,13 @@ const IntegrationCard = ({ type }: Props) => {
   return (
     <Card onClick={clickHandler} className="hover:cursor-pointer space-y-2">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <img src={integration.logo} className="h-14 w-14 rounded-lg" alt="" />
+        <img src={integration?.logo} className="h-14 w-14 rounded-lg" alt="" />
         <CardTitle className="text-xl font-semibold">
-          {integration.name}
+          {integration?.name}
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-sm font-medium">{integration.description}</div>
+        <div className="text-sm font-medium">{integration?.description}</div>
         {/* <p className="text-xs text-muted-foreground">
           {DateHelper.formatTimestamp(integration.createdAt)}
         </p> */}
