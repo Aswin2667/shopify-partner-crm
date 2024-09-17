@@ -37,7 +37,7 @@ export function MailList({ items }: MailListProps) {
                 <div className="flex items-center gap-2">
                   <NavLink
                     className="font-semibold hover:text-blue-600 underline transition-all ease-linear capitalize"
-                    to={`/${organizationId}/leads/${item.id}/emails`}
+                    to={`/${organizationId}/leads/${item.leadId}/emails`}
                   >
                     {item.from.name}
                   </NavLink>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import MailThreadItem from "./MailThreadItem";
 import IntegrationService from "@/services/IntegrationService";
+import DateHelper from "../../../utils/DateHelper";
+import TimeAgo from "timeago-react";
 
 type Thread = {
   id: string;
@@ -10,6 +12,7 @@ type Thread = {
 
 const MailThread = ({ mail }: any) => {
   const [thread, setThread] = useState<null | Thread>(null);
+  console.log(mail);
   console.log(thread);
 
   useEffect(() => {
@@ -41,7 +44,7 @@ const MailThread = ({ mail }: any) => {
       <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600">
         <div className="items-center justify-between mb-3 sm:flex">
           <time className="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">
-            2 hours ago
+            <TimeAgo datetime={DateHelper.convertToDateString(mail?.sentAt)} />
           </time>
           <div className=" text-sm font-semibold text-gray-900 dark:text-white hover:underline">
             {mail.subject}{" "}
