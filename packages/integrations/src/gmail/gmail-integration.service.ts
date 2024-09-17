@@ -213,11 +213,8 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         subject,
         customMessageId,
       );
-      const trackingId: string = uuidv4();
-      const bodyWithTrackingImage = getTrackingImage(body, trackingId);
 
-      console.log(bodyWithTrackingImage);
-      const message = `${headers}\r\n\r\n${bodyWithTrackingImage}`;
+      const message = `${headers}\r\n\r\n${body}`;
       const encodedMessage = this.encodeMessage(message);
 
       const mailResponse = await gmail.users.messages.send({
@@ -237,7 +234,6 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
       const updatedMailResponse = await this.updateEmailInDatabase(
         emailData.id,
         response.data,
-        trackingId,
       );
       return updatedMailResponse;
     } catch (error) {
@@ -362,7 +358,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     );
   }
 
-  private async updateEmailInDatabase(emailId, emailData, trackingId) {
+  private async updateEmailInDatabase(emailId, emailData) {
     return await this.prisma.email.update({
       where: {
         id: emailId,
@@ -374,7 +370,6 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         labelIds: emailData.labelIds,
         sentAt: DateHelper.getCurrentUnixTime(),
         status: 'SEND',
-        trackingId: trackingId,
       },
     });
   }

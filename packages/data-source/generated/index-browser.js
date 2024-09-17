@@ -443,7 +443,8 @@ exports.LeadActivityType = exports.$Enums.LeadActivityType = {
 
 exports.EmailStatus = exports.$Enums.EmailStatus = {
   SEND: 'SEND',
-  SCHEDULE: 'SCHEDULE'
+  SCHEDULE: 'SCHEDULE',
+  FAILED: 'FAILED'
 };
 
 exports.IntegrationType = exports.$Enums.IntegrationType = {
