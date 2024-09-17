@@ -30,7 +30,7 @@ export default function MailPage() {
 
   return (
     <div className="p-4">
-      {emails.length > 0 ? (
+      {emails?.length > 0 ? (
         <Mail
           accounts={accounts}
           mails={emails}
