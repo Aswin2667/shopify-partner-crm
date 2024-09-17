@@ -63,7 +63,7 @@ export function MailList({ items }: MailListProps) {
             {/* const decodedHtml = encodedHtml.replace(/\\u003C/g, "<").replace(/\\u003E/g, ">");
              */}
             <div className="line-clamp-2 text-xs text-muted-foreground">
-              {item.body}
+              {item.body.replace(/<\/?[^>]+(>|$)/g, "")}
             </div>
             {item.labelIds.length ? (
               <div className="flex items-center gap-2">

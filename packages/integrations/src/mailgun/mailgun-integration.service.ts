@@ -112,6 +112,7 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
     body: string;
     integrationId: string;
     organizationId: string;
+    leadId: string;
     scheduledAt: bigint | number;
     source: IntegrationType;
   }) {
@@ -125,6 +126,7 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
         body,
         integrationId,
         organizationId,
+        leadId,
         scheduledAt,
         source,
       } = mailData;
@@ -135,6 +137,7 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
           cc,
           bcc,
           subject,
+          leadId,
           body,
           integrationId,
           organizationId,

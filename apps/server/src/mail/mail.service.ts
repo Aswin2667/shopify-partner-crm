@@ -29,7 +29,25 @@ export class MailService {
       return this.prisma.email.findMany({
         where: {
           organizationId,
-          status: 'SEND' as EmailStatus,
+        },
+        include: {
+          lead: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getMailsByLeadId(leadId: string): Promise<any[]> {
+    try {
+      return this.prisma.email.findMany({
+        where: {
+          leadId,
         },
       });
     } catch (error) {

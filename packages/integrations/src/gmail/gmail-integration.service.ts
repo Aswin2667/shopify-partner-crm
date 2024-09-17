@@ -175,6 +175,8 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
       return await this.sendMail(params);
     } else if (action === MailAction.SCHEDULE_MAIL) {
       return await this.scheduleMail(params);
+    } else if (action === 'GET_THREAD') {
+      return await this.getThread(params);
     } else if (action === 'TEST') {
       return await this.test(params);
     } else {
@@ -254,6 +256,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     body: string;
     integrationId: string;
     organizationId: string;
+    leadId: string;
     scheduledAt: bigint | number;
     source: IntegrationType;
   }) {
@@ -267,6 +270,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         body,
         integrationId,
         organizationId,
+        leadId,
         scheduledAt,
         source,
       } = mailData;
@@ -277,6 +281,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
           cc,
           bcc,
           subject,
+          leadId,
           body,
           integrationId,
           organizationId,
@@ -299,6 +304,45 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     } catch (error) {
       console.error(error);
       throw new Error(error);
+    }
+  }
+
+  private async getThread({
+    threadId,
+    integrationId,
+  }: {
+    threadId: string;
+    integrationId: string;
+  }) {
+    const integration = await this.getIntegrationById(integrationId);
+
+    const { accessToken, refreshToken } = integration.data as {
+      accessToken: string;
+      refreshToken: string;
+    };
+    try {
+      await this.verifyToken(accessToken);
+
+      const response = await this.fetchThreadDetails(threadId, accessToken);
+
+      console.log(response.data);
+
+      return response.data;
+    } catch (error) {
+      if (error.response?.status === 401) {
+        this.logger.log('Access token invalid, refreshing token...');
+        const newAccessToken = await this.refreshAccessToken(
+          refreshToken,
+          integrationId,
+        );
+        this.logger.log(
+          `New access token obtained ${newAccessToken}, retrying email send...`,
+        );
+        await this.getThread({ threadId, integrationId });
+      } else {
+        this.logger.error('Error sending email:', error.message);
+        throw error;
+      }
     }
   }
 
@@ -362,6 +406,17 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     );
   }
 
+  private async fetchThreadDetails(threadId: string, accessToken: string) {
+    return axios.get(
+      `https://gmail.googleapis.com/gmail/v1/users/me/threads/${threadId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+  }
+
   private async updateEmailInDatabase(emailId, emailData, trackingId) {
     return await this.prisma.email.update({
       where: {
@@ -381,9 +436,12 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
 
   private async refreshAccessToken(
     refreshToken: string,
-    gmailIntegrationId: string,
+    integrationId: string,
   ): Promise<string> {
     try {
+      console.log('refreshToken :', refreshToken);
+      console.log('integrationId :', integrationId);
+
       const response = await axios.post(
         'https://oauth2.googleapis.com/token',
         new URLSearchParams({
@@ -398,14 +456,17 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
           },
         },
       );
+      console.log('response.data:', response.data);
 
       const { access_token } = response.data;
 
       // Retrieve existing data
       const existingIntegration = await this.prisma.integration.findUnique({
-        where: { id: gmailIntegrationId },
+        where: { id: integrationId },
         select: { data: true }, // Retrieve only the data field
       });
+
+      console.log('existingIntegration: ', existingIntegration);
 
       if (existingIntegration) {
         const updatedData = {
@@ -416,7 +477,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
 
         // Update only the accessToken in the data field
         await this.prisma.integration.update({
-          where: { id: gmailIntegrationId },
+          where: { id: integrationId },
           data: {
             data: updatedData,
           },
@@ -436,14 +497,14 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
   private async handleError(
     error: any,
     refreshToken: string,
-    gmailIntegrationId: string,
+    integrationId: string,
     emailData: Email,
   ) {
     if (error.response?.status === 401) {
       this.logger.log('Access token invalid, refreshing token...');
       const newAccessToken = await this.refreshAccessToken(
         refreshToken,
-        gmailIntegrationId,
+        integrationId,
       );
       this.logger.log(
         `New access token obtained ${newAccessToken}, retrying email send...`,

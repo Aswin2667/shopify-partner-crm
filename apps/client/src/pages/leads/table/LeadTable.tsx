@@ -94,6 +94,7 @@ const LeadTable: React.FC = () => {
 
   return (
     <div className="p-4 h-screen flex flex-col overflow-auto">
+      {/* TODO:  overflow-hidden -> overflow-scroll */}
       <div className="relative overflow-hidden h-screen flex-1 bg-white dark:bg-black sm:rounded-lg flex flex-col items-between">
         <DataTableToolbar leads={leads} />
         <div className="overflow-auto mb-4 max-h-[700px]">
