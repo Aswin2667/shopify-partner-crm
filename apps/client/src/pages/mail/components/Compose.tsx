@@ -131,7 +131,7 @@ const reducerFn = (prevState: any, action: any) => {
 };
 
 const Compose = (props: Props): JSX.Element => {
-  const { organizationId } = useParams();
+  const { organizationId, leadId } = useParams();
   const [compose, dispatch] = useReducer(
     reducerFn,
     initialArgs,
@@ -152,7 +152,7 @@ const Compose = (props: Props): JSX.Element => {
         "SCHEDULE_MAIL",
         data
       ),
-  onSuccess: (res) => dispatch({type: "clear"}),
+    onSuccess: (res) => dispatch({ type: "clear" }),
     onError: (error) => console.error(error),
   });
 
@@ -166,6 +166,7 @@ const Compose = (props: Props): JSX.Element => {
       body: compose.body,
       integrationId: compose.from.integrationId,
       organizationId,
+      leadId,
       source: compose.from.type,
       scheduledAt: compose.scheduledAt
         ? compose.scheduledAt

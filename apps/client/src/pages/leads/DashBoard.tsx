@@ -68,6 +68,7 @@ export default function LeadDashboard() {
     <div className="flex flex-col min-h-full sm:gap-4 sm:py-4 sm:pl-4 overflow-scroll">
       <main className="flex flex-1 items-start gap-4 p-4 sm:px-6 h-screen overflow-scroll sm:py-0 md:gap-8">
         <div className="w-1/4 h-screen overflow-scroll">
+          {/*  TODO: overflow-hidden -> overflow-scroll */}
           <Card className="overflow-hidden">
             <CardHeader className="flex flex-row pb-0 items-start bg-muted/50">
               <div className="grid gap-0.5">
@@ -126,7 +127,7 @@ export default function LeadDashboard() {
                       <SelectItem value="INTERESTED">Interested</SelectItem>
                     </SelectGroup>
                   </SelectContent>
-                </Select> 
+                </Select>
                 <CardDescription>
                   {lead?.shopDetails?.description}
                 </CardDescription>

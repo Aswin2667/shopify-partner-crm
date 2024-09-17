@@ -160,7 +160,7 @@ export default function RootLayout() {
         </div>
         <Separator />
         <div className="max-h-full max-w-full min-w-full flex items-center justify-center">
-          <div className="max-h-screen max-w-full min-h-screen min-w-full overflow-hidden">
+          <div className="max-h-screen max-w-full min-h-screen min-w-full overflow-scroll">
             <Outlet />
           </div>
         </div>
