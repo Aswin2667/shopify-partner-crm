@@ -266,6 +266,7 @@ exports.Prisma.EmailScalarFieldEnum = {
   status: 'status',
   subject: 'subject',
   body: 'body',
+  html: 'html',
   trackingId: 'trackingId',
   messageId: 'messageId',
   threadId: 'threadId',
@@ -279,6 +280,7 @@ exports.Prisma.EmailScalarFieldEnum = {
   deletedAt: 'deletedAt',
   integrationId: 'integrationId',
   organizationId: 'organizationId',
+  leadId: 'leadId',
   source: 'source'
 };
 

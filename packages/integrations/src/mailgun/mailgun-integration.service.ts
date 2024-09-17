@@ -9,7 +9,7 @@ import {
   IntegrationType,
   MailAction,
 } from 'src/types';
-import { Prisma, PrismaService } from '@org/data-source';
+import { Email, Prisma, PrismaService } from '@org/data-source';
 import { validateIntegration } from 'src/validation';
 import { DateHelper } from '@org/utils';
 import axios from 'axios';
@@ -112,6 +112,8 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
     body: string;
     integrationId: string;
     organizationId: string;
+    scheduledAt: bigint | number;
+    source: IntegrationType;
   }) {
     try {
       const {
@@ -123,6 +125,8 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
         body,
         integrationId,
         organizationId,
+        scheduledAt,
+        source,
       } = mailData;
       const mailSavedresponse = await this.prisma.email.create({
         data: {
@@ -134,19 +138,19 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
           body,
           integrationId,
           organizationId,
-          source: IntegrationType.MAIL_GUN,
-          sentAt: 0,
+          source,
         },
       });
       if (mailSavedresponse.id) {
         const mailQueueResponse = await this.prisma.emailQueue.create({
           data: {
             emailId: mailSavedresponse.id,
-            scheduledAt: DateHelper.getCurrentUnixTime(),
+            scheduledAt,
             status: 'PENDING',
           },
         });
         this.logger.log('Mail scheduled successfully');
+        console.log(mailSavedresponse);
         return mailQueueResponse;
       }
       throw new Error('Failed to schedule email');
@@ -156,29 +160,21 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
     }
   }
 
-  private async sendMail(emailData: {
-    to: string[];
-    cc: string[];
-    bcc: string[];
-    subject: string;
-    body: string;
-    refreshToken: string;
-    accessToken: string;
-    gmailIntegrationId: string;
-  }) {
+  private async sendMail(emailData: Email) {
     try {
-      const {
-        to,
-        cc,
-        bcc,
-        subject,
-        body,
-        gmailIntegrationId,
-        accessToken,
-        refreshToken,
-      } = emailData;
-      const apiKey = process.env.MAILGUN_API_KEY;
-      const domain = process.env.MAILGUN_DOMAIN;
+      const { from, to, cc, bcc, subject, body, integrationId } = emailData;
+
+      const integration = await this.getIntegrationById(integrationId);
+
+      const { apiKey, domain } = integration.data as {
+        apiKey: string;
+        domain: string;
+      };
+      const sender = from as unknown as {
+        email: string;
+        name: string;
+      };
+
       console.log(apiKey);
       console.log(domain);
       console.log(emailData);
@@ -188,12 +184,7 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
       }
 
       const formData = new FormData();
-      formData.append(
-        'from',
-        `Dinesh Balan S <
-        db1582002@gmail.com
-        >`,
-      );
+      formData.append('from', `${sender.name} <${sender.email}>`);
       // mailgun@${domain}
       formData.append('to', to.join(', '));
       if (cc.length) formData.append('cc', cc.join(', '));
@@ -220,6 +211,24 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
       }
     } catch (error) {
       return { success: false, error: error.message };
+    }
+  }
+
+  private async getIntegrationById(integrationId: string) {
+    try {
+      const integration = await this.prisma.integration.findUnique({
+        where: {
+          id: integrationId,
+        },
+      });
+
+      if (!integration) {
+        throw new Error(`Integration With Id ${integrationId} Not Found`);
+      }
+
+      return integration;
+    } catch (error) {
+      throw error;
     }
   }
 }

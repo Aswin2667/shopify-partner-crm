@@ -9,7 +9,7 @@ import {
   IntegrationType,
   MailAction,
 } from 'src/types';
-import { Prisma, PrismaService } from '@org/data-source';
+import { Email, Prisma, PrismaService } from '@org/data-source';
 import { validateIntegration } from 'src/validation';
 import { DateHelper } from '@org/utils';
 import sgMail, { MailDataRequired } from '@sendgrid/mail';
@@ -108,6 +108,8 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
     body: string;
     integrationId: string;
     organizationId: string;
+    scheduledAt: bigint | number;
+    source: IntegrationType;
   }) {
     try {
       const {
@@ -119,6 +121,8 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
         body,
         integrationId,
         organizationId,
+        scheduledAt,
+        source,
       } = mailData;
       const mailSavedresponse = await this.prisma.email.create({
         data: {
@@ -130,19 +134,19 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
           body,
           integrationId,
           organizationId,
-          source: IntegrationType.SEND_GRID,
-          sentAt: 0,
+          source,
         },
       });
       if (mailSavedresponse.id) {
         const mailQueueResponse = await this.prisma.emailQueue.create({
           data: {
             emailId: mailSavedresponse.id,
-            scheduledAt: DateHelper.getCurrentUnixTime(),
+            scheduledAt,
             status: 'PENDING',
           },
         });
         this.logger.log('Mail scheduled successfully');
+        console.log(mailSavedresponse);
         return mailQueueResponse;
       }
       throw new Error('Failed to schedule email');
@@ -152,48 +156,84 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
     }
   }
 
-  private async sendMail(emailData: {
-    to: string[];
-    cc: string[];
-    bcc: string[];
-    subject: string;
-    body: string;
-    gmailIntegrationId: string;
-  }) {
+  private async sendMail(emailData: Email) {
     try {
-      const { to, cc, bcc, subject, body, gmailIntegrationId } = emailData;
+      const { from, to, cc, bcc, subject, body, integrationId } = emailData;
 
-      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+      const integration = await this.getIntegrationById(integrationId);
+
+      const { apiKey } = integration.data as { apiKey: string };
+      const sender = from as unknown as {
+        email: string;
+        name: string;
+      };
+
+      sgMail.setApiKey(apiKey);
       const msg: MailDataRequired | MailDataRequired[] = {
         to: to, // Change to your recipient
         cc: cc,
         bcc: bcc,
         from: {
-          email: 'db1582002@gmail.com',
-          name: 'Dinesh Balan S',
+          email: sender.email,
+          name: sender.name,
         }, // Change to your verified sender
-        subject: 'Sending with SendGrid is Fun',
-        text: 'and easy to do anywhere, even with Node.js',
-        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+        subject,
+        // text: 'and easy to do anywhere, even with Node.js',
+        html: body,
       };
 
       sgMail
         .send(msg)
-        .then(() => {
+        .then((res: any) => {
+          console.log(res);
           console.log('Email sent');
         })
         .catch((error) => {
           console.error(error);
           throw new Error(`Failed to send email: ${error.message}`);
         });
-
-      // if (response.status === 200) {
-      //   return { success: true, error: null };
-      // } else {
-      //   throw new Error(`Failed to send email: ${response.statusText}`);
-      // }
     } catch (error) {
       return { success: false, error: error.message };
     }
   }
+
+  private async getIntegrationById(integrationId: string) {
+    try {
+      const integration = await this.prisma.integration.findUnique({
+        where: {
+          id: integrationId,
+        },
+      });
+
+      if (!integration) {
+        throw new Error(`Integration With Id ${integrationId} Not Found`);
+      }
+
+      return integration;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
+
+
+// [
+//   Response {
+//     statusCode: 202,
+//     body: '',
+//     headers: Object [AxiosHeaders] {
+//       server: 'nginx',
+//       date: 'Mon, 16 Sep 2024 10:57:56 GMT',
+//       'content-length': '0',
+//       connection: 'keep-alive',
+//       'x-message-id': 'AIkVh2ZRTaK6fH_Ljeq6Vg',
+//       'access-control-allow-origin': 'https://sendgrid.api-docs.io',
+//       'access-control-allow-methods': 'POST',
+//       'access-control-allow-headers': 'Authorization, Content-Type, On-behalf-of, x-sg-elas-acl',
+//       'access-control-max-age': '600',
+//       'x-no-cors-reason': 'https://sendgrid.com/docs/Classroom/Basics/API/cors.html',
+//       'strict-transport-security': 'max-age=600; includeSubDomains'
+//     }
+//   },
+//   ''
+// ]
