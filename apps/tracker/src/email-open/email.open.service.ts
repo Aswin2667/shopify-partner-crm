@@ -16,7 +16,7 @@ export class EmailOpenService {
     console.log('Email opened, ID:', id);
 
      this.emailTrackingQueue.add('email-opened', {
-      emailId: id,
+      trackingId: id,
       openedAt: DateHelper.getCurrentUnixTime(),
       eventSource: 'TRACKER',
     });

@@ -40,6 +40,7 @@ export default class DateHelper {
   }
 
   public static convertToUnixTimestamp(dateString: string) {
+    console.log(dateString);
     const date = DateTime.fromJSDate(new Date(dateString));
     const unixTimestamp = date.toSeconds();
     // console.log(unixTimestamp);

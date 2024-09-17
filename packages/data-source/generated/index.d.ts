@@ -172,7 +172,8 @@ export type LeadActivityType = (typeof LeadActivityType)[keyof typeof LeadActivi
 
 export const EmailStatus: {
   SEND: 'SEND',
-  SCHEDULE: 'SCHEDULE'
+  SCHEDULE: 'SCHEDULE',
+  FAILED: 'FAILED'
 };
 
 export type EmailStatus = (typeof EmailStatus)[keyof typeof EmailStatus]
