@@ -37,7 +37,6 @@ export class IntegrationService {
         data: {
           ...(config as BaseIntegration),
           // Use validated data
-          
         },
       });
     } catch (error) {
@@ -150,12 +149,13 @@ export class IntegrationService {
     // if (!integration) {
     //   throw new NotFoundException(`Integration with id ${id} not found`);
     // }
-
-    return await this.integrationManager.performIntegrationAction(
+    const response = await this.integrationManager.performIntegrationAction(
       type,
       action,
       params,
     );
+    console.log(response);
+    return response;
   }
 
   async createFromEmail(data: any) {

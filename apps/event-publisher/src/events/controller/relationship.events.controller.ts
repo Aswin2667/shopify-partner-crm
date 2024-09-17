@@ -34,7 +34,8 @@ export class EventsController {
   }
 
   @Post('subscription')
-  async handleSubscriptionEvent(@Body() eventPayload: EventDto) {
+  async handleSubscriptionEvent(@Body() eventPayload:any) {
+    console.log(eventPayload)
     return this.handleEvent(eventPayload, 'subscription-events');
   }
 
