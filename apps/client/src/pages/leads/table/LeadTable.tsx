@@ -9,6 +9,7 @@ import { DataTableToolbar } from "./components/data-table-toolbar";
 import LeadBadge from "../components/LeadBadge";
 import { DataTablePagination } from "./components/data-table-pagination";
 import TimeAgo from "timeago-react";
+import { Label } from "@/components/ui/label";
 
 type Project = {
   id: string;
@@ -45,6 +46,7 @@ const LeadTable: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
   const [totalItems, setTotalItems] = useState<number>(0);
+  const [searchTerm, setSearchTerm] = useState<string>(""); // State for search input
 
   const navigate = useNavigate();
 
@@ -52,19 +54,14 @@ const LeadTable: React.FC = () => {
     const fetchLeads = async () => {
       if (organizationId) {
         try {
-          const response: any = await LeadService.getByOrganizationId(
-            organizationId as string
-          );
+          const response: any = await LeadService.getByOrganizationId(organizationId as string);
           if (response.status) {
             setLeads(response.data.data);
-            console.log(response.data.data);
             setTotalItems(response.data.data.length);
           } else {
             toast({
               title: response.message,
-              description: DateHelper.formatTimestamp(
-                DateHelper.getCurrentUnixTime()
-              ),
+              description: DateHelper.formatTimestamp(DateHelper.getCurrentUnixTime()),
               duration: 1000,
               variant: response.status ? "default" : "destructive",
             });
@@ -78,10 +75,15 @@ const LeadTable: React.FC = () => {
     fetchLeads();
   }, [organizationId]);
 
+  // Handle search filtering
+  const filteredLeads = leads.filter((lead) =>
+    lead.shopifyDomain.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentLeads = leads.slice(indexOfFirstItem, indexOfLastItem);
+  const currentLeads = filteredLeads.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -92,47 +94,61 @@ const LeadTable: React.FC = () => {
     setCurrentPage(1);
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
     <div className="p-4 h-screen flex flex-col overflow-auto">
-      {/* TODO:  overflow-hidden -> overflow-scroll */}
       <div className="relative overflow-hidden h-screen flex-1 bg-white dark:bg-black sm:rounded-lg flex flex-col items-between">
-        <DataTableToolbar leads={leads} />
+        <div className="flex justify-between items-center p-4">
+          <Label
+            htmlFor="default-search"
+            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+          >
+            Search
+          </Label>
+          <div className="relative">
+            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+              <svg
+                className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+            <input
+              type="search"
+              id="default-search"
+              value={searchTerm}
+              onChange={handleSearchChange} // Update the search term on change
+              className="block w-full ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 p-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Search for lead"
+              required
+            />
+          </div>
+          <DataTableToolbar leads={leads} />
+        </div>
         <div className="overflow-auto mb-4 max-h-[700px]">
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-200">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-900 dark:text-gray-400">
                 <tr>
-                  {/* <th scope="col" className="p-4">
-                    <div className="flex items-center">
-                      <input
-                        id="checkbox-all"
-                        type="checkbox"
-                        className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                        aria-label="Select all"
-                      />
-                      <label htmlFor="checkbox-all" className="sr-only">
-                        Select all
-                      </label>
-                    </div>
-                  </th> */}
-                  <th scope="col" className="px-4 py-3">
-                    Lead
-                  </th>
-                  <th scope="col" className="px-4 py-3">
-                    Lead from
-                  </th>
-                  <th scope="col" className="px-4 py-3">
-                    Status
-                  </th>
-                  <th scope="col" className="px-4 py-3">
-                    Sales
-                  </th>
-                  <th scope="col" className="px-4 py-3">
-                    Revenue
-                  </th>
-                  <th scope="col" className="px-4 py-3 text-center">
-                    Created At
-                  </th>
+                  <th scope="col" className="px-4 py-3">Lead</th>
+                  <th scope="col" className="px-4 py-3">Lead from</th>
+                  <th scope="col" className="px-4 py-3">Status</th>
+                  <th scope="col" className="px-4 py-3">Sales</th>
+                  <th scope="col" className="px-4 py-3">Revenue</th>
+                  <th scope="col" className="px-4 py-3 text-center">Created At</th>
                 </tr>
               </thead>
               <tbody>
@@ -142,39 +158,19 @@ const LeadTable: React.FC = () => {
                       className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
                       key={lead.id}
                     >
-                      {/* <td className="w-4 px-4 py-3">
-                        <div className="flex items-center">
-                          <input
-                            id={`checkbox-table-${lead.id}`}
-                            type="checkbox"
-                            className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                            aria-label={`Select lead ${lead.id}`}
-                          />
-                          <label
-                            htmlFor={`checkbox-table-${lead.id}`}
-                            className="sr-only"
-                          >
-                            Select lead {lead.id}
-                          </label>
-                        </div>
-                      </td> */}
                       <th
                         scope="row"
                         onClick={() => navigate(`${lead.id}`)}
                         className="flex items-center px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white hover:underline cursor-pointer"
                       >
-                        <img
-                          src={image}
-                          alt="shopify"
-                          className="w-5 h-5 mr-3"
-                        />
+                        <img src={image} alt="shopify" className="w-5 h-5 mr-3" />
                         {lead.shopifyDomain}
                       </th>
                       <td className="px-4 py-2">
                         {lead.projects.length > 0 ? (
                           lead.projects.map((project: Project) => (
                             <span
-                              key={project.id} // Ensure to use a unique key when rendering lists
+                              key={project.id}
                               className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400"
                             >
                               {project.name}
@@ -186,7 +182,6 @@ const LeadTable: React.FC = () => {
                           </span>
                         )}
                       </td>
-
                       <td className="px-4 py-2">
                         <LeadBadge status={lead.status} />
                       </td>
@@ -199,17 +194,21 @@ const LeadTable: React.FC = () => {
                             className="w-5 h-5 mr-2 text-gray-400"
                             aria-hidden="true"
                           >
-                            <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
+                            <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.562a2.25 2.25 0 012.205-1.876h7.956a.75.75 0 00.723-.553l2.532-9.482h2.022a.75.75 0 000-1.5H2.25zM15.038 12H8.485L6.46 4.5h10.495l-1.917 7.173A3.745 3.745 0 0015.038 12z" />
+                            <path
+                              fillRule="evenodd"
+                              d="M8.25 18a.75.75 0 011.5 0 2.25 2.25 0 004.5 0 .75.75 0 011.5 0 3.75 3.75 0 01-7.5 0z"
+                              clipRule="evenodd"
+                            />
                           </svg>
-                          1.6M
+                          3.67K
                         </div>
                       </td>
-                      <td className="px-4 py-2">$3.2M</td>
-                      <td className="px-4 py-2 font-medium text-gray-900 text-center whitespace-nowrap dark:text-white">
+                      <td className="px-4 py-2">$567.99</td>
+                      <td className="px-4 py-2 text-center">
                         <TimeAgo
-                          datetime={DateHelper.convertToDateString(
-                            lead.createdAt
-                          )}
+                          datetime={DateHelper.convertToDateString(lead.createdAt)}
+                          className="text-gray-500 dark:text-gray-400"
                         />
                       </td>
                     </tr>
@@ -222,7 +221,7 @@ const LeadTable: React.FC = () => {
         <DataTablePagination
           currentPage={currentPage}
           itemsPerPage={itemsPerPage}
-          totalItems={totalItems}
+          totalItems={filteredLeads.length}
           onPageChange={handlePageChange}
           onItemsPerPageChange={handleItemsPerPageChange}
         />

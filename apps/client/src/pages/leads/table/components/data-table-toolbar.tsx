@@ -57,7 +57,7 @@ export function DataTableToolbar({ leads }: any) {
     resolver: zodResolver(schema),
   });
 
-  const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
+  const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
   const { toast } = useToast();
   const { currentOrganization } = useSelector(
     (state: any) => state.organization
@@ -107,6 +107,7 @@ export function DataTableToolbar({ leads }: any) {
               <span className="text-gray-500">Total Revenue: </span>
               <span className="dark:text-white"> $88.4k</span>
             </h5>
+           
           </div>
           <div className="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
             <AlertDialogTrigger>

@@ -56,11 +56,19 @@ import DateHelper from "@/utils/DateHelper";
 export default function LeadDashboard() {
   const [lead, setLead] = useState<any>({});
   const { leadId } = useParams();
+  const [totalAmount,setTotalAmount] = useState(0);
+  const [currencyCode,setCurrencyCode] = useState('');
   useEffect(() => {
     const fetchData = async () => {
       const response = await LeadService.getLeadById(leadId as string);
       setLead(response.data.data);
       console.log(response.data.data);
+      const totalAmountByLead = await LeadService.getTotalAmountByLeadId(
+        leadId as string
+      )
+      setTotalAmount(totalAmountByLead.data.data.totalAmount);
+      setCurrencyCode(totalAmountByLead.data.data.currencyCode);
+      console.log(totalAmountByLead.data.data);
     };
     fetchData();
   }, [leadId]);
@@ -110,6 +118,7 @@ export default function LeadDashboard() {
                     <span className="sr-only">Copy Order ID</span>
                   </Button>
                 </CardTitle>
+                <div className="flex gap-5 items-center">
                 <Select value={lead.status}>
                   <SelectTrigger className="max-w-fit pt-0 pb-0 border-none">
                     <SelectValue defaultChecked={lead.status} />
@@ -128,6 +137,10 @@ export default function LeadDashboard() {
                     </SelectGroup>
                   </SelectContent>
                 </Select>
+                {totalAmount+" "+currencyCode}
+                </div>
+               
+
                 <CardDescription>
                   {lead?.shopDetails?.description}
                 </CardDescription>

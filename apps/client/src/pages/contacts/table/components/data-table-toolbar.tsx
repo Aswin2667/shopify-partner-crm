@@ -47,7 +47,7 @@ export function DataTableToolbar({ leads }: any) {
     resolver: zodResolver(schema),
   });
 
-  const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
+  const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
   const { toast } = useToast();
   const { currentOrganization } = useSelector(
     (state: any) => state.organization

@@ -68,7 +68,7 @@ export function CreateOrganizationPopup({
   }: any = useForm({
     resolver: zodResolver(organizationSchema),
   });
-  const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
+  const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
 
   // const handleFileChange = async (event: any) => {
   //   const file = event.target.files[0];
@@ -220,7 +220,7 @@ export default function OrganizationList() {
       queryKey: ["fetchOrganizations"],
       queryFn: async () => {
         try {
-          const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
+          const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
           return await OrganizationService.getOrganizationsByUserId(userId);
         } catch (error) {}
       },
@@ -246,7 +246,7 @@ export default function OrganizationList() {
   );
 
   React.useEffect(() => {
-    const sessionData = sessionStorage.getItem("session");
+    const sessionData = localStorage.getItem("session");
     if (!sessionData) {
       navigate("/login");
     }

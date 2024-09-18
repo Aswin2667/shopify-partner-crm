@@ -14,7 +14,7 @@ const OrganizationCard = ({ organization }: any) => {
     dispatch(
       organizationAction.setCurrentOrganization(organization.organization),
     );
-    // sessionStorage.setItem("organization", JSON.stringify(organization));
+    // localStorage.setItem("organization", JSON.stringify(organization));
   };
   return (
     <Card onClick={clickHandler} className="hover:cursor-pointer">

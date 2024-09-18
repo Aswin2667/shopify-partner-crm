@@ -170,7 +170,6 @@ export class LeadService {
     const leadActivities = await this.prismaService.leadActivity.findMany({
       where: {
         leadId: leadId,
-        
         type: 'SUBSCRIPTION_CHARGE_ACTIVATED',
       },
       select: {
@@ -179,15 +178,15 @@ export class LeadService {
     });
   
     // console.log(leadActivities); // Debug the retrieved activities
-  
+    let currencyCode = ''
     // Reduce and calculate total amount
     const totalAmount = leadActivities.reduce((total, activity:any) => {
       console.log(`Activity: ${JSON.stringify(activity)}`); // Debug the activity
       const activityData = activity.data.payload ; 
-      
+      console.log(activity.data.payload.charge);
       const amountString = activityData.charge?.amount?.amount;
       const amount = amountString ? parseFloat(amountString) : 0;
-  
+      currencyCode = activityData.charge?.amount?.currencyCode;
       // console.log(`Amount: ${amount}`); // Debug the parsed amount
   
       return total + amount;
@@ -195,6 +194,6 @@ export class LeadService {
   
     console.log(`Total Amount: ${totalAmount}`); // Debug total amount
   
-    return totalAmount;
+    return {totalAmount,currencyCode};
   }
 }

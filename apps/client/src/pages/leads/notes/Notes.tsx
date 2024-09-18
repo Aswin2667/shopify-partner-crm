@@ -27,7 +27,7 @@ const Notes = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
+    const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
     try {
       const response = await axiosInstance.post("/lead-notes", {
         leadId,
