@@ -28,6 +28,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import Filter from "./Filter";
 const schema = z.object({
   myShopifyDomain: z
     .string()
@@ -107,7 +108,6 @@ export function DataTableToolbar({ leads }: any) {
               <span className="text-gray-500">Total Revenue: </span>
               <span className="dark:text-white"> $88.4k</span>
             </h5>
-           
           </div>
           <div className="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
             <AlertDialogTrigger>
@@ -265,25 +265,12 @@ export function DataTableToolbar({ leads }: any) {
       </AlertDialog>
       <SheetContent className="min-w-[500px]">
         <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
+          <SheetTitle>Add New Filter</SheetTitle>
           <SheetDescription>
             Make changes to your profile here. Click save when you're done.
           </SheetDescription>
         </SheetHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input id="name" value="Pedro Duarte" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
-          </div>
-        </div>
+        <Filter />
         <SheetFooter>
           <SheetClose asChild>
             <Button type="submit">Save changes</Button>
