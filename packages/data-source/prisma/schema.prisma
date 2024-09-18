@@ -245,6 +245,7 @@ model Email {
 enum EmailStatus {
   SEND
   SCHEDULE
+  FAILED
 }
 
 model EmailQueue {

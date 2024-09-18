@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { PrismaService } from '@org/data-source';
 import { DateHelper } from '@org/utils';
+import { v4 as uuidv4 } from 'uuid';
 import { IntegrationManager } from '@org/integrations';
 @Injectable()
 export class EmailCronService {
@@ -13,8 +14,8 @@ export class EmailCronService {
     private readonly IntegrationManager: IntegrationManager,
   ) {}
 
-  @Cron('*/1 * * * * *')
-  async handleCron() {
+  @Cron('*/10 * * * * *')
+  async emailSender() {
     this.logger.log('Cron job running every minute');
 
     try {
@@ -30,27 +31,41 @@ export class EmailCronService {
           email: true,
         },
       });
-      // console.log(emailsToSend);
+
       for (const emailQueueEntry of emailsToSend) {
-        console.log(emailQueueEntry);
         try {
-            // this.IntegrationManager.performIntegrationAction('GMAIL' as any, 'TEST', emailQueueEntry.email);
+          const { email } = emailQueueEntry;
+          const trackingId = uuidv4();
+          email.body = getTrackingImage(email.body, trackingId);
 
-          // Send the email logic goes here
-        //   const email = await this.prisma.email.update({
-        //     where: { id: emailQueueEntry.emailId },
-        //     data: {
-        //       status: 'SENT',
-        //       sentAt: new Date() // Update sentAt with Date object
-        //     },
-        //   });
+          // Sending email via Integration Manager
+          console.log(email);
+          await this.IntegrationManager.performIntegrationAction(
+            email.source as any,
+            'SEND_MAIL',
+            email,
+          );
+          await this.prisma.email.updateMany({
+            where: { id: emailQueueEntry.emailId },
+            data: {
+              status: 'SEND',
+              trackingId,
+              sentAt: DateHelper.getCurrentUnixTime(),
+            },
+          }),
+            await this.prisma.emailQueue.deleteMany({
+              where: { id: emailQueueEntry.id },
+            });
 
-          // this.logger.log(`Email sent successfully: ${emailQueueEntry.emailId}`);
-
+          this.logger.log(`Email ${emailQueueEntry.emailId} sent successfully`);
         } catch (error) {
-          this.logger.error(`Failed to send email ${emailQueueEntry.emailId}`, error.stack);
+          this.logger.error(
+            `Failed to send email ${emailQueueEntry.emailId}`,
+            error.stack,
+          );
 
           if (emailQueueEntry.retryCount < this.MAX_RETRIES) {
+            // Increment retry count and set status to PENDING
             await this.prisma.emailQueue.update({
               where: { id: emailQueueEntry.id },
               data: {
@@ -58,13 +73,22 @@ export class EmailCronService {
                 retryCount: emailQueueEntry.retryCount + 1,
               },
             });
-            this.logger.log(`Retrying email ${emailQueueEntry.emailId}, attempt ${emailQueueEntry.retryCount + 1}`);
+
+            this.logger.log(
+              `Retrying email ${emailQueueEntry.emailId}, attempt ${emailQueueEntry.retryCount + 1}`,
+            );
           } else {
-            await this.prisma.emailQueue.update({
-              where: { id: emailQueueEntry.id },
+            // After max retries, update email status to FAILED and remove from queue
+            await this.prisma.email.updateMany({
+              where: { id: emailQueueEntry.emailId },
               data: { status: 'FAILED' },
-            });
-            this.logger.error(`Email ${emailQueueEntry.emailId} failed after ${this.MAX_RETRIES} attempts`);
+            }),
+              await this.prisma.emailQueue.deleteMany({
+                where: { id: emailQueueEntry.id },
+              }),
+              this.logger.error(
+                `Email ${emailQueueEntry.emailId} failed after ${this.MAX_RETRIES} attempts`,
+              );
           }
         }
       }
@@ -73,3 +97,9 @@ export class EmailCronService {
     }
   }
 }
+const getTrackingImage = (body: string, id: string): string => {
+  const bodyWithTrackingImage =
+    body +
+    `<img src="https://aswin.ngrok.dev/email-open/1px-image?id=${id}" style="display:none;" width="1" height="1" alt="" />`;
+  return bodyWithTrackingImage;
+};
