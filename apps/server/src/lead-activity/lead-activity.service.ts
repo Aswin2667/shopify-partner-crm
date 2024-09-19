@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
 import { CreateLeadActivityDto } from './dto/lead-activity.dto';
-import { PrismaService } from 'src/config/prisma.service';
-import { DateHelper } from '@org/utils';
 
+import { DateHelper } from '@org/utils';
+import { PrismaService } from 'src/config/prisma.service';
 @Injectable()
 export class LeadActivityService {
   constructor(private readonly prisma: PrismaService) {}
@@ -18,6 +18,7 @@ export class LeadActivityService {
           leadId: createLeadActivityDto.leadId,
           userId: createLeadActivityDto.userId,
           createdAt: DateHelper.getCurrentUnixTime(),
+          orgId: createLeadActivityDto.organizationId,
           updatedAt: 0,
           deletedAt: 0,
         },

@@ -105,4 +105,13 @@ export class LeadController {
       data: totalAmount,
     };
   }
+  @Get('total-revenue/:orgId')
+  async getTotalRevenue(@Param('orgId') orgId: string) {
+    const totalAmount = await this.leadService.getTotalAmountByOrgId(orgId);
+    return {
+      status: true,
+      message: `Total amount for orgId ${orgId}`,
+      data: totalAmount,
+    };
+  }
 }

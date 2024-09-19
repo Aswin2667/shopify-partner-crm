@@ -70,6 +70,7 @@
     "lucide-react": "^0.427.0",
     "mailgun.js": "^3.3.0",
     "minio": "^8.0.1",
+    "minio-nestjs-client": "^1.0.7",
     "nest-winston": "^1.9.7",
     "nodemailer": "^6.9.14",
     "passport": "^0.7.0",

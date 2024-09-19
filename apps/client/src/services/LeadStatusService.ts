@@ -2,8 +2,23 @@ import axiosInstance from "@/utils/_axios";
 
  
 export default class LeadStatusService {
-    static updateStatus(id: any, updatedStatus: any) {
-      throw new Error("Method not implemented.");
+    static async deleteStatus(id: any) {
+        try {
+            const response = await axiosInstance.delete(`${this.BASE_PATH}/${id}`);
+            return response;
+        } catch (error) {
+            console.error('Error deleting status:', error);
+            throw new Error('Failed to delete status');
+        }
+    }
+    static async updateStatus(id: any, updatedStatus: any) {
+        try {
+            const response = await axiosInstance.patch(`${this.BASE_PATH}/${id}`, updatedStatus);
+            return response;
+        } catch (error) {
+            console.error('Error updating status: ', error);
+            throw new Error('Failed to  update status');
+        }
     }
     private static readonly BASE_PATH = "/lead-status";
     public static async getAllByOrgId(orgId: string) {

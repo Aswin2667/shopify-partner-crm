@@ -15,9 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import LeadService from "@/services/LeadService";
 import { useToast } from "@/components/ui/use-toast";
 import { useSelector } from "react-redux";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useEffect, useState } from "react";
 import {
   Sheet,
   SheetClose,
@@ -29,6 +27,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Filter from "./Filter";
+import OrganizationService from "@/services/OrganizationService";
 const schema = z.object({
   myShopifyDomain: z
     .string()
@@ -94,6 +93,26 @@ export function DataTableToolbar({ leads }: any) {
       });
     }
   };
+  const [totalRevenue, setTotalRevenue] = useState(0);
+  const  [currencyCode, setCurrencyCode] = useState("$");
+  useEffect(() => {
+    const fetchData = async () => {
+      if (currentOrganization?.id) {
+        try {
+          const response = await OrganizationService.getTotalRevenueByOrgId(
+            currentOrganization.id
+          );
+          console.log(response?.data?.data);
+          setTotalRevenue(response?.data?.data.totalAmount);
+        } catch (error) {
+          console.error("Error fetching revenue:", error);
+        }
+      }
+    };
+  
+    fetchData();
+  }, []);   
+  
 
   return (
     <Sheet>
@@ -106,7 +125,7 @@ export function DataTableToolbar({ leads }: any) {
             </h5>
             <h5>
               <span className="text-gray-500">Total Revenue: </span>
-              <span className="dark:text-white"> $88.4k</span>
+              <span className="dark:text-white">{currencyCode+" "+totalRevenue}</span>
             </h5>
           </div>
           <div className="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">

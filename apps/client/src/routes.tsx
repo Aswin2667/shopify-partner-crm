@@ -32,6 +32,10 @@ import LeadStatus from "./pages/organizations/settings/leadStatus/LeadStatus";
 import ManageIntegration from "./pages/Integration/components/ManageIntegration";
 import ProjectSettings from "./pages/Project/settings/page";
 import CliAccesTokens from "./pages/Project/settings/CliAccessTokens";
+import EamilSettings from "./pages/organizations/settings/Emails/EamilSettings";
+import MyEmailSettings from "./pages/organizations/settings/Emails/components/MyEmailSettings";
+import SendingLimits from "./pages/organizations/settings/Emails/components/SendingLimits";
+import UnsubscribeLinks from "./pages/organizations/settings/Emails/components/UnsubscribeLinks";
 
 export const routes = createBrowserRouter([
   {
@@ -240,6 +244,24 @@ export const routes = createBrowserRouter([
           {
             path: "manage-access",
             element: <ManageAccess />,
+          },
+          {
+            path: "email",
+            element: <EamilSettings />,
+            children:[
+              {
+                element:<MyEmailSettings />,
+                index:true
+              },
+              {
+                element:<SendingLimits />,
+                path:"limit"
+              },
+              {
+                element:<UnsubscribeLinks />,
+                path:"unsubscribe"
+              }
+            ]
           },
         ],
       },

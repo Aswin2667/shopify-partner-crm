@@ -55,6 +55,7 @@ export function DataTableToolbar({ leads }: any) {
   const { currentIntegration } = useSelector((state: any) => state.integration);
 
   const onSubmit = async (data: any) => {
+    console.log("Form Data:", currentOrganization?.id);
     const response = await LeadService.create({
       ...data,
       userId,
