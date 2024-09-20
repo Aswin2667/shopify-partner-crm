@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  ChevronDown,
-  ChevronLeft,
-  Calendar,
-  User,
-  FileText,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Calendar, User, FileText } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -57,35 +50,38 @@ export default function Filter() {
               </label>
             </div>
             {anyTextChecked && (
-              <Select>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="contains exact words..." />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="contains">
-                    contains exact words...
-                  </SelectItem>
-                  <SelectItem value="does-not-contain">
-                    does not contain exact words...
-                  </SelectItem>
-                  <SelectItem value="contains-phrase">
-                    contains phrase...
-                  </SelectItem>
-                  <SelectItem value="does-not-contain-phrase">
-                    does not contain phrase...
-                  </SelectItem>
-                  <SelectItem value="starts-with">
-                    contains words starting with...
-                  </SelectItem>
-                  <SelectItem value="does-not-start-with">
-                    does not contain words starting...
-                  </SelectItem>
-                  <SelectItem value="is-exactly">is exactly...</SelectItem>
-                  <SelectItem value="is-not-exactly">
-                    is not exactly...
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+              <>
+                <Select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="contains exact words..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="contains">
+                      contains exact words...
+                    </SelectItem>
+                    <SelectItem value="does-not-contain">
+                      does not contain exact words...
+                    </SelectItem>
+                    <SelectItem value="contains-phrase">
+                      contains phrase...
+                    </SelectItem>
+                    <SelectItem value="does-not-contain-phrase">
+                      does not contain phrase...
+                    </SelectItem>
+                    <SelectItem value="starts-with">
+                      contains words starting with...
+                    </SelectItem>
+                    <SelectItem value="does-not-start-with">
+                      does not contain words starting...
+                    </SelectItem>
+                    <SelectItem value="is-exactly">is exactly...</SelectItem>
+                    <SelectItem value="is-not-exactly">
+                      is not exactly...
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                <Input className="" placeholder="e.g. John.myshopify.com" />
+              </>
             )}
           </div>
           <div className="space-y-2">

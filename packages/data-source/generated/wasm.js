@@ -159,7 +159,8 @@ exports.Prisma.OrgMemberScalarFieldEnum = {
   role: 'role',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
+  signature: 'signature'
 };
 
 exports.Prisma.ProjectScalarFieldEnum = {

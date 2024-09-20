@@ -6683,6 +6683,7 @@ export namespace Prisma {
     createdAt: bigint | null
     updatedAt: bigint | null
     deletedAt: bigint | null
+    signature: string | null
   }
 
   export type OrgMemberMaxAggregateOutputType = {
@@ -6693,6 +6694,7 @@ export namespace Prisma {
     createdAt: bigint | null
     updatedAt: bigint | null
     deletedAt: bigint | null
+    signature: string | null
   }
 
   export type OrgMemberCountAggregateOutputType = {
@@ -6703,6 +6705,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     deletedAt: number
+    signature: number
     _all: number
   }
 
@@ -6727,6 +6730,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
+    signature?: true
   }
 
   export type OrgMemberMaxAggregateInputType = {
@@ -6737,6 +6741,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
+    signature?: true
   }
 
   export type OrgMemberCountAggregateInputType = {
@@ -6747,6 +6752,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
+    signature?: true
     _all?: true
   }
 
@@ -6844,6 +6850,7 @@ export namespace Prisma {
     createdAt: bigint
     updatedAt: bigint
     deletedAt: bigint
+    signature: string
     _count: OrgMemberCountAggregateOutputType | null
     _avg: OrgMemberAvgAggregateOutputType | null
     _sum: OrgMemberSumAggregateOutputType | null
@@ -6873,6 +6880,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
+    signature?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["orgMember"]>
@@ -6885,6 +6893,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
+    signature?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["orgMember"]>
@@ -6897,6 +6906,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
+    signature?: boolean
   }
 
   export type OrgMemberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6922,6 +6932,7 @@ export namespace Prisma {
       createdAt: bigint
       updatedAt: bigint
       deletedAt: bigint
+      signature: string
     }, ExtArgs["result"]["orgMember"]>
     composites: {}
   }
@@ -7324,6 +7335,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"OrgMember", 'BigInt'>
     readonly updatedAt: FieldRef<"OrgMember", 'BigInt'>
     readonly deletedAt: FieldRef<"OrgMember", 'BigInt'>
+    readonly signature: FieldRef<"OrgMember", 'String'>
   }
     
 
@@ -24828,7 +24840,8 @@ export namespace Prisma {
     role: 'role',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    deletedAt: 'deletedAt'
+    deletedAt: 'deletedAt',
+    signature: 'signature'
   };
 
   export type OrgMemberScalarFieldEnum = (typeof OrgMemberScalarFieldEnum)[keyof typeof OrgMemberScalarFieldEnum]
@@ -25662,6 +25675,7 @@ export namespace Prisma {
     createdAt?: BigIntFilter<"OrgMember"> | bigint | number
     updatedAt?: BigIntFilter<"OrgMember"> | bigint | number
     deletedAt?: BigIntFilter<"OrgMember"> | bigint | number
+    signature?: StringFilter<"OrgMember"> | string
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     user?: XOR<UserRelationFilter, UserWhereInput>
   }
@@ -25674,6 +25688,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
+    signature?: SortOrder
     organization?: OrganizationOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
@@ -25690,6 +25705,7 @@ export namespace Prisma {
     createdAt?: BigIntFilter<"OrgMember"> | bigint | number
     updatedAt?: BigIntFilter<"OrgMember"> | bigint | number
     deletedAt?: BigIntFilter<"OrgMember"> | bigint | number
+    signature?: StringFilter<"OrgMember"> | string
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     user?: XOR<UserRelationFilter, UserWhereInput>
   }, "id" | "organizationId_userId">
@@ -25702,6 +25718,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
+    signature?: SortOrder
     _count?: OrgMemberCountOrderByAggregateInput
     _avg?: OrgMemberAvgOrderByAggregateInput
     _max?: OrgMemberMaxOrderByAggregateInput
@@ -25720,6 +25737,7 @@ export namespace Prisma {
     createdAt?: BigIntWithAggregatesFilter<"OrgMember"> | bigint | number
     updatedAt?: BigIntWithAggregatesFilter<"OrgMember"> | bigint | number
     deletedAt?: BigIntWithAggregatesFilter<"OrgMember"> | bigint | number
+    signature?: StringWithAggregatesFilter<"OrgMember"> | string
   }
 
   export type ProjectWhereInput = {
@@ -27433,6 +27451,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
     organization: OrganizationCreateNestedOneWithoutMembersInput
     user: UserCreateNestedOneWithoutOrgMembersInput
   }
@@ -27445,6 +27464,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
   }
 
   export type OrgMemberUpdateInput = {
@@ -27453,6 +27473,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
     organization?: OrganizationUpdateOneRequiredWithoutMembersNestedInput
     user?: UserUpdateOneRequiredWithoutOrgMembersNestedInput
   }
@@ -27465,6 +27486,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrgMemberCreateManyInput = {
@@ -27475,6 +27497,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
   }
 
   export type OrgMemberUpdateManyMutationInput = {
@@ -27483,6 +27506,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrgMemberUncheckedUpdateManyInput = {
@@ -27493,6 +27517,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProjectCreateInput = {
@@ -29416,6 +29441,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
+    signature?: SortOrder
   }
 
   export type OrgMemberAvgOrderByAggregateInput = {
@@ -29432,6 +29458,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
+    signature?: SortOrder
   }
 
   export type OrgMemberMinOrderByAggregateInput = {
@@ -29442,6 +29469,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
+    signature?: SortOrder
   }
 
   export type OrgMemberSumOrderByAggregateInput = {
@@ -33261,6 +33289,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
     organization: OrganizationCreateNestedOneWithoutMembersInput
   }
 
@@ -33271,6 +33300,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
   }
 
   export type OrgMemberCreateOrConnectWithoutUserInput = {
@@ -33436,6 +33466,7 @@ export namespace Prisma {
     createdAt?: BigIntFilter<"OrgMember"> | bigint | number
     updatedAt?: BigIntFilter<"OrgMember"> | bigint | number
     deletedAt?: BigIntFilter<"OrgMember"> | bigint | number
+    signature?: StringFilter<"OrgMember"> | string
   }
 
   export type OrgMemberInviteUpsertWithWhereUniqueWithoutInviterInput = {
@@ -33753,6 +33784,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
     user: UserCreateNestedOneWithoutOrgMembersInput
   }
 
@@ -33763,6 +33795,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
   }
 
   export type OrgMemberCreateOrConnectWithoutOrganizationInput = {
@@ -38607,6 +38640,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
   }
 
   export type OrgMemberInviteCreateManyInviterInput = {
@@ -38682,6 +38716,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
     organization?: OrganizationUpdateOneRequiredWithoutMembersNestedInput
   }
 
@@ -38692,6 +38727,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrgMemberUncheckedUpdateManyWithoutUserInput = {
@@ -38701,6 +38737,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrgMemberInviteUpdateWithoutInviterInput = {
@@ -38818,6 +38855,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
   }
 
   export type OrgMemberInviteCreateManyOrganizationInput = {
@@ -39010,6 +39048,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutOrgMembersNestedInput
   }
 
@@ -39020,6 +39059,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrgMemberUncheckedUpdateManyWithoutOrganizationInput = {
@@ -39029,6 +39069,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrgMemberInviteUpdateWithoutOrganizationInput = {

@@ -8,6 +8,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -28,6 +35,9 @@ import {
 } from "@/components/ui/sheet";
 import Filter from "./Filter";
 import OrganizationService from "@/services/OrganizationService";
+import ProjectService from "@/services/ProjectService";
+import LeadStatusService from "@/services/LeadStatusService";
+import FilterChoose from "./FilterChoose";
 const schema = z.object({
   myShopifyDomain: z
     .string()
@@ -45,7 +55,7 @@ const schema = z.object({
   description: z.string().optional(),
 });
 
-export function DataTableToolbar({ leads }: any) {
+export function DataTableToolbar({ leads ,setLeads}: any) {
   const [open, setOpen] = useState(false);
 
   const {
@@ -59,6 +69,7 @@ export function DataTableToolbar({ leads }: any) {
 
   const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
   const { toast } = useToast();
+  const [project, setProject] = useState([]);
   const { currentOrganization } = useSelector(
     (state: any) => state.organization
   );
@@ -94,7 +105,7 @@ export function DataTableToolbar({ leads }: any) {
     }
   };
   const [totalRevenue, setTotalRevenue] = useState(0);
-  const  [currencyCode, setCurrencyCode] = useState("$");
+  const [currencyCode, setCurrencyCode] = useState("$");
   useEffect(() => {
     const fetchData = async () => {
       if (currentOrganization?.id) {
@@ -102,6 +113,17 @@ export function DataTableToolbar({ leads }: any) {
           const response = await OrganizationService.getTotalRevenueByOrgId(
             currentOrganization.id
           );
+          const projects = await ProjectService.getAllProjects(
+            currentOrganization?.id
+          );
+          const status = await LeadStatusService.getAllByOrgId(currentOrganization?.id);
+          console.log(status?.data);
+          if (response) {
+            setCurrencyCode(response?.data?.data.currencyCode);
+          }
+
+          console.log(projects);
+          setProject(projects);
           console.log(response?.data?.data);
           setTotalRevenue(response?.data?.data.totalAmount);
         } catch (error) {
@@ -109,10 +131,9 @@ export function DataTableToolbar({ leads }: any) {
         }
       }
     };
-  
+
     fetchData();
-  }, []);   
-  
+  }, []);
 
   return (
     <Sheet>
@@ -125,14 +146,29 @@ export function DataTableToolbar({ leads }: any) {
             </h5>
             <h5>
               <span className="text-gray-500">Total Revenue: </span>
-              <span className="dark:text-white">{currencyCode+" "+totalRevenue}</span>
+              <span className="dark:text-white">
+                {currencyCode + " " + totalRevenue}
+              </span>
             </h5>
           </div>
           <div className="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
+            <Select>
+              <SelectTrigger>
+                <SelectValue placeholder="show all Leads" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="show all Leads">show all Leads</SelectItem>
+                {project.map((project: any) => (
+                  <SelectItem key={project.id} value={project.id}>
+                    {project.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <AlertDialogTrigger>
               <button
                 type="button"
-                className="flex items-center justify-center px-4 py-2 text-sm font-medium dark:text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+                className="flex items-center justify-center px-4 py-2 min-w-fit text-nowrap text-sm font-medium dark:text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
               >
                 <svg
                   className="h-3.5 w-3.5 mr-2"
@@ -283,18 +319,7 @@ export function DataTableToolbar({ leads }: any) {
         </AlertDialogContent>
       </AlertDialog>
       <SheetContent className="min-w-[500px]">
-        <SheetHeader>
-          <SheetTitle>Add New Filter</SheetTitle>
-          <SheetDescription>
-            Make changes to your profile here. Click save when you're done.
-          </SheetDescription>
-        </SheetHeader>
-        <Filter />
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
-          </SheetClose>
-        </SheetFooter>
+        <FilterChoose />
       </SheetContent>
     </Sheet>
   );
