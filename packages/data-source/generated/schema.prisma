@@ -172,8 +172,8 @@ model Contact {
   deletedAt      BigInt
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id])
-  integrationId  String
-  integration    Integration  @relation(fields: [integrationId], references: [id])
+  integrationId  String?
+  integration    Integration? @relation(fields: [integrationId], references: [id])
   lead           Lead         @relation(fields: [leadId], references: [id])
 }
 

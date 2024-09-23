@@ -36,8 +36,7 @@ import {
 import ContactService from "@/services/ContactService";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+ import { useNavigate, useParams } from "react-router-dom";
 
 // Zod schema for validation
 const contactSchema = z.object({

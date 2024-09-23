@@ -10,6 +10,8 @@ const Notes = () => {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(false);
   const leadId = window.location.pathname.split("/")[3];
+  const orgId = window.location.pathname.split("/")[1];
+console.log(orgId)
 
   const fetchNotes = async () => {
     try {
@@ -33,6 +35,7 @@ const Notes = () => {
         leadId,
         data: value,
         userId,
+        orgId,
       });
       console.log("Note published successfully:", response.data);
       fetchNotes(); // Refetch the notes after successful submission

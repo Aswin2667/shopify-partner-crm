@@ -67,7 +67,7 @@ export class OrganizationController {
   @Delete(':id')
   async deleteOrganization(@Param('id') id: string) {
     try {
-      await this.organizationService.delete(id);
+      // await this.organizationService.delete(id);
       return {
         status: true,
         message: 'Organization deleted successfully.',
@@ -87,14 +87,14 @@ export class OrganizationController {
     @Body() updateOrganizationDto: UpdateOrganizationDto,
   ) {
     try {
-      const updatedOrganization = await this.organizationService.update(
-        id,
-        updateOrganizationDto,
-      );
+      // const updatedOrganization = await this.organizationService.update(
+      //   id,
+      //   updateOrganizationDto,
+      // );
       return {
         status: true,
         message: 'Organization name updated successfully.',
-        data: updatedOrganization,
+        // data: updatedOrganization,
       };
     } catch (error) {
       throw new HttpException(
@@ -108,11 +108,11 @@ export class OrganizationController {
   @Get('/id/:id')
   async getOrganizationById(@Param('id') id: string) {
     try {
-      const organization = await this.organizationService.findOne(id);
+      // const organization = await this.organizationService.findOne(id);
       return {
         status: true,
         message: 'Organization retrieved successfully.',
-        data: organization,
+        // data: organization,
       };
     } catch (error) {
       throw new HttpException(

@@ -3,37 +3,90 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-import {
   SheetClose,
-  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
-import { useState } from "react";
-
-const customFields = [
-  "Current Vendor/Software",
-  "Industry",
-  "Lead Owner",
-  "Referral Source",
-];
+import { useEffect, useState } from "react";
+import LeadStatusService from "@/services/LeadStatusService";
+import Select from "react-select";
+import DatePickerSelect from "./dateFilters/DateFilter";
 
 export default function LeadFilter({ onBackClick }: any) {
-  const [shopifyDomain, setshopifyDomain] = useState(false);
+  const [shopifyDomain, setShopifyDomain] = useState(false);
   const [leadStatus, setLeadStatus] = useState(false);
+  const [createdAt, setCreatedAt] = useState(false);
+  const [selectedStatuses, setSelectedStatuses] = useState([]);
+  const [availableLeadStatus, setAvailableLeadStatus] = useState([]);
+  const [domainFilterOption, setDomainFilterOption] = useState<any>(null);
+  const [domainValue, setDomainValue] = useState("");
 
+  const orgId = window.location.pathname.split("/")[1];
+
+  useEffect(() => {
+    const getAvailableLeadStatus = async () => {
+      const response = await LeadStatusService.getAllByOrgId(orgId);
+      setAvailableLeadStatus(response?.data.data);
+    };
+    getAvailableLeadStatus();
+  }, [orgId]);
+
+  const handleStatusChange = (selectedOptions: any) => {
+    setSelectedStatuses(selectedOptions);
+    handleFiltersChange();
+  };
+
+  const handleShopifyDomainChange = (checked: boolean) => {
+    setShopifyDomain(checked);
+    handleFiltersChange();
+  };
+
+  const handleLeadStatusChange = (checked: boolean) => {
+    setLeadStatus(checked);
+    handleFiltersChange();
+  };
+
+  const handleCreatedAtChange = (checked: boolean) => {
+    setCreatedAt(checked);
+    handleFiltersChange();
+  };
+
+  const handleDomainFilterOptionChange = (option: any) => {
+    setDomainFilterOption(option);
+    handleFiltersChange();
+  };
+
+  const handleDomainValueChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setDomainValue(event.target.value);
+    handleFiltersChange();
+  };
+
+  const handleFiltersChange = () => {
+    const filters = {
+      leadDomain: {
+        filterOptions: domainFilterOption?.label || "",
+        domain: domainValue || "",
+      },
+      leadStatus: {
+        selectedStatuses: selectedStatuses.map((status: any) => status.value),
+      },
+      createdAt: createdAt,
+    };
+
+    console.log("Selected Filters:", filters);
+  };
+
+  const statusOptions: any = availableLeadStatus.map((status: any) => ({
+    value: status.id,
+    label: status.status,
+  }));
 
   return (
-    <div className=" flex flex-col">
+    <div className="flex flex-col h-full">
       <div className="flex items-center">
         <Button variant="ghost" size="icon" onClick={onBackClick}>
           <ChevronLeft className="h-4 w-4" />
@@ -53,101 +106,108 @@ export default function LeadFilter({ onBackClick }: any) {
           Find Contacts on a Lead where...
         </h3>
         <div className="space-y-2 p-2">
-          <div className="flex items-center ">
+          <div className="flex items-center">
             <Checkbox
               id="Lead Domain"
               className="mr-2"
               checked={shopifyDomain}
-              onCheckedChange={(checked) =>
-                setshopifyDomain(checked as boolean)
-              }
+              onCheckedChange={handleShopifyDomainChange}
             />
-            <label htmlFor="anyText" className="text-sm font-medium">
-            Lead Domain
+            <label htmlFor="Lead Domain" className="text-sm font-medium">
+              Lead Domain
             </label>
           </div>
           {shopifyDomain && (
             <>
-              <Select>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="contains exact words..." />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="contains">
-                    contains exact words...
-                  </SelectItem>
-                  <SelectItem value="does-not-contain">
-                    does not contain exact words...
-                  </SelectItem>
-                  <SelectItem value="contains-phrase">
-                    contains phrase...
-                  </SelectItem>
-                  <SelectItem value="does-not-contain-phrase">
-                    does not contain phrase...
-                  </SelectItem>
-                  <SelectItem value="starts-with">
-                    contains words starting with...
-                  </SelectItem>
-                  <SelectItem value="does-not-start-with">
-                    does not contain words starting...
-                  </SelectItem>
-                  <SelectItem value="is-exactly">is exactly...</SelectItem>
-                  <SelectItem value="is-not-exactly">
-                    is not exactly...
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-              <Input className="" placeholder="e.g. John.myshopify.com" />
+              <Select
+                options={[
+                  { value: "contains", label: "contains exact words..." },
+                  {
+                    value: "does-not-contain",
+                    label: "does not contain exact words...",
+                  },
+                  { value: "contains phrase", label: "contains phrase..." },
+                  {
+                    value: "does not contain phrase",
+                    label: "does not contain phrase...",
+                  },
+                  {
+                    value: "contains words starting with",
+                    label: "contains words starting with...",
+                  },
+                  {
+                    value: "does not contain words starting",
+                    label: "does not contain words starting...",
+                  },
+                  { value: "is exactly", label: "is exactly..." },
+                  { value: "is not exactly", label: "is not exactly..." },
+                ]}
+                onChange={handleDomainFilterOptionChange}
+                placeholder="Select Filter..."
+                className="mb-4"
+              />
+              <Input
+                value={domainValue}
+                onChange={handleDomainValueChange}
+                placeholder="e.g. John.myshopify.com"
+              />
             </>
           )}
+
           <div className="flex items-center">
             <Checkbox
               id="Current Status"
               className="mr-2"
               checked={leadStatus}
-              onCheckedChange={(checked) =>
-                setLeadStatus(checked as boolean)
-              }
+              onCheckedChange={handleLeadStatusChange}
             />
-            <label htmlFor="anyText" className="text-sm font-medium">
-            Current Status
+            <label htmlFor="Current Status" className="text-sm font-medium">
+              Current Status
             </label>
           </div>
           {leadStatus && (
             <>
-              <Select>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="is Any of" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="contains">
-                    is not any of
-                  </SelectItem>
-                  <SelectItem value="does-not-contain">
-                  is Any of
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-              <Input className="" placeholder="e.g. John.myshopify.com" />
+              <Select
+                options={[
+                  { value: "is any of", label: "is any of" },
+                  { value: "is not any of", label: "is not any of" },
+                ]}
+                placeholder="Select Filter..."
+                className="mb-4"
+              />
+              <Select
+                isMulti
+                options={statusOptions}
+                value={selectedStatuses}
+                onChange={handleStatusChange}
+                placeholder="Select Status"
+                className="mb-4"
+              />
+            </>
+          )}
+
+          <div className="flex items-center">
+            <Checkbox
+              id="Created At"
+              className="mr-2"
+              checked={createdAt}
+              onCheckedChange={handleCreatedAtChange}
+            />
+            <label htmlFor="Created At" className="text-sm font-medium">
+              Created At
+            </label>
+          </div>
+          {createdAt && (
+            <>
+              <DatePickerSelect />
             </>
           )}
         </div>
-        
-        <h3 className="text-sm font-medium text-gray-500 mt-4 mb-2">
-          CUSTOM FIELDS
-        </h3>
-        {customFields.map((field, index) => (
-          <div key={index} className="flex items-center space-x-2 mb-2">
-            <Checkbox id={`custom-${index}`} />
-            <label htmlFor={`custom-${index}`} className="text-sm">
-              {field}
-            </label>
-          </div>
-        ))}
       </div>
+
       <SheetFooter>
         <SheetClose asChild>
-          <Button type="submit">Save changes</Button>
+          <Button>Save changes</Button>
         </SheetClose>
       </SheetFooter>
     </div>

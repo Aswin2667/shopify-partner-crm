@@ -43,19 +43,11 @@ const schema = z.object({
     .string()
     .min(1, "Domain is required")
     .regex(/\.myshopify\.com$/, "Domain must end with .myshopify.com"),
-  status: z.enum([
-    "POTENTIAL",
-    "CUSTOMER",
-    "INTERESTED",
-    "NOT_INTERESTED",
-    "BAD_FIT",
-    "QUALIFIED",
-    "CANCELED",
-  ]),
+  status: z.string(),
   description: z.string().optional(),
 });
 
-export function DataTableToolbar({ leads ,setLeads}: any) {
+export function DataTableToolbar({ leads, setLeads }: any) {
   const [open, setOpen] = useState(false);
 
   const {
@@ -63,6 +55,7 @@ export function DataTableToolbar({ leads ,setLeads}: any) {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   }: any = useForm({
     resolver: zodResolver(schema),
   });
@@ -106,22 +99,22 @@ export function DataTableToolbar({ leads ,setLeads}: any) {
   };
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [currencyCode, setCurrencyCode] = useState("$");
+  const orgId = window.location.pathname.split("/")[1];
+  const [availableLeadStatus, setAvailableLeadStatus] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
-      if (currentOrganization?.id) {
+      if (orgId) {
         try {
-          const response = await OrganizationService.getTotalRevenueByOrgId(
-            currentOrganization.id
-          );
-          const projects = await ProjectService.getAllProjects(
-            currentOrganization?.id
-          );
-          const status = await LeadStatusService.getAllByOrgId(currentOrganization?.id);
-          console.log(status?.data);
+          const response =
+            await OrganizationService.getTotalRevenueByOrgId(orgId);
+          const projects = await ProjectService.getAllProjects(orgId);
+          const availableLeadStatus =
+            await LeadStatusService.getAllByOrgId(orgId);
+          setAvailableLeadStatus(availableLeadStatus?.data.data);
           if (response) {
             setCurrencyCode(response?.data?.data.currencyCode);
           }
-
           console.log(projects);
           setProject(projects);
           console.log(response?.data?.data);
@@ -138,14 +131,16 @@ export function DataTableToolbar({ leads ,setLeads}: any) {
   return (
     <Sheet>
       <AlertDialog open={open} onOpenChange={setOpen}>
-        <div className="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
+        <div className="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center min-w-[1000px] lg:justify-between lg:space-y-0 lg:space-x-4">
           <div className="flex items-center flex-1 space-x-4">
             <h5>
-              <span className="text-gray-500">All Leads: </span>
-              <span className="dark:text-white">{leads.length}</span>
+              <span className="text-gray-500 text-nowrap">All Leads: </span>
+              <span className="dark:text-white text-nowrap">
+                {leads.length}
+              </span>
             </h5>
             <h5>
-              <span className="text-gray-500">Total Revenue: </span>
+              <span className="text-gray-500 text-nowrap">Total Revenue: </span>
               <span className="dark:text-white">
                 {currencyCode + " " + totalRevenue}
               </span>
@@ -232,91 +227,95 @@ export function DataTableToolbar({ leads ,setLeads}: any) {
               Export
             </button>
           </div>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>New Lead</AlertDialogTitle>
+              <Separator />
+            </AlertDialogHeader>
+            {/* TODO: Need to add option for selecting integrations */}
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="grid gap-4 mb-4 sm:grid-cols-2">
+                <div>
+                  <label
+                    htmlFor="myShopifyDomain"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Lead Domain
+                  </label>
+                  <input
+                    type="text"
+                    {...register("myShopifyDomain")}
+                    id="myShopifyDomain"
+                    className={`bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${
+                      errors.myShopifyDomain
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    }`}
+                    placeholder="test.myshopify.com"
+                  />
+                  {errors.myShopifyDomain && (
+                    <p className="text-sm text-red-600 mt-2">
+                      {errors.myShopifyDomain.message}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label
+                    htmlFor="status"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Status
+                  </label>
+                  <Select
+                    defaultValue=""
+                    onValueChange={(value) => {
+                      setValue("status", value);
+                    }}
+                    // className={`bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${
+                    //   errors.status ? "border-red-500" : "border-gray-300"
+                    // }`}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableLeadStatus?.map((status: any) => (
+                        <SelectItem key={status.id} value={status.id}>
+                          {status.status}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {errors.status && (
+                    <p className="text-sm text-red-600 mt-2">
+                      {errors.status.message}
+                    </p>
+                  )}
+                </div>
+                <div className="sm:col-span-2">
+                  <label
+                    htmlFor="description"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Description
+                  </label>
+                  <textarea
+                    {...register("description")}
+                    id="description"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="Enter a brief description"
+                  />
+                </div>
+              </div>
+              <Separator />
+              <br />
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <Button type="submit">Create Lead</Button>
+              </AlertDialogFooter>
+            </form>
+          </AlertDialogContent>
         </div>
-
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>New Lead</AlertDialogTitle>
-            <Separator />
-          </AlertDialogHeader>
-          {/* TODO: Need to add option for selecting integrations */}
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="grid gap-4 mb-4 sm:grid-cols-2">
-              <div>
-                <label
-                  htmlFor="myShopifyDomain"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Lead Domain
-                </label>
-                <input
-                  type="text"
-                  {...register("myShopifyDomain")}
-                  id="myShopifyDomain"
-                  className={`bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${
-                    errors.myShopifyDomain
-                      ? "border-red-500"
-                      : "border-gray-300"
-                  }`}
-                  placeholder="test.myshopify.com"
-                />
-                {errors.myShopifyDomain && (
-                  <p className="text-sm text-red-600 mt-2">
-                    {errors.myShopifyDomain.message}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label
-                  htmlFor="status"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Status
-                </label>
-                <select
-                  {...register("status")}
-                  id="status"
-                  className={`bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ${
-                    errors.status ? "border-red-500" : "border-gray-300"
-                  }`}
-                >
-                  <option value="POTENTIAL">POTENTIAL</option>
-                  <option value="CUSTOMER">CUSTOMER</option>
-                  <option value="INTERESTED">INTERESTED</option>
-                  <option value="NOT_INTERESTED">NOT INTERESTED</option>
-                  <option value="BAD_FIT">BAD FIT</option>
-                  <option value="QUALIFIED">QUALIFIED</option>
-                  <option value="CANCELED">CANCELED</option>
-                </select>
-                {errors.status && (
-                  <p className="text-sm text-red-600 mt-2">
-                    {errors.status.message}
-                  </p>
-                )}
-              </div>
-              <div className="sm:col-span-2">
-                <label
-                  htmlFor="description"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Description
-                </label>
-                <textarea
-                  {...register("description")}
-                  id="description"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Enter a brief description"
-                />
-              </div>
-            </div>
-            <Separator />
-            <br />
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <Button type="submit">Create Lead</Button>
-            </AlertDialogFooter>
-          </form>
-        </AlertDialogContent>
       </AlertDialog>
       <SheetContent className="min-w-[500px]">
         <FilterChoose />

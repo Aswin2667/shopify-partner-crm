@@ -177,7 +177,7 @@ const LeadTable: React.FC = () => {
                     </td>
                   </tr>
                 ) : (
-                  currentLeads.map((lead) => {
+                  currentLeads.map((lead:any) => {
                     return (
                       <tr
                         className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -212,7 +212,7 @@ const LeadTable: React.FC = () => {
                           )}
                         </td>
                         <td className="px-4 py-2">
-                          <LeadBadge status={lead.status} />
+                          <LeadBadge status={lead.leadstatus} />
                         </td>
                         <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                           <div className="flex items-center">

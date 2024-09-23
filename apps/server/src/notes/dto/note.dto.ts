@@ -9,6 +9,7 @@ export class CreateLeadNoteDto {
   @IsNotEmpty()
   data: string;
   userId: any;
+  orgId: any;
 }
 export class UpdateLeadNoteDto {
     @IsString()

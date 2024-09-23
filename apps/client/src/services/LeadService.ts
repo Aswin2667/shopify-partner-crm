@@ -33,7 +33,6 @@ class LeadService {
     }
   }
 
-  // TODO: Remove currentIntegration Method
   public static async getByOrganizationId(organizationId: string) {
     try {
       const response = await axiosInstance.get(

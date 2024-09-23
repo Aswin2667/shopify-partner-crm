@@ -53,19 +53,19 @@ export class LeadService {
              'updatedAt', p."updatedAt"
            )
          ) FILTER (WHERE p.id IS NOT NULL), '[]'::json
-       ) AS projects
+       ) AS projects,
+        ls.status AS leadStatus
      FROM "Lead" l
      LEFT JOIN "LeadProject" lp ON l.id = lp."leadId"
      LEFT JOIN "Project" p ON lp."projectId" = p.id
+     LEFT JOIN "LeadStatus" ls ON l."statusId" = ls.id
      WHERE l."organizationId" = $1
-     GROUP BY l.id
-     ORDER BY l."createdAt" DESC
-     ;
+     GROUP BY l.id,ls.status
+     ORDER BY l."createdAt" DESC;
  `;
- 
 
       const leads = await prisma.$queryRawUnsafe(rawQuery, orgId);
-      
+      console.log(leads);
       return leads;
     } catch (error) {
       console.log(error);
@@ -85,7 +85,8 @@ export class LeadService {
               type: true,
             },
           },
-        },
+          status: true
+        }
       });
       if (!lead) {
         return null;
@@ -113,7 +114,7 @@ export class LeadService {
           shopifyStoreId: randomUUID(),
           createdAt: DateHelper.getCurrentUnixTime(),
           leadSource: 'Manually added',
-          // status: createLeadDto.status,
+          statusId: createLeadDto.status,
           updatedAt: 0,
           deletedAt: 0,
           organizationId: createLeadDto.organizationId,
@@ -126,7 +127,6 @@ export class LeadService {
         leadId: lead.id,
         userId: createLeadDto.userId,
         organizationId: createLeadDto.organizationId,
-
       };
       await this.LeadActivityService.create(activity);
       return lead;
@@ -178,25 +178,25 @@ export class LeadService {
         data: true,
       },
     });
-  
+
     // console.log(leadActivities); // Debug the retrieved activities
-    let currencyCode = ''
+    let currencyCode = '';
     // Reduce and calculate total amount
-    const totalAmount = leadActivities.reduce((total, activity:any) => {
+    const totalAmount = leadActivities.reduce((total, activity: any) => {
       console.log(`Activity: ${JSON.stringify(activity)}`); // Debug the activity
-      const activityData = activity.data.payload ; 
+      const activityData = activity.data.payload;
       console.log(activity.data.payload.charge);
       const amountString = activityData.charge?.amount?.amount;
       const amount = amountString ? parseFloat(amountString) : 0;
       currencyCode = activityData.charge?.amount?.currencyCode;
       // console.log(`Amount: ${amount}`); // Debug the parsed amount
-  
+
       return total + amount;
     }, 0);
-  
+
     console.log(`Total Amount: ${totalAmount}`); // Debug total amount
-  
-    return {totalAmount,currencyCode};
+
+    return { totalAmount, currencyCode };
   }
   async getTotalAmountByOrgId(orgId: string): Promise<any> {
     const leadActivities = await this.prismaService.leadActivity.findMany({
@@ -208,24 +208,24 @@ export class LeadService {
         data: true,
       },
     });
-  
+
     // console.log(leadActivities); // Debug the retrieved activities
-    let currencyCode = ''
+    let currencyCode = '';
     // Reduce and calculate total amount
-    const totalAmount = leadActivities.reduce((total, activity:any) => {
+    const totalAmount = leadActivities.reduce((total, activity: any) => {
       console.log(`Activity: ${JSON.stringify(activity)}`);
-      const activityData = activity.data.payload ; 
+      const activityData = activity.data.payload;
       console.log(activity.data.payload.charge);
       const amountString = activityData.charge?.amount?.amount;
       const amount = amountString ? parseFloat(amountString) : 0;
       currencyCode = activityData.charge?.amount?.currencyCode;
       // console.log(`Amount: ${amount}`); // Debug the parsed amount
-  
+
       return total + amount;
     }, 0);
-  
+
     console.log(`Total Amount: ${totalAmount}`); // Debug total amount
-  
-    return {totalAmount,currencyCode};
+
+    return { totalAmount, currencyCode };
   }
 }
