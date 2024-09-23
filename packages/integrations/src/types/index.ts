@@ -44,4 +44,9 @@ export enum IntegrationSharingType {
 export enum MailAction {
   SEND_MAIL = 'SEND_MAIL',
   SCHEDULE_MAIL = 'SCHEDULE_MAIL',
+  RESPOND_MAIL = 'RESPOND_MAIL',
+  GET_THREAD = 'GET_THREAD',
+
+  REPLY_MAIL = 'REPLY_MAIL',
+  FORWARD_MAIL = 'FORWARD_MAIL',
 }

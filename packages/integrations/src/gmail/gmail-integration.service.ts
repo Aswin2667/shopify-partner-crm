@@ -175,8 +175,14 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
       return await this.sendMail(params);
     } else if (action === MailAction.SCHEDULE_MAIL) {
       return await this.scheduleMail(params);
-    } else if (action === 'GET_THREAD') {
+    } else if (action === MailAction.RESPOND_MAIL) {
+      return await this.respondMail(params);
+    } else if (action === MailAction.GET_THREAD) {
       return await this.getThread(params);
+    } else if (action === MailAction.REPLY_MAIL) {
+      return await this.replyMail(params);
+    } else if (action === MailAction.FORWARD_MAIL) {
+      return await this.forwardMail(params);
     } else if (action === 'TEST') {
       return await this.test(params);
     } else {
@@ -208,6 +214,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
 
       const customMessageId = `<${this.generateCustomMessageId()}>`;
 
+      // TODO: add from
       const headers = this.buildEmailHeaders(
         to,
         cc,
@@ -303,6 +310,295 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     }
   }
 
+  private async replyMail(replyData: {
+    integrationId: string;
+    threadId: string;
+    messageId: string;
+    recipient: string;
+    cc: string[];
+    bcc: string[];
+    replyBody: string;
+    originalSubject: string;
+  }) {
+    const {
+      integrationId,
+      threadId,
+      messageId,
+      recipient,
+      cc,
+      bcc,
+      replyBody,
+      originalSubject,
+    } = replyData;
+    const integration = await this.getIntegrationById(integrationId);
+
+    const { accessToken, refreshToken } = integration.data as {
+      accessToken: string;
+      refreshToken: string;
+    };
+
+    try {
+      await this.verifyToken(accessToken);
+      this.oauth2Client.setCredentials({ access_token: accessToken });
+
+      const gmail = google.gmail({ version: 'v1', auth: this.oauth2Client });
+
+      const headers = this.createEncodedHeader({
+        to: recipient,
+        cc,
+        bcc,
+        subject: originalSubject, // Can change this if needed
+        inReplyTo: messageId, // Reference to the original message ID
+        references: messageId, // Keep the reference to the original message
+      });
+
+      const message = `${headers}\r\n\r\n${replyBody}`;
+      const encodedMessage = this.encodeMessage(message);
+
+      console.log(headers);
+      console.log(message);
+      console.log(encodedMessage);
+
+      const response = await gmail.users.messages.send({
+        userId: 'me',
+        requestBody: {
+          raw: encodedMessage,
+          threadId: threadId, // Associate reply with the thread
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      if (error.response?.status === 401) {
+        this.logger.log('Access token invalid, refreshing token...');
+        const newAccessToken = await this.refreshAccessToken(
+          refreshToken,
+          integrationId,
+        );
+        this.logger.log(
+          `New access token obtained ${newAccessToken}, retrying email send...`,
+        );
+        await this.replyMail(replyData);
+      } else {
+        this.logger.error('Error sending email:', error.message);
+        throw error;
+      }
+    }
+  }
+
+  private async forwardMail(forwardData: {
+    integrationId: string;
+    threadId: string;
+    messageId: string; // ID of the email being forwarded
+    recipient: string[]; // Recipient of the forwarded email
+    cc: string[];
+    bcc: string[];
+    originalSubject: string;
+    forwardBody: string; // Optional message body added by the user when forwarding
+  }) {
+    const {
+      integrationId,
+      messageId,
+      threadId,
+      recipient,
+      bcc,
+      cc,
+      forwardBody,
+      originalSubject,
+    } = forwardData;
+    const integration = await this.getIntegrationById(integrationId);
+
+    const { accessToken, refreshToken } = integration.data as {
+      accessToken: string;
+      refreshToken: string;
+    };
+
+    try {
+      await this.verifyToken(accessToken);
+      this.oauth2Client.setCredentials({ access_token: accessToken });
+
+      const gmail = google.gmail({ version: 'v1', auth: this.oauth2Client });
+
+      // Fetch the original message to forward
+      const originalMessage = await gmail.users.messages.get({
+        userId: 'me',
+        id: messageId,
+      });
+
+      const originalMessageData = originalMessage.data;
+
+      // Build the headers for the forwarded message
+      const headers = this.createEncodedHeader({
+        to: recipient,
+        cc,
+        bcc,
+        subject: originalSubject, // Can change this if needed
+        inReplyTo: messageId, // Reference to the original message ID
+        references: messageId, // Keep the reference to the original message
+      });
+
+      // Construct the forward message with headers, original message, and any additional body content
+      const forwardMessage = `${headers}\r\n\r\n${forwardBody || ''}\r\n\r\n---------- Forwarded message ----------\r\n${originalMessageData.snippet}`;
+
+      // Encode the message for sending
+      const encodedMessage = this.encodeMessage(forwardMessage);
+
+      // Send the forwarded email
+      const forwardResponse = await gmail.users.messages.send({
+        userId: 'me',
+        requestBody: {
+          raw: encodedMessage,
+          threadId: threadId,
+        },
+      });
+
+      this.logger.log('Email forwarded successfully');
+
+      return forwardResponse.data;
+    } catch (error) {
+      if (error.response?.status === 401) {
+        this.logger.log('Access token invalid, refreshing token...');
+        const newAccessToken = await this.refreshAccessToken(
+          refreshToken,
+          integrationId,
+        );
+        this.logger.log(
+          `New access token obtained ${newAccessToken}, retrying email forward...`,
+        );
+        await this.forwardMail(forwardData); // Retry forwarding email
+      } else {
+        this.logger.error('Error forwarding email:', error.message);
+        throw error;
+      }
+    }
+  }
+
+  private async respondMail(actionData: {
+    integrationId: string;
+    threadId: string;
+    messageId: string; // Message ID for reply or forward
+    recipient: string[]; // To field for recipient(s)
+    cc?: string[]; // Optional CC field
+    bcc?: string[]; // Optional BCC field
+    subject: string; // Subject of the email
+    body: string; // Body content for reply or forward
+    action: 'REPLY' | 'FORWARD'; // Action type to differentiate between reply or forward
+    actualMessageId?: string;
+  }) {
+    const {
+      integrationId,
+      threadId,
+      messageId,
+      recipient,
+      cc = [],
+      bcc = [],
+      body,
+      subject,
+      action,
+      actualMessageId,
+    } = actionData;
+    console.log(actionData);
+
+    const integration = await this.getIntegrationById(integrationId);
+    const { accessToken, refreshToken } = integration.data as {
+      accessToken: string;
+      refreshToken: string;
+    };
+
+    try {
+      await this.verifyToken(accessToken);
+      this.oauth2Client.setCredentials({ access_token: accessToken });
+
+      const gmail = google.gmail({ version: 'v1', auth: this.oauth2Client });
+
+      let headers;
+      let messageBody = body;
+
+      if (action === 'FORWARD') {
+        // Fetch the original message if forwarding
+        const originalMessage = await gmail.users.messages.get({
+          userId: 'me',
+          id: actualMessageId,
+        });
+
+        const originalMessageData = originalMessage.data;
+
+        // Add the forwarded message snippet
+        messageBody += `\r\n\r\n---------- Forwarded message ----------\r\n${originalMessageData.snippet}`;
+
+        headers = this.createEncodedHeader({
+          to: recipient,
+          cc,
+          bcc,
+          subject: `Fwd: ${subject}`, // Modify subject for forwarding
+          inReplyTo: messageId,
+          references: messageId,
+        });
+      } else {
+        // For reply, we add reply-specific headers
+        headers = this.createEncodedHeader({
+          to: recipient,
+          cc,
+          bcc,
+          subject, // Keep the original subject for reply
+          inReplyTo: messageId, // Important for threading
+          references: messageId, // Keep reference to the original message
+        });
+      }
+
+      // Construct the final email message with headers
+      const fullMessage = `${headers}\r\n\r\n${messageBody}`;
+      const encodedMessage = this.encodeMessage(fullMessage);
+
+      // Send the message
+      const response = await gmail.users.messages.send({
+        userId: 'me',
+        requestBody: {
+          raw: encodedMessage,
+          threadId: threadId, // Associate the message with the thread
+        },
+      });
+
+      this.logger.log(
+        `${action.charAt(0).toUpperCase() + action.slice(1)} email successfully`,
+      );
+
+      return response.data;
+    } catch (error) {
+      if (error.response?.status === 401) {
+        this.logger.log('Access token invalid, refreshing token...');
+        const newAccessToken = await this.refreshAccessToken(
+          refreshToken,
+          integrationId,
+        );
+        this.logger.log(
+          `New access token obtained ${newAccessToken}, retrying email ${action}...`,
+        );
+
+        // Retry the action with new access token
+        return this.respondMail(actionData);
+      } else {
+        this.logger.error(`Error during ${action}:`, error.message);
+        throw error;
+      }
+    }
+  }
+
+  private createEncodedHeader({ to, cc, bcc, subject, inReplyTo, references }) {
+    return [
+      `To: ${to.join(', ')}`,
+      cc.length ? `Cc: ${cc.join(', ')}` : '',
+      bcc.length ? `Bcc: ${bcc.join(', ')}` : '',
+      `Subject: ${subject}`,
+      `In-Reply-To: ${inReplyTo}`, // Critical for threading
+      `References: ${references}`, // Critical for threading
+      `Content-Type: text/html; charset="UTF-8"`,
+      `Content-Transfer-Encoding: 7bit`,
+    ]
+      .filter(Boolean)
+      .join('\r\n');
+  }
+
   private async getThread({
     threadId,
     integrationId,
@@ -346,14 +642,14 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     return `${Math.random().toString(36).substr(2, 9)}@mail.gmail.com`;
   }
 
-  private buildEmailHeaders(to, cc, bcc, subject, customMessageId) {
+  private buildEmailHeaders(to, cc, bcc, subject, customMessageId?) {
     return [
       `From: "Dinesh Balan S" <dineshbalan@gmail.com>`,
       `To: ${to.join(', ')}`,
       cc.length ? `Cc: ${cc.join(', ')}` : '',
       bcc.length ? `Bcc: ${bcc.join(', ')}` : '',
       `Subject: ${subject}`,
-      `X-Message-ID: ${customMessageId}`,
+      customMessageId && `X-Message-ID: ${customMessageId}`,
       `Content-Type: text/html; charset="UTF-8"`,
     ]
       .filter(Boolean)
@@ -412,7 +708,6 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
       },
     );
   }
-
 
   private async updateEmailInDatabase(emailId, emailData) {
     return await this.prisma.email.update({

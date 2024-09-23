@@ -6,6 +6,14 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Mail } from "../data";
 import { useMail } from "../use-mail";
 import { NavLink, useParams } from "react-router-dom";
+import { IoMailOutline, IoMailOpenOutline } from "react-icons/io5";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface MailListProps {
   items: any[];
@@ -34,15 +42,32 @@ export function MailList({ items }: MailListProps) {
           >
             <div className="flex w-full flex-col gap-1">
               <div className="flex items-center">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-between gap-2 w-full">
                   <NavLink
                     className="font-semibold hover:text-blue-600 underline transition-all ease-linear capitalize"
                     to={`/${organizationId}/leads/${item.leadId}/emails`}
                   >
                     {item.from.name}
                   </NavLink>
-                  {!item.read && (
-                    <span className="flex h-2 w-2 rounded-full bg-blue-600" />
+                  {item.status === "SEND" && (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div>
+                          {item.isOpened ? (
+                            <IoMailOpenOutline size={16} />
+                          ) : (
+                            <IoMailOutline size={16} />
+                          )}
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <h6 className="text-sm">
+                          {item.isOpened
+                            ? `Opened At: ${item.openedAt}`
+                            : `Not Opened Yet!`}
+                        </h6>
+                      </TooltipContent>
+                    </Tooltip>
                   )}
                 </div>
                 <div
@@ -65,15 +90,9 @@ export function MailList({ items }: MailListProps) {
             <div className="line-clamp-2 text-xs text-muted-foreground">
               {item.body.replace(/<\/?[^>]+(>|$)/g, "")}
             </div>
-            {item.labelIds.length ? (
-              <div className="flex items-center gap-2">
-                {item.labelIds.map((label: any) => (
-                  <Badge key={label} variant={getBadgeVariantFromLabel(label)}>
-                    {label}
-                  </Badge>
-                ))}
-              </div>
-            ) : null}
+            <Badge variant={getBadgeVariantFromLabel("label")}>
+              {item.status}
+            </Badge>
           </button>
         ))}
       </div>
