@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useQueryEvents } from "@/hooks/useQueryEvents";
 import { organizationAction } from "@/redux/organizationSlice";
 import MailService from "@/services/MailService";
+import MailInbox from "./components/Inbox";
 
 export default function MailPage() {
   const dispatch = useDispatch();
@@ -31,12 +32,13 @@ export default function MailPage() {
   return (
     <div className="p-4">
       {emails?.length > 0 ? (
-        <Mail
-          accounts={accounts}
-          mails={emails}
-          navCollapsedSize={4}
-          defaultLayout={undefined}
-        />
+        // <Mail
+        //   accounts={accounts}
+        //   mails={emails}
+        //   navCollapsedSize={4}
+        //   defaultLayout={undefined}
+        // />
+        <MailInbox mails={emails} />
       ) : (
         <>No Email</>
       )}

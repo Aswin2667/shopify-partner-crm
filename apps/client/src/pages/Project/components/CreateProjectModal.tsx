@@ -162,7 +162,6 @@ const CreateProjectModal = ({ open, setOpen }: any) => {
         </AlertDialogHeader>
 
         <form onSubmit={submitHandler}>
-          
           {/* Project Name */}
           <div>
             <label className="block mb-2 text-sm font-medium">

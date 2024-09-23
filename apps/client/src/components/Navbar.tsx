@@ -5,9 +5,10 @@ import {
 } from "../components/ui/tooltip";
 import { buttonVariants } from "../components/ui/button";
 import { cn } from "../lib/utils";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 const Navbar = ({ links, isCollapsed }: any) => {
+  const { organizationId } = useParams();
   const url = window.location.pathname.split("/")[3];
   console.log(url);
   return (
@@ -21,7 +22,7 @@ const Navbar = ({ links, isCollapsed }: any) => {
             <Tooltip key={index} delayDuration={0}>
               <TooltipTrigger>
                 <NavLink
-                  to={link.title.toLowerCase()}
+                  to={`/${organizationId}/${link.url}`}
                   className={({ isActive }) =>
                     cn(
                       buttonVariants({
@@ -50,7 +51,9 @@ const Navbar = ({ links, isCollapsed }: any) => {
             </Tooltip>
           ) : (
             <NavLink
-              to={link.title.toLowerCase() + "/"}
+              // to={link.title.toLowerCase() + "/"}
+              // end
+              to={`/${organizationId}/${link.url}`}
               className={({ isActive }) =>
                 cn(
                   buttonVariants({
