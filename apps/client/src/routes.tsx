@@ -108,30 +108,7 @@ export const routes = createBrowserRouter([
           },
         ],
       },
-      {
-        path: "projects",
-        children: [
-          {
-            index: true,
-            element: <Project />,
-          },
-          {
-            path: ":projectId",
-            element: <ProjectSettings />,
-            children:[
-            {
-              index: true,
-              path:"tokens",
-              element: <CliAccesTokens/>,
-            },
-            {
-              path:"webhooks",
-              element: <>webhooks</>,
-            }
-            ]
-          },
-        ],
-      },
+
       {
         path: "workflows",
         children: [
@@ -187,28 +164,32 @@ export const routes = createBrowserRouter([
               {
                 path: "manage/:integrationType",
                 element: <ManageIntegration />,
-                children:[
+                children: [
                   {
-                    index: true,
-                    path:"settings",
-                    element: <>settings</>,
+                    path: "projects",
+                    children: [
+                      {
+                        index: true,
+                        element: <Project />,
+                      },
+                      {
+                        path: ":projectId",
+                        element: <ProjectSettings />,
+                        children: [
+                          {
+                            index: true,
+                            path: "tokens",
+                            element: <CliAccesTokens />,
+                          },
+                          {
+                            path: "webhooks",
+                            element: <>webhooks</>,
+                          },
+                        ],
+                      },
+                    ],
                   },
-                  {
-                    index: true,
-                    path:"Apps",
-                    element: <>Apps</>,
-                  },
-                  {
-                    index: true,
-                    path:"tokens",
-                    element: <>tokens</>,
-                  },
-                  {
-                    index: true,
-                    path:"webhooks",
-                    element: <>webhooks</>,
-                  }
-                ]
+                ],
               },
               {
                 path: "create",

@@ -1,16 +1,16 @@
 import { TbArrowNarrowLeft } from "react-icons/tb";
-import { Link, useParams } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import ManageFactory from "./type-manage/ManageFactory";
 
 type Props = {};
 
 const ManageIntegration = ({}: Props) => {
-  const { integrationType } = useParams();
+  const { integrationType, projectId } = useParams();
 
   return (
     <div className="space-y-10">
       {/* BreadCrumbs */}
-      <div className="border-b p-5 w-full">
+      <div className="border-b p-5 w-full"> 
         <Link
           to=".."
           className="flex items-center gap-1 text-sm text-[#767676]
@@ -26,9 +26,14 @@ const ManageIntegration = ({}: Props) => {
             : ""}
         </h1>
       </div>
-      <div className="space-y-4">
-        <ManageFactory />
-      </div>
+
+      {projectId && integrationType ? (
+        <Outlet />
+      ) : (
+        <div className="space-y-4">
+          <ManageFactory />
+        </div>
+      )}
     </div>
   );
 };

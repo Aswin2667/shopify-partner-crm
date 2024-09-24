@@ -130,7 +130,7 @@ const reducerFn = (prevState: any, action: any) => {
   return prevState;
 };
 
-const Compose = (props: Props): JSX.Element => {
+const Compose = ({ setInitialArgs }: any): JSX.Element => {
   const { organizationId, leadId } = useParams();
   const [compose, dispatch] = useReducer(
     reducerFn,
@@ -178,6 +178,7 @@ const Compose = (props: Props): JSX.Element => {
   };
 
   const setBody = (value: any) => {
+    console.log(value);
     dispatch({ type: "body", payload: value });
   };
 
@@ -217,13 +218,17 @@ const Compose = (props: Props): JSX.Element => {
     }
   }
 
-  // useEffect(() => {
-  //   dispatch({ type: "from", payload: gmailIntegrations[0] });
-  // }, [gmailIntegrations]);
+  useEffect(() => {
+    if (setInitialArgs) {
+      console.log("dispatch function goes here");
+    }
+  }, [setInitialArgs]);
 
   useEffect(() => {
     TemplateService.getAllTemplatesByOrgId(organizationId as string)
-      .then((res) => dispatch({ type: "allTemplate", payload: res.data?.data }))
+      .then((res) =>
+        dispatch({ type: "allTemplate", payload: res.data?.data || [] })
+      )
       .catch((err) => console.log(err));
   }, []);
 
