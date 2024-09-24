@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import GmailIcon from "../../../../../assets/gmail.png";
 import DateHelper from "@/utils/DateHelper";
@@ -43,8 +43,14 @@ const formSchema = z.object({
 type Props = {};
 
 const Index = (props: Props) => {
-  const { organizationId, integrationType } = useParams();
   const { toast } = useToast();
+  const { organizationId, integrationType } = useParams();
+
+  const [activeTab, setActiveTab] = useState("connectedAccounts");
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+  };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -122,7 +128,7 @@ const Index = (props: Props) => {
 
   return (
     <div>
-      <Tabs defaultValue="connectedAccounts" className="">
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="connectedAccounts">
             Connected Accounts
@@ -201,59 +207,65 @@ const Index = (props: Props) => {
           </Card>
         </TabsContent>
         <TabsContent value="addAccount">
-          <Card>
-            <CardHeader>
-              <CardTitle>From Email</CardTitle>
-              <CardDescription>
-                Change your password here. After saving, you'll be logged out.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-8"
-                >
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Display Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Dinesh Balan S" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          This is your from display name.
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email Address</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="dineshbalan@gmail.com"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          This is your from email address.
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit">Submit</Button>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
+          {integrationType === "GMAIL" ? (
+            <div>
+              You are only allowed to use your Gmail's ID for the Email Sending
+            </div>
+          ) : (
+            <Card>
+              <CardHeader>
+                <CardTitle>From Email</CardTitle>
+                <CardDescription>
+                  Change your password here. After saving, you'll be logged out.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-8"
+                  >
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Display Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Dinesh Balan S" {...field} />
+                          </FormControl>
+                          <FormDescription>
+                            This is your from display name.
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email Address</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="dineshbalan@gmail.com"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            This is your from email address.
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button type="submit">Submit</Button>
+                  </form>
+                </Form>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
       </Tabs>
       {/* <h1 className="uppercase">Connected {integrationType} Accounts</h1> */}
