@@ -10,6 +10,8 @@ const Notes = () => {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(false);
   const leadId = window.location.pathname.split("/")[3];
+  const orgId = window.location.pathname.split("/")[1];
+console.log(orgId)
 
   const fetchNotes = async () => {
     try {
@@ -27,12 +29,13 @@ const Notes = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
+    const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
     try {
       const response = await axiosInstance.post("/lead-notes", {
         leadId,
         data: value,
         userId,
+        orgId,
       });
       console.log("Note published successfully:", response.data);
       fetchNotes(); // Refetch the notes after successful submission

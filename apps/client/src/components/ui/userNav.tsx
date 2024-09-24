@@ -12,7 +12,7 @@ import {
 
 export function UserNav() {
   const navigate = useNavigate();
-  const session = sessionStorage.getItem("session") ?? "";
+  const session = localStorage.getItem("session") ?? "";
   const user = JSON.parse(session);
   return (
     <DropdownMenu>
@@ -36,7 +36,7 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
-            sessionStorage.clear();
+            localStorage.clear();
             navigate("/login");
           }}
         >

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="" />
-    <script src="http://localhost:9001/asdff/index.js"></script>
+    <script  src="http://localhost:9001/test/index.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shopify partner CRM</title>
   </head>
@@ -13,9 +13,8 @@
   </body>
   <script>
     // Use the AnalyticsFactory to create a service instance
-    const analytics = AnalyticsFactory.create('Shopify');
+    const analytics = AnalyticsFactory.create('Shopify',"87987998789uybiogyngygnygyugi");
 
-    // Use the analytics service
     analytics.track('Test Event', { key: 'value' })
         .then(() => {
             console.log('Event tracked successfully');
@@ -23,5 +22,6 @@
         .catch(err => {
             console.error('Error tracking event:', err);
         });
+      window.global.AnalyticsFactory = analytics;
 </script>
 </html>

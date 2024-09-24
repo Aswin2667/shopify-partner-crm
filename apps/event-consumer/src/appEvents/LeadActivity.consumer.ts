@@ -25,7 +25,11 @@ export class AppInstallsUninstallsEventsProcessor {
 
       // console.log('App: ', app);
       // console.log('Events: ', events);
-
+      const status = await this.prisma.leadStatus.findFirst({
+        where: {
+          organizationId: app.organizationId,
+        },  
+      })
       for (const event of events) {
         const { type, shop, occurredAt } = event;
         const { appId, name, projectId, integrationId, organizationId } = app;
@@ -65,6 +69,7 @@ export class AppInstallsUninstallsEventsProcessor {
                 shopifyStoreId: shop.id,
                 integrationId: integrationId,
                 organizationId: organizationId,
+                statusId: status.id,
                 createdAt: DateHelper.convertIsoToTimestamp(occurredAt),
                 updatedAt: 0,
                 deletedAt: 0,

@@ -57,6 +57,7 @@ model Organization {
   Template     Template[]
   LeadStatus   LeadStatus[]
   LeadProject  LeadProject[]
+  LeadActivity LeadActivity[]
 }
 
 model OrgMember {
@@ -160,8 +161,6 @@ model Contact {
   deletedAt      BigInt
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id])
-  integrationId  String
-  integration    Integration  @relation(fields: [integrationId], references: [id])
   lead           Lead         @relation(fields: [leadId], references: [id])
 }
 
@@ -179,18 +178,20 @@ model Attachment {
 }
 
 model LeadActivity {
-  id        String           @id @default(uuid())
-  leadId    String
-  data      Json
-  updatedAt BigInt
-  createdAt BigInt
-  deletedAt BigInt
-  userId    String?
-  noteId    String?
-  type      LeadActivityType
-  lead      Lead             @relation(fields: [leadId], references: [id])
-  user      User?            @relation(fields: [userId], references: [id])
-  note      LeadNotes?       @relation(fields: [noteId], references: [id])
+  id           String           @id @default(uuid())
+  leadId       String
+  data         Json
+  updatedAt    BigInt
+  createdAt    BigInt
+  deletedAt    BigInt
+  userId       String?
+  noteId       String?
+  type         LeadActivityType
+  orgId        String
+  organization Organization     @relation(fields: [orgId], references: [id])
+  lead         Lead             @relation(fields: [leadId], references: [id])
+  user         User?            @relation(fields: [userId], references: [id])
+  note         LeadNotes?       @relation(fields: [noteId], references: [id])
 
   @@index([leadId, userId])
 }
@@ -226,7 +227,6 @@ model Integration {
   Project      Project[]
   organization Organization  @relation(fields: [organizationId], references: [id])
   Lead         Lead[]
-  Contact      Contact[]
   LeadProject  LeadProject[]
 
   // @@unique([organizationId, type, isSingular], name: "UniqueIntegrationPerOrgAndType")

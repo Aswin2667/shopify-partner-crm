@@ -59,7 +59,7 @@ export default function RootLayout() {
   );
 
   React.useEffect(() => {
-    const sessionData = sessionStorage.getItem("session");
+    const sessionData = localStorage.getItem("session");
     if (!sessionData) {
       navigate("/login");
     } else {

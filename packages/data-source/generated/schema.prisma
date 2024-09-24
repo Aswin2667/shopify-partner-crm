@@ -77,6 +77,7 @@ model OrgMember {
   deletedAt      BigInt
   organization   Organization  @relation(fields: [organizationId], references: [id])
   user           User          @relation(fields: [userId], references: [id])
+  signature      String        @default("")
 
   @@unique([organizationId, userId])
 }
@@ -171,8 +172,8 @@ model Contact {
   deletedAt      BigInt
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id])
-  integrationId  String
-  integration    Integration  @relation(fields: [integrationId], references: [id])
+  integrationId  String?
+  integration    Integration? @relation(fields: [integrationId], references: [id])
   lead           Lead         @relation(fields: [leadId], references: [id])
 }
 

@@ -42,4 +42,15 @@ export default class OrganizationService {
       console.log(error);
     }
   }
+
+  public static async getTotalRevenueByOrgId(organizationId: string | undefined) {
+    try {
+      console.log("hello")
+      const response =  await axiosInstance.get("/leads/total-revenue/" + organizationId);
+      console.log(response)
+      return response
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }

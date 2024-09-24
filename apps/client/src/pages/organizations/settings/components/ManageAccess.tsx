@@ -34,7 +34,7 @@ const ManageAccess = () => {
   const [pendingInvitations, setPendingInvitations] = useState<any[]>([]);
   const [members, setMembers] = useState<any[]>([]);
   const { organizationId } = useParams<{ organizationId: string }>();
-  const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
+  const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
   const fetchInvitations = async () => {
     setLoading(true);
     try {
@@ -99,7 +99,7 @@ const ManageAccess = () => {
         invitedBy: userId,
         emails: [...invitedEmails, email].filter(Boolean),
         role: "MEMBER",
-        invite_sender_name: JSON.parse(sessionStorage.getItem("session") ?? "")
+        invite_sender_name: JSON.parse(localStorage.getItem("session") ?? "")
           .name,
         invite_sender_organization_name: currentOrganization.name,
         Product_Name: "Shopify crm",

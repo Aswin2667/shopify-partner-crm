@@ -1,5 +1,12 @@
-import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
-import { CreateLeadStatusDto, UpdateLeadStatusDto } from './dto/lead-status.dto';
+import {
+  Injectable,
+  NotFoundException,
+  InternalServerErrorException,
+} from '@nestjs/common';
+import {
+  CreateLeadStatusDto,
+  UpdateLeadStatusDto,
+} from './dto/lead-status.dto';
 import { PrismaService } from 'src/config/prisma.service';
 import { DateHelper } from '@org/utils';
 
@@ -9,6 +16,7 @@ export class LeadStatusService {
 
   async create(createLeadStatusDto: CreateLeadStatusDto) {
     try {
+      console.log(createLeadStatusDto);
       const newStatus = await this.prisma.leadStatus.create({
         data: {
           status: createLeadStatusDto.status,
@@ -28,25 +36,27 @@ export class LeadStatusService {
     }
   }
 
-  async findAllByOrgId(orgId:string) {
+  async findAllByOrgId(orgId: string) {
     try {
-        const data =await this.prisma.leadStatus.findMany({
-            where:{
-              organizationId: orgId
-            }
-          });
+      const data = await this.prisma.leadStatus.findMany({
+        where: {
+          organizationId: orgId,
+        },
+      });
       return {
         message: 'LeadStatus retrieved successfully',
         data: data,
-        status: true,   
-      }
+        status: true,
+      };
     } catch (error) {
       throw new InternalServerErrorException('Failed to fetch LeadStatus');
     }
   }
 
   async findOne(id: string) {
-    const leadStatus = await this.prisma.leadStatus.findUnique({ where: { id } });
+    const leadStatus = await this.prisma.leadStatus.findUnique({
+      where: { id },
+    });
     if (!leadStatus) {
       throw new NotFoundException(`LeadStatus with ID ${id} not found`);
     }
@@ -60,9 +70,9 @@ export class LeadStatusService {
         where: { id },
         data: {
           status: updateLeadStatusDto.status,
-          updatedAt: Date.now(),
+          updatedAt: DateHelper.getCurrentUnixTime(),
           Lead: {
-            connect: updateLeadStatusDto.leadIds?.map(id => ({ id })),
+            connect: updateLeadStatusDto.leadIds?.map((id) => ({ id })),
           },
         },
       });
@@ -74,7 +84,9 @@ export class LeadStatusService {
   async remove(id: string) {
     const leadStatus = await this.findOne(id);
     try {
-      await this.prisma.leadStatus.delete({ where: { id } });
+      if (leadStatus) {
+        await this.prisma.leadStatus.delete({ where: { id } });
+      }
       return { message: 'LeadStatus deleted successfully' };
     } catch (error) {
       throw new InternalServerErrorException('Failed to delete LeadStatus');

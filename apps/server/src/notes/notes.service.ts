@@ -14,6 +14,7 @@ export class LeadNotesService {
 
   async create(createLeadNoteDto: CreateLeadNoteDto) {
     try {
+      console.log(createLeadNoteDto);
       const leadNote = await this.prisma.leadNotes.create({
         data: {
           data: createLeadNoteDto.data,
@@ -29,6 +30,7 @@ export class LeadNotesService {
         data: { message: 'Lead note created',data:createLeadNoteDto.data },
         leadId: leadNote.leadId,
         userId: createLeadNoteDto.userId,
+        organizationId: createLeadNoteDto.orgId,
       })
       return {
         status: true,

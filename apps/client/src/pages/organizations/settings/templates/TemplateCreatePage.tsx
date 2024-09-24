@@ -12,7 +12,7 @@ const TemplateCreatePage = () => {
   const [data, setData] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
-  const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
+  const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
   const { toast } = useToast()
    const { currentOrganization } = useSelector(
     (state: any) => state.organization,

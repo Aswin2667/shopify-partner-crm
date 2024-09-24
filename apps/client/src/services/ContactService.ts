@@ -1,18 +1,18 @@
 import axiosInstance from "@/utils/_axios";
 
 class ContactService {
-    static BASE_PATH: string = '/contacts';
-
-    // TODO: Remove currentIntegration Method
-    public static async getByIntegrationId(id: any) {
+    public static async getByOrganizationId(organizationId: string | undefined) {
         try {
-            const response = await axiosInstance.get(this.BASE_PATH+'/get/'+id);
-            return response.data;
+            const response = await axiosInstance.get(this.BASE_PATH+'/get/'+organizationId);
+             return response.data;
         } catch (error) {
             console.error("Error fetching contacts:", error);
             throw error;
         }
     }
+    static BASE_PATH: string = '/contacts';
+
+    // TODO: Remove currentIntegration Method
 
     public static async create(data: any) {
         try {

@@ -39,16 +39,19 @@ export class OrgMemberInvitationsController {
       const user =
         await this.orgMemberInvitationsService.verifyInviteToken(token);
       if (!user) {
-        return {
-          status: false,
-          message: 'Invalid token',
-          user: null,
-        };
+        // Throw a 404 error with a custom message and proper structure
+        throw new HttpException(
+          {
+            status: 404,
+            message: 'Token not found or invalid.',
+          },
+          HttpStatus.NOT_FOUND,
+        );
       }
       return {
         status: true,
         message: 'Token verified successfully.',
-        data:user,
+        data: user,
       };
     } catch (error) {
       throw new HttpException(
@@ -73,7 +76,7 @@ export class OrgMemberInvitationsController {
       return {
         status: true,
         message: 'Invitation Accepted successfully.',
-        data:user,
+        data: user,
       };
     } catch (error) {
       throw new HttpException(
