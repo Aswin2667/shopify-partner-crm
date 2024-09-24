@@ -47,7 +47,9 @@ export default function RootLayout() {
     useQuery({
       queryKey: ["getAllIntegrationsPresentInOrg", organizationId],
       queryFn: async () =>
-        await IntegrationService.getAllIntegrationsByOrgId(organizationId as string),
+        await IntegrationService.getAllIntegrationsByOrgId(
+          organizationId as string
+        ),
     }),
     {
       onSuccess: (response: any) =>
@@ -57,7 +59,7 @@ export default function RootLayout() {
   );
 
   React.useEffect(() => {
-    const sessionData = sessionStorage.getItem("session");
+    const sessionData = localStorage.getItem("session");
     if (!sessionData) {
       navigate("/login");
     } else {
@@ -121,13 +123,55 @@ export default function RootLayout() {
             <Navbar
               isCollapsed={isCollapsed}
               links={[
-                { title: "Dashboard", label: "128", icon: LayoutDashboard, variant: "default" },
-                { title: "Inbox", label: "128", icon: Inbox, variant: "default" },
-                { title: "Leads", label: "9", icon: Building, variant: "ghost" },
-                { title: "Contacts", label: "", icon: User, variant: "ghost" },
-                { title: "Projects", label: "", icon: LayoutGrid, variant: "ghost" },
-                { title: "Workflows", label: "23", icon: ArchiveX, variant: "ghost" },
-                { title: "Media Library", label: "", icon: Folder, variant: "ghost" },
+                {
+                  title: "Dashboard",
+                  label: "128",
+                  icon: LayoutDashboard,
+                  variant: "default",
+                  url: "dashboard",
+                },
+                {
+                  title: "Inbox",
+                  label: "128",
+                  icon: Inbox,
+                  variant: "default",
+                  url: "inbox",
+                },
+                {
+                  title: "Leads",
+                  label: "9",
+                  icon: Building,
+                  variant: "ghost",
+                  url: "leads",
+                },
+                {
+                  title: "Contacts",
+                  label: "",
+                  icon: User,
+                  variant: "ghost",
+                  url: "contacts",
+                },
+                {
+                  title: "Integration",
+                  label: "",
+                  icon: LayoutGrid,
+                  variant: "ghost",
+                  url: "settings/integration",
+                },
+                {
+                  title: "Workflows",
+                  label: "23",
+                  icon: ArchiveX,
+                  variant: "ghost",
+                  url: "workflows",
+                },
+                {
+                  title: "Media Library",
+                  label: "",
+                  icon: Folder,
+                  variant: "ghost",
+                  url: "media library",
+                },
               ]}
             />
           </div>
@@ -136,14 +180,24 @@ export default function RootLayout() {
             <Navbar
               isCollapsed={isCollapsed}
               links={[
-                { title: "Settings", label: "21", icon: Settings, variant: "ghost" },
+                {
+                  title: "Settings",
+                  label: "21",
+                  icon: Settings,
+                  variant: "ghost",
+                  url: "settings",
+                },
               ]}
             />
           </div>
         </div>
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={defaultLayout[1]} minSize={30} className="h-screen">
+      <ResizablePanel
+        defaultSize={defaultLayout[1]}
+        minSize={30}
+        className="h-screen"
+      >
         <div className="flex items-center px-4 justify-between">
           <div className="bg-background/95 p-[6px] backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <form>
@@ -160,7 +214,7 @@ export default function RootLayout() {
         </div>
         <Separator />
         <div className="max-h-full max-w-full min-w-full flex items-center justify-center">
-          <div className="max-h-screen max-w-full min-h-screen min-w-full overflow-hidden">
+          <div className="max-h-screen max-w-full min-h-screen min-w-full overflow-scroll">
             <Outlet />
           </div>
         </div>

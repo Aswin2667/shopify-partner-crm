@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 
 import { CreateLeadActivityDto } from './dto/lead-activity.dto';
-import { PrismaService } from 'src/config/prisma.service';
-import { DateHelper } from '@org/utils';
 
+import { DateHelper } from '@org/utils';
+import { PrismaService } from 'src/config/prisma.service';
 @Injectable()
 export class LeadActivityService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createLeadActivityDto: any) {
-    console.log(createLeadActivityDto);
+    console.log(JSON.stringify(createLeadActivityDto));
     try {
       const activity = await this.prisma.leadActivity.create({
         data: {
@@ -18,37 +18,38 @@ export class LeadActivityService {
           leadId: createLeadActivityDto.leadId,
           userId: createLeadActivityDto.userId,
           createdAt: DateHelper.getCurrentUnixTime(),
+          orgId: createLeadActivityDto.organizationId,
           updatedAt: 0,
           deletedAt: 0,
         },
       });
-      return activity
+      return activity;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
-  async findAllByLeadId(leadId:string) {
+  async findAllByLeadId(leadId: string) {
     try {
       const data = await this.prisma.leadActivity.findMany({
-        where:{
-          leadId: leadId
+        where: {
+          leadId: leadId,
         },
-        include:{
+        include: {
           user: true,
-          note:true
+          note: true,
         },
-        orderBy:{
-          createdAt: 'desc'
-        }
+        orderBy: {
+          createdAt: 'desc',
+        },
       });
       return {
-        status:true,
-        message:"Activities fetched successfully.",
-        data
-      }
+        status: true,
+        message: 'Activities fetched successfully.',
+        data,
+      };
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 }

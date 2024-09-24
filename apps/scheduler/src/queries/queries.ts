@@ -1,5 +1,3 @@
-// src/queries/shopify-queries.ts
-
 export const APP_INSTALLS_UNINSTALLS_QUERY = (appId: string, lastOccurredAt: string | null) => `
   query appInstallsAndUninstalls {
     app(id: "gid://partners/App/${appId}") {
@@ -98,8 +96,6 @@ export const APP_INSTALLS_UNINSTALLS_QUERY = (appId: string, lastOccurredAt: str
       }
       occurredAt
     }
-
-
   }
 `;
 

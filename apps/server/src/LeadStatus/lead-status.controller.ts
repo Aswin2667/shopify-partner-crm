@@ -24,6 +24,7 @@ export class LeadStatusController {
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateLeadStatusDto: UpdateLeadStatusDto) {
+    console.log(updateLeadStatusDto)
     return this.leadStatusService.update(id, updateLeadStatusDto);
   }
 

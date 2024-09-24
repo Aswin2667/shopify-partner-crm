@@ -27,6 +27,7 @@ interface MailProps {
 
 export function Mail({ mails, defaultLayout = [265, 440, 655] }: MailProps) {
   const [mail] = useMail();
+  console.log(mails);
 
   return (
     <div className="h-screen">
@@ -35,7 +36,7 @@ export function Mail({ mails, defaultLayout = [265, 440, 655] }: MailProps) {
           direction="horizontal"
           onLayout={(sizes: number[]) => {
             document.cookie = `react-resizable-panels:layout=${JSON.stringify(
-              sizes,
+              sizes
             )}`;
           }}
           className="  items-stretch"
@@ -57,10 +58,16 @@ export function Mail({ mails, defaultLayout = [265, 440, 655] }: MailProps) {
                     All mail
                   </TabsTrigger>
                   <TabsTrigger
-                    value="unread"
+                    value="Send"
                     className="text-zinc-600 dark:text-zinc-200"
                   >
-                    Unread
+                    Send
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="Schedule"
+                    className="text-zinc-600 dark:text-zinc-200"
+                  >
+                    Scheduled
                   </TabsTrigger>
                 </TabsList>
               </div>
@@ -76,8 +83,15 @@ export function Mail({ mails, defaultLayout = [265, 440, 655] }: MailProps) {
               <TabsContent value="all" className="m-0">
                 <MailList items={mails} />
               </TabsContent>
-              <TabsContent value="unread" className="m-0">
-                {/* <MailList items={mails.filter((item) => !item.read)} /> */}
+              <TabsContent value="Send" className="m-0">
+                <MailList
+                  items={mails.filter((mail) => mail.status === "SEND")}
+                />
+              </TabsContent>
+              <TabsContent value="Schedule" className="m-0">
+                <MailList
+                  items={mails.filter((mail) => mail.status === "SCHEDULE")}
+                />
               </TabsContent>
             </Tabs>
           </ResizablePanel>

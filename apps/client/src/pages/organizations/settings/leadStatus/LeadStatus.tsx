@@ -13,7 +13,7 @@ const LeadStatus = () => {
   const [status, setStatus] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedStatus, setSelectedStatus] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState<any>(null);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -53,7 +53,7 @@ const LeadStatus = () => {
       await LeadStatusService.updateStatus(selectedStatus.id, updatedStatus);
       // Update the local state
       setStatus((prev:any) =>
-        prev.map((status) =>
+        prev.map((status: { id: any; }) =>
           status.id === selectedStatus.id ? updatedStatus : status
         )
       );
@@ -69,7 +69,7 @@ const LeadStatus = () => {
       await LeadStatusService.deleteStatus(selectedStatus.id);
       // Update the local state
       setStatus((prev) =>
-        prev.filter((status) => status.id !== selectedStatus.id)
+        prev.filter((status:{id:string}) => status.id !== selectedStatus.id)
       );
     } catch (err: any) {
       console.error("Failed to delete status:", err);

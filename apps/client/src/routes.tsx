@@ -32,6 +32,10 @@ import LeadStatus from "./pages/organizations/settings/leadStatus/LeadStatus";
 import ManageIntegration from "./pages/Integration/components/ManageIntegration";
 import ProjectSettings from "./pages/Project/settings/page";
 import CliAccesTokens from "./pages/Project/settings/CliAccessTokens";
+import EamilSettings from "./pages/organizations/settings/Emails/EamilSettings";
+import MyEmailSettings from "./pages/organizations/settings/Emails/components/MyEmailSettings";
+import SendingLimits from "./pages/organizations/settings/Emails/components/SendingLimits";
+import UnsubscribeLinks from "./pages/organizations/settings/Emails/components/UnsubscribeLinks";
 
 export const routes = createBrowserRouter([
   {
@@ -104,30 +108,7 @@ export const routes = createBrowserRouter([
           },
         ],
       },
-      {
-        path: "projects",
-        children: [
-          {
-            index: true,
-            element: <Project />,
-          },
-          {
-            path: ":projectId",
-            element: <ProjectSettings />,
-            children:[
-            {
-              index: true,
-              path:"tokens",
-              element: <CliAccesTokens/>,
-            },
-            {
-              path:"webhooks",
-              element: <>webhooks</>,
-            }
-            ]
-          },
-        ],
-      },
+
       {
         path: "workflows",
         children: [
@@ -183,28 +164,32 @@ export const routes = createBrowserRouter([
               {
                 path: "manage/:integrationType",
                 element: <ManageIntegration />,
-                children:[
+                children: [
                   {
-                    index: true,
-                    path:"settings",
-                    element: <>settings</>,
+                    path: "projects",
+                    children: [
+                      {
+                        index: true,
+                        element: <Project />,
+                      },
+                      {
+                        path: ":projectId",
+                        element: <ProjectSettings />,
+                        children: [
+                          {
+                            index: true,
+                            path: "tokens",
+                            element: <CliAccesTokens />,
+                          },
+                          {
+                            path: "webhooks",
+                            element: <>webhooks</>,
+                          },
+                        ],
+                      },
+                    ],
                   },
-                  {
-                    index: true,
-                    path:"Apps",
-                    element: <>Apps</>,
-                  },
-                  {
-                    index: true,
-                    path:"tokens",
-                    element: <>tokens</>,
-                  },
-                  {
-                    index: true,
-                    path:"webhooks",
-                    element: <>webhooks</>,
-                  }
-                ]
+                ],
               },
               {
                 path: "create",
@@ -240,6 +225,24 @@ export const routes = createBrowserRouter([
           {
             path: "manage-access",
             element: <ManageAccess />,
+          },
+          {
+            path: "email",
+            element: <EamilSettings />,
+            children:[
+              {
+                element:<MyEmailSettings />,
+                index:true
+              },
+              {
+                element:<SendingLimits />,
+                path:"limit"
+              },
+              {
+                element:<UnsubscribeLinks />,
+                path:"unsubscribe"
+              }
+            ]
           },
         ],
       },

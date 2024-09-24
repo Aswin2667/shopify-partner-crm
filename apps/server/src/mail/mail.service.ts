@@ -10,26 +10,30 @@ export class MailService {
   private readonly logger = new Logger(MailService.name);
   constructor(private readonly prisma: PrismaService) {}
 
-  async getMailList(integrationId: string): Promise<any[]> {
-    return this.prisma.email.findMany({
-      where: { integrationId },
-      orderBy: { sentAt: 'desc' },
-    });
-  }
-
-  async getMails(integrationId: string): Promise<any[]> {
-    return this.prisma.email.findMany({
-      where: { integrationId },
-      //   include: { replies: true },
-    });
-  }
-
   async getMailsByOrgId(organizationId: string): Promise<any[]> {
     try {
       return this.prisma.email.findMany({
         where: {
           organizationId,
-          status: 'SEND' as EmailStatus,
+        },
+        include: {
+          lead: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getMailsByLeadId(leadId: string): Promise<any[]> {
+    try {
+      return this.prisma.email.findMany({
+        where: {
+          leadId,
         },
       });
     } catch (error) {

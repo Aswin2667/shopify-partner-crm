@@ -15,7 +15,21 @@ export default class MailService {
 
   public static async getMailsByOrgId(orgId: string) {
     try {
-      const response = await axiosInstance.get(`${this.BASE_PATH}/${orgId}`);
+      const response = await axiosInstance.get(
+        `${this.BASE_PATH}/org/${orgId}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching mails:", error);
+      throw error;
+    }
+  }
+
+  public static async getMailsByLeadId(leadId: string) {
+    try {
+      const response = await axiosInstance.get(
+        `${this.BASE_PATH}/lead/${leadId}`
+      );
       return response.data;
     } catch (error) {
       console.error("Error fetching mails:", error);

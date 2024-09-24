@@ -36,8 +36,7 @@ import {
 import ContactService from "@/services/ContactService";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+ import { useNavigate, useParams } from "react-router-dom";
 
 // Zod schema for validation
 const contactSchema = z.object({
@@ -94,7 +93,7 @@ const ExpandableContactCard = ({
       toast.error("Failed to add contact");
     }
   };
-
+  const router = useNavigate();
   return (
     <TooltipProvider>
       <DropdownMenu>
@@ -222,7 +221,7 @@ const ExpandableContactCard = ({
                         <TooltipContent>Call</TooltipContent>
                       </Tooltip>
                       <Tooltip>
-                        <TooltipTrigger>
+                        <TooltipTrigger onClick={() => router("emails")}>
                           <button className="flex items-center hover:text-gray-600 justify-end cursor-pointer">
                             <Mail className="w-4 h-4 cursor-pointer" />
                           </button>

@@ -28,7 +28,7 @@ export default function IntegrationDashboardLayout() {
 
   const fetchOrganizations = async () => {
     try {
-      const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
+      const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
       const response: any =
         await OrganizationService.getOrganizationsByUserId(userId);
       setOrganizations(response.data.data);
@@ -50,7 +50,7 @@ export default function IntegrationDashboardLayout() {
   };
 
   React.useEffect(() => {
-    const sessionData = sessionStorage.getItem("session");
+    const sessionData = localStorage.getItem("session");
     if (!sessionData) {
       navigate("/login");
     } else {

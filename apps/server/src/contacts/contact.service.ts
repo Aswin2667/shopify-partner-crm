@@ -14,7 +14,13 @@ export class ContactService {
           organizationId: id,
         },
         include: {
-          lead: true,
+          lead: {
+            select: {
+              id: true,
+              shopifyDomain: true,
+              status: true,
+            },
+          },
         },
       });
 
@@ -51,7 +57,7 @@ export class ContactService {
           primaryEmail: data.email,
           updatedAt: 0,
           deletedAt: 0,
-          integrationId: data.integrationId,
+          // integrationId: data.integrationId,
           organizationId: data.organizationId,
           createdAt: DateHelper.getCurrentUnixTime(),
           leadId: data.leadId,
@@ -77,6 +83,9 @@ export class ContactService {
       throw new Error('Failed to retrieve contacts');
     }
   }
+
+
+
 
   async findOne(id: string) {
     try {

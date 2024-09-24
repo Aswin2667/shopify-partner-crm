@@ -44,6 +44,10 @@ const sidebarNavItems = [
     title: "Custom Status",
     href: "status",
   },
+  {
+    title: "Email",
+    href: "email",
+  },
 ];
 
 export default function SettingsLayout() {

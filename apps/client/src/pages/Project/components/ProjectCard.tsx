@@ -8,10 +8,9 @@ const ProjectCard = ({ project }: any) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
   const clickHandler = () => {
     dispatch(projectAction.setCurrentProject(project));
-    navigate(`${project.id}/tokens`);
+    navigate(`projects/${project.id}/tokens`);
   };
   return (
     <Card onClick={clickHandler} className="hover:cursor-pointer">

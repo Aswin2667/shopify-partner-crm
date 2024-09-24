@@ -36,6 +36,7 @@ import { ContactService } from './contacts/contact.service';
 import { IntegrationModule } from './integration/integration.module';
 import { Service } from './.service';
 import { LeadStatusModule } from './LeadStatus/lead-status.module';
+import { LeadStatusService } from './LeadStatus/lead-status.service';
 
 @Module({
   imports: [
@@ -94,6 +95,7 @@ import { LeadStatusModule } from './LeadStatus/lead-status.module';
     LeadService,
     PrismaService,
     LeadActivityService,
+    LeadStatusService,
     LeadActivityService,
     LeadNotesService,
     ContactService,

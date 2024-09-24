@@ -6,12 +6,13 @@ import { MailService } from './mail.service';
 export class MailController {
   constructor(private readonly mailService: MailService) {}
 
-
-  @Get(':organizationId')
+  @Get('org/:organizationId')
   async getMailsByOrgId(@Param('organizationId') organizationId: string) {
     return this.mailService.getMailsByOrgId(organizationId);
   }
 
-
-
+  @Get('lead/:leadId')
+  async getMailsByLeadId(@Param('leadId') leadId: string) {
+    return this.mailService.getMailsByLeadId(leadId);
+  }
 }

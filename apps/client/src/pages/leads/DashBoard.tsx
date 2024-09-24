@@ -52,15 +52,30 @@ import ExpandableContactCard from "./components/ExpandableContactCard";
 import { useEffect, useState } from "react";
 import LeadService from "@/services/LeadService";
 import DateHelper from "@/utils/DateHelper";
+import LeadStatusService from "@/services/LeadStatusService";
 
 export default function LeadDashboard() {
   const [lead, setLead] = useState<any>({});
   const { leadId } = useParams();
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [currencyCode, setCurrencyCode] = useState("");
+  const [availableLeadStatus, setAvailableLeadStatus] = useState([]);
+  const orgId = window.location.pathname.split("/")[1];
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await LeadService.getLeadById(leadId as string);
       setLead(response.data.data);
       console.log(response.data.data);
+      const totalAmountByLead = await LeadService.getTotalAmountByLeadId(
+        leadId as string
+      );
+      const availableLeadStatus = await LeadStatusService.getAllByOrgId(orgId);
+      setAvailableLeadStatus(availableLeadStatus?.data.data);
+      console.log(availableLeadStatus?.data.data);
+      setTotalAmount(totalAmountByLead.data.data.totalAmount);
+      setCurrencyCode(totalAmountByLead.data.data.currencyCode);
+      console.log(totalAmountByLead.data.data);
     };
     fetchData();
   }, [leadId]);
@@ -109,24 +124,23 @@ export default function LeadDashboard() {
                     <span className="sr-only">Copy Order ID</span>
                   </Button>
                 </CardTitle>
-                <Select value={lead.status}>
-                  <SelectTrigger className="max-w-fit pt-0 pb-0 border-none">
-                    <SelectValue defaultChecked={lead.status} />
-                  </SelectTrigger>
-                  <SelectContent defaultChecked={lead.status}>
-                    <SelectGroup>
-                      <SelectItem value="BAD_FIT">Bad Fit</SelectItem>
-                      <SelectItem value="CUSTOMER">Customer</SelectItem>
-                      <SelectItem value="POTENTIAL">Potential</SelectItem>
-                      <SelectItem value="QUALIFIED">Qualified</SelectItem>
-                      <SelectItem value="CANCELED">Canceled</SelectItem>
-                      <SelectItem value="NOT_INTERESTED">
-                        Not Interested
-                      </SelectItem>
-                      <SelectItem value="INTERESTED">Interested</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select> 
+                <div className="flex gap-5 items-center">
+                  <Select value={lead?.status?.status}>
+                    <SelectTrigger className="max-w-fit pt-0 pb-0 border-none">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {availableLeadStatus.map((status: any) => (
+                          <SelectItem key={status.id} value={status.status}>
+                            {status.status}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  {totalAmount + " " + currencyCode}
+                </div>
                 <CardDescription>
                   {lead?.shopDetails?.description}
                 </CardDescription>

@@ -159,7 +159,8 @@ exports.Prisma.OrgMemberScalarFieldEnum = {
   role: 'role',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
+  signature: 'signature'
 };
 
 exports.Prisma.ProjectScalarFieldEnum = {
@@ -443,7 +444,8 @@ exports.LeadActivityType = exports.$Enums.LeadActivityType = {
 
 exports.EmailStatus = exports.$Enums.EmailStatus = {
   SEND: 'SEND',
-  SCHEDULE: 'SCHEDULE'
+  SCHEDULE: 'SCHEDULE',
+  FAILED: 'FAILED'
 };
 
 exports.IntegrationType = exports.$Enums.IntegrationType = {

@@ -13,8 +13,9 @@ export default function Login() {
       await userService.login(tokenResponse),
     onSuccess: (response) => {
       if (response.data?.status) {
-        sessionStorage.setItem("session", JSON.stringify(response.data.data));
-        navigate("../");
+        // localStorage.setItem("session", JSON.stringify(response.data.data));
+        localStorage.setItem("session", JSON.stringify(response.data.data));
+        navigate("/");
       }
     },
     onError: (error: any) => {

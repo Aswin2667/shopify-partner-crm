@@ -63,8 +63,8 @@ model Organization {
   Email Email[]
 
   MailServiceFromEmail MailServiceFromEmail[]
-  LeadProject  LeadProject[]
-  LeadActivity LeadActivity[]
+  LeadProject          LeadProject[]
+  LeadActivity         LeadActivity[]
 }
 
 model OrgMember {
@@ -77,6 +77,7 @@ model OrgMember {
   deletedAt      BigInt
   organization   Organization  @relation(fields: [organizationId], references: [id])
   user           User          @relation(fields: [userId], references: [id])
+  signature      String        @default("")
 
   @@unique([organizationId, userId])
 }
@@ -171,8 +172,8 @@ model Contact {
   deletedAt      BigInt
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id])
-  integrationId  String
-  integration    Integration  @relation(fields: [integrationId], references: [id])
+  integrationId  String?
+  integration    Integration?  @relation(fields: [integrationId], references: [id])
   lead           Lead         @relation(fields: [leadId], references: [id])
 }
 
@@ -209,42 +210,43 @@ model LeadActivity {
 }
 
 model Email {
-  id             String          @id @default(uuid())
-  from           Json
-  to             String[]
-  cc             String[]        @default([])
-  bcc            String[]        @default([])
-  status         EmailStatus     @default(SCHEDULE)
-  subject        String?
-  body           String
-  html           String?
+  id      String      @id @default(uuid())
+  from    Json
+  to      String[]
+  cc      String[]    @default([])
+  bcc     String[]    @default([])
+  status  EmailStatus @default(SCHEDULE)
+  subject String?
+  body    String
+  html    String?
 
-  trackingId     String?          @unique
-  messageId      String?
-  threadId       String?
-  historyId      String?
+  trackingId String? @unique
+  messageId  String?
+  threadId   String?
+  historyId  String?
 
-  labelIds       String[]        @default([])
-  isOpened       Boolean         @default(false)
-  openedAt       BigInt          @default(0)
-  isClicked      Boolean         @default(false)
-  clickedAt      BigInt          @default(0)
+  labelIds  String[] @default([])
+  isOpened  Boolean  @default(false)
+  openedAt  BigInt   @default(0)
+  isClicked Boolean  @default(false)
+  clickedAt BigInt   @default(0)
 
-  sentAt         BigInt          @default(0)
-  deletedAt      BigInt          @default(0)
+  sentAt         BigInt  @default(0)
+  deletedAt      BigInt  @default(0)
   integrationId  String
   organizationId String
   leadId         String?
 
-  lead            Lead?             @relation(fields: [leadId], references: [id])           
-  organization   Organization    @relation(fields: [organizationId], references: [id])
-  source         IntegrationType
-  EmailQueue     EmailQueue[]
+  lead         Lead?           @relation(fields: [leadId], references: [id])
+  organization Organization    @relation(fields: [organizationId], references: [id])
+  source       IntegrationType
+  EmailQueue   EmailQueue[]
 }
 
 enum EmailStatus {
   SEND
   SCHEDULE
+  FAILED
 }
 
 model EmailQueue {
@@ -443,5 +445,3 @@ enum AppVersion {
   V2
   V3
 }
-
- 

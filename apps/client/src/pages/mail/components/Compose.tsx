@@ -130,8 +130,8 @@ const reducerFn = (prevState: any, action: any) => {
   return prevState;
 };
 
-const Compose = (props: Props): JSX.Element => {
-  const { organizationId } = useParams();
+const Compose = ({ setInitialArgs }: any): JSX.Element => {
+  const { organizationId, leadId } = useParams();
   const [compose, dispatch] = useReducer(
     reducerFn,
     initialArgs,
@@ -152,7 +152,7 @@ const Compose = (props: Props): JSX.Element => {
         "SCHEDULE_MAIL",
         data
       ),
-  onSuccess: (res) => dispatch({type: "clear"}),
+    onSuccess: (res) => dispatch({ type: "clear" }),
     onError: (error) => console.error(error),
   });
 
@@ -166,6 +166,7 @@ const Compose = (props: Props): JSX.Element => {
       body: compose.body,
       integrationId: compose.from.integrationId,
       organizationId,
+      leadId,
       source: compose.from.type,
       scheduledAt: compose.scheduledAt
         ? compose.scheduledAt
@@ -177,6 +178,7 @@ const Compose = (props: Props): JSX.Element => {
   };
 
   const setBody = (value: any) => {
+    console.log(value);
     dispatch({ type: "body", payload: value });
   };
 
@@ -216,13 +218,17 @@ const Compose = (props: Props): JSX.Element => {
     }
   }
 
-  // useEffect(() => {
-  //   dispatch({ type: "from", payload: gmailIntegrations[0] });
-  // }, [gmailIntegrations]);
+  useEffect(() => {
+    if (setInitialArgs) {
+      console.log("dispatch function goes here");
+    }
+  }, [setInitialArgs]);
 
   useEffect(() => {
     TemplateService.getAllTemplatesByOrgId(organizationId as string)
-      .then((res) => dispatch({ type: "allTemplate", payload: res.data?.data }))
+      .then((res) =>
+        dispatch({ type: "allTemplate", payload: res.data?.data || [] })
+      )
       .catch((err) => console.log(err));
   }, []);
 

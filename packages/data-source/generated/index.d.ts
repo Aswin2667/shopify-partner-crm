@@ -172,7 +172,8 @@ export type LeadActivityType = (typeof LeadActivityType)[keyof typeof LeadActivi
 
 export const EmailStatus: {
   SEND: 'SEND',
-  SCHEDULE: 'SCHEDULE'
+  SCHEDULE: 'SCHEDULE',
+  FAILED: 'FAILED'
 };
 
 export type EmailStatus = (typeof EmailStatus)[keyof typeof EmailStatus]
@@ -6682,6 +6683,7 @@ export namespace Prisma {
     createdAt: bigint | null
     updatedAt: bigint | null
     deletedAt: bigint | null
+    signature: string | null
   }
 
   export type OrgMemberMaxAggregateOutputType = {
@@ -6692,6 +6694,7 @@ export namespace Prisma {
     createdAt: bigint | null
     updatedAt: bigint | null
     deletedAt: bigint | null
+    signature: string | null
   }
 
   export type OrgMemberCountAggregateOutputType = {
@@ -6702,6 +6705,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     deletedAt: number
+    signature: number
     _all: number
   }
 
@@ -6726,6 +6730,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
+    signature?: true
   }
 
   export type OrgMemberMaxAggregateInputType = {
@@ -6736,6 +6741,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
+    signature?: true
   }
 
   export type OrgMemberCountAggregateInputType = {
@@ -6746,6 +6752,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
+    signature?: true
     _all?: true
   }
 
@@ -6843,6 +6850,7 @@ export namespace Prisma {
     createdAt: bigint
     updatedAt: bigint
     deletedAt: bigint
+    signature: string
     _count: OrgMemberCountAggregateOutputType | null
     _avg: OrgMemberAvgAggregateOutputType | null
     _sum: OrgMemberSumAggregateOutputType | null
@@ -6872,6 +6880,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
+    signature?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["orgMember"]>
@@ -6884,6 +6893,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
+    signature?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["orgMember"]>
@@ -6896,6 +6906,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
+    signature?: boolean
   }
 
   export type OrgMemberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6921,6 +6932,7 @@ export namespace Prisma {
       createdAt: bigint
       updatedAt: bigint
       deletedAt: bigint
+      signature: string
     }, ExtArgs["result"]["orgMember"]>
     composites: {}
   }
@@ -7323,6 +7335,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"OrgMember", 'BigInt'>
     readonly updatedAt: FieldRef<"OrgMember", 'BigInt'>
     readonly deletedAt: FieldRef<"OrgMember", 'BigInt'>
+    readonly signature: FieldRef<"OrgMember", 'String'>
   }
     
 
@@ -12304,7 +12317,7 @@ export namespace Prisma {
     updatedAt: bigint
     deletedAt: bigint
     organizationId: string
-    integrationId: string
+    integrationId: string | null
     _count: ContactCountAggregateOutputType | null
     _avg: ContactAvgAggregateOutputType | null
     _sum: ContactSumAggregateOutputType | null
@@ -12344,7 +12357,7 @@ export namespace Prisma {
     organizationId?: boolean
     integrationId?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
+    integration?: boolean | Contact$integrationArgs<ExtArgs>
     lead?: boolean | LeadDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["contact"]>
 
@@ -12366,7 +12379,7 @@ export namespace Prisma {
     organizationId?: boolean
     integrationId?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
+    integration?: boolean | Contact$integrationArgs<ExtArgs>
     lead?: boolean | LeadDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["contact"]>
 
@@ -12391,12 +12404,12 @@ export namespace Prisma {
 
   export type ContactInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
+    integration?: boolean | Contact$integrationArgs<ExtArgs>
     lead?: boolean | LeadDefaultArgs<ExtArgs>
   }
   export type ContactIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    integration?: boolean | IntegrationDefaultArgs<ExtArgs>
+    integration?: boolean | Contact$integrationArgs<ExtArgs>
     lead?: boolean | LeadDefaultArgs<ExtArgs>
   }
 
@@ -12404,7 +12417,7 @@ export namespace Prisma {
     name: "Contact"
     objects: {
       organization: Prisma.$OrganizationPayload<ExtArgs>
-      integration: Prisma.$IntegrationPayload<ExtArgs>
+      integration: Prisma.$IntegrationPayload<ExtArgs> | null
       lead: Prisma.$LeadPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -12423,7 +12436,7 @@ export namespace Prisma {
       updatedAt: bigint
       deletedAt: bigint
       organizationId: string
-      integrationId: string
+      integrationId: string | null
     }, ExtArgs["result"]["contact"]>
     composites: {}
   }
@@ -12789,7 +12802,7 @@ export namespace Prisma {
   export interface Prisma__ContactClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    integration<T extends IntegrationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, IntegrationDefaultArgs<ExtArgs>>): Prisma__IntegrationClient<$Result.GetResult<Prisma.$IntegrationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    integration<T extends Contact$integrationArgs<ExtArgs> = {}>(args?: Subset<T, Contact$integrationArgs<ExtArgs>>): Prisma__IntegrationClient<$Result.GetResult<Prisma.$IntegrationPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     lead<T extends LeadDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LeadDefaultArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -13151,6 +13164,21 @@ export namespace Prisma {
      * Filter which Contacts to delete
      */
     where?: ContactWhereInput
+  }
+
+  /**
+   * Contact.integration
+   */
+  export type Contact$integrationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Integration
+     */
+    select?: IntegrationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IntegrationInclude<ExtArgs> | null
+    where?: IntegrationWhereInput
   }
 
   /**
@@ -24827,7 +24855,8 @@ export namespace Prisma {
     role: 'role',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    deletedAt: 'deletedAt'
+    deletedAt: 'deletedAt',
+    signature: 'signature'
   };
 
   export type OrgMemberScalarFieldEnum = (typeof OrgMemberScalarFieldEnum)[keyof typeof OrgMemberScalarFieldEnum]
@@ -25661,6 +25690,7 @@ export namespace Prisma {
     createdAt?: BigIntFilter<"OrgMember"> | bigint | number
     updatedAt?: BigIntFilter<"OrgMember"> | bigint | number
     deletedAt?: BigIntFilter<"OrgMember"> | bigint | number
+    signature?: StringFilter<"OrgMember"> | string
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     user?: XOR<UserRelationFilter, UserWhereInput>
   }
@@ -25673,6 +25703,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
+    signature?: SortOrder
     organization?: OrganizationOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
@@ -25689,6 +25720,7 @@ export namespace Prisma {
     createdAt?: BigIntFilter<"OrgMember"> | bigint | number
     updatedAt?: BigIntFilter<"OrgMember"> | bigint | number
     deletedAt?: BigIntFilter<"OrgMember"> | bigint | number
+    signature?: StringFilter<"OrgMember"> | string
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     user?: XOR<UserRelationFilter, UserWhereInput>
   }, "id" | "organizationId_userId">
@@ -25701,6 +25733,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
+    signature?: SortOrder
     _count?: OrgMemberCountOrderByAggregateInput
     _avg?: OrgMemberAvgOrderByAggregateInput
     _max?: OrgMemberMaxOrderByAggregateInput
@@ -25719,6 +25752,7 @@ export namespace Prisma {
     createdAt?: BigIntWithAggregatesFilter<"OrgMember"> | bigint | number
     updatedAt?: BigIntWithAggregatesFilter<"OrgMember"> | bigint | number
     deletedAt?: BigIntWithAggregatesFilter<"OrgMember"> | bigint | number
+    signature?: StringWithAggregatesFilter<"OrgMember"> | string
   }
 
   export type ProjectWhereInput = {
@@ -26109,9 +26143,9 @@ export namespace Prisma {
     updatedAt?: BigIntFilter<"Contact"> | bigint | number
     deletedAt?: BigIntFilter<"Contact"> | bigint | number
     organizationId?: StringFilter<"Contact"> | string
-    integrationId?: StringFilter<"Contact"> | string
+    integrationId?: StringNullableFilter<"Contact"> | string | null
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
-    integration?: XOR<IntegrationRelationFilter, IntegrationWhereInput>
+    integration?: XOR<IntegrationNullableRelationFilter, IntegrationWhereInput> | null
     lead?: XOR<LeadRelationFilter, LeadWhereInput>
   }
 
@@ -26131,7 +26165,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deletedAt?: SortOrder
     organizationId?: SortOrder
-    integrationId?: SortOrder
+    integrationId?: SortOrderInput | SortOrder
     organization?: OrganizationOrderByWithRelationInput
     integration?: IntegrationOrderByWithRelationInput
     lead?: LeadOrderByWithRelationInput
@@ -26156,9 +26190,9 @@ export namespace Prisma {
     updatedAt?: BigIntFilter<"Contact"> | bigint | number
     deletedAt?: BigIntFilter<"Contact"> | bigint | number
     organizationId?: StringFilter<"Contact"> | string
-    integrationId?: StringFilter<"Contact"> | string
+    integrationId?: StringNullableFilter<"Contact"> | string | null
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
-    integration?: XOR<IntegrationRelationFilter, IntegrationWhereInput>
+    integration?: XOR<IntegrationNullableRelationFilter, IntegrationWhereInput> | null
     lead?: XOR<LeadRelationFilter, LeadWhereInput>
   }, "id">
 
@@ -26178,7 +26212,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deletedAt?: SortOrder
     organizationId?: SortOrder
-    integrationId?: SortOrder
+    integrationId?: SortOrderInput | SortOrder
     _count?: ContactCountOrderByAggregateInput
     _avg?: ContactAvgOrderByAggregateInput
     _max?: ContactMaxOrderByAggregateInput
@@ -26205,7 +26239,7 @@ export namespace Prisma {
     updatedAt?: BigIntWithAggregatesFilter<"Contact"> | bigint | number
     deletedAt?: BigIntWithAggregatesFilter<"Contact"> | bigint | number
     organizationId?: StringWithAggregatesFilter<"Contact"> | string
-    integrationId?: StringWithAggregatesFilter<"Contact"> | string
+    integrationId?: StringNullableWithAggregatesFilter<"Contact"> | string | null
   }
 
   export type AttachmentWhereInput = {
@@ -27432,6 +27466,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
     organization: OrganizationCreateNestedOneWithoutMembersInput
     user: UserCreateNestedOneWithoutOrgMembersInput
   }
@@ -27444,6 +27479,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
   }
 
   export type OrgMemberUpdateInput = {
@@ -27452,6 +27488,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
     organization?: OrganizationUpdateOneRequiredWithoutMembersNestedInput
     user?: UserUpdateOneRequiredWithoutOrgMembersNestedInput
   }
@@ -27464,6 +27501,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrgMemberCreateManyInput = {
@@ -27474,6 +27512,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
   }
 
   export type OrgMemberUpdateManyMutationInput = {
@@ -27482,6 +27521,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrgMemberUncheckedUpdateManyInput = {
@@ -27492,6 +27532,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProjectCreateInput = {
@@ -27887,7 +27928,7 @@ export namespace Prisma {
     updatedAt: bigint | number
     deletedAt: bigint | number
     organization: OrganizationCreateNestedOneWithoutContactInput
-    integration: IntegrationCreateNestedOneWithoutContactInput
+    integration?: IntegrationCreateNestedOneWithoutContactInput
     lead: LeadCreateNestedOneWithoutContactsInput
   }
 
@@ -27907,7 +27948,7 @@ export namespace Prisma {
     updatedAt: bigint | number
     deletedAt: bigint | number
     organizationId: string
-    integrationId: string
+    integrationId?: string | null
   }
 
   export type ContactUpdateInput = {
@@ -27925,7 +27966,7 @@ export namespace Prisma {
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     organization?: OrganizationUpdateOneRequiredWithoutContactNestedInput
-    integration?: IntegrationUpdateOneRequiredWithoutContactNestedInput
+    integration?: IntegrationUpdateOneWithoutContactNestedInput
     lead?: LeadUpdateOneRequiredWithoutContactsNestedInput
   }
 
@@ -27945,7 +27986,7 @@ export namespace Prisma {
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     organizationId?: StringFieldUpdateOperationsInput | string
-    integrationId?: StringFieldUpdateOperationsInput | string
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ContactCreateManyInput = {
@@ -27964,7 +28005,7 @@ export namespace Prisma {
     updatedAt: bigint | number
     deletedAt: bigint | number
     organizationId: string
-    integrationId: string
+    integrationId?: string | null
   }
 
   export type ContactUpdateManyMutationInput = {
@@ -27999,7 +28040,7 @@ export namespace Prisma {
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     organizationId?: StringFieldUpdateOperationsInput | string
-    integrationId?: StringFieldUpdateOperationsInput | string
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AttachmentCreateInput = {
@@ -29415,6 +29456,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
+    signature?: SortOrder
   }
 
   export type OrgMemberAvgOrderByAggregateInput = {
@@ -29431,6 +29473,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
+    signature?: SortOrder
   }
 
   export type OrgMemberMinOrderByAggregateInput = {
@@ -29441,6 +29484,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
+    signature?: SortOrder
   }
 
   export type OrgMemberSumOrderByAggregateInput = {
@@ -32049,10 +32093,12 @@ export namespace Prisma {
     update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutContactInput, OrganizationUpdateWithoutContactInput>, OrganizationUncheckedUpdateWithoutContactInput>
   }
 
-  export type IntegrationUpdateOneRequiredWithoutContactNestedInput = {
+  export type IntegrationUpdateOneWithoutContactNestedInput = {
     create?: XOR<IntegrationCreateWithoutContactInput, IntegrationUncheckedCreateWithoutContactInput>
     connectOrCreate?: IntegrationCreateOrConnectWithoutContactInput
     upsert?: IntegrationUpsertWithoutContactInput
+    disconnect?: IntegrationWhereInput | boolean
+    delete?: IntegrationWhereInput | boolean
     connect?: IntegrationWhereUniqueInput
     update?: XOR<XOR<IntegrationUpdateToOneWithWhereWithoutContactInput, IntegrationUpdateWithoutContactInput>, IntegrationUncheckedUpdateWithoutContactInput>
   }
@@ -33260,6 +33306,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
     organization: OrganizationCreateNestedOneWithoutMembersInput
   }
 
@@ -33270,6 +33317,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
   }
 
   export type OrgMemberCreateOrConnectWithoutUserInput = {
@@ -33435,6 +33483,7 @@ export namespace Prisma {
     createdAt?: BigIntFilter<"OrgMember"> | bigint | number
     updatedAt?: BigIntFilter<"OrgMember"> | bigint | number
     deletedAt?: BigIntFilter<"OrgMember"> | bigint | number
+    signature?: StringFilter<"OrgMember"> | string
   }
 
   export type OrgMemberInviteUpsertWithWhereUniqueWithoutInviterInput = {
@@ -33752,6 +33801,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
     user: UserCreateNestedOneWithoutOrgMembersInput
   }
 
@@ -33762,6 +33812,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
   }
 
   export type OrgMemberCreateOrConnectWithoutOrganizationInput = {
@@ -33920,7 +33971,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
-    integration: IntegrationCreateNestedOneWithoutContactInput
+    integration?: IntegrationCreateNestedOneWithoutContactInput
     lead: LeadCreateNestedOneWithoutContactsInput
   }
 
@@ -33939,7 +33990,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
-    integrationId: string
+    integrationId?: string | null
   }
 
   export type ContactCreateOrConnectWithoutOrganizationInput = {
@@ -34366,7 +34417,7 @@ export namespace Prisma {
     updatedAt?: BigIntFilter<"Contact"> | bigint | number
     deletedAt?: BigIntFilter<"Contact"> | bigint | number
     organizationId?: StringFilter<"Contact"> | string
-    integrationId?: StringFilter<"Contact"> | string
+    integrationId?: StringNullableFilter<"Contact"> | string | null
   }
 
   export type TemplateUpsertWithWhereUniqueWithoutOrganizationInput = {
@@ -35348,7 +35399,7 @@ export namespace Prisma {
     updatedAt: bigint | number
     deletedAt: bigint | number
     organization: OrganizationCreateNestedOneWithoutContactInput
-    integration: IntegrationCreateNestedOneWithoutContactInput
+    integration?: IntegrationCreateNestedOneWithoutContactInput
   }
 
   export type ContactUncheckedCreateWithoutLeadInput = {
@@ -35366,7 +35417,7 @@ export namespace Prisma {
     updatedAt: bigint | number
     deletedAt: bigint | number
     organizationId: string
-    integrationId: string
+    integrationId?: string | null
   }
 
   export type ContactCreateOrConnectWithoutLeadInput = {
@@ -38606,6 +38657,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
   }
 
   export type OrgMemberInviteCreateManyInviterInput = {
@@ -38681,6 +38733,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
     organization?: OrganizationUpdateOneRequiredWithoutMembersNestedInput
   }
 
@@ -38691,6 +38744,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrgMemberUncheckedUpdateManyWithoutUserInput = {
@@ -38700,6 +38754,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrgMemberInviteUpdateWithoutInviterInput = {
@@ -38817,6 +38872,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
+    signature?: string
   }
 
   export type OrgMemberInviteCreateManyOrganizationInput = {
@@ -38873,7 +38929,7 @@ export namespace Prisma {
     createdAt: bigint | number
     updatedAt: bigint | number
     deletedAt: bigint | number
-    integrationId: string
+    integrationId?: string | null
   }
 
   export type TemplateCreateManyOrganizationInput = {
@@ -39009,6 +39065,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutOrgMembersNestedInput
   }
 
@@ -39019,6 +39076,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrgMemberUncheckedUpdateManyWithoutOrganizationInput = {
@@ -39028,6 +39086,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    signature?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrgMemberInviteUpdateWithoutOrganizationInput = {
@@ -39185,7 +39244,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    integration?: IntegrationUpdateOneRequiredWithoutContactNestedInput
+    integration?: IntegrationUpdateOneWithoutContactNestedInput
     lead?: LeadUpdateOneRequiredWithoutContactsNestedInput
   }
 
@@ -39204,7 +39263,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    integrationId?: StringFieldUpdateOperationsInput | string
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ContactUncheckedUpdateManyWithoutOrganizationInput = {
@@ -39222,7 +39281,7 @@ export namespace Prisma {
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
-    integrationId?: StringFieldUpdateOperationsInput | string
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TemplateUpdateWithoutOrganizationInput = {
@@ -39626,7 +39685,7 @@ export namespace Prisma {
     updatedAt: bigint | number
     deletedAt: bigint | number
     organizationId: string
-    integrationId: string
+    integrationId?: string | null
   }
 
   export type AttachmentCreateManyLeadInput = {
@@ -39779,7 +39838,7 @@ export namespace Prisma {
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     organization?: OrganizationUpdateOneRequiredWithoutContactNestedInput
-    integration?: IntegrationUpdateOneRequiredWithoutContactNestedInput
+    integration?: IntegrationUpdateOneWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateWithoutLeadInput = {
@@ -39797,7 +39856,7 @@ export namespace Prisma {
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     organizationId?: StringFieldUpdateOperationsInput | string
-    integrationId?: StringFieldUpdateOperationsInput | string
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ContactUncheckedUpdateManyWithoutLeadInput = {
@@ -39815,7 +39874,7 @@ export namespace Prisma {
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     organizationId?: StringFieldUpdateOperationsInput | string
-    integrationId?: StringFieldUpdateOperationsInput | string
+    integrationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AttachmentUpdateWithoutLeadInput = {

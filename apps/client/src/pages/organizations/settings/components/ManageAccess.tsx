@@ -34,7 +34,7 @@ const ManageAccess = () => {
   const [pendingInvitations, setPendingInvitations] = useState<any[]>([]);
   const [members, setMembers] = useState<any[]>([]);
   const { organizationId } = useParams<{ organizationId: string }>();
-  const userId = JSON.parse(sessionStorage.getItem("session") ?? "").id;
+  const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
   const fetchInvitations = async () => {
     setLoading(true);
     try {
@@ -99,7 +99,7 @@ const ManageAccess = () => {
         invitedBy: userId,
         emails: [...invitedEmails, email].filter(Boolean),
         role: "MEMBER",
-        invite_sender_name: JSON.parse(sessionStorage.getItem("session") ?? "")
+        invite_sender_name: JSON.parse(localStorage.getItem("session") ?? "")
           .name,
         invite_sender_organization_name: currentOrganization.name,
         Product_Name: "Shopify crm",
@@ -229,6 +229,7 @@ const ManageAccess = () => {
                           className="flex items-center justify-between space-x-4 p-0 m-2"
                         >
                           <div className="flex items-center space-x-4 p-0">
+                            {/* TODO:  overflow-hidden -> overflow-scroll */}
                              <img src={member.user.avatarUrl} className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full" referrerPolicy="no-referrer" alt="Avatar" />
                             <div>
                               <p className="text-sm font-medium leading-none p-0">
