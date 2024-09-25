@@ -8,6 +8,7 @@ import {
   HttpException,
   HttpStatus,
   Patch,
+  Query,
 } from '@nestjs/common';
 import { LeadService } from './lead.service';
 import { CreateLeadDto, UpdateLeadDto } from './dto/lead.dto';
@@ -17,16 +18,43 @@ export class LeadController {
   constructor(private readonly leadService: LeadService) {}
 
   @Get(':orgId')
-  async findAllByIntegrationId(@Param('orgId') orgId: string) {
+  async findAllByOrganizationId(
+    @Param('orgId') orgId: string,
+    @Query('shopifyDomain') shopifyDomain?: string,
+    @Query('domainFilterOption') domainFilterOption?: string,
+    @Query('leadStatusFilterOption') leadStatusFilterOption?: string,
+    @Query('selectedStatuses') selectedStatuses?: string | undefined,
+    @Query('createdAt') createdAt?: any,
+  ) {
     try {
-      const leads = await this.leadService.findAllByOrganizationId(orgId);
+      console.log(
+        shopifyDomain,
+        domainFilterOption,
+        leadStatusFilterOption,
+        selectedStatuses,
+        createdAt,
+      );
+      const leads = await this.leadService.findAllByOrganizationId(
+        orgId,
+        shopifyDomain,
+        domainFilterOption,
+        leadStatusFilterOption,
+        selectedStatuses,
+        createdAt,
+      );
+
       return {
         status: true,
-        message: 'Got Lead using the OrgId',
+        message: 'Successfully retrieved leads',
         data: leads,
       };
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      // Handle the error accordingly
+      return {
+        status: false,
+        message: error.message,
+        data: null,
+      };
     }
   }
 

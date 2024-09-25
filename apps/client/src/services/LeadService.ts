@@ -33,14 +33,38 @@ class LeadService {
     }
   }
 
-  public static async getByOrganizationId(organizationId: string) {
+  public static async getLeadsByOrganizationId(
+    organizationId: string,
+    shopifyDomain?: string,
+    domainFilterOption?: { value: string },
+    selectedStatuses: { value: string }[] = [],
+    createdAt?: { startDate: string; endDate: string },
+    leadStatusFilterOption?: string
+  ) {
     try {
+      const params: any = {
+        shopifyDomain: shopifyDomain || undefined,
+        domainFilterOption: domainFilterOption ? domainFilterOption : undefined, // Convert object to JSON
+        leadStatusFilterOption: leadStatusFilterOption
+          ? leadStatusFilterOption
+          : undefined,
+        selectedStatuses: selectedStatuses.length
+          ? JSON.stringify(selectedStatuses)
+          : undefined, // Convert array to JSON
+        createdAt: createdAt ? JSON.stringify(createdAt) : undefined,
+      };
+
+      // Make the Axios request
       const response = await axiosInstance.get(
-        `/${this.BASE_URL}/${organizationId}`
+        `${this.BASE_URL}/${organizationId}`,
+        {
+          params,
+        }
       );
+
       return response;
     } catch (error) {
-      console.error("Error during login:", error);
+      console.error("Error fetching leads:", error);
       throw error;
     }
   }
