@@ -14,7 +14,7 @@ export default function Login() {
     onSuccess: (response) => {
       if (response.data?.status) {
         sessionStorage.setItem("session", JSON.stringify(response.data.data));
-        navigate("/");
+        navigate("../");
       }
     },
     onError: (error: any) => {

@@ -1,130 +1,240 @@
-import { Dispatch, SetStateAction } from "react";
+import { useEffect, useReducer } from "react";
 import {
   AlertDialog,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProjectService from "@/services/ProjectService";
+import ReduxHelper from "@/utils/ReduxHelper";
+import ShopifyInput from "./type-input/ShopifyInput";
+import ProjectInput from "./type-input/ProjectInput";
+import { Input } from "@/components/ui/input";
 
-const projectSchema = z.object({
-  name: z.string().min(1, "project name is required"),
-  appId: z.string().min(1, "App ID is required"),
-});
-
-type Props = {
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<Boolean>>;
+const initialArg = {
+  name: { value: "", error: "" },
+  integration: { value: {}, error: "" },
+  data: { value: {}, error: "" },
 };
 
-const CreateProjectModal: any = ({ open, setOpen }: Props) => {
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  console.log(open);
-  const { currentIntegration } = useSelector((state: any) => state.integration);
+const reducerFn = (prevState: any, action: any) => {
+  if (action.type === "nameVal" || action.type === "nameErr") {
+    return action.type === "nameVal"
+      ? {
+          ...prevState,
+          name: { ...prevState.name, value: action.payload },
+        }
+      : {
+          ...prevState,
+          name: { ...prevState.name, error: action.payload },
+        };
+  }
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  }: any = useForm({
-    resolver: zodResolver(projectSchema),
-  });
+  if (
+    action.type === "integrationVal" ||
+    action.type === "integrationErr" ||
+    action.type === "integrationReset"
+  ) {
+    return action.type === "integrationVal"
+      ? {
+          ...prevState,
+          integration: {
+            ...prevState.integration,
+            value: action.payload,
+          },
+        }
+      : action.type === "integrationErr"
+        ? {
+            ...prevState,
+            integration: {
+              ...prevState.integration,
+              error: action.payload,
+            },
+          }
+        : {
+            ...prevState,
+            integration: { value: {}, error: "" },
+          };
+  }
+  if (
+    action.type === "dataVal" ||
+    action.type === "dataErr" ||
+    action.type === "dataReset"
+  ) {
+    return action.type === "dataVal"
+      ? {
+          ...prevState,
+          data: {
+            ...prevState.data,
+            value: { ...prevState.data.value, ...action.payload },
+          },
+        }
+      : action.type === "dataErr"
+        ? {
+            ...prevState,
+            data: {
+              ...prevState.data,
+              error: action.payload,
+            },
+          }
+        : {
+            ...prevState,
+            data: { value: {}, error: "" },
+          };
+  }
+  if (action.type === "reset") {
+    return initialArg;
+  }
+  return prevState;
+};
 
-  const { mutate: createProject, isSuccess } = useMutation({
-    mutationFn: async (data: any): Promise<any> =>
-      await ProjectService.create(data),
-    onSuccess: (response) => {
-      // TODO: fetch after posting project
-      reset();
+const CreateProjectModal = ({ open, setOpen }: any) => {
+  const { organizationId } = useParams();
+
+  const [project, dispatch] = useReducer(
+    reducerFn,
+    initialArg,
+    () => initialArg
+  );
+
+  const { integrations } = useSelector((state: any) => state.integration);
+
+  const singularIntegrations = integrations.filter(
+    (integration: any) => integration.isSingular
+  );
+
+  const { mutate: createProject } = useMutation({
+    mutationFn: async (data) => await ProjectService.create(data),
+    onSuccess: () => {
+      dispatch({ type: "reset" });
       setOpen(false);
-      console.log(response);
     },
     onError: (error: any) => {
-      console.error("Login failed:", error?.response.data);
+      console.error("Creation failed:", error?.response.data);
     },
   });
 
   const closeHandler = () => {
-    reset();
+    dispatch({ type: "reset" });
     setOpen(false);
   };
 
+  const submitHandler = (e: any) => {
+    e.preventDefault();
+    if (project.name.value.trim() === "") {
+      dispatch({ type: "nameErr", payload: "Project name is required" });
+      return;
+    }
+    const projectData: any = {
+      name: project.name.value,
+      type: project.integration.value.type,
+      data: project.data.value,
+      organizationId,
+      integrationId: project.integration.value.id,
+    };
+    createProject(projectData);
+  };
+
+  console.log(project);
   return (
     <AlertDialog open={open}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Connect Shopify</AlertDialogTitle>
+          <AlertDialogTitle>Create a Project</AlertDialogTitle>
           <AlertDialogDescription>
-            Fill the following details to create an Shopify Integration
+            Fill in the details to create a project.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
-        <form
-          onSubmit={handleSubmit((data: any) =>
-            createProject({
-              name: data.name,
-              type: "SHOPIFY",
-              data: {
-                appId: data.appId,
-              },
-              organizationId: currentIntegration?.organizationId,
-              integrationId: currentIntegration?.id,
-            }),
-          )}
-        >
+        <form onSubmit={submitHandler}>
+          
+          {/* Project Name */}
           <div>
-            {/* Connection Name */}
-            <div>
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Connection name
-              </label>
-              <input
-                type="text"
-                {...register("name")}
-                className={`bg-gray-50 border ${errors.name ? "border-red-500 " : "border-gray-300"} focus-visible:outline-none focus-visible:border-none text-gray-900 placeholder-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
-                placeholder="e.g. Bonnie Green"
-              />
-              {errors.name && (
-                <p className="mt-2 text-sm text-red-600 dark:text-red-500">
-                  {errors.name.message}
-                </p>
-              )}
-            </div>
-            <br />
-
-            {/* App ID */}
-            <div>
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                App ID
-              </label>
-              <input
-                type="number"
-                {...register("appId")}
-                className={`bg-gray-50 border ${errors.appId ? "border-red-500 " : "border-gray-300"} focus-visible:outline-none focus-visible:border-none text-gray-900 placeholder-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
-                placeholder="e.g. 123456"
-              />
-              {errors.appId && (
-                <p className="mt-2 text-sm text-red-600 dark:text-red-500">
-                  {errors.appId.message}
-                </p>
-              )}
-            </div>
-            <br />
+            <label className="block mb-2 text-sm font-medium">
+              Project Name
+            </label>
+            <Input
+              type="text"
+              value={project.name.value}
+              onChange={(e) => {
+                dispatch({ type: "nameVal", payload: e.target.value });
+              }}
+              onFocus={() => {
+                project.name.error &&
+                  dispatch({ type: "nameErr", payload: "" });
+              }}
+              className={` border ${project.name.error ? "border-red-500 " : ""} rounded-lg block w-full p-2.5`}
+              placeholder="e.g. Bonnie Green"
+            />
+            {project.name.error && (
+              <p className="mt-2 text-sm text-red-600">{project.name.error}</p>
+            )}
           </div>
-          <br />
-          <AlertDialogFooter>
+
+          {/* Integration Type */}
+          <div className="mt-4">
+            <label className="block mb-2 text-sm font-medium">
+              Integration Type
+            </label>
+            <Select
+              onValueChange={(value: any) => {
+                const integration = integrations.find(
+                  (integration: any) => integration.id === value
+                );
+                dispatch({
+                  type: "integrationVal",
+                  payload: integration,
+                });
+                dispatch({ type: "dataReset" });
+              }}
+            >
+              <SelectTrigger
+                className={`w-full ${project.integration.error ? "bowrder-red-500" : ""}`}
+              >
+                <SelectValue placeholder="Select an Integration Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Integration Type</SelectLabel>
+                  {singularIntegrations.map((integration: any) => (
+                    <SelectItem key={integration.id} value={integration.id}>
+                      {integration.type}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {project.integration.error && (
+              <p className="mt-2 text-sm text-red-600">
+                {project.integration.error.message}
+              </p>
+            )}
+          </div>
+
+          {/* Project Data Fields based on integration type */}
+          <ProjectInput
+            dispatch={dispatch}
+            type={project.integration.value.type}
+          />
+
+          {/* More dynamic fields for other integration types can be added similarly */}
+
+          <AlertDialogFooter className="mt-6">
             <Button type="button" variant="outline" onClick={closeHandler}>
               Cancel
             </Button>

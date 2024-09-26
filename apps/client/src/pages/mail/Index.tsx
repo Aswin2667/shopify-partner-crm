@@ -9,29 +9,17 @@ import { useParams } from "react-router-dom";
 import { integrationAction } from "@/redux/integrationSlice";
 
 export default function MailPage() {
-  const { organizationId } = useParams();
   const dispatch = useDispatch();
-  const { gmail } = useSelector((state: any) => state.integration);
+  const { organizationId } = useParams();
 
-  useQueryEvents(
-    useQuery({
-      queryKey: ["getGmailIntegration4Org"],
-      queryFn: async () =>
-        await IntegrationService.getGmailIntegration(organizationId || ""),
-      // enabled: !gmail,
-    }),
-    {
-      onSuccess: (data) =>
-        dispatch(integrationAction.setGmailIntegration(data)),
-      onError: (error: any) =>
-        error.response.data.statusCode === 404 &&
-        dispatch(integrationAction.setGmailIntegration(null)),
-    }
+  const { integrations } = useSelector((state: any) => state.integration);
+
+  const gmailIntegrations = integrations.filter(
+    (integration: any) => integration.type === "GMAIL"
   );
-
   return (
     <div className="p-4">
-      {gmail ? (
+      {gmailIntegrations.length > 0 ? (
         <Mail
           accounts={accounts}
           mails={mails}

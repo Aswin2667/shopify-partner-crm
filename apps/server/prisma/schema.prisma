@@ -53,6 +53,10 @@ model Organization {
   invites      OrgMemberInvite[]
   integrations Integration[]
   Lead         Lead[]
+  contact      Contact[]
+  Template     Template[]
+  LeadStatus   LeadStatus[]
+  LeadProject  LeadProject[]
 }
 
 model OrgMember {
@@ -102,7 +106,8 @@ model Lead {
   id             String         @id @default(uuid())
   shopifyDomain  String         @unique
   shopifyStoreId String         @unique
-  status         leadStatus     @default(POTENTIAL)
+  statusId       String?
+  status         LeadStatus?    @relation(fields: [statusId], references: [id])
   Project        LeadProject[]
   leadSource     String?
   shopDetails    Json?
@@ -114,32 +119,24 @@ model Lead {
   leadNotes      LeadNotes[]
   contacts       Contact[]
   attachments    Attachment[]
-  integrationId  String
+  integrationId  String?
   organizationId String
   organization   Organization   @relation(fields: [organizationId], references: [id])
-  integration    Integration    @relation(fields: [integrationId], references: [id])
-}
-
-enum leadStatus {
-  POTENTIAL
-  CUSTOMER
-  INTERESTED
-  NOT_INTERESTED
-  BAD_FIT
-  QUALIFIED
-  CANCELED
+  integration    Integration?   @relation(fields: [integrationId], references: [id])
 }
 
 model LeadProject {
-  id            String      @id @default(uuid())
+  id            String       @id @default(uuid())
   leadId        String
   projectId     String
   integrationId String
-  integration   Integration @relation(fields: [integrationId], references: [id])
-  lead          Lead        @relation(fields: [leadId], references: [id])
-  project       Project     @relation(fields: [projectId], references: [id])
-  createdAt     BigInt      @default(autoincrement())
-  updatedAt     BigInt      @default(autoincrement())
+  orgId         String
+  organization  Organization @relation(fields: [orgId], references: [id])
+  integration   Integration  @relation(fields: [integrationId], references: [id])
+  lead          Lead         @relation(fields: [leadId], references: [id])
+  project       Project      @relation(fields: [projectId], references: [id])
+  createdAt     BigInt       @default(autoincrement())
+  updatedAt     BigInt       @default(autoincrement())
   deletedAt     BigInt
   status        String?
 
@@ -147,7 +144,7 @@ model LeadProject {
 }
 
 model Contact {
-  id             String      @id @default(uuid())
+  id             String       @id @default(uuid())
   firstName      String?
   lastName       String?
   primaryEmail   String?
@@ -156,14 +153,16 @@ model Contact {
   secondaryPhNo  String?
   industry       String?
   type           String?
-  leadId         String?
+  leadId         String
   lastContacted  BigInt?
   createdAt      BigInt
   updatedAt      BigInt
   deletedAt      BigInt
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
   integrationId  String
-  integration    Integration @relation(fields: [integrationId], references: [id])
-  lead           Lead?       @relation(fields: [leadId], references: [id])
+  integration    Integration  @relation(fields: [integrationId], references: [id])
+  lead           Lead         @relation(fields: [leadId], references: [id])
 }
 
 model Attachment {
@@ -197,46 +196,65 @@ model LeadActivity {
 }
 
 model Email {
-  id             String  @id @default(uuid())
-  to             String[]
-  cc             String[] @default([])
-  bcc            String[] @default([])
-  subject        String?
-  body           String
-  messageId      String
-  threadId       String 
-  historyId      String? 
-  labelIds       String[]
-  sentAt         BigInt
-  deletedAt      BigInt  
-  integrationId         String
+  id            String   @id @default(uuid())
+  to            String[]
+  cc            String[] @default([])
+  bcc           String[] @default([])
+  subject       String?
+  body          String
+  messageId     String
+  threadId      String
+  historyId     String?
+  labelIds      String[]
+  sentAt        BigInt
+  deletedAt     BigInt
+  integrationId String
 }
 
 model Integration {
-  id             String        @id @default(uuid())
+  id             String          @id @default(uuid())
   organizationId String
   data           Json
   description    String?
-  type           String?
+  type           IntegrationType
   createdAt      BigInt
   updatedAt      BigInt
   deletedAt      BigInt
-  Project        Project[]
   name           String
-  organization   Organization  @relation(fields: [organizationId], references: [id])
-  Lead           Lead[]
-  Contact        Contact[]
-  LeadProject    LeadProject[]
+  isSingular     Boolean         @default(false) // Add the isSingular field
+
+  Project      Project[]
+  organization Organization  @relation(fields: [organizationId], references: [id])
+  Lead         Lead[]
+  Contact      Contact[]
+  LeadProject  LeadProject[]
+
+  // @@unique([organizationId, type, isSingular], name: "UniqueIntegrationPerOrgAndType")
 }
 
 model Template {
-  id        String @id @default(uuid())
-  html      String
-  createdAt BigInt
-  updatedAt BigInt
-  deletedAt BigInt
-  userId    String
-  user      User   @relation(fields: [userId], references: [id])
+  id           String        @id @default(uuid())
+  html         String
+  name         String
+  createdAt    BigInt
+  isEnabled    Boolean
+  updatedAt    BigInt
+  deletedAt    BigInt
+  userId       String?
+  orgId        String?
+  organization Organization? @relation(fields: [orgId], references: [id])
+  user         User?         @relation(fields: [userId], references: [id])
+}
+
+model LeadStatus {
+  id             String       @id @default(uuid())
+  status         String
+  createdAt      BigInt
+  updatedAt      BigInt
+  deletedAt      BigInt
+  Lead           Lead[]
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
 }
 
 enum LeadActivityType {
@@ -285,4 +303,11 @@ enum OrgMemberRole {
 enum AppVersion {
   V2
   V3
+}
+
+enum IntegrationType {
+  GMAIL
+  SHOPIFY
+  MAIL_GUN
+  SEND_GRID
 }

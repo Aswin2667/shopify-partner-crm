@@ -6,6 +6,37 @@ import { v4 as uuidv4 } from 'uuid';
 import { DateHelper } from '@org/utils';
 @Injectable()
 export class OrgMemberInvitationsService {
+  async acceptInviteToken(token: string) {
+    try {
+      // Delete the invitation based on the token and retrieve the invite details
+      const inviteData = await prisma.orgMemberInvite.delete({
+        where: {
+          token: token,
+        },
+      });
+      const user = await prisma.user.findUnique({
+        where: {
+          email: inviteData.email,   
+      }});
+      // Add the new member to the organization
+      const newMember = await prisma.orgMember.create({
+        data: {
+          createdAt: DateHelper.getCurrentUnixTime(),
+          updatedAt: DateHelper.getCurrentUnixTime(), // Assuming this is the current timestamp
+          deletedAt: 0, // Assuming 0 indicates it's not deleted
+          role: inviteData.role,
+          userId: user.id, // Use the invitee's ID
+          organizationId: inviteData.organizationId,
+        },
+      });
+  
+      return newMember;
+    } catch (error) {
+      console.error("Error accepting invite token:", error);
+      throw new Error("Failed to accept the invitation."); // Throw error to handle it properly in the calling function
+    }
+  }
+  
   constructor(@InjectQueue('events') private readonly eventQueue: Queue) {}
 
   async sendInviteLink(sendInviteLinkData: SendInviteLinkDto): Promise<void> {
@@ -60,15 +91,18 @@ export class OrgMemberInvitationsService {
 
   async verifyInviteToken(token: string): Promise<any> {
     try {
-      return {
-        id: 'ck2j49r2a0d1m0741gzhjo41v',
-        name: 'John Doe',
-        email: 'example@gmail.com',
-        authenticationMethod: 'MAGIC_LINK',
-        createdAt: 872748344,
-        deletedAt: null,
-      };
+      const invitation =  await prisma.orgMemberInvite.findFirst({
+        where: {
+          token: token,
+        },
+        include:{
+           inviter: true,
+           organization: true
+        }
+      })
+      return invitation
     } catch (error) {
+      console.log(error);
       throw new HttpException(
         'An error occurred while verifying the token.',
         HttpStatus.INTERNAL_SERVER_ERROR,

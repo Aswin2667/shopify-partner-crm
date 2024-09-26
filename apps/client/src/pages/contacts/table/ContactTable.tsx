@@ -4,27 +4,34 @@ import { useEffect } from "react";
 import ContactService from "@/services/ContactService";
 import { toast } from "@/components/ui/use-toast";
 import DateHelper from "@/utils/DateHelper";
-import { useNavigate } from "react-router-dom";
-import imge from '../../../assets/shopify-logo.svg';
+import { useNavigate, useParams } from "react-router-dom";
+import imge from "../../../assets/shopify-logo.svg";
 import TablePagination from "./components/data-table-pagination";
 import { DataTableToolbar } from "./components/data-table-toolbar";
 
 export default function ContactTable() {
   const [contacts, setContacts] = React.useState([]);
+  const { organizationId } = useParams();
+  // TODO: Remove currentIntegration
   const { currentIntegration } = useSelector((state: any) => state.integration);
 
   const navigate = useNavigate();
   useEffect(() => {
     const fetchContacts = async () => {
-      if (currentIntegration?.id) {
+      if (true) {
         try {
-          const response: any = await ContactService.getByIntegrationId(currentIntegration.id);
+          const response: any = await ContactService.getByIntegrationId(
+            // currentIntegration?.id
+            organizationId
+          );
           if (response.status) {
             setContacts(response.data);
           } else {
             toast({
               title: response.message,
-              description: DateHelper.formatTimestamp(DateHelper.getCurrentUnixTime()),
+              description: DateHelper.formatTimestamp(
+                DateHelper.getCurrentUnixTime()
+              ),
               duration: 1000,
               variant: `${response.status ? "default" : "destructive"}`,
             });
@@ -84,7 +91,10 @@ export default function ContactTable() {
             <tbody>
               {contacts.map((contact: any) => {
                 return (
-                  <tr key={contact.id} className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <tr
+                    key={contact.id}
+                    className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
                     <td className="w-4 px-4 py-3">
                       <div className="flex items-center">
                         <input
@@ -92,22 +102,29 @@ export default function ContactTable() {
                           type="checkbox"
                           className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         />
-                        <label htmlFor={`checkbox-${contact.id}`} className="sr-only">
+                        <label
+                          htmlFor={`checkbox-${contact.id}`}
+                          className="sr-only"
+                        >
                           checkbox
                         </label>
                       </div>
                     </td>
                     <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {contact.primaryEmail || 'N/A'}
+                      {contact.primaryEmail || "N/A"}
                     </td>
                     <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {contact.lead.shopifyDomain || 'N/A'}
+                      {contact.lead.shopifyDomain || "N/A"}
                     </td>
                     <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {contact.primaryPhNo || 'N/A'}
+                      {contact.primaryPhNo || "N/A"}
                     </td>
                     <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {contact.lastContacted ? DateHelper.formatTimestamp(Number(contact.lastContacted)) : 'N/A'}
+                      {contact.lastContacted
+                        ? DateHelper.formatTimestamp(
+                            Number(contact.lastContacted)
+                          )
+                        : "N/A"}
                     </td>
                     <td className="px-4 py-2 font-medium text-gray-900 text-center whitespace-nowrap dark:text-white">
                       {DateHelper.formatTimestamp(Number(contact.createdAt))}

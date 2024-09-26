@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "@/components/ui/use-toast";
+import { ThemeCustomizer } from "./ThemeCoustomizer";
 
 const appearanceFormSchema = z.object({
   theme: z.enum(["light", "dark"], {
@@ -54,8 +55,8 @@ export function AppearanceForm() {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+    <Form {...form} >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
         <FormField
           control={form.control}
           name="font"
@@ -157,8 +158,8 @@ export function AppearanceForm() {
           )}
         />
 
-        <Button type="submit">Update preferences</Button>
-      </form>z
+        {/* <Button type="submit">Update preferences</Button> */}
+      </form>
     </Form>
   );
 }

@@ -22,10 +22,11 @@ class LeadService {
     }
   }
 
-  public static async getByIntegrationId(integrationId:string) {
+  // TODO: Remove currentIntegration Method
+  public static async getByOrganizationId(organizationId:string) {
 
     try {
-      const response = await axiosInstance.get(`/${this.BASE_URL}/${integrationId}`);
+      const response = await axiosInstance.get(`/${this.BASE_URL}/${organizationId}`);
       return response;
     } catch (error) {
       console.error("Error during login:", error);
@@ -43,7 +44,7 @@ class LeadService {
     } 
   } 
   public static async getLeadById(id:string) {
-    try {
+    try { 
       const response = await axiosInstance.get(`/${this.BASE_URL}/get/${id}`);
       return response;
     } catch (error) {

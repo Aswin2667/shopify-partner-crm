@@ -37,6 +37,7 @@ import ContactService from "@/services/ContactService";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 // Zod schema for validation
 const contactSchema = z.object({
@@ -46,10 +47,13 @@ const contactSchema = z.object({
 
 type FormData = z.infer<typeof contactSchema>;
 
-const ExpandableContactCard = () => {
+const ExpandableContactCard = ({
+  integrationId,
+}: {
+  integrationId: string;
+}) => {
   const [contacts, setContacts] = useState([]);
-  const leadId = window.location.pathname.split("/")[4];
-  const { currentIntegration } = useSelector((state: any) => state.integration);
+  const { leadId, organizationId } = useParams();
 
   const {
     control,
@@ -63,7 +67,7 @@ const ExpandableContactCard = () => {
 
   const fetchContacts = async () => {
     try {
-      const response = await ContactService.getByLeadId(leadId);
+      const response = await ContactService.getByLeadId(leadId as string);
       setContacts(response.data);
       console.log(response.data);
     } catch (error) {
@@ -77,7 +81,12 @@ const ExpandableContactCard = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      await ContactService.create({ ...data, leadId, integrationId: currentIntegration?.id });
+      await ContactService.create({
+        ...data,
+        leadId,
+        integrationId,
+        organizationId,
+      });
       fetchContacts();
       reset(); // Clear form data
       toast.success("Contact added successfully");
@@ -206,21 +215,21 @@ const ExpandableContactCard = () => {
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger>
-                          <button className="flex items-center hover:text-gray-600 justify-end">
-                            <Phone className="w-4 h-4" />
+                          <button className="flex items-center hover:text-gray-600 justify-end cursor-pointer ">
+                            <Phone className="w-4 h-4 cursor-pointer" />
                           </button>
                         </TooltipTrigger>
                         <TooltipContent>Call</TooltipContent>
                       </Tooltip>
                       <Tooltip>
                         <TooltipTrigger>
-                          <button className="flex items-center hover:text-gray-600 justify-end">
-                            <Mail className="w-4 h-4" />
+                          <button className="flex items-center hover:text-gray-600 justify-end cursor-pointer">
+                            <Mail className="w-4 h-4 cursor-pointer" />
                           </button>
                         </TooltipTrigger>
                         <TooltipContent>Send Email</TooltipContent>
                       </Tooltip>
-                      <Tooltip>
+                      {/* <Tooltip>
                         <TooltipTrigger>
                           <DropdownMenuTrigger asChild>
                             <button className="flex items-center hover:text-gray-600 justify-end">
@@ -245,7 +254,7 @@ const ExpandableContactCard = () => {
                           <Trash className="w-4 h-4" />
                           Delete
                         </DropdownMenuItem>
-                      </DropdownMenuContent>
+                      </DropdownMenuContent> */}
                     </TooltipProvider>
                   </td>
                 </tr>

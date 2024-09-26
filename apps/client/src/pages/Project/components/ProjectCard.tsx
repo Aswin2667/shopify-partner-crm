@@ -11,7 +11,7 @@ const ProjectCard = ({ project }: any) => {
 
   const clickHandler = () => {
     dispatch(projectAction.setCurrentProject(project));
-    navigate(`${project.id}`);
+    navigate(`${project.id}/tokens`);
   };
   return (
     <Card onClick={clickHandler} className="hover:cursor-pointer">

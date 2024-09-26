@@ -10,8 +10,8 @@ import {
   UpdateIntegrationDto,
 } from './dto/integrations.dto';
 import { DateHelper } from '@org/utils';
-
-@Injectable()
+import { IntegrationManager, IntegrationType } from '@org/integrations';
+ @Injectable()
 export class IntegrationsService {
   async create(createIntegrationDto: any) {
     // Check if an integration with the same name already exists for the organization
@@ -42,7 +42,7 @@ export class IntegrationsService {
   async findAll(organizationId: string) {
     // Retrieve all integrations for a specific organization
     return prisma.integration.findMany({
-      where: { organizationId, type: 'SHOPIFY' },
+      where: { organizationId },
     });
   }
 

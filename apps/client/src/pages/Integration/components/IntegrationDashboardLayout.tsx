@@ -13,6 +13,8 @@ import { intergrationSideBarList } from "../utils/data";
 import { useDispatch, useSelector } from "react-redux";
 import { integrationAction } from "@/redux/integrationSlice";
 
+
+// TODO: Remove this COMPONENT
 export default function IntegrationDashboardLayout() {
   const navigate = useNavigate();
   const dispatch = useDispatch();

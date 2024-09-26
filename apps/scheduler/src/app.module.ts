@@ -1,33 +1,17 @@
 // src/app.module.ts
 import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
-import { AppService } from './app.service';
-import { PrismaService } from './prisma.service';
 import { CacheManagerModule } from '@org/utils';
-import { AppController } from './app.controller';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { Cron1Module } from './cron1/cron1.module';
 import { BullModule } from '@nestjs/bull';
-
+import { LeadActivitySyncService } from './app-data/LeadActivity.Sync.service';
+import { DataSourceModule, PrismaService } from '@org/data-source';
+import { LeadActivityModule } from './app-data/LeadActivity.module';
+import { AppService } from './app-data/LeadActivity.Sync.cron';
 
 @Module({
- 
-  imports: [
-    CacheManagerModule.register(),
-    ScheduleModule.forRoot(),
-    EventEmitterModule.forRoot(),
-    // Cron1Module,
-    BullModule.forRoot({
-      redis: {
-        host: 'localhost',
-        port: 6378,
-      },
-    }),
-    BullModule.registerQueue({
-      name: 'install_uninstall_events',
-    }),
-  ],
-  controllers: [AppController],
-  providers: [AppService, PrismaService],
- })
+  imports: [LeadActivityModule],
+  controllers: [],
+  providers: [LeadActivitySyncService, PrismaService],
+})
 export class AppModule {}

@@ -1,13 +1,24 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import prisma from '../shared/utils/prisma';
 import { CreateProjectDto, UpdateProjectDto } from './dto/projects.dto';
 import { DateHelper } from '@org/utils';
 import { z } from 'zod';
+import { PrismaService } from '@org/data-source';
 
 @Injectable()
 export class ProjectService {
+
+  constructor(private readonly prisma: PrismaService) {}
+  updateAccessToken(id: string, body: {token:string}) {
+   console.log(id, body)
+   return this.prisma.project.update({
+     where: { id },
+     data: {
+       cliAccessToken: body.token
+     }
+   })
+  }
   async create(createProjectDto: z.infer<typeof CreateProjectDto>) {
-    return prisma.project.create({
+    return this.prisma.project.create({
       data: {
         name: createProjectDto.name,
         type: createProjectDto.type,
@@ -21,7 +32,7 @@ export class ProjectService {
   }
 
   async findAll(organizationId: string) {
-    const organizationExist = await prisma.organization.findFirst({
+    const organizationExist = await this.prisma.organization.findFirst({
       where: { id: organizationId },
     });
 
@@ -29,13 +40,13 @@ export class ProjectService {
       throw new NotFoundException('Organization not found');
     }
 
-    return prisma.project.findMany({
+    return this.prisma.project.findMany({
       where: { organizationId, deletedAt: null },
     });
   }
 
   async findOne(id: string) {
-    const project = await prisma.project.findUnique({
+    const project = await this.prisma.project.findUnique({
       where: { id },
     });
 
@@ -47,7 +58,7 @@ export class ProjectService {
   }
 
   async update(id: string, updateProjectDto: z.infer<typeof UpdateProjectDto>) {
-    const existingProject = await prisma.project.findUnique({
+    const existingProject = await this.prisma.project.findUnique({
       where: { id },
     });
 
@@ -55,7 +66,7 @@ export class ProjectService {
       throw new NotFoundException('Project not found');
     }
 
-    return prisma.project.update({
+    return this.prisma.project.update({
       where: { id },
       data: {
         ...updateProjectDto,
@@ -65,7 +76,7 @@ export class ProjectService {
   }
 
   async remove(id: string) {
-    const project = await prisma.project.findUnique({
+    const project = await this.prisma.project.findUnique({
       where: { id },
     });
 
@@ -73,7 +84,7 @@ export class ProjectService {
       throw new NotFoundException('Project not found');
     }
 
-    return prisma.project.update({
+    return this.prisma.project.update({
       where: { id },
       data: { deletedAt: DateHelper.getCurrentUnixTime() },
     });

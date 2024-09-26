@@ -19,10 +19,6 @@ import { MulterModule } from '@nestjs/platform-express';
 import * as winston from 'winston';
 import { S3Service } from './s3/s3.service';
 import { S3Controller } from 's3.controller';
-import { IntegrationsController } from './integrations/integrations.controller';
-import { IntegrationsModule } from './integrations/integrations.module';
-import { IntegrationsService } from './integrations/integrations.service';
-
 import { BullModule, BullQueueEvents } from '@nestjs/bull';
 import { ProjectModule } from './project/project.module';
 import * as path from 'path';
@@ -37,6 +33,9 @@ import { LeadNotesController } from './notes/notes.controller';
 import { LeadNotesService } from './notes/notes.service';
 import { ContactController } from './contacts/contact.controller';
 import { ContactService } from './contacts/contact.service';
+import { IntegrationModule } from './integration/integration.module';
+import { Service } from './.service';
+import { LeadStatusModule } from './LeadStatus/lead-status.module';
 
 @Module({
   imports: [
@@ -66,6 +65,8 @@ import { ContactService } from './contacts/contact.service';
     MailModule,
     ProjectModule,
     AuthModule,
+    IntegrationModule,
+    LeadStatusModule,
   ],
   controllers: [
     UserController,
@@ -75,11 +76,11 @@ import { ContactService } from './contacts/contact.service';
     OrgMemberController,
     TemplateController,
     S3Controller,
-    IntegrationsController,
+    // IntegrationsController,
     LeadController,
     LeadActivityController,
     LeadNotesController,
-    ContactController
+    ContactController,
   ],
   providers: [
     UserService,
@@ -89,13 +90,14 @@ import { ContactService } from './contacts/contact.service';
     OrgMemberService,
     TemplateService,
     S3Service,
-    IntegrationsService,
+    // IntegrationsService,
     LeadService,
     PrismaService,
     LeadActivityService,
     LeadActivityService,
     LeadNotesService,
-    ContactService
+    ContactService,
+    Service,
   ],
 })
 export class AppModule {
