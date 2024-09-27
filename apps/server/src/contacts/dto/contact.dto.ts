@@ -3,6 +3,10 @@ import { IsEmail, IsOptional, IsString, IsUUID } from 'class-validator';
 export class CreateContactDto {
   @IsOptional()
   @IsString()
+  name?: string;
+
+  @IsOptional()
+  @IsString()
   firstName?: string;
 
   @IsOptional()

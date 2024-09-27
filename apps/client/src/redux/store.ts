@@ -6,8 +6,10 @@ import { encryptTransform } from "redux-persist-transform-encrypt";
 import organizationSlice from "./organizationSlice";
 import integrationSlice from "./integrationSlice";
 import projectSlice from "./projectSlice";
-
-const persistConfig = {
+ import mailSlice from "./mailSlice";
+import leadSlice from "./leadSlice";
+ import LeadSlice from "./LeadSlice";
+ const persistConfig = {
   key: "root",
   storage,
   transforms: [
@@ -24,7 +26,10 @@ const rootReducer: Reducer = combineReducers({
   organization: organizationSlice,
   integration: integrationSlice,
   project: projectSlice,
-});
+  mail: mailSlice,
+  lead: leadSlice,
+  leads: LeadSlice,
+ });
 
 const persistedReducer: Reducer = persistReducer(persistConfig, rootReducer);
 
@@ -33,4 +38,3 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
-// export default store;

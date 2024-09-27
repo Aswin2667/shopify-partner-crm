@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currentOrganization: null,
+  currentOrgMember: null,
   organizations: [],
   emails: [],
 };
@@ -10,8 +10,8 @@ const organizationSlice = createSlice({
   name: "organization",
   initialState,
   reducers: {
-    setCurrentOrganization: (state, action) => {
-      state.currentOrganization = action.payload;
+    setCurrentOrgMember: (state, action) => {
+      state.currentOrgMember = action.payload;
     },
     setOrganizations: (state, action) => {
       state.organizations = action.payload;

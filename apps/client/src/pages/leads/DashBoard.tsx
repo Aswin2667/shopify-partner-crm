@@ -1,8 +1,5 @@
 import {
-  ChevronLeft,
-  ChevronRight,
   Copy,
-  CreditCard,
   Eye,
   File,
   Link,
@@ -10,9 +7,9 @@ import {
   MoreVertical,
   Pencil,
   Trash2,
-  Truck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
 
 import {
   Card,
@@ -29,11 +26,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-} from "@/components/ui/pagination";
+
 import { Separator } from "@/components/ui/separator";
 import {
   Select,
@@ -43,8 +36,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Editor from "./components/EmailEditor";
-import Compose from "../mail/components/Compose";
+
 import { Outlet, useParams } from "react-router-dom";
 import Tabs from "./components/Tabs";
 import { toast } from "sonner";
@@ -61,24 +53,47 @@ export default function LeadDashboard() {
   const [currencyCode, setCurrencyCode] = useState("");
   const [availableLeadStatus, setAvailableLeadStatus] = useState([]);
   const orgId = window.location.pathname.split("/")[1];
-
+  const [selectedStatus, setSelectedStatus] = useState(lead?.status?.id);
+  const fetchData = async () => {
+    const response = await LeadService.getLeadById(leadId as string);
+    setLead(response.data.data);
+    console.log(response.data.data);
+    const totalAmountByLead = await LeadService.getTotalAmountByLeadId(
+      leadId as string
+    );
+    const availableLeadStatus = await LeadStatusService.getAllByOrgId(orgId);
+    setAvailableLeadStatus(availableLeadStatus?.data.data);
+    console.log(availableLeadStatus?.data.data);
+    setTotalAmount(totalAmountByLead.data.data.totalAmount);
+    setCurrencyCode(totalAmountByLead.data.data.currencyCode);
+    console.log(selectedStatus);
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await LeadService.getLeadById(leadId as string);
-      setLead(response.data.data);
-      console.log(response.data.data);
-      const totalAmountByLead = await LeadService.getTotalAmountByLeadId(
-        leadId as string
-      );
-      const availableLeadStatus = await LeadStatusService.getAllByOrgId(orgId);
-      setAvailableLeadStatus(availableLeadStatus?.data.data);
-      console.log(availableLeadStatus?.data.data);
-      setTotalAmount(totalAmountByLead.data.data.totalAmount);
-      setCurrencyCode(totalAmountByLead.data.data.currencyCode);
-      console.log(totalAmountByLead.data.data);
-    };
     fetchData();
   }, [leadId]);
+  const user = JSON.parse(localStorage.getItem("session") as string);
+  const handleStatusChange = async (newStatus: any) => {
+    setSelectedStatus(newStatus);
+    console.log(newStatus+"lkhjlkhjlkhjklh")
+    try {
+      // PUT request to update the lead status
+      await axios.put(`http://localhost:8080/leads/${lead.id}/status`, {
+        orgId,
+        status: newStatus,
+        statusData: (availableLeadStatus.find(
+          (status: any) => status.id === newStatus
+        ) as any),
+        userId: user.id,  
+      });
+
+      toast.success("Lead status updated successfully.");
+      fetchData(); // Re-fetch data after update
+    } catch (error) {
+      toast.error("Failed to update lead status.");
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-full sm:gap-4 sm:py-4 sm:pl-4 overflow-scroll">
       <main className="flex flex-1 items-start gap-4 p-4 sm:px-6 h-screen overflow-scroll sm:py-0 md:gap-8">
@@ -125,20 +140,27 @@ export default function LeadDashboard() {
                   </Button>
                 </CardTitle>
                 <div className="flex gap-5 items-center">
-                  <Select value={lead?.status?.status}>
-                    <SelectTrigger className="max-w-fit pt-0 pb-0 border-none">
-                      <SelectValue />
-                    </SelectTrigger>
+                   <Select
+                    value={selectedStatus} 
+                    onValueChange={(newStatus) => handleStatusChange(newStatus)}
+                    defaultValue={lead?.status?.id}
+                  >
+                    <SelectTrigger className="max-w-fit pt-0 pb-0  border-none">
+                      <div className="mr-3">
+                      {lead?.status?.status}  
+                      </div>
+                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
                         {availableLeadStatus.map((status: any) => (
-                          <SelectItem key={status.id} value={status.status}>
+                          <SelectItem key={status.id} value={status.id}>
                             {status.status}
                           </SelectItem>
                         ))}
                       </SelectGroup>
                     </SelectContent>
                   </Select>
+
                   {totalAmount + " " + currencyCode}
                 </div>
                 <CardDescription>

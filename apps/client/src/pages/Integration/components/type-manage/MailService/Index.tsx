@@ -32,6 +32,7 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import MailService from "@/services/MailService";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -96,8 +97,7 @@ const Index = (props: Props) => {
   }
 
   const { mutate: createFromEmail } = useMutation({
-    mutationFn: async (data: any) =>
-      await IntegrationService.createFromEmail(data),
+    mutationFn: async (data: any) => await MailService.createFromEmail(data),
     onSuccess: (response) => {
       console.log(response);
       toast({
@@ -170,7 +170,7 @@ const Index = (props: Props) => {
                               className="w-5 h-5 mr-3"
                             />
                             <span className="hover:underline hover:text-blue-600 hover:dark:text-blue-600 hover:cursor-pointer">
-                              {integration.email}
+                              {integration.fromEmail}
                             </span>
                           </td>
                           <td className="p-4">

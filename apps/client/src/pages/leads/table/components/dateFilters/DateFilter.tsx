@@ -2,6 +2,10 @@ import { useState } from "react";
 import Select from "react-select";
 import { DatePicker } from "./DatePicker";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
+
 const getDateFromValue = (value: string) => {
   const now = dayjs();
 
@@ -50,18 +54,21 @@ const getDateFromValue = (value: string) => {
       return null;
   }
 };
+
+const getUTCInSeconds = (date: string) => {
+  return date ? Math.floor(dayjs(date).utc().unix()) : null;
+};
+
 const comparisonOptions = [
-  { value: "is", label: "is..." },
-  { value: "is-not", label: "is not..." },
-  { value: "is-within", label: "is within..." },
-  { value: "is-not-within", label: "is not within..." },
-  { value: "is-before", label: "is before..." },
-  { value: "is-on-or-before", label: "is on or before..." },
-  { value: "is-on-or-after", label: "is on or after..." },
-  { value: "is-after", label: "is after..." },
-  { value: "is-between", label: "is between..." },
-  { value: "is-not-between", label: "is not between..." },
+  { value: "is", label: "is" },
+  { value: "is-not", label: "is not" },
+  { value: "is-before", label: "is before" },
+  { value: "is-on-or-before", label: "is on or before" },
+  { value: "is-on-or-after", label: "is on or after" },
+  { value: "is-after", label: "is after" },
+  { value: "is-between", label: "is between" },
 ];
+
 const dateOptions = [
   { label: "Now", value: "now" },
   { label: "Today", value: "today" },
@@ -82,29 +89,60 @@ const dateOptions = [
   { label: "Custom date...", value: "custom_date" },
 ];
 
-const DatePickerSelect = () => {
-  const [selectedComparison, setSelectedComparison] = useState(null);
-  const [selectedDateOption, setSelectedDateOption] = useState<any>(null);
-  const [customDate, setCustomDate] = useState<Date | null>(null);
+const generateSQLQuery = (comparison: string, date: Date | null) => {
+  const column = "createdAt"; // Change to the appropriate field (e.g., `updatedAt`)
+  if (!date) return "";
+
+  const dateFormatted = dayjs(date).utc().format("YYYY-MM-DDTHH:mm:ssZ");
+
+  switch (comparison) {
+    case "is":
+      return `SELECT * FROM "Lead" WHERE "${column}" = '${getUTCInSeconds(dateFormatted)}';`;
+    case "is-not":
+      return `SELECT * FROM "Lead" WHERE "${column}" != '${getUTCInSeconds(dateFormatted)}';`;
+    case "is-before":
+      return `SELECT * FROM "Lead" WHERE "${column}" < '${getUTCInSeconds(dateFormatted)}';`;
+    case "is-on-or-before":
+      return `SELECT * FROM "Lead" WHERE "${column}" <= '${getUTCInSeconds(dateFormatted)}';`;
+    case "is-on-or-after":
+      return `SELECT * FROM "Lead" WHERE "${column}" >= '${getUTCInSeconds(dateFormatted)}';`;
+    case "is-after":
+      return `SELECT * FROM "Lead" WHERE "${column}" > '${getUTCInSeconds(dateFormatted)}';`;
+    case "is-between":
+      // This requires two dates; additional logic can be added for custom ranges.
+      return "";
+    default:
+      return "";
+  }
+};
+
+const DatePickerSelect = ({selectedComparison,setSelectedComparison,selectedDateOption,setSelectedDateOption,customDate,setCustomDate}:any) => {
+
+  const [query, setQuery] = useState<string>("");
 
   const handleComparisonChange = (option: any) => {
     setSelectedComparison(option);
-    console.log("Selected comparison:", option);
   };
 
   const handleDateOptionChange = (option: any) => {
     setSelectedDateOption(option);
     const date = getDateFromValue(option.value);
-    console.log("Selected date option:", option, "Date:", date);
 
     if (option.value !== "custom_date") {
       setCustomDate(null);
+      const sqlQuery = generateSQLQuery(selectedComparison.value, date);
+      setQuery(sqlQuery);
+      console.log("SQL Query:", sqlQuery);
+    } else {
+      setQuery("");
     }
   };
 
   const handleCustomDateChange = (date: Date | null) => {
     setCustomDate(date);
-    console.log("Selected custom date:", date);
+    const sqlQuery = generateSQLQuery(selectedComparison?.value, date);
+    setQuery(sqlQuery);
+    console.log("SQL Query:", sqlQuery);
   };
 
   return (
@@ -113,7 +151,7 @@ const DatePickerSelect = () => {
         options={comparisonOptions}
         value={selectedComparison}
         onChange={handleComparisonChange}
-        placeholder="is..."
+        placeholder="Select comparison..."
         className="mb-2"
       />
 
@@ -130,6 +168,12 @@ const DatePickerSelect = () => {
           <DatePicker date={customDate} setDate={handleCustomDateChange} />
         </div>
       )}
+
+      <div>
+        <p>Generated SQL Query:</p>
+        <code>{query ? query : "No valid query"}</code>
+        {}
+      </div>
     </div>
   );
 };

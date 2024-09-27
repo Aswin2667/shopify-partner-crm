@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from 'src/config/prisma.service';
+import { PrismaService } from '@org/data-source';
 import { CreateContactDto, UpdateContactDto } from './dto/contact.dto';
 import { DateHelper } from '@org/utils';
 
@@ -54,7 +54,8 @@ export class ContactService {
       console.log(data);
       const contact = await this.prisma.contact.create({
         data: {
-          primaryEmail: data.email,
+          email: data.email,
+          name: data.name,
           updatedAt: 0,
           deletedAt: 0,
           // integrationId: data.integrationId,
@@ -65,7 +66,7 @@ export class ContactService {
       });
       return { status: true, message: 'Contact created', data: contact };
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw new Error('Failed to create contact');
     }
   }
@@ -83,9 +84,6 @@ export class ContactService {
       throw new Error('Failed to retrieve contacts');
     }
   }
-
-
-
 
   async findOne(id: string) {
     try {

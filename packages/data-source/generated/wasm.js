@@ -216,9 +216,8 @@ exports.Prisma.LeadProjectScalarFieldEnum = {
 
 exports.Prisma.ContactScalarFieldEnum = {
   id: 'id',
-  firstName: 'firstName',
-  lastName: 'lastName',
-  primaryEmail: 'primaryEmail',
+  name: 'name',
+  email: 'email',
   secondaryEmail: 'secondaryEmail',
   primaryPhNo: 'primaryPhNo',
   secondaryPhNo: 'secondaryPhNo',
@@ -230,7 +229,8 @@ exports.Prisma.ContactScalarFieldEnum = {
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   organizationId: 'organizationId',
-  integrationId: 'integrationId'
+  isPrimay: 'isPrimay',
+  isUnsubscribed: 'isUnsubscribed'
 };
 
 exports.Prisma.AttachmentScalarFieldEnum = {
@@ -262,6 +262,7 @@ exports.Prisma.EmailScalarFieldEnum = {
   id: 'id',
   from: 'from',
   to: 'to',
+  replyTo: 'replyTo',
   cc: 'cc',
   bcc: 'bcc',
   status: 'status',
@@ -306,14 +307,16 @@ exports.Prisma.IntegrationScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
+  orgMemberId: 'orgMemberId',
   isSingular: 'isSingular',
   sharedType: 'sharedType'
 };
 
 exports.Prisma.MailServiceFromEmailScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  email: 'email',
+  fromName: 'fromName',
+  fromEmail: 'fromEmail',
+  replyTo: 'replyTo',
   type: 'type',
   integrationId: 'integrationId',
   organizationId: 'organizationId',

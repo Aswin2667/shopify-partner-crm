@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Integration = () => {
-  return (
-    <div>Integration</div>
-  )
-}
+  return <div>Integration</div>;
+};
 
-export default Integration
+export default Integration;

@@ -12,7 +12,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import ProfileHoverCard from "@/components/HoverCard";
-import image from '../../../assets/shopify-logo.svg'
+import image from "../../../assets/shopify-logo.svg";
 
 const Activity = () => {
   const [data, setData] = useState([]);
@@ -33,12 +33,14 @@ const Activity = () => {
       {data.map((activity: any) => {
         if (activity.type === "LEAD_CREATED") {
           return leadCreated(activity);
-        }else if(activity.type === "NOTE_CREATED"){
+        } else if (activity.type === "NOTE_CREATED") {
           return leadNoteCreated(activity);
-        }else if(activity.type === "RELATIONSHIP_INSTALLED"){
+        } else if (activity.type === "RELATIONSHIP_INSTALLED") {
           return leadRelationShipInstalled(activity);
-        }else if(activity.type === "RELATIONSHIP_UNINSTALLED"){
+        } else if (activity.type === "RELATIONSHIP_UNINSTALLED") {
           return leadRelationShipUnInstalled(activity);
+        } else if (activity.type === "STATUS_CHANGE") {
+          return leadStatusUpdated(activity);
         }
       })}
     </ol>
@@ -401,6 +403,7 @@ function leadCreated(activity: any): any {
           className="rounded-full shadow-lg"
           src={user.avatarUrl || ""}
           alt="Bonnie image"
+          referrerPolicy="no-referrer"
         />
       </span>
       <div className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
@@ -418,85 +421,123 @@ function leadCreated(activity: any): any {
   );
 }
 
-function leadNoteCreated(activity: any): any {  
+function leadNoteCreated(activity: any): any {
   const { user } = activity;
-  return (      
+  return (
     <li className="mb-10 ms-6">
-    <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-      <img
-        className="rounded-full shadow-lg"
-        src={user.avatarUrl || ""}
-        alt="Bonnie image"
-        
-      />
-    </span>
-    <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600">
-      <div className="items-center justify-between mb-3 sm:flex">
+      <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+        <img
+          className="rounded-full shadow-lg"
+          src={user.avatarUrl || ""}
+          alt="Bonnie image"
+          referrerPolicy="no-referrer"
+        />
+      </span>
+      <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600">
+        <div className="items-center justify-between mb-3 sm:flex">
+          <time className="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">
+            <TimeAgo
+              datetime={DateHelper.convertToDateString(activity.createdAt)}
+            />
+          </time>
+          <div className="text-sm font-normal text-gray-500 lex dark:text-gray-300">
+            <ProfileHoverCard user={user} />
+            added a note
+          </div>
+        </div>
+        <div
+          dangerouslySetInnerHTML={{ __html: activity.data.data }}
+          className="p-3 text-xs italic font-normal text-gray-500 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300"
+        ></div>
+      </div>
+    </li>
+  );
+}
+
+function leadRelationShipInstalled(activity: any): any {
+  const { user } = activity;
+  return (
+    <li className="mb-10 ms-6">
+      <span className="absolute  flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+        <img
+          className="rounded-full shadow-lg"
+          src={image}
+          alt="Bonnie image"
+          referrerPolicy="no-referrer"
+        />
+      </span>
+      <div className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
         <time className="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">
           <TimeAgo
-            datetime={DateHelper.convertToDateString(
-              activity.createdAt
-            )}
+            datetime={DateHelper.convertToDateString(activity.createdAt)}
           />
         </time>
-        <div className="text-sm font-normal text-gray-500 lex dark:text-gray-300">
-          <ProfileHoverCard user={user} />
-          added a note
+        <div className="text-sm font-normal text-gray-500 dark:text-gray-300">
+          {activity.data.message + " "}
+          {/* <ProfileHoverCard user={user} /> */}
         </div>
       </div>
-      <div
-        dangerouslySetInnerHTML={{ __html: activity.data.data }}
-        className="p-3 text-xs italic font-normal text-gray-500 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300"
-      ></div>
-    </div>
-  </li>
-  )}
+    </li>
+  );
+}
 
-  function leadRelationShipInstalled(activity: any): any {
-    const { user } = activity;
-    return  <li className="mb-10 ms-6">
-    <span className="absolute  flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-      <img
-        className="rounded-full shadow-lg"
-        src={image}
-        alt="Bonnie image"
-      />
-    </span>
-    <div className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
-      <time className="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">
-        <TimeAgo
-          datetime={DateHelper.convertToDateString(activity.createdAt)}
+function leadRelationShipUnInstalled(activity: any): any {
+  return (
+    <li className="mb-10 ms-6">
+      <span className="absolute  flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+        <img
+          className="rounded-full shadow-lg"
+          src={image}
+          alt="Bonnie image"
+          referrerPolicy="no-referrer"
         />
-      </time>
-      <div className="text-sm font-normal text-gray-500 dark:text-gray-300">
-        {activity.data.message + " "}
-        {/* <ProfileHoverCard user={user} /> */}
+      </span>
+      <div className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
+        <time className="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">
+          <TimeAgo
+            datetime={DateHelper.convertToDateString(activity.createdAt)}
+          />
+        </time>
+        <div className="text-sm font-normal text-gray-500 dark:text-gray-300">
+          {activity.data.message + " "}
+          {/* <ProfileHoverCard user={user} /> */}
+        </div>
       </div>
-    </div>
-  </li>
-  }
+    </li>
+  );
+}
+function leadStatusUpdated(activity: any) {
+  const { user } = activity;
 
-
-  function leadRelationShipUnInstalled(activity: any): any {
-    const { user } = activity;
-    return  <li className="mb-10 ms-6">
-    <span className="absolute  flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-      <img
-        className="rounded-full shadow-lg"
-        src={image}
-        alt="Bonnie image"
-      />
-    </span>
-    <div className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
-      <time className="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">
-        <TimeAgo
-          datetime={DateHelper.convertToDateString(activity.createdAt)}
+  console.log(activity);
+  return (
+    <li className="mb-10 ms-6">
+      <span className="absolute  flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+        <img
+          className="rounded-full shadow-lg"
+          src={user.avatarUrl || ""}
+          alt="Bonnie image"
+          referrerPolicy="no-referrer"
         />
-      </time>
-      <div className="text-sm font-normal text-gray-500 dark:text-gray-300">
-        {activity.data.message + " "}
-        {/* <ProfileHoverCard user={user} /> */}
+      </span>
+      <div className="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
+        <time className="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">
+          <TimeAgo
+            datetime={DateHelper.convertToDateString(activity.createdAt)}
+          />
+        </time>
+        <div className="text-sm font-normal text-gray-500 dark:text-gray-300">
+          Status updated from{" "}
+          <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400   ">
+            {activity.data.statusFrom}
+          </span>
+          to{" "}
+          <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400   ">
+            {activity.data.statusTo}
+          </span>{" "}
+          by <ProfileHoverCard user={user} />
+        </div>
       </div>
-    </div>
-  </li>
-  }
+    </li>
+  );
+}

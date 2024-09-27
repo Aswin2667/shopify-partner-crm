@@ -52,7 +52,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
   }
 
   async connect(config: ConnectConfig): Promise<any> {
-    const { code, redirect_url } = config;
+    const { code, redirect_url, orgMemberId } = config;
     const organizationId = redirect_url.split('/').filter(Boolean)[2];
     try {
       // Exchange code for access token and refresh token
@@ -93,6 +93,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         email,
         name,
         organizationId,
+
         type: IntegrationType.GMAIL,
         isSingular: INTEGRATION_SINGULARITY.GMAIL,
         category: IntegrationCategory.MAIL_SERVICE,
@@ -133,6 +134,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
             type: data.type,
             isSingular: data.isSingular,
             organizationId: data.organizationId,
+            orgMemberId: orgMemberId,
             sharedType: data.sharedType,
             data: {
               googleId: data.googleId,
@@ -150,8 +152,8 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         await this.prisma.mailServiceFromEmail.create({
           data: {
             integrationId: integration.id,
-            email: data.email,
-            name: data.name,
+            fromEmail: data.email,
+            fromName: data.name,
             type: data.type,
             createdAt: DateHelper.getCurrentUnixTime(),
             organizationId: data.organizationId,
@@ -197,8 +199,17 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
   }
 
   private async sendMail(emailData: Email) {
-    const { from, to, cc, bcc, subject, body, integrationId, organizationId } =
-      emailData;
+    const {
+      from,
+      to,
+      cc,
+      bcc,
+      subject,
+      body,
+      replyTo,
+      integrationId,
+      organizationId,
+    } = emailData;
     const integration = await this.getIntegrationById(integrationId);
 
     const { accessToken, refreshToken } = integration.data as {
@@ -216,11 +227,13 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
 
       // TODO: add from
       const headers = this.buildEmailHeaders(
+        from,
         to,
         cc,
         bcc,
         subject,
         customMessageId,
+        replyTo,
       );
 
       const message = `${headers}\r\n\r\n${body}`;
@@ -255,6 +268,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     to: string[];
     cc: string[];
     bcc: string[];
+    replyTo: string;
     subject: string;
     body: string;
     integrationId: string;
@@ -276,6 +290,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         leadId,
         scheduledAt,
         source,
+        replyTo,
       } = mailData;
       const mailSavedresponse = await this.prisma.email.create({
         data: {
@@ -289,6 +304,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
           integrationId,
           organizationId,
           source,
+          replyTo,
         },
       });
       if (mailSavedresponse.id) {
@@ -642,13 +658,23 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     return `${Math.random().toString(36).substr(2, 9)}@mail.gmail.com`;
   }
 
-  private buildEmailHeaders(to, cc, bcc, subject, customMessageId?) {
+  private buildEmailHeaders(
+    from,
+    to,
+    cc,
+    bcc,
+    subject,
+    customMessageId?,
+    replyTo?,
+  ) {
     return [
-      `From: "Dinesh Balan S" <dineshbalan@gmail.com>`,
+      `From: ${from.name} <${from.email}>`,
+      // `From: "Dinesh Balan S" <dineshbalan@gmail.com>`,
       `To: ${to.join(', ')}`,
       cc.length ? `Cc: ${cc.join(', ')}` : '',
       bcc.length ? `Bcc: ${bcc.join(', ')}` : '',
       `Subject: ${subject}`,
+      replyTo ? `Reply-To: ${replyTo}` : '',
       customMessageId && `X-Message-ID: ${customMessageId}`,
       `Content-Type: text/html; charset="UTF-8"`,
     ]

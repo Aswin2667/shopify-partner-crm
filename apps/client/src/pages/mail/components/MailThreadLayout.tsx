@@ -10,7 +10,7 @@ const MailThreadLayout = (props: Props) => {
   const { leadId } = useParams();
 
   const [mailsForLead, setMailsForLead] = useState([]);
-  console.log(mailsForLead);
+  // console.log(mailsForLead);
 
   useQueryEvents(
     useQuery({

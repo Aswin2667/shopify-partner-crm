@@ -44,14 +44,14 @@ const Templates = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { currentOrganization } = useSelector(
+  const { currentOrgMember } = useSelector(
     (state: any) => state.organization
   );
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
         const response = await TemplateService.getAllTemplatesByOrgId(
-          currentOrganization.id
+          currentOrgMember.id
         );
         if (response.data.status) {
           const fetchedTemplates = response.data.data.map(
@@ -81,7 +81,7 @@ const Templates = () => {
     };
 
     fetchTemplates();
-  }, [currentOrganization.id]);
+  }, [currentOrgMember.id]);
 
   const handleTemplateClick = (html: string) => {
     setSelectedTemplate(html);

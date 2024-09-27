@@ -8,6 +8,8 @@ import {
   HttpException,
   HttpStatus,
   Patch,
+  Query,
+  Put,
 } from '@nestjs/common';
 import { LeadService } from './lead.service';
 import { CreateLeadDto, UpdateLeadDto } from './dto/lead.dto';
@@ -17,16 +19,49 @@ export class LeadController {
   constructor(private readonly leadService: LeadService) {}
 
   @Get(':orgId')
-  async findAllByIntegrationId(@Param('orgId') orgId: string) {
+  async findAllByOrganizationId(
+    @Param('orgId') orgId: string,
+    @Query('shopifyDomain') shopifyDomain?: string,
+    @Query('domainFilterOption') domainFilterOption?: string,
+    @Query('leadStatusFilterOption') leadStatusFilterOption?: string,
+    @Query('selectedStatuses') selectedStatuses?: string | undefined,
+    @Query('createdAt') createdAt?: any,
+    @Query('DateOption') DateFilterOption?: string,
+    @Query('DateComparison') DateFilterComparision?: string,
+  ) {
     try {
-      const leads = await this.leadService.findAllByOrganizationId(orgId);
+      console.log(
+        shopifyDomain,
+        domainFilterOption,
+        leadStatusFilterOption,
+        selectedStatuses,
+        createdAt,
+        DateFilterOption,
+        DateFilterComparision,
+      );
+      const leads = await this.leadService.findAllByOrganizationId(
+        orgId,
+        shopifyDomain,
+        domainFilterOption,
+        leadStatusFilterOption,
+        selectedStatuses,
+        createdAt,
+        DateFilterOption,
+        DateFilterComparision,
+      );
+
       return {
         status: true,
-        message: 'Got Lead using the OrgId',
+        message: 'Successfully retrieved leads',
         data: leads,
       };
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      // Handle the error accordingly
+      return {
+        status: false,
+        message: error.message,
+        data: null,
+      };
     }
   }
 
@@ -41,6 +76,28 @@ export class LeadController {
         status: true,
         message: 'Got the user using the leadId',
         data: lead,
+      };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Put('/:leadId/status')
+  async updateStatus(@Param('leadId') leadId: string, @Body() statusData: any) {
+    try {
+      const lead = await this.leadService.findOne(leadId);
+      console.log(statusData);
+      if (!lead) {
+        throw new HttpException('Lead not found', HttpStatus.NOT_FOUND);
+      }
+      const updatedLead = await this.leadService.updateStatsus(
+        leadId,
+        statusData,
+      );
+      return {
+        status: true,
+        message: 'Got the user using the leadId',
+        data: updatedLead,
       };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -67,15 +124,15 @@ export class LeadController {
     @Body() updateLeadDto: UpdateLeadDto,
   ) {
     try {
-      const lead = await this.leadService.update(leadId, updateLeadDto);
-      if (!lead) {
-        throw new HttpException('Lead not found', HttpStatus.NOT_FOUND);
-      }
-      return {
-        status: true,
-        message: 'Lead updated successfully.',
-        data: lead,
-      };
+      // const lead = await this.leadService.update(leadId, updateLeadDto);
+      // if (!lead) {
+      //   throw new HttpException('Lead not found', HttpStatus.NOT_FOUND);
+      // }
+      // return {
+      //   status: true,
+      //   message: 'Lead updated successfully.',
+      //   data: lead,
+      // };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

@@ -104,6 +104,7 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
     to: string[];
     cc: string[];
     bcc: string[];
+    replyTo: string;
     subject: string;
     body: string;
     integrationId: string;
@@ -125,6 +126,7 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
         leadId,
         scheduledAt,
         source,
+        replyTo,
       } = mailData;
       const mailSavedresponse = await this.prisma.email.create({
         data: {
@@ -138,6 +140,7 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
           integrationId,
           organizationId,
           source,
+          replyTo,
         },
       });
       if (mailSavedresponse.id) {
@@ -161,7 +164,8 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
 
   private async sendMail(emailData: Email) {
     try {
-      const { from, to, cc, bcc, subject, body, integrationId } = emailData;
+      const { from, to, cc, bcc, subject, body, integrationId, replyTo } =
+        emailData;
 
       const integration = await this.getIntegrationById(integrationId);
 
@@ -183,6 +187,7 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
         subject,
         // text: 'and easy to do anywhere, even with Node.js',
         html: body,
+        replyTo: replyTo || sender.email,
       };
 
       sgMail
@@ -190,6 +195,10 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
         .then((res: any) => {
           console.log(res);
           console.log('Email sent');
+          return {
+            success: true,
+            message: 'Email sent successfully',
+          };
         })
         .catch((error) => {
           console.error(error);
@@ -218,7 +227,6 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
     }
   }
 }
-
 
 // [
 //   Response {

@@ -36,4 +36,41 @@ export default class MailService {
       throw error;
     }
   }
+
+  public static async getFromEmailsByOrgId(orgId: string) {
+    try {
+      const response = await axiosInstance.get(
+        `${this.BASE_PATH}/org/${orgId}/fromEmails`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching mails:", error);
+      throw error;
+    }
+  }
+
+  public static async createFromEmail(data: any) {
+    try {
+      const response = await axiosInstance.post(
+        `${this.BASE_PATH}/createFromEmail`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching integration:", error);
+      throw error;
+    }
+  }
+
+  public static async deleteFromEmail(id: any) {
+    try {
+      const response = await axiosInstance.delete(
+        `${this.BASE_PATH}/deleteFromEmail/${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching integration:", error);
+      throw error;
+    }
+  }
 }

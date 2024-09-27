@@ -63,7 +63,7 @@ export function DataTableToolbar({ leads, setLeads }: any) {
   const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
   const { toast } = useToast();
   const [project, setProject] = useState([]);
-  const { currentOrganization } = useSelector(
+  const { currentOrgMember } = useSelector(
     (state: any) => state.organization
   );
 
@@ -75,7 +75,7 @@ export function DataTableToolbar({ leads, setLeads }: any) {
       ...data,
       userId,
       // TODO: DO We need id's here
-      organizationId: currentOrganization?.id,
+      organizationId: currentOrgMember?.id,
       integrationId: currentIntegration?.id,
     });
 
@@ -129,14 +129,14 @@ export function DataTableToolbar({ leads, setLeads }: any) {
   }, []);
 
   return (
-    <Sheet>
+    <>
       <AlertDialog open={open} onOpenChange={setOpen}>
         <div className="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center min-w-[1000px] lg:justify-between lg:space-y-0 lg:space-x-4">
           <div className="flex items-center flex-1 space-x-4">
             <h5>
               <span className="text-gray-500 text-nowrap">All Leads: </span>
               <span className="dark:text-white text-nowrap">
-                {leads.length}
+                {leads?.length}
               </span>
             </h5>
             <h5>
@@ -181,9 +181,9 @@ export function DataTableToolbar({ leads, setLeads }: any) {
                 Add new Lead
               </button>
             </AlertDialogTrigger>
-            <SheetTrigger asChild>
+            {/* <SheetTrigger asChild>
               <Button variant="outline">Add Filter</Button>
-            </SheetTrigger>
+            </SheetTrigger> */}
             <button
               type="button"
               className="flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
@@ -317,9 +317,6 @@ export function DataTableToolbar({ leads, setLeads }: any) {
           </AlertDialogContent>
         </div>
       </AlertDialog>
-      <SheetContent className="min-w-[500px]">
-        <FilterChoose />
-      </SheetContent>
-    </Sheet>
+    </>
   );
 }

@@ -24,7 +24,7 @@ import { ProjectModule } from './project/project.module';
 import * as path from 'path';
 import { LeadController } from './leads/lead.controller';
 import { LeadService } from './leads/lead.service';
-import { PrismaService } from './config/prisma.service';
+import { PrismaService, } from '@org/data-source';
 import { LeadActivityService } from './lead-activity/lead-activity.service';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
@@ -37,6 +37,8 @@ import { IntegrationModule } from './integration/integration.module';
 import { Service } from './.service';
 import { LeadStatusModule } from './LeadStatus/lead-status.module';
 import { LeadStatusService } from './LeadStatus/lead-status.service';
+import { LeadModule } from './leads/lead.module';
+import { LeadQueryBuilder } from './queryBuilders/LeadQueryBuilder';
 
 @Module({
   imports: [
@@ -100,6 +102,7 @@ import { LeadStatusService } from './LeadStatus/lead-status.service';
     LeadNotesService,
     ContactService,
     Service,
+    LeadQueryBuilder,
   ],
 })
 export class AppModule {

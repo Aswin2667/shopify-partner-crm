@@ -1,4 +1,13 @@
-import { Controller, Post, Body, Req, Get, Query, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Req,
+  Get,
+  Query,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { MailService } from './mail.service';
 
 // TODO: Rework these method with integrartion id
@@ -14,5 +23,20 @@ export class MailController {
   @Get('lead/:leadId')
   async getMailsByLeadId(@Param('leadId') leadId: string) {
     return this.mailService.getMailsByLeadId(leadId);
+  }
+
+  @Get('org/:organizationId/fromEmails')
+  async getFromEmailsByOrgId(@Param('organizationId') organizationId: string) {
+    return this.mailService.getFromEmailsByOrgId(organizationId);
+  }
+
+  @Post('createFromEmail')
+  async createFromEmail(@Body() data: any) {
+    return await this.mailService.createFromEmail(data);
+  }
+
+  @Delete('deleteFromEmail/:id')
+  async deleteFromEmail(@Param('id') id: any) {
+    return await this.mailService.deleteFromEmail(id);
   }
 }
