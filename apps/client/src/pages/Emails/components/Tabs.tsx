@@ -12,7 +12,9 @@ import { NavLink } from "react-router-dom";
 const Tabs = () => {
   const tabs = [
     { to: "", icon: ActivityIcon, label: "My Settings" },
-    { to: "limit", icon: Mail, label: "Sending Limits" },
+    // { to: "limit", icon: Mail, label: "Sending Limits" },
+    { to: "from", icon: MessageCircle, label: "From Mail" },
+    { to: "signature", icon: Notebook, label: "Signature" },
     { to: "unsubscribe", icon: Phone, label: "Unsubscribe Link" },
   ];
   return (

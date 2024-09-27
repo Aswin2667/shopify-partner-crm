@@ -1,6 +1,7 @@
 // apps/server/src/integration/integration.service.ts
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -66,21 +67,33 @@ export class IntegrationService {
     return integration;
   }
 
-  async getAllIntegrationByOrgId(id: string) {
-    const integration = await this.prisma.integration.findMany({
-      where: { organizationId: id },
+  async getAllIntegrationByOrgId(orgId: string, orgMemberId?: string) {
+    console.log('orgMemberId:', orgMemberId);
+    const integrations = await this.prisma.integration.findMany({
+      where: {
+        organizationId: orgId,
+        OR: [
+          {
+            type: { not: 'GMAIL' }, // Include all non-GMAIL integrations
+          },
+          {
+            type: 'GMAIL', // Include GMAIL integrations
+            orgMemberId: orgMemberId || undefined, // If `orgMemberId` is provided, filter by it
+          },
+        ],
+      },
       include: {
-        mailServiceFromEmail: true,
+        mailServiceFromEmail: true, // Include related MailServiceFromEmail
       },
     });
 
-    if (!integration) {
+    if (!integrations || integrations.length === 0) {
       throw new NotFoundException(
-        `Integration for OrganizationID ${id} not found`,
+        `Integrations for OrganizationID ${orgId} not found`,
       );
     }
 
-    return integration;
+    return integrations;
   }
 
   async updateIntegration(id: string, config: any) {
@@ -156,20 +169,5 @@ export class IntegrationService {
     );
     console.log(response);
     return response;
-  }
-
-  async createFromEmail(data: any) {
-    console.log(data);
-    return await this.prisma.mailServiceFromEmail.create({
-      data: {
-        // ...data,
-        email: data.email,
-        name: data.name,
-        type: data.type,
-        integrationId: data.integrationId,
-        organizationId: data.organizationId,
-        createdAt: DateHelper.getCurrentUnixTime(),
-      },
-    });
   }
 }

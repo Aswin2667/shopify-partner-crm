@@ -30,6 +30,7 @@ import { useQuery } from "@tanstack/react-query";
 import IntegrationService from "@/services/IntegrationService";
 import { useDispatch, useSelector } from "react-redux";
 import { integrationAction } from "@/redux/integrationSlice";
+import { mailAction } from "@/redux/mailSlice";
 
 const defaultLayout = [17, 32];
 export default function RootLayout() {
@@ -38,25 +39,60 @@ export default function RootLayout() {
   const { organizationId } = useParams();
   const [isCollapsed, setIsCollapsed] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
+  const [orgMemberId, setOrgMemberId] = React.useState<string | null>(null);
   const navCollapsedSize = undefined;
 
-  // Fetch currentOrganization and organizations from the Redux store
-  const { organizations } = useSelector((state: any) => state.organization);
+  // Fetch currentOrgMember and organizations from the Redux store
+  const { organizations, currentOrgMember } = useSelector(
+    (state: any) => state.organization
+  );
 
   useQueryEvents(
     useQuery({
       queryKey: ["getAllIntegrationsPresentInOrg", organizationId],
       queryFn: async () =>
         await IntegrationService.getAllIntegrationsByOrgId(
-          organizationId as string
+          organizationId as string,
+          (orgMemberId as string) || currentOrgMember?.id
         ),
+      enabled: !!organizationId,
     }),
     {
-      onSuccess: (response: any) =>
-        dispatch(integrationAction.setIntegrations(response)),
+      onSuccess: (response: any) => {
+        dispatch(integrationAction.setIntegrations(response));
+        // TODO: Can this be writen as its own GET Query
+        dispatch(
+          mailAction.setSendAs(
+            response.flatMap(
+              (integration: any) => integration.mailServiceFromEmail
+            )
+          )
+        );
+      },
       onError: (error: any) => console.log(error),
     }
   );
+
+  useQueryEvents(
+    useQuery({
+      queryKey: ["getAllAvailableIntegration"],
+      queryFn: async () =>
+        await IntegrationService.getPresentIntegrationsList(),
+    }),
+    {
+      onSuccess: (data) =>
+        dispatch(integrationAction.setPresentIntegrations(data)),
+      onError: (error) => console.error(error),
+    }
+  );
+
+  React.useEffect(() => {
+    const orgMemberDetails = localStorage.getItem("presentOrgMemberDetails");
+    if (orgMemberDetails) {
+      const parsedDetails = JSON.parse(orgMemberDetails);
+      setOrgMemberId(parsedDetails?.id); // Set orgMemberId from localStorage
+    }
+  }, []);
 
   React.useEffect(() => {
     const sessionData = localStorage.getItem("session");

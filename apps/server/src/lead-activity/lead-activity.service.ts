@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateLeadActivityDto } from './dto/lead-activity.dto';
 
 import { DateHelper } from '@org/utils';
-import { PrismaService } from 'src/config/prisma.service';
+import { PrismaService } from '@org/data-source';
 @Injectable()
 export class LeadActivityService {
   constructor(private readonly prisma: PrismaService) {}

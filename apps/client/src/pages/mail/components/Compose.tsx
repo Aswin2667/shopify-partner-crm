@@ -25,6 +25,7 @@ import DateHelper from "../../../utils/DateHelper";
 import { DatePicker } from "rsuite";
 import "rsuite/DatePicker/styles/index.css";
 import { FaCalendar } from "react-icons/fa";
+import RecipientInput from "./RecipientInput";
 
 type Props = {};
 
@@ -43,13 +44,19 @@ const reducerFn = (prevState: any, action: any) => {
   if (action.type === "from") {
     return { ...prevState, from: action.payload };
   }
-  if (action.type === "toAdd" || action.type === "toRemove") {
+  if (
+    action.type === "toAdd" ||
+    action.type === "toRemove" ||
+    action.type === "to"
+  ) {
     return action.type === "toAdd"
       ? { ...prevState, to: [...prevState.to, action.payload] }
-      : {
-          ...prevState,
-          to: action.payload,
-        };
+      : action.type === "to"
+        ? { ...prevState, to: action.payload }
+        : {
+            ...prevState,
+            to: action.payload,
+          };
   }
   if (
     action.type === "ccEnabled" ||
@@ -137,13 +144,23 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
     initialArgs,
     () => initialArgs
   );
+
+  const contacts = useSelector((state: any) => state.lead.leadContacts).map(
+    (contact: any) => ({
+      label: `${contact.name} <${contact.email}>`,
+      value: contact.email,
+    })
+  );
+
   const { integrations, presentIntegrations } = useSelector(
     (state: any) => state.integration
   );
+
   const fromEmail = integrations.flatMap(
     (integration: any) => integration.mailServiceFromEmail
   );
-  console.log(compose);
+  // console.log(compose);
+  // console.log(fromEmail);
 
   const { mutate: sendMail } = useMutation({
     mutationFn: async (data: any) =>
@@ -158,10 +175,11 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
 
   const sendHandler = () => {
     const mailContext = {
-      from: { name: compose.from.name, email: compose.from.email },
-      to: compose.to,
+      from: { name: compose.from.fromName, email: compose.from.fromEmail },
+      to: compose.to.map((el: any) => el.value),
       cc: compose.cc.value,
       bcc: compose.bcc.value,
+      replyTo: compose.from.replyTo,
       subject: compose.subject,
       body: compose.body,
       integrationId: compose.from.integrationId,
@@ -174,7 +192,7 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
     };
 
     console.log(mailContext);
-    sendMail(mailContext);
+    // sendMail(mailContext);
   };
 
   const setBody = (value: any) => {
@@ -261,9 +279,9 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
                     alt=""
                     className="h-4 w-4 rounded-ful"
                   />
-                  <h6 className="capitalize">{integration?.name}</h6>
+                  <h6 className="capitalize">{integration?.fromName}</h6>
                   <h6 className="text-gray-500 ">
-                    {`<${integration?.email}>`}
+                    {`<${integration?.fromEmail}>`}
                   </h6>
                 </div>
               </SelectItem>
@@ -274,22 +292,7 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
       {/* To */}
       <div className="px-3 py-2 border-b flex items-center gap-4">
         <h6 className="text-gray-500">To</h6>
-        <div className="rounded-sm w-full flex items-center flex-wrap gap-2">
-          {compose.to.map((tag: any, index: number) => (
-            <MailBadge
-              key={index}
-              text={tag}
-              onClick={() => removeTag(index, "toRemove")}
-            />
-          ))}
-          <input
-            onBlur={(e) => handleKeyDown(e, "toAdd")}
-            onKeyDown={(e) => handleKeyDown(e, "toAdd")}
-            type="text"
-            className="flex-grow  outline-none"
-            placeholder="Recepient's Email"
-          />
-        </div>
+        <RecipientInput contacts={contacts} dispatch={dispatch} />
         <div className="flex gap-2 text-blue-500 font-medium">
           {!compose.cc.isEnabled && (
             <h6
@@ -418,3 +421,22 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
 };
 
 export default Compose;
+
+{
+  /* <div className="rounded-sm w-full flex items-center flex-wrap gap-2">
+  {compose.to.map((tag: any, index: number) => (
+    <MailBadge
+      key={index}
+      text={tag}
+      onClick={() => removeTag(index, "toRemove")}
+    />
+  ))}
+  <input
+    onBlur={(e) => handleKeyDown(e, "toAdd")}
+    onKeyDown={(e) => handleKeyDown(e, "toAdd")}
+    type="text"
+    className="flex-grow  outline-none"
+    placeholder="Recepient's Email"
+  />
+</div>; */
+}

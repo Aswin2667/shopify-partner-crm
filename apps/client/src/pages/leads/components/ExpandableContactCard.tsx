@@ -36,7 +36,11 @@ import {
 import ContactService from "@/services/ContactService";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
- import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useQueryEvents } from "@/hooks/useQueryEvents";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useDispatch, useSelector } from "react-redux";
+import { leadAction } from "@/redux/leadSlice";
 
 // Zod schema for validation
 const contactSchema = z.object({
@@ -51,8 +55,11 @@ const ExpandableContactCard = ({
 }: {
   integrationId: string;
 }) => {
-  const [contacts, setContacts] = useState([]);
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   const { leadId, organizationId } = useParams();
+
+  const { leadContacts: contacts } = useSelector((state: any) => state.lead);
 
   const {
     control,
@@ -64,33 +71,46 @@ const ExpandableContactCard = ({
     defaultValues: { name: "", email: "" },
   });
 
-  const fetchContacts = async () => {
-    try {
-      const response = await ContactService.getByLeadId(leadId as string);
-      setContacts(response.data);
-      console.log(response.data);
-    } catch (error) {
-      toast.error("Failed to fetch contacts");
+  useQueryEvents(
+    useQuery({
+      queryKey: ["getAllContactsForLead", leadId],
+      queryFn: async () => await ContactService.getByLeadId(leadId as string),
+      enabled: !!leadId,
+    }),
+    {
+      onSuccess: (response: any) =>
+        dispatch(leadAction.setLeadContacts(response.data)),
+      onError: (error: any) => console.log(error),
     }
-  };
+  );
 
-  useEffect(() => {
-    fetchContacts();
-  }, []);
-
-  const onSubmit = async (data: FormData) => {
-    try {
+  const { mutate: createContact } = useMutation({
+    mutationFn: async (data: any) =>
       await ContactService.create({
         ...data,
         leadId,
         integrationId,
         organizationId,
-      });
-      fetchContacts();
+      }),
+    onSuccess: (response) => {
+      console.log(response);
       reset(); // Clear form data
+      queryClient.invalidateQueries({
+        queryKey: ["getAllContactsForLead", leadId],
+      });
       toast.success("Contact added successfully");
-    } catch (error) {
+    },
+    onError: (error: any) => {
       toast.error("Failed to add contact");
+      console.error("Creation failed:", error?.response.data);
+    },
+  });
+
+  const onSubmit = async (data: FormData) => {
+    try {
+      await createContact(data);
+    } catch (error: any) {
+      console.error("Creation failed:", error?.response.data);
     }
   };
   const router = useNavigate();
@@ -197,7 +217,7 @@ const ExpandableContactCard = ({
               </tr>
             </thead>
             <tbody>
-              {contacts.map((contact: any) => (
+              {contacts?.map((contact: any) => (
                 <tr
                   key={contact.id}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
@@ -206,8 +226,7 @@ const ExpandableContactCard = ({
                     scope="row"
                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-4"
                   >
-                    {contact.name}
-                    {contact.primaryEmail}
+                    {`${contact.name} <${contact.email}>`}
                   </th>
                   <td className="px-6 py-4 text-end"></td>
                   <td className="px-6 py-4 flex justify-end gap-5 relative">

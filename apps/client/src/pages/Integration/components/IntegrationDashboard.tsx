@@ -16,8 +16,10 @@ export default function IntegrationDashboard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { organizationId } = useParams();
+  const [orgMemberId, setOrgMemberId] = React.useState<string | null>(null);
 
   const { integrations } = useSelector((state: any) => state.integration);
+  const { currentOrgMember } = useSelector((state: any) => state.organization);
 
   const presentIntegration = [
     ...new Set(integrations.map((integration: any) => integration.type)),
@@ -29,7 +31,8 @@ export default function IntegrationDashboard() {
       queryKey: ["getAllIntegrationsPresentInOrg", organizationId],
       queryFn: async () =>
         await IntegrationService.getAllIntegrationsByOrgId(
-          organizationId as string
+          organizationId as string,
+          (orgMemberId as string) || currentOrgMember?.id
         ),
     }),
     {
@@ -39,18 +42,13 @@ export default function IntegrationDashboard() {
     }
   );
 
-  useQueryEvents(
-    useQuery({
-      queryKey: ["getAllAvailableIntegration"],
-      queryFn: async () =>
-        await IntegrationService.getPresentIntegrationsList(),
-    }),
-    {
-      onSuccess: (data) =>
-        dispatch(integrationAction.setPresentIntegrations(data)),
-      onError: (error) => console.error(error),
+  React.useEffect(() => {
+    const orgMemberDetails = localStorage.getItem("presentOrgMemberDetails");
+    if (orgMemberDetails) {
+      const parsedDetails = JSON.parse(orgMemberDetails);
+      setOrgMemberId(parsedDetails?.id); // Set orgMemberId from localStorage
     }
-  );
+  }, []);
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">

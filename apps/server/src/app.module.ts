@@ -24,7 +24,7 @@ import { ProjectModule } from './project/project.module';
 import * as path from 'path';
 import { LeadController } from './leads/lead.controller';
 import { LeadService } from './leads/lead.service';
-import { PrismaService } from './config/prisma.service';
+import { PrismaService, } from '@org/data-source';
 import { LeadActivityService } from './lead-activity/lead-activity.service';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';

@@ -17,14 +17,14 @@ const LeadStatus = () => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const { currentOrganization } = useSelector(
+  const { currentOrgMember } = useSelector(
     (state: any) => state.organization
   );
 
   useEffect(() => {
     const fetchLeadStatus = async () => {
       try {
-        const response = await LeadStatusService.getAllByOrgId(currentOrganization?.id);
+        const response = await LeadStatusService.getAllByOrgId(currentOrgMember?.id);
         console.log(response?.data);
         setStatus(response?.data.data);
       } catch (err: any) {
@@ -35,7 +35,7 @@ const LeadStatus = () => {
     };
 
     fetchLeadStatus();
-  }, [currentOrganization?.id]);
+  }, [currentOrgMember?.id]);
 
   const handleUpdateClick = (item: any) => {
     setSelectedStatus(item);

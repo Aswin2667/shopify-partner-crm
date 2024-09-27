@@ -14,7 +14,7 @@ const TemplateCreatePage = () => {
   const [loading, setLoading] = useState(false);
   const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
   const { toast } = useToast()
-   const { currentOrganization } = useSelector(
+   const { currentOrgMember } = useSelector(
     (state: any) => state.organization,
   );
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,7 +26,7 @@ const TemplateCreatePage = () => {
         name,
         html: data,
         userId,
-        orgId:currentOrganization.id
+        orgId:currentOrgMember.id
       })
       toast({
         title: "Template created successfully",

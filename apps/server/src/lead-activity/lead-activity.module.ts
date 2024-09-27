@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { LeadActivityService } from './lead-activity.service';
 import { LeadActivityController } from './lead-activity.controller';
-import { PrismaService } from 'src/config/prisma.service';
+import { PrismaService } from '@org/data-source';
 
 @Module({
   controllers: [LeadActivityController],

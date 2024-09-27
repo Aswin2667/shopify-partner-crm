@@ -79,7 +79,7 @@ const ManageAccess = () => {
     setInvitedEmails((prevEmails) => prevEmails.filter((_, i) => i !== index));
   };
   const { toast } = useToast();
-  const {currentOrganization} = useSelector((state: any) => state.organization)
+  const {currentOrgMember} = useSelector((state: any) => state.organization)
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -101,7 +101,7 @@ const ManageAccess = () => {
         role: "MEMBER",
         invite_sender_name: JSON.parse(localStorage.getItem("session") ?? "")
           .name,
-        invite_sender_organization_name: currentOrganization.name,
+        invite_sender_organization_name: currentOrgMember.name,
         Product_Name: "Shopify crm",
         action_url: "",
         name: "User",

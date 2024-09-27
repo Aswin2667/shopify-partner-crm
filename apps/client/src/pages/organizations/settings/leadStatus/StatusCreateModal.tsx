@@ -27,7 +27,7 @@ const statusSchema = z.object({
 type StatusFormValues = z.infer<typeof statusSchema>;
 
 const StatusCreateModal = () => {
-  const {currentOrganization} = useSelector((state: any) => state.organization)
+  const {currentOrgMember} = useSelector((state: any) => state.organization)
   const {
     register,
     handleSubmit,
@@ -40,11 +40,11 @@ const StatusCreateModal = () => {
   const [open, setOpen] = useState(false);
 
   const onSubmit = async (data: StatusFormValues) => {
-    console.log("Form Data:", {...data,organizationId:currentOrganization?.id});// Reset the form data
+    console.log("Form Data:", {...data,organizationId:currentOrgMember?.id});// Reset the form data
     try {
       const response = await LeadStatusService.create({
         ...data,
-        organizationId:currentOrganization?.id
+        organizationId:currentOrgMember?.id
       })
       console.log(response.data)
     } catch (error) {

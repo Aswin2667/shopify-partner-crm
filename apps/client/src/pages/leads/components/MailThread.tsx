@@ -12,7 +12,7 @@ type Thread = {
 
 const MailThread = ({ mail }: any) => {
   const [thread, setThread] = useState<null | Thread>(null);
-  // console.log(mail);
+  console.log(mail);
   // console.log(thread);
 
   useEffect(() => {

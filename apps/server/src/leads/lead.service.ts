@@ -8,7 +8,7 @@ import { DateHelper } from '@org/utils';
 import { randomUUID } from 'crypto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { LeadActivityService } from 'src/lead-activity/lead-activity.service';
-import { PrismaService } from 'src/config/prisma.service';
+import { PrismaService } from '@org/data-source';
 interface ChargeData {
   charge: {
     amount: {

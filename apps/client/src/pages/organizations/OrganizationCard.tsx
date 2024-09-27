@@ -8,12 +8,24 @@ const OrganizationCard = ({ organization }: any) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const organizations = JSON.parse(
+    localStorage.getItem("organizations") || "[]"
+  );
+  const presentOrgMemberDetails = organizations.find(
+    (org: any) => org.organizationId === organization.organization.id
+  );
+
   const clickHandler = () => {
     console.log(organization);
-    navigate(`/${organization.organizationId}/dashboard`);
-    dispatch(
-      organizationAction.setCurrentOrganization(organization.organization),
+
+    localStorage.setItem(
+      "presentOrgMemberDetails",
+      JSON.stringify(presentOrgMemberDetails)
     );
+
+    navigate(`/${organization.organizationId}/dashboard`);
+
+    dispatch(organizationAction.setCurrentOrgMember(organization));
     // localStorage.setItem("organization", JSON.stringify(organization));
   };
   return (

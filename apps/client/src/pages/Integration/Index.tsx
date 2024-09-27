@@ -13,7 +13,7 @@ const Integration: React.FC = () => {
 
   const singularIntegrationTypes = new Set(
     integrations
-      .filter((integration: any) => integration.isSingular)
+      // .filter((integration: any) => integration.isSingular)
       .map((integration: any) => integration.type)
   );
 
@@ -21,6 +21,8 @@ const Integration: React.FC = () => {
     (presentIntegration: any) =>
       !singularIntegrationTypes.has(presentIntegration.type)
   );
+
+  console.log(singularIntegrationTypes, filteredPresentIntegrations);
 
   return (
     <div>
