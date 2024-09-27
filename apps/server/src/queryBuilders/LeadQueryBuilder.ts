@@ -1,7 +1,10 @@
+import { Injectable } from '@nestjs/common';
+import { DateTime } from 'luxon';
+
+@Injectable()
 export class LeadQueryBuilder {
   private filters: string[] = [];
 
-  // Add Shopify Domain Filter
   addShopifyDomainFilter(shopifyDomain: string, domainFilterOption: string) {
     if (shopifyDomain && domainFilterOption) {
       switch (domainFilterOption) {
@@ -54,12 +57,108 @@ export class LeadQueryBuilder {
   }
 
   // Add Created At Filter
-  addCreatedAtFilter(createdAt: any) {
-    if (!createdAt) return;
 
-    const startDate = createdAt.startDate || '2023-01-01';
-    const endDate = createdAt.endDate || '2023-12-31';
-    this.filters.push(`l."createdAt" BETWEEN '${startDate}' AND '${endDate}'`);
+  addCreatedAtFilter(
+    createdAt: any,
+    DateFilterOption: any,
+    comparison: any,
+  ) {
+    const now = DateTime.utc(); // Use Luxon's DateTime for the current date
+      console.log(createdAt, DateFilterOption?.value, comparison?.value );
+    const getFormattedDate = (date: DateTime) => date.toUTC().toSeconds();
+  
+    // if (!createdAt || !DateFilterOption || !comparison) return;
+  
+    const applyComparison = (comparison: any, dateField: string, start: DateTime, end?: DateTime) => {
+      switch (comparison?.value) {
+        case 'is':
+          return `l."${dateField}" = '${getFormattedDate(start)}'`;
+        case 'is-not':
+          return `l."${dateField}" != '${getFormattedDate(start)}'`;
+        case 'is-before':
+          return `l."${dateField}" < '${getFormattedDate(start)}'`;
+        case 'is-on-or-before':
+          return `l."${dateField}" <= '${getFormattedDate(start)}'`;
+        case 'is-after':
+          return `l."${dateField}" > '${getFormattedDate(start)}'`;
+        case 'is-on-or-after':
+          return `l."${dateField}" >= '${getFormattedDate(start)}'`;
+        case 'is-between':
+          if (end) {
+            return `l."${dateField}" BETWEEN '${getFormattedDate(start)}' AND '${getFormattedDate(end)}'`;
+          }
+          console.warn('is-between comparison requires both start and end dates');
+          return '';
+        default:
+          console.warn(`Unhandled comparison type: ${comparison}`);
+          return '';
+      }
+    };
+  
+    let startDate: DateTime;
+    let endDate: DateTime | undefined;
+  
+    switch (DateFilterOption?.value) {
+      case 'now':
+        startDate = now.startOf('day');
+        endDate = now.endOf('day');
+        this.filters.push(applyComparison(comparison, 'createdAt', startDate, endDate));
+        break;
+      case 'today':
+        startDate = now.startOf('day');
+        endDate = now.endOf('day');
+        this.filters.push(applyComparison(comparison, 'createdAt', startDate, endDate));
+        break;
+      case 'yesterday':
+        startDate = now.minus({ days: 1 }).startOf('day');
+        endDate = now.minus({ days: 1 }).endOf('day');
+        this.filters.push(applyComparison(comparison, 'createdAt', startDate, endDate));
+        break;
+      case 'this_week':
+        startDate = now.startOf('week');
+        endDate = now.endOf('week');
+        this.filters.push(applyComparison(comparison, 'createdAt', startDate, endDate));
+        break;
+      case 'last_week':
+        startDate = now.minus({ weeks: 1 }).startOf('week');
+        endDate = now.minus({ weeks: 1 }).endOf('week');
+        this.filters.push(applyComparison(comparison, 'createdAt', startDate, endDate));
+        break;
+      case 'this_month':
+        startDate = now.startOf('month');
+        endDate = now.endOf('month');
+        console.log(startDate, endDate)
+        this.filters.push(applyComparison(comparison, 'createdAt', startDate, endDate));
+        break;
+      case 'last_month':
+        startDate = now.minus({ months: 1 }).startOf('month');
+        endDate = now.minus({ months: 1 }).endOf('month');
+        this.filters.push(applyComparison(comparison, 'createdAt', startDate, endDate));
+        break;
+      case 'this_year':
+        startDate = now.startOf('year');
+        endDate = now.endOf('year');
+        this.filters.push(applyComparison(comparison, 'createdAt', startDate, endDate));
+        break;
+      case 'last_year':
+        startDate = now.minus({ years: 1 }).startOf('year');
+        endDate = now.minus({ years: 1 }).endOf('year');
+        this.filters.push(applyComparison(comparison, 'createdAt', startDate, endDate));
+        break;
+      case 'custom_date':
+        if (createdAt.startDate && createdAt.endDate) {
+          startDate = DateTime.fromISO(createdAt.startDate).startOf('day');
+          endDate = DateTime.fromISO(createdAt.endDate).endOf('day');
+          this.filters.push(applyComparison(comparison, 'createdAt', startDate, endDate));
+        } else {
+          console.warn('Custom date range requires both startDate and endDate');
+        }
+        break;
+      default:
+        console.warn(`Unhandled date filter option: ${DateFilterOption}`);
+        break;
+    }
+    console.log(this.filters);
   }
 
   // Build the query with organization ID and applied filters

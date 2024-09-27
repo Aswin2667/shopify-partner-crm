@@ -25,6 +25,8 @@ export class LeadController {
     @Query('leadStatusFilterOption') leadStatusFilterOption?: string,
     @Query('selectedStatuses') selectedStatuses?: string | undefined,
     @Query('createdAt') createdAt?: any,
+    @Query('DateOption') DateFilterOption?: string,
+    @Query('DateComparison') DateFilterComparision?: string,
   ) {
     try {
       console.log(
@@ -33,6 +35,8 @@ export class LeadController {
         leadStatusFilterOption,
         selectedStatuses,
         createdAt,
+        DateFilterOption,
+        DateFilterComparision,
       );
       const leads = await this.leadService.findAllByOrganizationId(
         orgId,
@@ -41,6 +45,8 @@ export class LeadController {
         leadStatusFilterOption,
         selectedStatuses,
         createdAt,
+        DateFilterOption,
+        DateFilterComparision,
       );
 
       return {

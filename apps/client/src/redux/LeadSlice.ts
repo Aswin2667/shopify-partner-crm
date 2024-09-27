@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: any = {
   leads: [],
+  filtersEanabled:{}
 };
 
 const Leadslice = createSlice({
@@ -14,6 +15,9 @@ const Leadslice = createSlice({
     reset: (state) => {
       state.Leads = [];
     },
+    setfiltersEnabled: (state, action) => {
+      state.filtersEanabled = action.payload;
+    },  
   },
 });
 

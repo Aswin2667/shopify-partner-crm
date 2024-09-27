@@ -15,7 +15,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import FilterChoose from "./components/FilterChoose";
 import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
- import { leadsAction } from "@/redux/LeadSlice";
+import { leadsAction } from "@/redux/LeadSlice";
+import { ChevronDownIcon, XIcon } from "lucide-react";
 type Project = {
   id: string;
   name: string;
@@ -54,8 +55,8 @@ const LeadTable: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const navigate = useNavigate();
-  const {Leads} = useSelector((state: any) => state.leads);
-   const dispatch = useDispatch()
+  const { Leads } = useSelector((state: any) => state.leads);
+  const dispatch = useDispatch();
   useEffect(() => {
     const fetchLeads = async () => {
       if (organizationId) {
@@ -64,7 +65,7 @@ const LeadTable: React.FC = () => {
             organizationId as string
           );
           if (response.status) {
-             dispatch(leadsAction.setLeads(response.data.data));
+            dispatch(leadsAction.setLeads(response.data.data));
             setTotalItems(response.data.data?.length);
           } else {
             toast({
@@ -86,7 +87,7 @@ const LeadTable: React.FC = () => {
   }, [organizationId]);
 
   // Handle search filtering
-  const filteredLeads = Leads?.filter((lead:any) =>
+  const filteredLeads = Leads?.filter((lead: any) =>
     lead.shopifyDomain.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -106,12 +107,15 @@ const LeadTable: React.FC = () => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
-
+  const appliedFilter = useSelector(
+    (state: any) => state.leads.filtersEanabled
+  );
+  console.log(JSON.stringify(appliedFilter));
   return (
     <Sheet>
-      <div className="p-4 h-screen flex flex-col overflow-auto">
+      <div className="p-4 h-screen flex flex-col overflow-auto bg-white dark:bg-black">
         <div className="relative overflow-hidden h-screen flex-1 bg-white dark:bg-black sm:rounded-lg flex flex-col items-between">
-          <div className="flex justify-between items-center p-4">
+          <div className="flex justify-between items-center p">
             <Label
               htmlFor="default-search"
               className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -146,12 +150,25 @@ const LeadTable: React.FC = () => {
                 required
               />
             </div>
-            <div className="flex items-center gap-2">
-            <DataTableToolbar leads={Leads} />
-            <SheetTrigger  asChild>
+          </div>
+          <DataTableToolbar leads={Leads} />
+
+          <div className="flex items-center space-x-3 mb-3   shadow-sm">
+            <SheetTrigger asChild>
               <Button variant="default">Add Filter</Button>
             </SheetTrigger>
-            </div>
+            {appliedFilter && (
+              <>
+                <div className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 flex items-center rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300">
+                {
+                "Domain "+appliedFilter.lead.domain?.domainFilterOption +" : "+ JSON.stringify(appliedFilter.lead.domain?.shopifyDomain)
+              }
+                  <button className="ml-2 focus:outline-none">
+                    <XIcon className="w-4 h-4 text-blue-500 hover:text-blue-700" />
+                  </button>
+                </div>
+              </>
+            )}
           </div>
           <div className="overflow-auto mb-4 max-h-[700px]">
             <div className="overflow-x-auto">
@@ -272,7 +289,7 @@ const LeadTable: React.FC = () => {
         </div>
       </div>
       <SheetContent className="min-w-[500px]">
-        <FilterChoose  />
+        <FilterChoose />
       </SheetContent>
     </Sheet>
   );

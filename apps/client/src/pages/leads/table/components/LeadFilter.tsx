@@ -16,8 +16,7 @@ import DatePickerSelect from "./dateFilters/DateFilter";
 import LeadService from "@/services/LeadService";
 import { useDispatch } from "react-redux";
 import { leadsAction } from "@/redux/LeadSlice";
-import { stat } from "fs";
-
+ 
 export default function LeadFilter({ onBackClick }: any) {
   const [shopifyDomain, setShopifyDomain] = useState(false);
   const [leadStatus, setLeadStatus] = useState(false);
@@ -29,6 +28,9 @@ export default function LeadFilter({ onBackClick }: any) {
  const [statusFilterOption,setStatusFilterOption] = useState<any>(null);
   const orgId = window.location.pathname.split("/")[1];
 
+  const [selectedDateComparison, setSelectedDateComparison] = useState<any>(null);
+  const [selectedDateOption, setSelectedDateOption] = useState<any>(null);
+  const [customDate, setCustomDate] = useState<Date | null>(null);
   useEffect(() => {
     const getAvailableLeadStatus = async () => {
       const response = await LeadStatusService.getAllByOrgId(orgId);
@@ -41,7 +43,7 @@ export default function LeadFilter({ onBackClick }: any) {
 
    useEffect(() => {
     handleFiltersChange();
-  }, [shopifyDomain, domainFilterOption, domainValue, leadStatus, selectedStatuses, createdAt,statusFilterOption]);
+  }, [shopifyDomain, domainFilterOption, domainValue, leadStatus, selectedStatuses, createdAt,statusFilterOption,selectedDateComparison,selectedDateOption,customDate]);
 
   const handleStatusChange = (selectedOptions: any) => {
     setSelectedStatuses(selectedOptions);
@@ -56,6 +58,9 @@ export default function LeadFilter({ onBackClick }: any) {
   };
 
   const handleCreatedAtChange = (checked: boolean) => {
+    setSelectedDateComparison(null);
+    setSelectedDateOption(null);
+    setCustomDate(null);
     setCreatedAt(checked);
   };
 
@@ -69,18 +74,43 @@ export default function LeadFilter({ onBackClick }: any) {
   const handleStatusFilterOptionChange = (option: any) => {
     setStatusFilterOption(option);
   }
-  const handleFiltersChange = async () => {
+   const handleFiltersChange = async () => {
+    try {
+
     const filters = {
       shopifyDomain: shopifyDomain ? domainValue : undefined,
       domainFilterOption: domainFilterOption?.value || undefined,
       leadStatus: selectedStatuses ? selectedStatuses.map((status: any) => status.value) : [],
       createdAt: createdAt ? {/* Your date range logic here */} : undefined,
-      statusFilterOption: statusFilterOption?.value || undefined
+      statusFilterOption: statusFilterOption?.value || undefined,
+      selectedDateComparison: selectedDateComparison?.value || undefined,
+      selectedDateOption: selectedDateOption?.value || undefined,
+      customDate: customDate || undefined,
     };
-
-    try {
+    const EnabledFilters = {
+        lead: {
+          createdAt: createdAt ? {/* Your date range logic here */} : undefined,
+          domain: {
+            shopifyDomain: shopifyDomain ? domainValue : undefined,
+            domainFilterOption: domainFilterOption?.value || undefined,
+          },
+          status: {
+            data: selectedStatuses ? selectedStatuses.map((status: any) => status.value) : [],
+            boolean: selectedStatuses.length > 0,  // If there are statuses selected, this is true
+          },
+          dateComparison: {
+            selectedDateComparison: selectedDateComparison?.value || undefined,
+            selectedDateOption: selectedDateOption?.value || undefined,
+            customDate: customDate || undefined,
+          },
+        },
+      }
+     dispatch(leadsAction.setfiltersEnabled(EnabledFilters));
       const response = await LeadService.getLeadsByOrganizationId(
-        orgId, filters.shopifyDomain, filters.domainFilterOption, selectedStatuses, filters.createdAt as any ,filters.statusFilterOption
+        orgId, filters.shopifyDomain, filters.domainFilterOption, selectedStatuses, filters.createdAt as any ,filters.statusFilterOption,
+        selectedDateComparison,
+        selectedDateOption,
+        customDate
       );
 
        console.log("Fetched leads:", JSON.stringify(response.data.data));
@@ -198,7 +228,14 @@ export default function LeadFilter({ onBackClick }: any) {
           </div>
           {createdAt && (
             <>
-              <DatePickerSelect />
+              <DatePickerSelect
+               customDate={customDate}
+               setCustomDate={setCustomDate}
+               selectedComparison={selectedDateComparison}
+               setSelectedComparison={setSelectedDateComparison}
+               selectedDateOption={selectedDateOption}
+               setSelectedDateOption={setSelectedDateOption}
+               />
             </>
           )}
         </div>

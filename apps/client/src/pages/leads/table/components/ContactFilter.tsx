@@ -21,8 +21,80 @@ export default function ContactFilter({ onBackClick }: any) {
   const [emailAddress, setEmailAddress] = useState(false);
   const [unsubscribed, setUnsubscribed] = useState(false);
   const [createdAt, setCreatedAt] = useState(false);
+  const [filters, setFilters] = useState({
+    contactNameFilter: "",
+    titleFilter: "",
+    emailAddressFilter: "",
+    unsubscribedFilter: null,
+    createdAtFilter: null,
+  });
 
   const orgId = window.location.pathname.split("/")[1];
+
+  // Function to build SQL query based on selected filters
+  const buildSQLQuery = () => {
+    let whereClause = "1=1"; // Default to true
+
+    if (filters.contactNameFilter) {
+      whereClause += ` AND c.firstName ILIKE '%${filters.contactNameFilter}%'`;
+    }
+    if (filters.titleFilter) {
+      whereClause += ` AND c.title ILIKE '%${filters.titleFilter}%'`;
+    }
+    if (filters.emailAddressFilter) {
+      whereClause += ` AND c.primaryEmail ILIKE '%${filters.emailAddressFilter}%'`;
+    }
+    if (filters.unsubscribedFilter !== null) {
+      whereClause += ` AND c.unsubscribed = ${filters.unsubscribedFilter}`;
+    }
+    if (filters.createdAtFilter) {
+      whereClause += ` AND c.createdAt >= '${filters.createdAtFilter}'`;
+    }
+
+    const sqlQuery = `
+      SELECT 
+        l.id, 
+        l."shopifyDomain", 
+        l."shopifyStoreId", 
+        l."leadSource", 
+        l."shopDetails", 
+        l.industry, 
+        l."createdAt", 
+        l."updatedAt", 
+        l."deletedAt", 
+        l."integrationId", 
+        l."organizationId",
+        COUNT(lp."projectId") AS projectCount,
+        COALESCE(
+          json_agg(
+            json_build_object(
+              'id', p.id,
+              'name', p.name,
+              'type', p.type,
+              'data', p.data,
+              'isSynced', p."isSynced",
+              'createdAt', p."createdAt",
+              'updatedAt', p."updatedAt"
+            )
+          ) FILTER (WHERE p.id IS NOT NULL), '[]'::json
+        ) AS projects,
+        ls.status AS leadStatus
+      FROM "Lead" l
+      LEFT JOIN "LeadProject" lp ON l.id = lp."leadId"
+      LEFT JOIN "Project" p ON lp."projectId" = p.id
+      LEFT JOIN "LeadStatus" ls ON l."statusId" = ls.id
+      LEFT JOIN "Contact" c ON c.leadId = l.id
+      WHERE l."organizationId" = '${orgId}' AND ${whereClause}
+      GROUP BY l.id, ls.status
+      ORDER BY l."createdAt" DESC;
+    `;
+
+    console.log(sqlQuery); // Log the constructed SQL query
+  };
+
+  useEffect(() => {
+    buildSQLQuery(); // Call the function to build and log the SQL query
+  }, [filters]);
 
   return (
     <div className="flex flex-col h-full">
@@ -54,7 +126,10 @@ export default function ContactFilter({ onBackClick }: any) {
               id="ContactName"
               className="mr-2"
               checked={contactName}
-              onCheckedChange={() => setContactName(!contactName)}
+              onCheckedChange={() => {
+                setContactName(!contactName);
+                setFilters({ ...filters, contactNameFilter: "" }); // Reset filter
+              }}
             />
             <label htmlFor="ContactName" className="text-sm font-medium">
               Contact Name
@@ -87,8 +162,12 @@ export default function ContactFilter({ onBackClick }: any) {
                 ]}
                 placeholder="Select Filter..."
                 className="mb-4"
+                onChange={(selectedOption) => {
+                  const value = selectedOption?.value || "";
+                  setFilters({ ...filters, contactNameFilter: value });
+                }}
               />
-              <Input placeholder="e.g. Alex" />
+              <Input placeholder="e.g. Alex" onChange={(e) => setFilters({ ...filters, contactNameFilter: e.target.value })} />
             </>
           )}
 
@@ -98,7 +177,10 @@ export default function ContactFilter({ onBackClick }: any) {
               id="Title"
               className="mr-2"
               checked={title}
-              onCheckedChange={() => setTitle(!title)}
+              onCheckedChange={() => {
+                setTitle(!title);
+                setFilters({ ...filters, titleFilter: "" }); // Reset filter
+              }}
             />
             <label htmlFor="Title" className="text-sm font-medium">
               Title
@@ -131,8 +213,12 @@ export default function ContactFilter({ onBackClick }: any) {
                 ]}
                 placeholder="Select Filter..."
                 className="mb-4"
+                onChange={(selectedOption) => {
+                  const value = selectedOption?.value || "";
+                  setFilters({ ...filters, titleFilter: value });
+                }}
               />
-              <Input placeholder="e.g. Sales" />
+              <Input placeholder="e.g. Sales" onChange={(e) => setFilters({ ...filters, titleFilter: e.target.value })} />
             </>
           )}
 
@@ -141,7 +227,10 @@ export default function ContactFilter({ onBackClick }: any) {
               id="EmailAddress"
               className="mr-2"
               checked={emailAddress}
-              onCheckedChange={() => setEmailAddress(!emailAddress)}
+              onCheckedChange={() => {
+                setEmailAddress(!emailAddress);
+                setFilters({ ...filters, emailAddressFilter: "" }); // Reset filter
+              }}
             />
             <label htmlFor="EmailAddress" className="text-sm font-medium">
               Email Address
@@ -174,8 +263,12 @@ export default function ContactFilter({ onBackClick }: any) {
                 ]}
                 placeholder="Select Filter..."
                 className="mb-4"
+                onChange={(selectedOption) => {
+                  const value = selectedOption?.value || "";
+                  setFilters({ ...filters, emailAddressFilter: value });
+                }}
               />
-              <Input placeholder="e.g. example@email.com" />
+              <Input placeholder="e.g. example@mail.com" onChange={(e) => setFilters({ ...filters, emailAddressFilter: e.target.value })} />
             </>
           )}
 
@@ -184,21 +277,29 @@ export default function ContactFilter({ onBackClick }: any) {
               id="Unsubscribed"
               className="mr-2"
               checked={unsubscribed}
-              onCheckedChange={() => setUnsubscribed(!unsubscribed)}
+              onCheckedChange={() => {
+                setUnsubscribed(!unsubscribed);
+                setFilters({ ...filters, unsubscribedFilter: null });
+              }}
             />
             <label htmlFor="Unsubscribed" className="text-sm font-medium">
               Unsubscribed
             </label>
           </div>
           {unsubscribed && (
-            <RadioGroup defaultValue="comfortable" className="flex gap-5 p-1">
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="default" id="r1" />
-                <Label htmlFor="r1">Yes</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="comfortable" id="r2" />
-                <Label htmlFor="r2">No</Label>
+            <RadioGroup
+              value={filters.unsubscribedFilter??""}
+              onValueChange={(value) => setFilters({ ...filters, unsubscribedFilter: value })}
+            >
+              <div className="flex space-x-4">
+                <div className="flex items-center">
+                  <RadioGroupItem value="true" id="unsubscribed-true" />
+                  <Label htmlFor="unsubscribed-true">Yes</Label>
+                </div>
+                <div className="flex items-center">
+                  <RadioGroupItem value="false" id="unsubscribed-false" />
+                  <Label htmlFor="unsubscribed-false">No</Label>
+                </div>
               </div>
             </RadioGroup>
           )}
@@ -208,22 +309,27 @@ export default function ContactFilter({ onBackClick }: any) {
               id="CreatedAt"
               className="mr-2"
               checked={createdAt}
-              onCheckedChange={() => setCreatedAt(!createdAt)}
+              onCheckedChange={() => {
+                setCreatedAt(!createdAt);
+                setFilters({ ...filters, createdAtFilter: null }); // Reset filter
+              }}
             />
             <label htmlFor="CreatedAt" className="text-sm font-medium">
               Created At
             </label>
           </div>
-          {createdAt && <DatePickerSelect />}
+          {createdAt && (
+            <DatePickerSelect
+              onChange={(date:any) => setFilters({ ...filters, createdAtFilter: date })}
+            />
+          )}
         </div>
       </div>
-
       <SheetFooter>
-        <SheetClose asChild>
-          <Button>Save changes</Button>
-        </SheetClose>
+        <Button type="button" onClick={() => console.log(filters)}>
+          Apply Filters
+        </Button>
       </SheetFooter>
     </div>
   );
 }
-

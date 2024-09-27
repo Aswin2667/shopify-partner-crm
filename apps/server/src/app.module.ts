@@ -37,6 +37,8 @@ import { IntegrationModule } from './integration/integration.module';
 import { Service } from './.service';
 import { LeadStatusModule } from './LeadStatus/lead-status.module';
 import { LeadStatusService } from './LeadStatus/lead-status.service';
+import { LeadModule } from './leads/lead.module';
+import { LeadQueryBuilder } from './queryBuilders/LeadQueryBuilder';
 
 @Module({
   imports: [
@@ -100,6 +102,7 @@ import { LeadStatusService } from './LeadStatus/lead-status.service';
     LeadNotesService,
     ContactService,
     Service,
+    LeadQueryBuilder,
   ],
 })
 export class AppModule {

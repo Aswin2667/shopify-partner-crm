@@ -39,7 +39,10 @@ class LeadService {
     domainFilterOption?: { value: string },
     selectedStatuses: { value: string }[] = [],
     createdAt?: { startDate: string; endDate: string },
-    leadStatusFilterOption?: string
+    leadStatusFilterOption?: string,
+    selectedDateComparison?: string,
+    selectedDateOption?: string,
+    customDate?: Date | null
   ) {
     try {
       const params: any = {
@@ -51,7 +54,9 @@ class LeadService {
         selectedStatuses: selectedStatuses.length
           ? JSON.stringify(selectedStatuses)
           : undefined, // Convert array to JSON
-        createdAt: createdAt ? JSON.stringify(createdAt) : undefined,
+        createdAt: customDate || undefined,
+        DateComparison: selectedDateComparison,
+        DateOption: selectedDateOption,
       };
 
       // Make the Axios request
