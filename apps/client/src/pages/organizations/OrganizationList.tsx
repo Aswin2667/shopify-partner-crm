@@ -36,6 +36,7 @@ import { organizationAction } from "@/redux/organizationSlice";
 import { useQueryEvents } from "@/hooks/useQueryEvents";
 import { StateFromReducersMapObject } from "@reduxjs/toolkit";
 import { integrationAction } from "@/redux/integrationSlice";
+import CreateOrganization from "@/Test";
 
 const organizationSchema = z.object({
   name: z.string().min(1, "Organization name is required"),
@@ -162,6 +163,7 @@ export function CreateOrganizationPopup({
                 </p>
               )}
             </div> */}
+            {/* <CreateOrganization /> */}
           </div>
           <br />
           <AlertDialogFooter>

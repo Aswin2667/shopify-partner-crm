@@ -12,12 +12,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSelector } from "react-redux";
-import LeadStatusService from "@/services/LeadStatusService";
+ import LeadStatusService from "@/services/LeadStatusService";
+import { useParams } from "react-router-dom";
 
 // Zod schema for form validation
 const statusSchema = z.object({
@@ -26,8 +26,8 @@ const statusSchema = z.object({
 
 type StatusFormValues = z.infer<typeof statusSchema>;
 
-const StatusCreateModal = () => {
-  const {currentOrgMember} = useSelector((state: any) => state.organization)
+const StatusCreateModal = ({fetch,setFetch}: {fetch:any,setFetch:any}) => {
+  // const {currentOrganization} = useSelector((state: any) => state.organization)
   const {
     register,
     handleSubmit,
@@ -38,14 +38,15 @@ const StatusCreateModal = () => {
   });
 
   const [open, setOpen] = useState(false);
-
+  const {organizationId} = useParams()
   const onSubmit = async (data: StatusFormValues) => {
-    console.log("Form Data:", {...data,organizationId:currentOrgMember?.id});// Reset the form data
+    console.log("Form Data:", {...data,organizationId:organizationId}); 
     try {
       const response = await LeadStatusService.create({
         ...data,
-        organizationId:currentOrgMember?.id
+        organizationId:organizationId
       })
+      setFetch(!fetch)
       console.log(response.data)
     } catch (error) {
       console.log(error)

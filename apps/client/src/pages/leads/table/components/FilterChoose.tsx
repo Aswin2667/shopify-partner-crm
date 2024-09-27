@@ -1,32 +1,42 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import LeadFilter from './LeadFilter'
-import MainMenuFilter from './MainMenuFilter'
- 
+import LeadFilter from "./LeadFilter";
+import MainMenuFilter from "./MainMenuFilter";
+import ContactFilter from "./ContactFilter";
+import { useState } from "react";
 
 export default function FilterChoose() {
-  const [showLeadFilter, setShowLeadFilter] = useState(false)
-
+  const [showLeadFilter, setShowLeadFilter] = useState(false);
+  const [showContactFilter, setShowContactFilter] = useState(false);
+  
   const handleLeadClick = () => {
-    setShowLeadFilter(true)
-  }
+    setShowLeadFilter(true);
+  };
 
   const handleBackClick = () => {
-    setShowLeadFilter(false)
-  }
+    setShowLeadFilter(false);
+  };
+
+  const handleContactClick = () => {
+    setShowContactFilter(true);
+  };
+
+  const handleContactBackClick = () => {
+    setShowContactFilter(false);
+  };
 
   return (
-    // <div className="h-screen bg-gray-100 flex justify-center items-center">
-    //   <div className="bg-white rounded-lg shadow-lg w-80">
-        <>
-        {showLeadFilter ? (
-          <LeadFilter onBackClick={handleBackClick} />
-        ) : (
-          <MainMenuFilter onLeadClick={handleLeadClick} />
-        )}
-        </>
-    //   </div>
-    // </div>
-  )
+    <>
+      {showLeadFilter ? (
+        <LeadFilter onBackClick={handleBackClick} />
+      ) : showContactFilter ? (
+        <ContactFilter onBackClick={handleContactBackClick} />
+      ) : (
+        <MainMenuFilter
+          onLeadClick={handleLeadClick}
+          onContactClick={handleContactClick}
+        />
+      )}
+    </>
+  );
 }

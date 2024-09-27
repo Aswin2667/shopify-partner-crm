@@ -13,7 +13,10 @@ import { useEffect, useState } from "react";
 import LeadStatusService from "@/services/LeadStatusService";
 import Select from "react-select";
 import DatePickerSelect from "./dateFilters/DateFilter";
-
+import LeadService from "@/services/LeadService";
+import { useDispatch } from "react-redux";
+import { leadsAction } from "@/redux/LeadSlice";
+ 
 export default function LeadFilter({ onBackClick }: any) {
   const [shopifyDomain, setShopifyDomain] = useState(false);
   const [leadStatus, setLeadStatus] = useState(false);
@@ -22,9 +25,12 @@ export default function LeadFilter({ onBackClick }: any) {
   const [availableLeadStatus, setAvailableLeadStatus] = useState([]);
   const [domainFilterOption, setDomainFilterOption] = useState<any>(null);
   const [domainValue, setDomainValue] = useState("");
-
+ const [statusFilterOption,setStatusFilterOption] = useState<any>(null);
   const orgId = window.location.pathname.split("/")[1];
 
+  const [selectedDateComparison, setSelectedDateComparison] = useState<any>(null);
+  const [selectedDateOption, setSelectedDateOption] = useState<any>(null);
+  const [customDate, setCustomDate] = useState<Date | null>(null);
   useEffect(() => {
     const getAvailableLeadStatus = async () => {
       const response = await LeadStatusService.getAllByOrgId(orgId);
@@ -33,51 +39,85 @@ export default function LeadFilter({ onBackClick }: any) {
     getAvailableLeadStatus();
   }, [orgId]);
 
+  const dispatch = useDispatch();
+
+   useEffect(() => {
+    handleFiltersChange();
+  }, [shopifyDomain, domainFilterOption, domainValue, leadStatus, selectedStatuses, createdAt,statusFilterOption,selectedDateComparison,selectedDateOption,customDate]);
+
   const handleStatusChange = (selectedOptions: any) => {
     setSelectedStatuses(selectedOptions);
-    handleFiltersChange();
   };
 
   const handleShopifyDomainChange = (checked: boolean) => {
     setShopifyDomain(checked);
-    handleFiltersChange();
   };
 
   const handleLeadStatusChange = (checked: boolean) => {
     setLeadStatus(checked);
-    handleFiltersChange();
   };
 
   const handleCreatedAtChange = (checked: boolean) => {
+    setSelectedDateComparison(null);
+    setSelectedDateOption(null);
+    setCustomDate(null);
     setCreatedAt(checked);
-    handleFiltersChange();
   };
 
   const handleDomainFilterOptionChange = (option: any) => {
     setDomainFilterOption(option);
-    handleFiltersChange();
   };
 
-  const handleDomainValueChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleDomainValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDomainValue(event.target.value);
-    handleFiltersChange();
   };
+  const handleStatusFilterOptionChange = (option: any) => {
+    setStatusFilterOption(option);
+  }
+   const handleFiltersChange = async () => {
+    try {
 
-  const handleFiltersChange = () => {
     const filters = {
-      leadDomain: {
-        filterOptions: domainFilterOption?.label || "",
-        domain: domainValue || "",
-      },
-      leadStatus: {
-        selectedStatuses: selectedStatuses.map((status: any) => status.value),
-      },
-      createdAt: createdAt,
+      shopifyDomain: shopifyDomain ? domainValue : undefined,
+      domainFilterOption: domainFilterOption?.value || undefined,
+      leadStatus: selectedStatuses ? selectedStatuses.map((status: any) => status.value) : [],
+      createdAt: createdAt ? {/* Your date range logic here */} : undefined,
+      statusFilterOption: statusFilterOption?.value || undefined,
+      selectedDateComparison: selectedDateComparison?.value || undefined,
+      selectedDateOption: selectedDateOption?.value || undefined,
+      customDate: customDate || undefined,
     };
+    const EnabledFilters = {
+        lead: {
+          createdAt: createdAt ? {/* Your date range logic here */} : undefined,
+          domain: {
+            shopifyDomain: shopifyDomain ? domainValue : undefined,
+            domainFilterOption: domainFilterOption?.value || undefined,
+          },
+          status: {
+            data: selectedStatuses ? selectedStatuses.map((status: any) => status.value) : [],
+            boolean: selectedStatuses.length > 0,  // If there are statuses selected, this is true
+          },
+          dateComparison: {
+            selectedDateComparison: selectedDateComparison?.value || undefined,
+            selectedDateOption: selectedDateOption?.value || undefined,
+            customDate: customDate || undefined,
+          },
+        },
+      }
+     dispatch(leadsAction.setfiltersEnabled(EnabledFilters));
+      const response = await LeadService.getLeadsByOrganizationId(
+        orgId, filters.shopifyDomain, filters.domainFilterOption, selectedStatuses, filters.createdAt as any ,filters.statusFilterOption,
+        selectedDateComparison,
+        selectedDateOption,
+        customDate
+      );
 
-    console.log("Selected Filters:", filters);
+       console.log("Fetched leads:", JSON.stringify(response.data.data));
+      dispatch(leadsAction.setLeads(response.data.data));
+    } catch (error) {
+      console.error("Error fetching leads:", error);
+    }
   };
 
   const statusOptions: any = availableLeadStatus.map((status: any) => ({
@@ -122,23 +162,11 @@ export default function LeadFilter({ onBackClick }: any) {
               <Select
                 options={[
                   { value: "contains", label: "contains exact words..." },
-                  {
-                    value: "does-not-contain",
-                    label: "does not contain exact words...",
-                  },
+                  { value: "does-not-contain", label: "does not contain exact words..." },
                   { value: "contains phrase", label: "contains phrase..." },
-                  {
-                    value: "does not contain phrase",
-                    label: "does not contain phrase...",
-                  },
-                  {
-                    value: "contains words starting with",
-                    label: "contains words starting with...",
-                  },
-                  {
-                    value: "does not contain words starting",
-                    label: "does not contain words starting...",
-                  },
+                  { value: "does not contain phrase", label: "does not contain phrase..." },
+                  { value: "contains words starting with", label: "contains words starting with..." },
+                  { value: "does not contain words starting", label: "does not contain words starting..." },
                   { value: "is exactly", label: "is exactly..." },
                   { value: "is not exactly", label: "is not exactly..." },
                 ]}
@@ -172,6 +200,7 @@ export default function LeadFilter({ onBackClick }: any) {
                   { value: "is any of", label: "is any of" },
                   { value: "is not any of", label: "is not any of" },
                 ]}
+                onChange={handleStatusFilterOptionChange}
                 placeholder="Select Filter..."
                 className="mb-4"
               />
@@ -199,7 +228,14 @@ export default function LeadFilter({ onBackClick }: any) {
           </div>
           {createdAt && (
             <>
-              <DatePickerSelect />
+              <DatePickerSelect
+               customDate={customDate}
+               setCustomDate={setCustomDate}
+               selectedComparison={selectedDateComparison}
+               setSelectedComparison={setSelectedDateComparison}
+               selectedDateOption={selectedDateOption}
+               setSelectedDateOption={setSelectedDateOption}
+               />
             </>
           )}
         </div>
