@@ -28,7 +28,7 @@ const LinkButton: React.FC<Props> = ({ title, type, onClick }: Props) => {
     const presentOrganization = JSON.parse(
       localStorage.getItem("presentOrgMemberDetails") as string
     );
-    if (presentOrganization.id) {
+    if (presentOrganization?.id) {
       setOrgMemberId(encodeURIComponent(presentOrganization.id));
     }
   }, []);

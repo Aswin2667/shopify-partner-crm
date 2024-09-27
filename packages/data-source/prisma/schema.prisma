@@ -162,8 +162,8 @@ model Contact {
   name           String?
   email          String?
   secondaryEmail String?
-  primaryPhNo    String?
-  secondaryPhNo  String?
+  primaryPhNo    Json?
+  secondaryPhNo  Json?
   industry       String?
   type           String?
   leadId         String

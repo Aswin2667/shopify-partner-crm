@@ -26,8 +26,9 @@ import { DatePicker } from "rsuite";
 import "rsuite/DatePicker/styles/index.css";
 import { FaCalendar } from "react-icons/fa";
 import RecipientInput from "./RecipientInput";
-import { id } from "date-fns/locale";
-
+ import { id } from "date-fns/locale";
+ import { DatetimePicker } from "@/components/customDatePicker/DatetimePicker";
+ 
 type Props = {};
 
 const NEW_LINE = "<p><br></p>";
@@ -438,6 +439,9 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
           >
             Send
           </button>
+          <div>
+            {/* <DatetimePicker /> */}
+          </div>
           <DatePicker
             format="dd MMM yyyy hh:mm:ss aa"
             placeholder="Schedule"
