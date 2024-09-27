@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ContactService } from './contact.service';
-import { PrismaService } from 'src/config/prisma.service';
+import { PrismaService } from '@org/data-source';
 import { ContactController } from './contact.controller';
 
 

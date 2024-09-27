@@ -1,15 +1,27 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { TooltipProvider } from "@radix-ui/react-tooltip";
-import { Archive, ChevronDown, ChevronUp, Mail, Trash2 } from "lucide-react";
+import {
+  AlarmClock,
+  Archive,
+  CheckCheck,
+  ChevronDown,
+  ChevronUp,
+  Mail,
+  Trash2,
+} from "lucide-react";
 import MailThreadItem from "./MailThreadItem";
 import IntegrationService from "@/services/IntegrationService";
 import { useQueryEvents } from "@/hooks/useQueryEvents";
 import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Separator } from "@radix-ui/react-separator";
 import { useSelector } from "react-redux";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Attachment {
   id: string;
@@ -136,7 +148,7 @@ export default function MailThread({ mail }: any) {
     }),
     {
       onSuccess: (response: any) => {
-        console.log(response);
+        // console.log(response);
         setThread(response);
       },
       onError: (error: any) => console.error(error),
@@ -145,7 +157,7 @@ export default function MailThread({ mail }: any) {
 
   const handleArchive = (id: string) => {
     console.log(`Archiving email ${id}`);
-  };  
+  };
 
   const handleDelete = (id: string) => {
     console.log(`Deleting email ${id}`);
@@ -156,57 +168,68 @@ export default function MailThread({ mail }: any) {
       <span className="absolute flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full -start-4 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
         <Mail size={18} className="text-blue-900 dark:text-white" />
       </span>
-      <TooltipProvider>
-        <div className="max-w-full mx-auto py-3 px-4 space-y-4 border rounded bg-gray-50">
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold">{mail?.subject}</h1>
-            <div className="gap-2 flex items-center justify-center">
-              <img src={integration.logo} alt="" className="h-7 w-7 mr-3" />
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleArchive(mail?.id)}
-              >
-                <Archive className="h-4 w-4 mr-2" />
-                Archive
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleDelete(mail?.id)}
-              >
-                <Trash2 className="h-4 w-4 mr-2" />
-                Delete
-              </Button>
-            </div>
-          </div>
-          {isFetching ? (
-            <MailSkeleton />
-          ) : (
-            thread &&
-            displayedMessages?.map((message: any) => (
-              <MailThreadItem key={message.id} message={message} mail={mail} />
-            ))
-          )}
-          {thread && thread?.messages.length > 3 && (
+      <div className="max-w-full mx-auto py-3 px-4 space-y-4 border rounded bg-gray-50">
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl font-bold">{mail?.subject}</h1>
+          <div className="gap-2 flex items-center justify-center">
+            <img src={integration.logo} alt="" className="h-7 w-7 mr-3" />
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleArchive(mail?.id)}
+                >
+                  {mail.status === "SEND" ? (
+                    <CheckCheck className="h-[18px] w-[18px]" />
+                  ) : (
+                    <AlarmClock className="h-[18px] w-[18px]" />
+                  )}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="mb-2">
+                <div>{mail.status === "SEND" ? "Send" : "Scheduled"}</div>
+              </TooltipContent>
+            </Tooltip>
+            {/* </TooltipProvider> */}
+
             <Button
-              variant="ghost"
-              className="w-full mt-4"
-              onClick={() => setShowAll(!showAll)}
+              variant="outline"
+              size="sm"
+              onClick={() => handleDelete(mail?.id)}
             >
-              {showAll ? (
-                <>
-                  Hide <ChevronUp className="ml-2 h-4 w-4" />
-                </>
-              ) : (
-                <>
-                  View More <ChevronDown className="ml-2 h-4 w-4" />
-                </>
-              )}
+              <Trash2 className="h-4 w-4 mr-2" />
+              Delete
             </Button>
-          )}
+          </div>
         </div>
-      </TooltipProvider>
+        {isFetching ? (
+          <MailSkeleton />
+        ) : thread ? (
+          displayedMessages?.map((message: any) => (
+            <MailThreadItem key={message.id} message={message} mail={mail} />
+          ))
+        ) : (
+          <MailThreadItem message={null} mail={mail} />
+        )}
+        {thread && thread?.messages.length > 3 && (
+          <Button
+            variant="ghost"
+            className="w-full mt-4"
+            onClick={() => setShowAll(!showAll)}
+          >
+            {showAll ? (
+              <>
+                Hide <ChevronUp className="ml-2 h-4 w-4" />
+              </>
+            ) : (
+              <>
+                View More <ChevronDown className="ml-2 h-4 w-4" />
+              </>
+            )}
+          </Button>
+        )}
+      </div>
     </li>
   );
 }

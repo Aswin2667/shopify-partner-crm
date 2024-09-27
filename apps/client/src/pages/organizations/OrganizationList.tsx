@@ -213,8 +213,9 @@ export default function OrganizationList() {
   const { organizations } = useSelector((state: any) => state.organization);
 
   useEffect(() => {
-    dispatch(organizationAction.setCurrentOrganization(null));
+    dispatch(organizationAction.setCurrentOrgMember(null));
     dispatch(integrationAction.reset());
+    localStorage.removeItem("presentOrgMemberDetails");
   }, []);
 
   const { isLoading } = useQueryEvents(
@@ -233,18 +234,22 @@ export default function OrganizationList() {
     {
       onSuccess: (response: any) => {
         dispatch(organizationAction.setOrganizations(response.data.data));
+        localStorage.setItem(
+          "organizations",
+          JSON.stringify(response.data.data)
+        );
       },
       onError: (error: any) => {
         toast({
           title: error.message,
           description: DateHelper.formatTimestamp(
-            DateHelper.getCurrentUnixTime(),
+            DateHelper.getCurrentUnixTime()
           ),
           duration: 1000,
           variant: "destructive",
         });
       },
-    },
+    }
   );
 
   React.useEffect(() => {

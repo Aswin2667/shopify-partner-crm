@@ -9,6 +9,7 @@ import {
   Body,
   BadRequestException,
   InternalServerErrorException,
+  Query,
 } from '@nestjs/common';
 import { IntegrationService } from './integration.service';
 import { IntegrationType } from '@org/integrations';
@@ -49,8 +50,14 @@ export class IntegrationController {
   }
 
   @Get('/getAll/:id')
-  async getAllIntegrationByOrgId(@Param('id') id: string) {
-    return await this.integrationService.getAllIntegrationByOrgId(id);
+  async getAllIntegrationByOrgId(
+    @Param('id') id: string, // organizationId as route parameter
+    @Query('orgMemberId') orgMemberId?: string, // orgMemberId as an optional query parameter
+  ) {
+    return await this.integrationService.getAllIntegrationByOrgId(
+      id,
+      orgMemberId,
+    );
   }
 
   @Put(':id')
@@ -96,10 +103,5 @@ export class IntegrationController {
       performActionDto.action,
       performActionDto.params,
     );
-  }
-
-  @Post('createFromEmail')
-  async createFromEmail(@Body() data: any) {
-    return await this.integrationService.createFromEmail(data);
   }
 }

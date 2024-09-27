@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DateHelper } from '@org/utils';
 import { Prisma } from '@prisma/client';
 import axios from 'axios';
-import { PrismaService } from 'src/config/prisma.service'; // Ensure this service is correctly imported
+import { PrismaService } from '@org/data-source'; // Ensure this service is correctly imported
 
 interface GmailIntegrationData {
   googleId: string;
@@ -71,26 +71,26 @@ export class AuthService {
       }
 
       // Store the OAuth data in the Integration model
-      const integration = await this.prisma.integration.create({
-        data: {
-          organizationId: organizationId,
-          data: {
-            googleId: googleId,
-            accessToken: access_token,
-            refreshToken: refresh_token ?? null, // Store null if refresh_token is undefined
-            email: email,
-            name: name,
-          } as unknown as Prisma.JsonValue,
-          description: `Integration with Gmail for ${email}`,
-          type: 'GMAIL',
-          createdAt: DateHelper.getCurrentUnixTime(),
-          updatedAt: DateHelper.getCurrentUnixTime(),
-          deletedAt: BigInt(0), // Assuming 0 means not deleted
-          name: `${name}'s Gmail Integration`,
-        },
-      });
+      // const integration = await this.prisma.integration.create({
+      //   data: {
+      //     organizationId: organizationId,
+      //     data: {
+      //       googleId: googleId,
+      //       accessToken: access_token,
+      //       refreshToken: refresh_token ?? null, // Store null if refresh_token is undefined
+      //       email: email,
+      //       name: name,
+      //     } as unknown as Prisma.JsonValue,
+      //     description: `Integration with Gmail for ${email}`,
+      //     type: 'GMAIL',
+      //     createdAt: DateHelper.getCurrentUnixTime(),
+      //     updatedAt: DateHelper.getCurrentUnixTime(),
+      //     deletedAt: BigInt(0), // Assuming 0 means not deleted
+      //     name: `${name}'s Gmail Integration`,
+      //   },
+      // });
 
-      console.log('Integration created:', integration);
+      // console.log('Integration created:', integration);
 
       return {
         accessToken: access_token,

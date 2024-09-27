@@ -4,7 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { CreateTemplateDto, UpdateTemplateDto } from './dto/template.dto';
-import { PrismaService } from 'src/config/prisma.service';
+import { PrismaService } from '@org/data-source';
 import { DateHelper } from '@org/utils';
 
 @Injectable()

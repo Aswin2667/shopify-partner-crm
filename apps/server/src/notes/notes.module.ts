@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { LeadNotesController } from './notes.controller';
-import { PrismaService } from 'src/config/prisma.service';
+import { PrismaService } from '@org/data-source';
 import { LeadNotesService } from './notes.service';
 
 

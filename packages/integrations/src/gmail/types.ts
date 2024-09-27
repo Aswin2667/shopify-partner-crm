@@ -1,6 +1,7 @@
 export type ConnectConfig = {
   code: string;
   redirect_url: string;
+  orgMemberId: string;
 };
 
 export enum GmailAction {

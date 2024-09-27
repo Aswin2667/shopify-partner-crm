@@ -61,27 +61,18 @@ export default class IntegrationService {
     }
   }
 
-  public static async getAllIntegrationsByOrgId(orgId: string) {
+  public static async getAllIntegrationsByOrgId(
+    orgId: string,
+    orgMemberId?: string
+  ) {
     try {
       const response = await axiosInstance.get(
-        `${this.BASE_PATH}/getAll/${orgId}`
+        // `${this.BASE_PATH}/getAll/${orgId}`
+        `${this.BASE_PATH}/getAll/${orgId}${orgMemberId ? `?orgMemberId=${orgMemberId}` : ""}`
       );
       return response.data;
     } catch (error) {
       console.error("Error fetching integrations:", error);
-      throw error;
-    }
-  }
-
-  public static async createFromEmail(data: any) {
-    try {
-      const response = await axiosInstance.post(
-        `${this.BASE_PATH}/createFromEmail`,
-        data
-      );
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching integration:", error);
       throw error;
     }
   }

@@ -49,17 +49,17 @@ export function DataTableToolbar({ leads }: any) {
 
   const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
   const { toast } = useToast();
-  const { currentOrganization } = useSelector(
+  const { currentOrgMember } = useSelector(
     (state: any) => state.organization
   );
   const { currentIntegration } = useSelector((state: any) => state.integration);
 
   const onSubmit = async (data: any) => {
-    console.log("Form Data:", currentOrganization?.id);
+    console.log("Form Data:", currentOrgMember?.id);
     const response = await LeadService.create({
       ...data,
       userId,
-      organizationId: currentOrganization?.id,
+      organizationId: currentOrgMember?.id,
       integrationId: currentIntegration?.id,
     });
 

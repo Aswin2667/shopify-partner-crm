@@ -118,7 +118,7 @@ const CreateIntegrationModal = ({ open, setOpen }: any) => {
   };
 
   const submitHandler = (e: any) => {
-    e.preventDefault();
+    e.preventDefault(); 
     // if (integration.name.value.trim() === "") {
     //   dispatch({ type: "nameErr", payload: "integration name is required" });
     //   return;

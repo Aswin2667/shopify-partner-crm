@@ -33,29 +33,29 @@ export default function OrgSwitcher({
   const navigate = useNavigate();
 
   // Get the current organization from Redux
-  const currentOrganization = useSelector(
-    (state: any) => state.organization.currentOrganization
+  const currentOrgMember = useSelector(
+    (state: any) => state.organization.currentOrgMember
   );
 
   // Set the default account
   React.useEffect(() => {
-    if (!currentOrganization && organizations.length > 0) {
+    if (!currentOrgMember && organizations.length > 0) {
       dispatch(
-        organizationAction.setCurrentOrganization(
+        organizationAction.setCurrentOrgMember(
           organizations[0]?.organization?.name
         )
       );
     }
-  }, [currentOrganization, organizations, dispatch]);
+  }, [currentOrgMember, organizations, dispatch]);
 
   const handleOrganizationChange = (orgName: string) => {
-    dispatch(organizationAction.setCurrentOrganization(orgName));
+    dispatch(organizationAction.setCurrentOrgMember(orgName));
     navigate(`/${orgName}`);
   };
 
   return (
     <Select
-      defaultValue={currentOrganization}
+      defaultValue={currentOrgMember}
       onValueChange={handleOrganizationChange}
     >
       <SelectTrigger
@@ -71,7 +71,7 @@ export default function OrgSwitcher({
             src={
               organizations.find(
                 (organization) =>
-                  organization.organization?.id === currentOrganization?.id
+                  organization.organization?.id === currentOrgMember?.id
               )?.organization.logo
             }
             alt="Org Logo"
@@ -81,7 +81,7 @@ export default function OrgSwitcher({
             {
               organizations.find(
                 (organization) =>
-                  organization.organization?.id === currentOrganization?.id
+                  organization.organization?.id === currentOrgMember?.id
               )?.organization.name
             }
           </span>

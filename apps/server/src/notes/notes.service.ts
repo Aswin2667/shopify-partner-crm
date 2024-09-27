@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { CreateLeadNoteDto, UpdateLeadNoteDto } from './dto/note.dto';
-import { PrismaService } from 'src/config/prisma.service';
+import { PrismaService } from '@org/data-source';
 import { DateHelper } from '@org/utils';
 import { LeadActivityService } from 'src/lead-activity/lead-activity.service';
 

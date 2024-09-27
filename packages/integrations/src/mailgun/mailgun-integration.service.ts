@@ -108,6 +108,7 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
     to: string[];
     cc: string[];
     bcc: string[];
+    replyTo: string;
     subject: string;
     body: string;
     integrationId: string;
@@ -129,6 +130,7 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
         leadId,
         scheduledAt,
         source,
+        replyTo,
       } = mailData;
       const mailSavedresponse = await this.prisma.email.create({
         data: {
@@ -142,6 +144,7 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
           integrationId,
           organizationId,
           source,
+          replyTo,
         },
       });
       if (mailSavedresponse.id) {
@@ -165,7 +168,8 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
 
   private async sendMail(emailData: Email) {
     try {
-      const { from, to, cc, bcc, subject, body, integrationId } = emailData;
+      const { from, to, cc, bcc, subject, body, integrationId, replyTo } =
+        emailData;
 
       const integration = await this.getIntegrationById(integrationId);
 
@@ -187,13 +191,14 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
       }
 
       const formData = new FormData();
-      formData.append('from', `${sender.name} <${sender.email}>`);
       // mailgun@${domain}
+      formData.append('from', `${sender.name} <${sender.email}>`);
       formData.append('to', to.join(', '));
       if (cc.length) formData.append('cc', cc.join(', '));
       if (bcc.length) formData.append('bcc', bcc.join(', '));
       formData.append('subject', subject);
       formData.append('html', body);
+      formData.append('h:Reply-To', replyTo || sender.email);
 
       const response = await axios.post(
         `https://api.mailgun.net/v3/${domain}/messages`,
@@ -208,7 +213,12 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
       console.log(response.data);
 
       if (response.status === 200) {
-        return { success: true, error: null };
+        console.log('Email sent successfully');
+        return {  
+          success: true,
+          error: null,
+          message: 'Email sent successfully',
+        };
       } else {
         throw new Error(`Failed to send email: ${response.statusText}`);
       }

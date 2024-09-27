@@ -7,7 +7,7 @@ import {
   CreateLeadStatusDto,
   UpdateLeadStatusDto,
 } from './dto/lead-status.dto';
-import { PrismaService } from 'src/config/prisma.service';
+import { PrismaService } from '@org/data-source';
 import { DateHelper } from '@org/utils';
 
 @Injectable()

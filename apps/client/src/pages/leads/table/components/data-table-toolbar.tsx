@@ -63,7 +63,7 @@ export function DataTableToolbar({ leads, setLeads }: any) {
   const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
   const { toast } = useToast();
   const [project, setProject] = useState([]);
-  const { currentOrganization } = useSelector(
+  const { currentOrgMember } = useSelector(
     (state: any) => state.organization
   );
 
@@ -75,7 +75,7 @@ export function DataTableToolbar({ leads, setLeads }: any) {
       ...data,
       userId,
       // TODO: DO We need id's here
-      organizationId: currentOrganization?.id,
+      organizationId: currentOrgMember?.id,
       integrationId: currentIntegration?.id,
     });
 

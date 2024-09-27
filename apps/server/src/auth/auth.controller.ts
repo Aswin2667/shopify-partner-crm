@@ -19,25 +19,25 @@ export class AuthController {
   @Get('google/callback')
   async googleCallback(
     @Query('code') code: string,
-    @Query('state') redirect_url: string,
-    @Query('type') typee: string,
+    @Query('state') state: string,
+    @Query('orgMemberId') orgMemberId: string,
     @Res() res: Response,
   ) {
     try {
-      console.log(redirect_url);
-      console.log(typee);
-      const type: any = redirect_url.split('/').filter(Boolean).pop();
-      console.log(type);
+      const [orgMemberId, raw_url] = state.split('url=');
+      const [redirect_url, type] = raw_url.split('/create/');
+
+      console.log('state:', state);
+      console.log('Redirect URL:', redirect_url);
+      console.log('OrgMemberId:', orgMemberId);
+      console.log('Type:', type);
+
       this.integrationService.connectToIntegration(type.toUpperCase() as any, {
         code,
         redirect_url,
+        orgMemberId,
       });
-      // const organizationId = redirect_url.split('/').filter(Boolean)[2];
-      // const { accessToken, refreshToken } =
-      //   await this.authService.handleOAuthCallback(code, organizationId);
-      // // Send tokens to client or store them temporarily in session
-      // res.cookie('accessToken', accessToken, { httpOnly: true });
-      // res.cookie('refreshToken', refreshToken, { httpOnly: true });
+
       res.redirect(redirect_url);
     } catch (error) {
       res.status(500).send('Error exchanging authorization code');

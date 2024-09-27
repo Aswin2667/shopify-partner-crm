@@ -78,6 +78,7 @@ model OrgMember {
   organization   Organization  @relation(fields: [organizationId], references: [id])
   user           User          @relation(fields: [userId], references: [id])
   signature      String        @default("")
+  Integration    Integration[]
 
   @@unique([organizationId, userId])
 }
@@ -157,9 +158,8 @@ model LeadProject {
 
 model Contact {
   id             String       @id @default(uuid())
-  firstName      String?
-  lastName       String?
-  primaryEmail   String?
+  name           String?
+  email          String?
   secondaryEmail String?
   primaryPhNo    String?
   secondaryPhNo  String?
@@ -171,9 +171,9 @@ model Contact {
   updatedAt      BigInt
   deletedAt      BigInt
   organizationId String
+  isPrimay       Boolean      @default(false)
+  isUnsubscribed Boolean      @default(false)
   organization   Organization @relation(fields: [organizationId], references: [id])
-  integrationId  String?
-  integration    Integration? @relation(fields: [integrationId], references: [id])
   lead           Lead         @relation(fields: [leadId], references: [id])
 }
 
@@ -213,6 +213,7 @@ model Email {
   id      String      @id @default(uuid())
   from    Json
   to      String[]
+  replyTo String?
   cc      String[]    @default([])
   bcc     String[]    @default([])
   status  EmailStatus @default(SCHEDULE)
@@ -277,14 +278,15 @@ model Integration {
   createdAt      BigInt              @default(0)
   updatedAt      BigInt              @default(0)
   deletedAt      BigInt?
+  orgMemberId    String?
 
   isSingular Boolean                @default(false)
   sharedType IntegrationSharingType
 
+  members              OrgMember?             @relation(fields: [orgMemberId], references: [id])
   Project              Project[]
   organization         Organization           @relation(fields: [organizationId], references: [id])
   Lead                 Lead[]
-  Contact              Contact[]
   LeadProject          LeadProject[]
   Jobs                 Job[] // New relation to manage automated jobs
   mailServiceFromEmail MailServiceFromEmail[] // Link to external "from" emails (optional for certain integrations)
@@ -292,8 +294,9 @@ model Integration {
 
 model MailServiceFromEmail {
   id             String          @id @default(uuid())
-  name           String
-  email          String // Store the external `from` email address for services like Mailgun, SendGrid
+  fromName       String
+  fromEmail      String // Store the external `from` email address for services like Mailgun, SendGrid
+  replyTo        String?
   type           IntegrationType
   integrationId  String
   organizationId String

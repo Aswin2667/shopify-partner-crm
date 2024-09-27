@@ -32,10 +32,14 @@ import LeadStatus from "./pages/organizations/settings/leadStatus/LeadStatus";
 import ManageIntegration from "./pages/Integration/components/ManageIntegration";
 import ProjectSettings from "./pages/Project/settings/page";
 import CliAccesTokens from "./pages/Project/settings/CliAccessTokens";
-import EamilSettings from "./pages/organizations/settings/Emails/EamilSettings";
-import MyEmailSettings from "./pages/organizations/settings/Emails/components/MyEmailSettings";
-import SendingLimits from "./pages/organizations/settings/Emails/components/SendingLimits";
-import UnsubscribeLinks from "./pages/organizations/settings/Emails/components/UnsubscribeLinks";
+import EmailSettingsLayout from "./pages/Emails/EmailSettingsLayout";
+import MyEmailSettings from "./pages/Emails/components/MyEmailSettings";
+import SendingLimits from "./pages/Emails/components/SendingLimits";
+import UnsubscribeLinks from "./pages/Emails/components/UnsubscribeLinks";
+import FromMail from "./pages/Emails/components/FromMail";
+import Signature from "./pages/Emails/components/Signature";
+import EditEmailPage from "./pages/Emails/components/EditEmail";
+import Demo from "./components/Demo";
 
 export const routes = createBrowserRouter([
   {
@@ -228,24 +232,45 @@ export const routes = createBrowserRouter([
           },
           {
             path: "email",
-            element: <EamilSettings />,
-            children:[
+            element: <EmailSettingsLayout />,
+            children: [
               {
-                element:<MyEmailSettings />,
-                index:true
+                element: <MyEmailSettings />,
+                index: true,
               },
               {
-                element:<SendingLimits />,
-                path:"limit"
+                path: "limit",
+                element: <SendingLimits />,
               },
               {
-                element:<UnsubscribeLinks />,
-                path:"unsubscribe"
-              }
-            ]
+                path: "from",
+                children: [
+                  {
+                    index: true,
+                    element: <FromMail />,
+                  },
+                  {
+                    path: "edit/:sendAsId",
+                    element: <EditEmailPage />,
+                  },
+                ],
+              },
+              {
+                path: "signature",
+                element: <Signature />,
+              },
+              {
+                path: "unsubscribe",
+                element: <UnsubscribeLinks />,
+              },
+            ],
           },
         ],
       },
     ],
   },
+  {
+    path:'demo',
+    element: <Demo />
+  }
 ]);

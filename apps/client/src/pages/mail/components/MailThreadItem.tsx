@@ -28,6 +28,7 @@ import TimeAgo from "timeago-react";
 import DateHelper from "@/utils/DateHelper";
 // @ts-ignore
 import DOMPurify from "dompurify";
+import { is } from "date-fns/locale";
 
 const MailThreadItem = ({ message, mail }: any) => {
   const [action, setAction] = useState<null | string>(null);
@@ -35,7 +36,7 @@ const MailThreadItem = ({ message, mail }: any) => {
   const [messageHeaders, setMessageHeaders] = useState({} as any);
   const [body, setBody] = useState("");
 
-  console.log(message);
+  const isGmail = message && mail ? true : false;
 
   const toggleStar = (id: string) => {
     console.log(`Toggled star for email ${id}`);
@@ -130,17 +131,23 @@ const MailThreadItem = ({ message, mail }: any) => {
   }, [message]);
 
   return (
-    <Card key={"email.id"} className="w-full ">
+    <Card className="w-full ">
       <CardHeader className="flex flex-row items-center space-x-4 pb-2 pt-4 px-4">
         <Avatar
-          className={`h-10 w-10 ${getAvatarColor(messageHeaders["From"])}`}
+          className={`h-10 w-10 ${getAvatarColor(isGmail ? messageHeaders["From"] : mail.from.name)}`}
         >
-          <AvatarFallback>{getInitials(messageHeaders["From"])}</AvatarFallback>
+          <AvatarFallback>
+            {getInitials(isGmail ? messageHeaders["From"] : mail.from.name)}
+          </AvatarFallback>
         </Avatar>
         <div className="flex-1">
-          <CardTitle className="text-base">{messageHeaders["From"]}</CardTitle>
+          <CardTitle className="text-base">
+            {isGmail
+              ? messageHeaders["From"]
+              : `${mail.from.name} <${mail.from.email}>`}
+          </CardTitle>
           <p className="text-sm text-muted-foreground">
-            To: {messageHeaders["To"]}
+            To: {isGmail ? messageHeaders["To"] : mail.to.join(", ")}
             {/* .join(", ") */}
           </p>
         </div>
@@ -148,7 +155,9 @@ const MailThreadItem = ({ message, mail }: any) => {
           <p className="text-sm text-muted-foreground">
             <TimeAgo
               datetime={DateHelper.convertToDateString(
-                DateHelper.convertToUnixTimestamp(messageHeaders["Date"])
+                isGmail
+                  ? DateHelper.convertToUnixTimestamp(messageHeaders["Date"])
+                  : mail.sentAt
               )}
             />
           </p>
@@ -178,12 +187,66 @@ const MailThreadItem = ({ message, mail }: any) => {
       </CardHeader>
       <Separator />
       <CardContent className={`pt-4 pb-4 ${isExpanded ? "" : "hidden"}`}>
-        <h3 className="font-semibold mb-2">{messageHeaders["Subject"]}</h3>
+        <h3 className="font-semibold mb-2">
+          {isGmail ? messageHeaders["Subject"] : mail.subject}
+        </h3>
         <div
           className="text-sm mb-4"
-          dangerouslySetInnerHTML={{ __html: body }}
+          dangerouslySetInnerHTML={{ __html: isGmail ? body : mail.body }}
         />
-        {/* {email.attachments.length > 0 && (
+
+        {isGmail && (
+          <div className="flex justify-between items-center">
+            <div className="space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleReply("email.id")}
+                className={`${action === "REPLY" ? "bg-accent" : ""}`}
+              >
+                <Reply className="h-4 w-4 mr-2" />
+                Reply
+              </Button>
+              {/* <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handleReplyAll("email.id")}
+              className={`${action === "REPLY_ALL" ? "bg-accent" : ""}`}
+            >
+              <ReplyAll className="h-4 w-4 mr-2" />
+              Reply All
+            </Button> */}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleForward("email.id")}
+                className={`${action === "FORWARD" ? "bg-accent" : ""}`}
+              >
+                <CornerUpRight className="h-4 w-4 mr-2" />
+                Forward
+              </Button>
+            </div>
+          </div>
+        )}
+        {isGmail && action && (
+          <MailReply
+            actualMessageId={message?.id}
+            action={action}
+            setAction={setAction}
+            mail={mail}
+            messageHeaders={messageHeaders}
+            body={body}
+          />
+        )}
+      </CardContent>
+    </Card>
+  );
+};
+
+export default MailThreadItem;
+
+{
+  /* {email.attachments.length > 0 && (
           <div className="mb-4">
             <h4 className="font-semibold mb-2">Attachments:</h4>
             <div className="space-y-2">
@@ -218,85 +281,5 @@ const MailThreadItem = ({ message, mail }: any) => {
               {label}
             </Badge>
           ))}
-        </div> */}
-        <div className="flex justify-between items-center">
-          <div className="space-x-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleReply("email.id")}
-              className={`${action === "REPLY" ? "bg-accent" : ""}`}
-            >
-              <Reply className="h-4 w-4 mr-2" />
-              Reply
-            </Button>
-            {/* <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleReplyAll("email.id")}
-              className={`${action === "REPLY_ALL" ? "bg-accent" : ""}`}
-            >
-              <ReplyAll className="h-4 w-4 mr-2" />
-              Reply All
-            </Button> */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleForward("email.id")}
-              className={`${action === "FORWARD" ? "bg-accent" : ""}`}
-            >
-              <CornerUpRight className="h-4 w-4 mr-2" />
-              Forward
-            </Button>
-          </div>
-          <div className="space-x-2">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleFlag("email.id")}
-                >
-                  <Flag className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Flag email</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleAddLabel("email.id")}
-                >
-                  <Tag className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Add label</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>More options</TooltipContent>
-            </Tooltip>
-          </div>
-        </div>
-        {action && (
-          <MailReply
-            actualMessageId={message?.id}
-            action={action}
-            setAction={setAction}
-            mail={mail}
-            messageHeaders={messageHeaders}
-            body={body}
-          />
-        )}
-      </CardContent>
-    </Card>
-  );
-};
-
-export default MailThreadItem;
+        </div> */
+}

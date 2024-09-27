@@ -25,20 +25,19 @@ import {
 } from '@dnd-kit/modifiers';
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import SortableLinks from './SortableLinks';
+import { useParams } from "react-router-dom";
  const LeadStatus = () => {
   const [status, setStatus] = useState<any>([]);
    const [error, setError] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState<any>(null);
    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [fetch,setFetch] = useState(false)
-  const { currentOrganization } = useSelector(
-    (state: any) => state.organization
-  );
+ const {organizationId} = useParams()
 
   useEffect(() => {
     const fetchLeadStatus = async () => {
       try {
-        const response = await LeadStatusService.getAllByOrgId(currentOrganization?.id);
+        const response = await LeadStatusService.getAllByOrgId(organizationId??"");
         console.log(response?.data);
         setStatus(response?.data.data);
       } catch (err: any) {
@@ -48,7 +47,7 @@ import SortableLinks from './SortableLinks';
     };
 
     fetchLeadStatus();
-  }, [currentOrganization?.id,fetch]);
+  }, [organizationId,fetch]);
 
 
   // const handleUpdate = async (updatedStatus: any) => {

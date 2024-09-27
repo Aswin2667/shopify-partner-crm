@@ -8,9 +8,9 @@ import { DateHelper } from '@org/utils';
 import { randomUUID } from 'crypto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { LeadActivityService } from 'src/lead-activity/lead-activity.service';
-import { PrismaService } from 'src/config/prisma.service';
-import { LeadQueryBuilder } from 'src/queryBuilders/LeadQueryBuilder';
-interface ChargeData {
+ import { PrismaService } from '@org/data-source';
+ import { LeadQueryBuilder } from 'src/queryBuilders/LeadQueryBuilder';
+ interface ChargeData {
   charge: {
     amount: {
       amount: string;
