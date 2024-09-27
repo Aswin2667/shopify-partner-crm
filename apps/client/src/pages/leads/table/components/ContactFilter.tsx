@@ -271,7 +271,6 @@ export default function ContactFilter({ onBackClick }: any) {
               <Input placeholder="e.g. example@mail.com" onChange={(e) => setFilters({ ...filters, emailAddressFilter: e.target.value })} />
             </>
           )}
-
           <div className="flex items-center">
             <Checkbox
               id="Unsubscribed"
@@ -289,7 +288,7 @@ export default function ContactFilter({ onBackClick }: any) {
           {unsubscribed && (
             <RadioGroup
               value={filters.unsubscribedFilter??""}
-              onValueChange={(value) => setFilters({ ...filters, unsubscribedFilter: value })}
+              onValueChange={(value) => setFilters({ ...filters, unsubscribedFilter: value }as any)}
             >
               <div className="flex space-x-4">
                 <div className="flex items-center">

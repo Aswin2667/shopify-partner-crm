@@ -14,10 +14,12 @@ export class OrgMemberInvitationsService {
           token: token,
         },
       });
+      console.log(inviteData)
       const user = await prisma.user.findUnique({
         where: {
           email: inviteData.email,   
       }});
+      console.log(user)
       // Add the new member to the organization
       const newMember = await prisma.orgMember.create({
         data: {

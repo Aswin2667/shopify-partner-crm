@@ -30,4 +30,10 @@ export class UpdateLeadDto {
   readonly industry?: string;
   readonly updatedAt?: number;
   readonly deletedAt?: number;
+    orgId: any;
+  status: any;
+  static userId: any;
+  statusData: any;
+  userId: string;
+
 }

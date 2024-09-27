@@ -9,6 +9,7 @@ import {
   HttpStatus,
   Patch,
   Query,
+  Put,
 } from '@nestjs/common';
 import { LeadService } from './lead.service';
 import { CreateLeadDto, UpdateLeadDto } from './dto/lead.dto';
@@ -81,6 +82,28 @@ export class LeadController {
     }
   }
 
+  @Put('/:leadId/status')
+  async updateStatus(@Param('leadId') leadId: string, @Body() statusData: any) {
+    try {
+      const lead = await this.leadService.findOne(leadId);
+      console.log(statusData);
+      if (!lead) {
+        throw new HttpException('Lead not found', HttpStatus.NOT_FOUND);
+      }
+      const updatedLead = await this.leadService.updateStatsus(
+        leadId,
+        statusData,
+      );
+      return {
+        status: true,
+        message: 'Got the user using the leadId',
+        data: updatedLead,
+      };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
   @Post('create')
   async create(@Body() createLeadDto: CreateLeadDto) {
     try {
@@ -101,15 +124,15 @@ export class LeadController {
     @Body() updateLeadDto: UpdateLeadDto,
   ) {
     try {
-      const lead = await this.leadService.update(leadId, updateLeadDto);
-      if (!lead) {
-        throw new HttpException('Lead not found', HttpStatus.NOT_FOUND);
-      }
-      return {
-        status: true,
-        message: 'Lead updated successfully.',
-        data: lead,
-      };
+      // const lead = await this.leadService.update(leadId, updateLeadDto);
+      // if (!lead) {
+      //   throw new HttpException('Lead not found', HttpStatus.NOT_FOUND);
+      // }
+      // return {
+      //   status: true,
+      //   message: 'Lead updated successfully.',
+      //   data: lead,
+      // };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

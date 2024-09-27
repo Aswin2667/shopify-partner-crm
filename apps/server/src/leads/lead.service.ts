@@ -94,17 +94,17 @@ export class LeadService {
       //   filters.push(`l."createdAt" BETWEEN '${startDate}' AND '${endDate}'`);
       // }
       // console.log(`
-      //   SELECT 
-      //     l.id, 
-      //     l."shopifyDomain", 
-      //     l."shopifyStoreId", 
-      //     l."leadSource", 
-      //     l."shopDetails", 
-      //     l.industry, 
-      //     l."createdAt", 
-      //     l."updatedAt", 
-      //     l."deletedAt", 
-      //     l."integrationId", 
+      //   SELECT
+      //     l.id,
+      //     l."shopifyDomain",
+      //     l."shopifyStoreId",
+      //     l."leadSource",
+      //     l."shopDetails",
+      //     l.industry,
+      //     l."createdAt",
+      //     l."updatedAt",
+      //     l."deletedAt",
+      //     l."integrationId",
       //     l."organizationId",
       //     COUNT(lp."projectId") AS projectCount,
       //     COALESCE(
@@ -131,17 +131,17 @@ export class LeadService {
       //   ORDER BY l."createdAt" DESC;
       // `);
       // const leads = await this.prismaService.$queryRawUnsafe(`
-      //   SELECT 
-      //     l.id, 
-      //     l."shopifyDomain", 
-      //     l."shopifyStoreId", 
-      //     l."leadSource", 
-      //     l."shopDetails", 
-      //     l.industry, 
-      //     l."createdAt", 
-      //     l."updatedAt", 
-      //     l."deletedAt", 
-      //     l."integrationId", 
+      //   SELECT
+      //     l.id,
+      //     l."shopifyDomain",
+      //     l."shopifyStoreId",
+      //     l."leadSource",
+      //     l."shopDetails",
+      //     l.industry,
+      //     l."createdAt",
+      //     l."updatedAt",
+      //     l."deletedAt",
+      //     l."integrationId",
       //     l."organizationId",
       //     COUNT(lp."projectId") AS projectCount,
       //     COALESCE(
@@ -170,12 +170,19 @@ export class LeadService {
 
       const queryBuilder = new LeadQueryBuilder();
 
-       queryBuilder.addShopifyDomainFilter(shopifyDomain, domainFilterOption);
-      queryBuilder.addLeadStatusFilter(leadStatusFilterOption, selectedStatuses);
-      queryBuilder.addCreatedAtFilter(createdAt, DateFilterOption, DateFilterComparision);
+      queryBuilder.addShopifyDomainFilter(shopifyDomain, domainFilterOption);
+      queryBuilder.addLeadStatusFilter(
+        leadStatusFilterOption,
+        selectedStatuses,
+      );
+      queryBuilder.addCreatedAtFilter(
+        createdAt,
+        DateFilterOption,
+        DateFilterComparision,
+      );
 
-       const query = queryBuilder.buildQuery(orgId);
-      
+      const query = queryBuilder.buildQuery(orgId);
+
       const leads = await this.prismaService.$queryRawUnsafe(query);
 
       // Log the query (optional for debugging purposes)
@@ -260,18 +267,42 @@ export class LeadService {
     }
   }
 
-  async update(leadId: string, updateLeadDto: UpdateLeadDto) {
-    const index = this.leads.findIndex((lead) => lead.id === leadId);
-    if (index === -1) {
-      return null;
-    }
-    const updatedLead = {
-      ...this.leads[index],
-      ...updateLeadDto,
-      updatedAt: Date.now(),
-    };
-    this.leads[index] = updatedLead;
-    return updatedLead;
+  async updateStatsus(leadId: string, updateLeadDto: UpdateLeadDto) {
+    try {
+      const oldLeadStatus = await this.prismaService.lead.findFirst({
+        where: {
+          id: leadId,
+          organizationId: updateLeadDto.orgId,
+        },
+        include: {
+          status: true,
+        },
+      }); // Get the previous leadStatus
+      const data = await this.prismaService.lead.update({
+        where: {
+          id: leadId,
+          organizationId: updateLeadDto.orgId,
+        },
+        data: {
+          statusId: updateLeadDto.status,
+        },
+      });
+      console.log(data);
+      const activity = {
+        type: 'STATUS_CHANGE',
+        data: {
+          message: 'updated by',
+          statusFrom: oldLeadStatus.status.status,
+          statusTo: updateLeadDto.statusData.status,
+        },
+        leadId: leadId,
+        userId: updateLeadDto.userId,
+        organizationId: updateLeadDto.orgId,
+      };
+      console.log(activity);
+      await this.LeadActivityService.create(activity);
+      return data;
+    } catch (error) {}
   }
 
   async remove(leadId: string) {
@@ -299,7 +330,6 @@ export class LeadService {
     // Reduce and calculate total amount
     const totalAmount = leadActivities.reduce((total, activity: any) => {
       const activityData = activity.data.payload;
-      console.log(activity.data.payload.charge);
       const amountString = activityData.charge?.amount?.amount;
       const amount = amountString ? parseFloat(amountString) : 0;
       currencyCode = activityData.charge?.amount?.currencyCode;

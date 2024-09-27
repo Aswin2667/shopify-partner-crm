@@ -26,7 +26,7 @@ const statusSchema = z.object({
 
 type StatusFormValues = z.infer<typeof statusSchema>;
 
-const StatusCreateModal = () => {
+const StatusCreateModal = ({fetch,setFetch}: {fetch:any,setFetch:any}) => {
   const {currentOrganization} = useSelector((state: any) => state.organization)
   const {
     register,
@@ -46,6 +46,7 @@ const StatusCreateModal = () => {
         ...data,
         organizationId:currentOrganization?.id
       })
+      setFetch(!fetch)
       console.log(response.data)
     } catch (error) {
       console.log(error)

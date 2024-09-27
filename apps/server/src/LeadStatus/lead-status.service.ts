@@ -83,7 +83,7 @@ export class LeadStatusService {
 
   async remove(id: string) {
     const leadStatus = await this.findOne(id);
-    try {
+     try {
       if (leadStatus) {
         await this.prisma.leadStatus.delete({ where: { id } });
       }

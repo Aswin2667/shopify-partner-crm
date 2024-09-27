@@ -152,19 +152,18 @@ const LeadTable: React.FC = () => {
             </div>
           </div>
           <DataTableToolbar leads={Leads} />
-
           <div className="flex items-center space-x-3 mb-3   shadow-sm">
             <SheetTrigger asChild>
               <Button variant="default">Add Filter</Button>
             </SheetTrigger>
-            {appliedFilter && (
+            {appliedFilter.lead?.domain!==undefined && (
               <>
                 <div className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 flex items-center rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300">
                 {
-                "Domain "+appliedFilter.lead.domain?.domainFilterOption +" : "+ JSON.stringify(appliedFilter.lead.domain?.shopifyDomain)
+                "Domain "+appliedFilter.lead?.domain?.domainFilterOption +" : "+ JSON.stringify(appliedFilter.lead?.domain?.shopifyDomain)
               }
                   <button className="ml-2 focus:outline-none">
-                    <XIcon className="w-4 h-4 text-blue-500 hover:text-blue-700" />
+                    <XIcon className="w-4 h-4 text-blue-500 hover:text-blue-700"  />
                   </button>
                 </div>
               </>
