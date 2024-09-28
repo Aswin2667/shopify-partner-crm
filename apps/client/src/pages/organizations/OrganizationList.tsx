@@ -37,7 +37,7 @@ import { useQueryEvents } from "@/hooks/useQueryEvents";
 import { StateFromReducersMapObject } from "@reduxjs/toolkit";
 import { integrationAction } from "@/redux/integrationSlice";
 import CreateOrganization from "./CreateOrganization";
- 
+
 const organizationSchema = z.object({
   name: z.string().min(1, "Organization name is required"),
   description: z.string().optional(),
@@ -116,13 +116,13 @@ export function CreateOrganizationPopup({
         <Button>{message}</Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="p-0">
-        {/* <AlertDialogHeader>
+        <AlertDialogHeader>
           <AlertDialogTitle>Create new Organization</AlertDialogTitle>
           <AlertDialogDescription>
             Fill the following details to create an organization
           </AlertDialogDescription>
-        </AlertDialogHeader> */}
-        {/* <form onSubmit={handleSubmit(onSubmit)}>
+        </AlertDialogHeader>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div>
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -151,18 +151,22 @@ export function CreateOrganizationPopup({
                 placeholder="Description"
               ></textarea>
             </div>
-            <br />
-            <div>
+            {/* <br /> */}
+            {/* <div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="picture">Logo</Label>
-                <input type="file" accept="image/*" onChange={handleFileChange} />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
               </div>
               {errors.logo && (
                 <p className="mt-2 text-sm text-red-600 dark:text-red-500">
                   {errors.logo.message}
                 </p>
               )}
-            </div>
+            </div> */}
           </div>
           <br />
           <AlertDialogFooter>
@@ -197,9 +201,8 @@ export function CreateOrganizationPopup({
               </AlertDialogAction>
             )}
           </AlertDialogFooter>
-        </form> */}
-        <CreateOrganization />
-
+        </form>
+        {/* <CreateOrganization /> */}
       </AlertDialogContent>
     </>
   );
