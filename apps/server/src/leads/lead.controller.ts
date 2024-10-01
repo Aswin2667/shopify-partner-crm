@@ -108,6 +108,7 @@ export class LeadController {
   async create(@Body() createLeadDto: CreateLeadDto) {
     try {
       const lead = await this.leadService.create(createLeadDto);
+      console.log(createLeadDto)
       return {
         status: true,
         message: 'Lead created successfully.',

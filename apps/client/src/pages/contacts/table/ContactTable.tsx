@@ -18,51 +18,7 @@ import DateHelper from "@/utils/DateHelper";
 import LeadBadge from "@/pages/leads/components/LeadBadge";
 
 export default function ContactTable() {
-  const [contacts, setContacts] = useState([
-    { id: 1, name: "aswin999@gmail.com", title: "", lead: "user123123" },
-    {
-      id: 2,
-      name: "Bruce Wayne",
-      title: "The Dark Knight",
-      lead: "Wayne Enterprises (Example Lead)",
-    },
-    {
-      id: 3,
-      name: "Tobias Fünke",
-      title: "Blue Man Group (Understudy)",
-      lead: "Bluth Company (Example Lead)",
-    },
-    {
-      id: 4,
-      name: "Gob Bluth",
-      title: "Magician",
-      lead: "Bluth Company (Example Lead)",
-    },
-    {
-      id: 5,
-      name: "Close Support Team",
-      title: "",
-      lead: "Close (Example Lead)",
-    },
-    {
-      id: 6,
-      name: "Customer Success Team",
-      title: "",
-      lead: "Close (Example Lead)",
-    },
-    {
-      id: 7,
-      name: "Nick Persico",
-      title: "Director of Sales & Marketing",
-      lead: "Close (Example Lead)",
-    },
-    {
-      id: 8,
-      name: "Close Sales Team",
-      title: "",
-      lead: "Close (Example Lead)",
-    },
-  ]);
+  const [contacts, setContacts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(8);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -111,7 +67,8 @@ export default function ContactTable() {
         <TableHeader>
           <TableRow className="bg-gray-50">
             <TableHead className="font-medium">Name</TableHead>
-            <TableHead className="w-[100px]"></TableHead>
+            <TableHead className="w-[100px]">Email</TableHead>
+            <TableHead className="font-medium"></TableHead>
             <TableHead className="font-medium">Title</TableHead>
             <TableHead className="font-medium">Lead</TableHead>
             <TableHead className="text-center">Status</TableHead>
@@ -125,13 +82,16 @@ export default function ContactTable() {
               </TableCell>
             </TableRow>
           ) : contacts?.length > 0 ? (
-            contacts.map((contact:any) => (
+            contacts.map((contact: any) => (
               <TableRow
                 key={contact.id}
                 className="hover:bg-gray-100 p-0 pl-4 min-h-[5px] "
               >
+                <TableCell className="font-medium p-0 pl-4 ">
+                  {contact.name}
+                </TableCell>
                 <TableCell className="font-medium text-blue-600 p-0 pl-4 hover:underline cursor-pointer">
-                  {contact.primaryEmail}
+                  {contact.email}
                 </TableCell>
                 <TableCell className="p-0">
                   <div className="flex space-x-1">
@@ -158,7 +118,7 @@ export default function ContactTable() {
                   {contact?.lead?.shopifyDomain}
                 </TableCell>
                 <TableCell className="text-gray-600 p-0 text-center">
-                <LeadBadge status={contact?.lead?.status?.status} />
+                  <LeadBadge status={contact?.lead?.status?.status} />
                 </TableCell>
               </TableRow>
             ))

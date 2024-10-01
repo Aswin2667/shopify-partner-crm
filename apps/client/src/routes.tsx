@@ -40,6 +40,7 @@ import FromMail from "./pages/Emails/components/FromMail";
 import Signature from "./pages/Emails/components/Signature";
 import EditEmailPage from "./pages/Emails/components/EditEmail";
 import Demo from "./components/Demo";
+import TaskPage from "./pages/tasks/TaskPage";
 
 export const routes = createBrowserRouter([
   {
@@ -133,6 +134,10 @@ export const routes = createBrowserRouter([
       {
         path: "contacts",
         element: <ContactTable />,
+      },
+      {
+        path: "tasks",
+        element: <TaskPage />,
       },
       {
         path: "settings",
@@ -270,7 +275,7 @@ export const routes = createBrowserRouter([
     ],
   },
   {
-    path:'demo',
-    element: <Demo />
-  }
+    path: "demo",
+    element: <Demo />,
+  },
 ]);

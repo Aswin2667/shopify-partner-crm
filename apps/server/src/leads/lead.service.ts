@@ -227,9 +227,6 @@ export class LeadService {
 
   async create(createLeadDto: CreateLeadDto) {
     try {
-      console.log(
-        '----------------------------------' + JSON.stringify(createLeadDto),
-      );
       const lead = await this.prismaService.lead.create({
         data: {
           shopifyDomain: createLeadDto.myShopifyDomain,

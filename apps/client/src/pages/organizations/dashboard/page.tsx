@@ -14,21 +14,22 @@ import { RecentSales } from './components/recent-sales';
 import PageContainer from '@/components/page-container';
 
 export default function DashBoardPage() {
+  const userName = JSON.parse(localStorage.getItem("session")??"").name
   return (
     <PageContainer scrollable={true}>
       <div className="space-y-2">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-2xl font-bold tracking-tight">
-            Hi, Welcome back 👋
+            Hi, Welcome back {userName} 👋
           </h2>
-          <div className="hidden items-center space-x-2 md:flex">
+          {/* <div className="hidden items-center space-x-2 md:flex">
              <Button>Download</Button>
-          </div>
+          </div> */}
         </div>
         <Tabs defaultValue="overview" className="space-y-4">
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="analytics" disabled>
+            <TabsTrigger value="analytics" >
               Analytics
             </TabsTrigger>
           </TabsList>

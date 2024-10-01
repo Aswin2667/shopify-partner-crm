@@ -71,7 +71,7 @@ export class LeadQueryBuilder {
       }
     }
   }
-  
+
   addTitleFilter(title: string, titleFilterOption: string) {
     if (title && titleFilterOption) {
       switch (titleFilterOption) {
