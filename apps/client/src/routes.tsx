@@ -40,8 +40,9 @@ import FromMail from "./pages/Emails/components/FromMail";
 import Signature from "./pages/Emails/components/Signature";
 import EditEmailPage from "./pages/Emails/components/EditEmail";
 import Demo from "./components/Demo";
+import UnsubscribeLinkEditor from "./pages/Emails/components/UnsubscribeLinkEditor";
 import TaskPage from "./pages/tasks/TaskPage";
-
+ 
 export const routes = createBrowserRouter([
   {
     path: "/",
@@ -265,8 +266,17 @@ export const routes = createBrowserRouter([
                 element: <Signature />,
               },
               {
-                path: "unsubscribe",
-                element: <UnsubscribeLinks />,
+                path: "unsubscribe-link",
+                children: [
+                  {
+                    index: true,
+                    element: <UnsubscribeLinks />,
+                  },
+                  {
+                    path: ":unsubscribeLinkId",
+                    element: <UnsubscribeLinkEditor />,
+                  },
+                ],
               },
             ],
           },
