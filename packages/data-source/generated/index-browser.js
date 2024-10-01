@@ -283,6 +283,7 @@ exports.Prisma.EmailScalarFieldEnum = {
   integrationId: 'integrationId',
   organizationId: 'organizationId',
   leadId: 'leadId',
+  contactId: 'contactId',
   source: 'source'
 };
 
@@ -322,6 +323,15 @@ exports.Prisma.MailServiceFromEmailScalarFieldEnum = {
   organizationId: 'organizationId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UnsubscribeLinkScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  message: 'message',
+  anchorText: 'anchorText',
+  isActive: 'isActive',
+  organizationId: 'organizationId'
 };
 
 exports.Prisma.JobScalarFieldEnum = {
@@ -510,6 +520,7 @@ exports.Prisma.ModelName = {
   EmailQueue: 'EmailQueue',
   Integration: 'Integration',
   MailServiceFromEmail: 'MailServiceFromEmail',
+  UnsubscribeLink: 'UnsubscribeLink',
   Job: 'Job',
   Task: 'Task',
   Webhook: 'Webhook',

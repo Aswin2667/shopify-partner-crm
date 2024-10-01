@@ -5,13 +5,17 @@ import {
 } from './dto/organization.dto';
 import { DateHelper } from '@org/utils';
 import { LeadStatusService } from 'src/LeadStatus/lead-status.service';
+import { PrismaService } from '@org/data-source';
 
 @Injectable()
 export class OrganizationService {
-  constructor(private readonly LeadStatusService: LeadStatusService) {}
+  constructor(
+    private readonly LeadStatusService: LeadStatusService,
+    private readonly prisma: PrismaService,
+  ) {}
   async create(data: CreateOrganizationDto): Promise<any> {
     try {
-      const newOrganization = await prisma.organization.create({
+      const newOrganization = await this.prisma.organization.create({
         data: {
           name: data.name,
           description: data.description,
@@ -21,7 +25,7 @@ export class OrganizationService {
           deletedAt: 0,
         },
       });
-      await prisma.orgMember.create({
+      await this.prisma.orgMember.create({
         data: {
           organizationId: newOrganization.id,
           userId: data.userId,
@@ -60,7 +64,7 @@ export class OrganizationService {
     userId: string,
   ): Promise<{ organizations: any[]; integrationCount: number }> {
     try {
-      const userOrganizations = await prisma.orgMember.findMany({
+      const userOrganizations = await this.prisma.orgMember.findMany({
         where: {
           userId: userId,
         },

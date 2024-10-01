@@ -15,7 +15,7 @@ const Tabs = () => {
     // { to: "limit", icon: Mail, label: "Sending Limits" },
     { to: "from", icon: MessageCircle, label: "From Mail" },
     { to: "signature", icon: Notebook, label: "Signature" },
-    { to: "unsubscribe", icon: Phone, label: "Unsubscribe Link" },
+    { to: "unsubscribe-link", icon: Phone, label: "Unsubscribe Link" },
   ];
   return (
     <div className="border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
@@ -24,7 +24,7 @@ const Tabs = () => {
           return (
             <li key={index} className="me-2">
               <NavLink
-                end
+                end={tab.to === ""}
                 to={tab.to}
                 className={({ isActive }) => {
                   return `inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg group ${

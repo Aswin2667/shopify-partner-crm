@@ -102,18 +102,18 @@ services:
     networks:
       - app_network
     restart: always 
-  jenkins:
-    image: jenkins/jenkins:lts
-    privileged: true
-    user: root
-    ports:
-      - 4000:8080
-      - 50000:50000
-    container_name: jenkins
-    volumes:
-      - ~/jenkins:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /usr/local/bin/docker:/usr/local/bin/docker
+  # jenkins:
+  #   image: jenkins/jenkins:lts
+  #   privileged: true
+  #   user: root
+  #   ports:
+  #     - 4000:8080
+  #     - 50000:50000
+  #   container_name: jenkins
+  #   volumes:
+  #     - ~/jenkins:/var/jenkins_home
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - /usr/local/bin/docker:/usr/local/bin/docker
 
 volumes:
   redis_insight_volume_data:

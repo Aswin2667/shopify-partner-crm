@@ -41,4 +41,9 @@ export class ContactController {
   async remove(@Param('id') id: string) {
     return this.contactService.remove(id);
   }
+
+  @Get(':id/unsubscribe')
+  async unSubscribe(@Param('id') id: string) {
+    return this.contactService.unSubscribe(id);
+  }
 }

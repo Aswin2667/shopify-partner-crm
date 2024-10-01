@@ -149,8 +149,9 @@ const CreateIntegrationModal = ({ open, setOpen }: any) => {
         <form onSubmit={submitHandler} className="space-y-4">
           {/* Integration Name */}
           <div>
-            <label className="block mb-2 text-sm font-medium">Name</label>
+            <label className="block mb-2 text-sm font-medium" htmlFor="name">Name</label>
             <input
+            id="name"
               type="text"
               value={integration.name.value}
               onChange={(e) => {

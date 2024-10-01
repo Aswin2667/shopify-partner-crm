@@ -89,6 +89,11 @@ export type Integration = $Result.DefaultSelection<Prisma.$IntegrationPayload>
  */
 export type MailServiceFromEmail = $Result.DefaultSelection<Prisma.$MailServiceFromEmailPayload>
 /**
+ * Model UnsubscribeLink
+ * 
+ */
+export type UnsubscribeLink = $Result.DefaultSelection<Prisma.$UnsubscribeLinkPayload>
+/**
  * Model Job
  * 
  */
@@ -559,6 +564,16 @@ export class PrismaClient<
     * ```
     */
   get mailServiceFromEmail(): Prisma.MailServiceFromEmailDelegate<ExtArgs>;
+
+  /**
+   * `prisma.unsubscribeLink`: Exposes CRUD operations for the **UnsubscribeLink** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UnsubscribeLinks
+    * const unsubscribeLinks = await prisma.unsubscribeLink.findMany()
+    * ```
+    */
+  get unsubscribeLink(): Prisma.UnsubscribeLinkDelegate<ExtArgs>;
 
   /**
    * `prisma.job`: Exposes CRUD operations for the **Job** model.
@@ -1101,6 +1116,7 @@ export namespace Prisma {
     EmailQueue: 'EmailQueue',
     Integration: 'Integration',
     MailServiceFromEmail: 'MailServiceFromEmail',
+    UnsubscribeLink: 'UnsubscribeLink',
     Job: 'Job',
     Task: 'Task',
     Webhook: 'Webhook',
@@ -1121,7 +1137,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "orgMemberInvite" | "organization" | "orgMember" | "project" | "leadNotes" | "lead" | "leadProject" | "contact" | "attachment" | "leadActivity" | "email" | "emailQueue" | "integration" | "mailServiceFromEmail" | "job" | "task" | "webhook" | "template" | "leadStatus"
+      modelProps: "user" | "orgMemberInvite" | "organization" | "orgMember" | "project" | "leadNotes" | "lead" | "leadProject" | "contact" | "attachment" | "leadActivity" | "email" | "emailQueue" | "integration" | "mailServiceFromEmail" | "unsubscribeLink" | "job" | "task" | "webhook" | "template" | "leadStatus"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2175,6 +2191,76 @@ export namespace Prisma {
           }
         }
       }
+      UnsubscribeLink: {
+        payload: Prisma.$UnsubscribeLinkPayload<ExtArgs>
+        fields: Prisma.UnsubscribeLinkFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UnsubscribeLinkFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnsubscribeLinkPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UnsubscribeLinkFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnsubscribeLinkPayload>
+          }
+          findFirst: {
+            args: Prisma.UnsubscribeLinkFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnsubscribeLinkPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UnsubscribeLinkFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnsubscribeLinkPayload>
+          }
+          findMany: {
+            args: Prisma.UnsubscribeLinkFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnsubscribeLinkPayload>[]
+          }
+          create: {
+            args: Prisma.UnsubscribeLinkCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnsubscribeLinkPayload>
+          }
+          createMany: {
+            args: Prisma.UnsubscribeLinkCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UnsubscribeLinkCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnsubscribeLinkPayload>[]
+          }
+          delete: {
+            args: Prisma.UnsubscribeLinkDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnsubscribeLinkPayload>
+          }
+          update: {
+            args: Prisma.UnsubscribeLinkUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnsubscribeLinkPayload>
+          }
+          deleteMany: {
+            args: Prisma.UnsubscribeLinkDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UnsubscribeLinkUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.UnsubscribeLinkUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnsubscribeLinkPayload>
+          }
+          aggregate: {
+            args: Prisma.UnsubscribeLinkAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUnsubscribeLink>
+          }
+          groupBy: {
+            args: Prisma.UnsubscribeLinkGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UnsubscribeLinkGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UnsubscribeLinkCountArgs<ExtArgs>
+            result: $Utils.Optional<UnsubscribeLinkCountAggregateOutputType> | number
+          }
+        }
+      }
       Job: {
         payload: Prisma.$JobPayload<ExtArgs>
         fields: Prisma.JobFieldRefs
@@ -2766,6 +2852,7 @@ export namespace Prisma {
     MailServiceFromEmail: number
     LeadProject: number
     LeadActivity: number
+    UnsubscribeLink: number
   }
 
   export type OrganizationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2782,6 +2869,7 @@ export namespace Prisma {
     MailServiceFromEmail?: boolean | OrganizationCountOutputTypeCountMailServiceFromEmailArgs
     LeadProject?: boolean | OrganizationCountOutputTypeCountLeadProjectArgs
     LeadActivity?: boolean | OrganizationCountOutputTypeCountLeadActivityArgs
+    UnsubscribeLink?: boolean | OrganizationCountOutputTypeCountUnsubscribeLinkArgs
   }
 
   // Custom InputTypes
@@ -2884,6 +2972,13 @@ export namespace Prisma {
    */
   export type OrganizationCountOutputTypeCountLeadActivityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LeadActivityWhereInput
+  }
+
+  /**
+   * OrganizationCountOutputType without action
+   */
+  export type OrganizationCountOutputTypeCountUnsubscribeLinkArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UnsubscribeLinkWhereInput
   }
 
 
@@ -3052,6 +3147,37 @@ export namespace Prisma {
    * LeadCountOutputType without action
    */
   export type LeadCountOutputTypeCountEmailArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmailWhereInput
+  }
+
+
+  /**
+   * Count Type ContactCountOutputType
+   */
+
+  export type ContactCountOutputType = {
+    Email: number
+  }
+
+  export type ContactCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Email?: boolean | ContactCountOutputTypeCountEmailArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ContactCountOutputType without action
+   */
+  export type ContactCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactCountOutputType
+     */
+    select?: ContactCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ContactCountOutputType without action
+   */
+  export type ContactCountOutputTypeCountEmailArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EmailWhereInput
   }
 
@@ -5606,6 +5732,7 @@ export namespace Prisma {
     MailServiceFromEmail?: boolean | Organization$MailServiceFromEmailArgs<ExtArgs>
     LeadProject?: boolean | Organization$LeadProjectArgs<ExtArgs>
     LeadActivity?: boolean | Organization$LeadActivityArgs<ExtArgs>
+    UnsubscribeLink?: boolean | Organization$UnsubscribeLinkArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["organization"]>
 
@@ -5643,6 +5770,7 @@ export namespace Prisma {
     MailServiceFromEmail?: boolean | Organization$MailServiceFromEmailArgs<ExtArgs>
     LeadProject?: boolean | Organization$LeadProjectArgs<ExtArgs>
     LeadActivity?: boolean | Organization$LeadActivityArgs<ExtArgs>
+    UnsubscribeLink?: boolean | Organization$UnsubscribeLinkArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OrganizationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5663,6 +5791,7 @@ export namespace Prisma {
       MailServiceFromEmail: Prisma.$MailServiceFromEmailPayload<ExtArgs>[]
       LeadProject: Prisma.$LeadProjectPayload<ExtArgs>[]
       LeadActivity: Prisma.$LeadActivityPayload<ExtArgs>[]
+      UnsubscribeLink: Prisma.$UnsubscribeLinkPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6049,6 +6178,7 @@ export namespace Prisma {
     MailServiceFromEmail<T extends Organization$MailServiceFromEmailArgs<ExtArgs> = {}>(args?: Subset<T, Organization$MailServiceFromEmailArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MailServiceFromEmailPayload<ExtArgs>, T, "findMany"> | Null>
     LeadProject<T extends Organization$LeadProjectArgs<ExtArgs> = {}>(args?: Subset<T, Organization$LeadProjectArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadProjectPayload<ExtArgs>, T, "findMany"> | Null>
     LeadActivity<T extends Organization$LeadActivityArgs<ExtArgs> = {}>(args?: Subset<T, Organization$LeadActivityArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadActivityPayload<ExtArgs>, T, "findMany"> | Null>
+    UnsubscribeLink<T extends Organization$UnsubscribeLinkArgs<ExtArgs> = {}>(args?: Subset<T, Organization$UnsubscribeLinkArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnsubscribeLinkPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6656,6 +6786,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LeadActivityScalarFieldEnum | LeadActivityScalarFieldEnum[]
+  }
+
+  /**
+   * Organization.UnsubscribeLink
+   */
+  export type Organization$UnsubscribeLinkArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnsubscribeLink
+     */
+    select?: UnsubscribeLinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnsubscribeLinkInclude<ExtArgs> | null
+    where?: UnsubscribeLinkWhereInput
+    orderBy?: UnsubscribeLinkOrderByWithRelationInput | UnsubscribeLinkOrderByWithRelationInput[]
+    cursor?: UnsubscribeLinkWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UnsubscribeLinkScalarFieldEnum | UnsubscribeLinkScalarFieldEnum[]
   }
 
   /**
@@ -12406,6 +12556,8 @@ export namespace Prisma {
     isUnsubscribed?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     lead?: boolean | LeadDefaultArgs<ExtArgs>
+    Email?: boolean | Contact$EmailArgs<ExtArgs>
+    _count?: boolean | ContactCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["contact"]>
 
   export type ContactSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -12451,6 +12603,8 @@ export namespace Prisma {
   export type ContactInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     lead?: boolean | LeadDefaultArgs<ExtArgs>
+    Email?: boolean | Contact$EmailArgs<ExtArgs>
+    _count?: boolean | ContactCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ContactIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
@@ -12462,6 +12616,7 @@ export namespace Prisma {
     objects: {
       organization: Prisma.$OrganizationPayload<ExtArgs>
       lead: Prisma.$LeadPayload<ExtArgs>
+      Email: Prisma.$EmailPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12846,6 +13001,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     lead<T extends LeadDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LeadDefaultArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    Email<T extends Contact$EmailArgs<ExtArgs> = {}>(args?: Subset<T, Contact$EmailArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13206,6 +13362,26 @@ export namespace Prisma {
      * Filter which Contacts to delete
      */
     where?: ContactWhereInput
+  }
+
+  /**
+   * Contact.Email
+   */
+  export type Contact$EmailArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Email
+     */
+    select?: EmailSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailInclude<ExtArgs> | null
+    where?: EmailWhereInput
+    orderBy?: EmailOrderByWithRelationInput | EmailOrderByWithRelationInput[]
+    cursor?: EmailWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EmailScalarFieldEnum | EmailScalarFieldEnum[]
   }
 
   /**
@@ -15371,6 +15547,7 @@ export namespace Prisma {
     integrationId: string | null
     organizationId: string | null
     leadId: string | null
+    contactId: string | null
     source: $Enums.IntegrationType | null
   }
 
@@ -15394,6 +15571,7 @@ export namespace Prisma {
     integrationId: string | null
     organizationId: string | null
     leadId: string | null
+    contactId: string | null
     source: $Enums.IntegrationType | null
   }
 
@@ -15422,6 +15600,7 @@ export namespace Prisma {
     integrationId: number
     organizationId: number
     leadId: number
+    contactId: number
     source: number
     _all: number
   }
@@ -15461,6 +15640,7 @@ export namespace Prisma {
     integrationId?: true
     organizationId?: true
     leadId?: true
+    contactId?: true
     source?: true
   }
 
@@ -15484,6 +15664,7 @@ export namespace Prisma {
     integrationId?: true
     organizationId?: true
     leadId?: true
+    contactId?: true
     source?: true
   }
 
@@ -15512,6 +15693,7 @@ export namespace Prisma {
     integrationId?: true
     organizationId?: true
     leadId?: true
+    contactId?: true
     source?: true
     _all?: true
   }
@@ -15627,6 +15809,7 @@ export namespace Prisma {
     integrationId: string
     organizationId: string
     leadId: string | null
+    contactId: string | null
     source: $Enums.IntegrationType
     _count: EmailCountAggregateOutputType | null
     _avg: EmailAvgAggregateOutputType | null
@@ -15674,7 +15857,9 @@ export namespace Prisma {
     integrationId?: boolean
     organizationId?: boolean
     leadId?: boolean
+    contactId?: boolean
     source?: boolean
+    contact?: boolean | Email$contactArgs<ExtArgs>
     lead?: boolean | Email$leadArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     EmailQueue?: boolean | Email$EmailQueueArgs<ExtArgs>
@@ -15706,7 +15891,9 @@ export namespace Prisma {
     integrationId?: boolean
     organizationId?: boolean
     leadId?: boolean
+    contactId?: boolean
     source?: boolean
+    contact?: boolean | Email$contactArgs<ExtArgs>
     lead?: boolean | Email$leadArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["email"]>
@@ -15736,16 +15923,19 @@ export namespace Prisma {
     integrationId?: boolean
     organizationId?: boolean
     leadId?: boolean
+    contactId?: boolean
     source?: boolean
   }
 
   export type EmailInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contact?: boolean | Email$contactArgs<ExtArgs>
     lead?: boolean | Email$leadArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     EmailQueue?: boolean | Email$EmailQueueArgs<ExtArgs>
     _count?: boolean | EmailCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type EmailIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contact?: boolean | Email$contactArgs<ExtArgs>
     lead?: boolean | Email$leadArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
   }
@@ -15753,6 +15943,7 @@ export namespace Prisma {
   export type $EmailPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Email"
     objects: {
+      contact: Prisma.$ContactPayload<ExtArgs> | null
       lead: Prisma.$LeadPayload<ExtArgs> | null
       organization: Prisma.$OrganizationPayload<ExtArgs>
       EmailQueue: Prisma.$EmailQueuePayload<ExtArgs>[]
@@ -15782,6 +15973,7 @@ export namespace Prisma {
       integrationId: string
       organizationId: string
       leadId: string | null
+      contactId: string | null
       source: $Enums.IntegrationType
     }, ExtArgs["result"]["email"]>
     composites: {}
@@ -16147,6 +16339,7 @@ export namespace Prisma {
    */
   export interface Prisma__EmailClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    contact<T extends Email$contactArgs<ExtArgs> = {}>(args?: Subset<T, Email$contactArgs<ExtArgs>>): Prisma__ContactClient<$Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     lead<T extends Email$leadArgs<ExtArgs> = {}>(args?: Subset<T, Email$leadArgs<ExtArgs>>): Prisma__LeadClient<$Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     EmailQueue<T extends Email$EmailQueueArgs<ExtArgs> = {}>(args?: Subset<T, Email$EmailQueueArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailQueuePayload<ExtArgs>, T, "findMany"> | Null>
@@ -16203,6 +16396,7 @@ export namespace Prisma {
     readonly integrationId: FieldRef<"Email", 'String'>
     readonly organizationId: FieldRef<"Email", 'String'>
     readonly leadId: FieldRef<"Email", 'String'>
+    readonly contactId: FieldRef<"Email", 'String'>
     readonly source: FieldRef<"Email", 'IntegrationType'>
   }
     
@@ -16519,6 +16713,21 @@ export namespace Prisma {
      * Filter which Emails to delete
      */
     where?: EmailWhereInput
+  }
+
+  /**
+   * Email.contact
+   */
+  export type Email$contactArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contact
+     */
+    select?: ContactSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactInclude<ExtArgs> | null
+    where?: ContactWhereInput
   }
 
   /**
@@ -19798,6 +20007,951 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: MailServiceFromEmailInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UnsubscribeLink
+   */
+
+  export type AggregateUnsubscribeLink = {
+    _count: UnsubscribeLinkCountAggregateOutputType | null
+    _min: UnsubscribeLinkMinAggregateOutputType | null
+    _max: UnsubscribeLinkMaxAggregateOutputType | null
+  }
+
+  export type UnsubscribeLinkMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    message: string | null
+    anchorText: string | null
+    isActive: boolean | null
+    organizationId: string | null
+  }
+
+  export type UnsubscribeLinkMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    message: string | null
+    anchorText: string | null
+    isActive: boolean | null
+    organizationId: string | null
+  }
+
+  export type UnsubscribeLinkCountAggregateOutputType = {
+    id: number
+    name: number
+    message: number
+    anchorText: number
+    isActive: number
+    organizationId: number
+    _all: number
+  }
+
+
+  export type UnsubscribeLinkMinAggregateInputType = {
+    id?: true
+    name?: true
+    message?: true
+    anchorText?: true
+    isActive?: true
+    organizationId?: true
+  }
+
+  export type UnsubscribeLinkMaxAggregateInputType = {
+    id?: true
+    name?: true
+    message?: true
+    anchorText?: true
+    isActive?: true
+    organizationId?: true
+  }
+
+  export type UnsubscribeLinkCountAggregateInputType = {
+    id?: true
+    name?: true
+    message?: true
+    anchorText?: true
+    isActive?: true
+    organizationId?: true
+    _all?: true
+  }
+
+  export type UnsubscribeLinkAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UnsubscribeLink to aggregate.
+     */
+    where?: UnsubscribeLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UnsubscribeLinks to fetch.
+     */
+    orderBy?: UnsubscribeLinkOrderByWithRelationInput | UnsubscribeLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UnsubscribeLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UnsubscribeLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UnsubscribeLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UnsubscribeLinks
+    **/
+    _count?: true | UnsubscribeLinkCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UnsubscribeLinkMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UnsubscribeLinkMaxAggregateInputType
+  }
+
+  export type GetUnsubscribeLinkAggregateType<T extends UnsubscribeLinkAggregateArgs> = {
+        [P in keyof T & keyof AggregateUnsubscribeLink]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUnsubscribeLink[P]>
+      : GetScalarType<T[P], AggregateUnsubscribeLink[P]>
+  }
+
+
+
+
+  export type UnsubscribeLinkGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UnsubscribeLinkWhereInput
+    orderBy?: UnsubscribeLinkOrderByWithAggregationInput | UnsubscribeLinkOrderByWithAggregationInput[]
+    by: UnsubscribeLinkScalarFieldEnum[] | UnsubscribeLinkScalarFieldEnum
+    having?: UnsubscribeLinkScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UnsubscribeLinkCountAggregateInputType | true
+    _min?: UnsubscribeLinkMinAggregateInputType
+    _max?: UnsubscribeLinkMaxAggregateInputType
+  }
+
+  export type UnsubscribeLinkGroupByOutputType = {
+    id: string
+    name: string
+    message: string | null
+    anchorText: string
+    isActive: boolean
+    organizationId: string
+    _count: UnsubscribeLinkCountAggregateOutputType | null
+    _min: UnsubscribeLinkMinAggregateOutputType | null
+    _max: UnsubscribeLinkMaxAggregateOutputType | null
+  }
+
+  type GetUnsubscribeLinkGroupByPayload<T extends UnsubscribeLinkGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UnsubscribeLinkGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UnsubscribeLinkGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UnsubscribeLinkGroupByOutputType[P]>
+            : GetScalarType<T[P], UnsubscribeLinkGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UnsubscribeLinkSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    message?: boolean
+    anchorText?: boolean
+    isActive?: boolean
+    organizationId?: boolean
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["unsubscribeLink"]>
+
+  export type UnsubscribeLinkSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    message?: boolean
+    anchorText?: boolean
+    isActive?: boolean
+    organizationId?: boolean
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["unsubscribeLink"]>
+
+  export type UnsubscribeLinkSelectScalar = {
+    id?: boolean
+    name?: boolean
+    message?: boolean
+    anchorText?: boolean
+    isActive?: boolean
+    organizationId?: boolean
+  }
+
+  export type UnsubscribeLinkInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+  export type UnsubscribeLinkIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+
+  export type $UnsubscribeLinkPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UnsubscribeLink"
+    objects: {
+      organization: Prisma.$OrganizationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      message: string | null
+      anchorText: string
+      isActive: boolean
+      organizationId: string
+    }, ExtArgs["result"]["unsubscribeLink"]>
+    composites: {}
+  }
+
+  type UnsubscribeLinkGetPayload<S extends boolean | null | undefined | UnsubscribeLinkDefaultArgs> = $Result.GetResult<Prisma.$UnsubscribeLinkPayload, S>
+
+  type UnsubscribeLinkCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<UnsubscribeLinkFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: UnsubscribeLinkCountAggregateInputType | true
+    }
+
+  export interface UnsubscribeLinkDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UnsubscribeLink'], meta: { name: 'UnsubscribeLink' } }
+    /**
+     * Find zero or one UnsubscribeLink that matches the filter.
+     * @param {UnsubscribeLinkFindUniqueArgs} args - Arguments to find a UnsubscribeLink
+     * @example
+     * // Get one UnsubscribeLink
+     * const unsubscribeLink = await prisma.unsubscribeLink.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UnsubscribeLinkFindUniqueArgs>(args: SelectSubset<T, UnsubscribeLinkFindUniqueArgs<ExtArgs>>): Prisma__UnsubscribeLinkClient<$Result.GetResult<Prisma.$UnsubscribeLinkPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one UnsubscribeLink that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {UnsubscribeLinkFindUniqueOrThrowArgs} args - Arguments to find a UnsubscribeLink
+     * @example
+     * // Get one UnsubscribeLink
+     * const unsubscribeLink = await prisma.unsubscribeLink.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UnsubscribeLinkFindUniqueOrThrowArgs>(args: SelectSubset<T, UnsubscribeLinkFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UnsubscribeLinkClient<$Result.GetResult<Prisma.$UnsubscribeLinkPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first UnsubscribeLink that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnsubscribeLinkFindFirstArgs} args - Arguments to find a UnsubscribeLink
+     * @example
+     * // Get one UnsubscribeLink
+     * const unsubscribeLink = await prisma.unsubscribeLink.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UnsubscribeLinkFindFirstArgs>(args?: SelectSubset<T, UnsubscribeLinkFindFirstArgs<ExtArgs>>): Prisma__UnsubscribeLinkClient<$Result.GetResult<Prisma.$UnsubscribeLinkPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first UnsubscribeLink that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnsubscribeLinkFindFirstOrThrowArgs} args - Arguments to find a UnsubscribeLink
+     * @example
+     * // Get one UnsubscribeLink
+     * const unsubscribeLink = await prisma.unsubscribeLink.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UnsubscribeLinkFindFirstOrThrowArgs>(args?: SelectSubset<T, UnsubscribeLinkFindFirstOrThrowArgs<ExtArgs>>): Prisma__UnsubscribeLinkClient<$Result.GetResult<Prisma.$UnsubscribeLinkPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more UnsubscribeLinks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnsubscribeLinkFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UnsubscribeLinks
+     * const unsubscribeLinks = await prisma.unsubscribeLink.findMany()
+     * 
+     * // Get first 10 UnsubscribeLinks
+     * const unsubscribeLinks = await prisma.unsubscribeLink.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const unsubscribeLinkWithIdOnly = await prisma.unsubscribeLink.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UnsubscribeLinkFindManyArgs>(args?: SelectSubset<T, UnsubscribeLinkFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnsubscribeLinkPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a UnsubscribeLink.
+     * @param {UnsubscribeLinkCreateArgs} args - Arguments to create a UnsubscribeLink.
+     * @example
+     * // Create one UnsubscribeLink
+     * const UnsubscribeLink = await prisma.unsubscribeLink.create({
+     *   data: {
+     *     // ... data to create a UnsubscribeLink
+     *   }
+     * })
+     * 
+     */
+    create<T extends UnsubscribeLinkCreateArgs>(args: SelectSubset<T, UnsubscribeLinkCreateArgs<ExtArgs>>): Prisma__UnsubscribeLinkClient<$Result.GetResult<Prisma.$UnsubscribeLinkPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many UnsubscribeLinks.
+     * @param {UnsubscribeLinkCreateManyArgs} args - Arguments to create many UnsubscribeLinks.
+     * @example
+     * // Create many UnsubscribeLinks
+     * const unsubscribeLink = await prisma.unsubscribeLink.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UnsubscribeLinkCreateManyArgs>(args?: SelectSubset<T, UnsubscribeLinkCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UnsubscribeLinks and returns the data saved in the database.
+     * @param {UnsubscribeLinkCreateManyAndReturnArgs} args - Arguments to create many UnsubscribeLinks.
+     * @example
+     * // Create many UnsubscribeLinks
+     * const unsubscribeLink = await prisma.unsubscribeLink.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UnsubscribeLinks and only return the `id`
+     * const unsubscribeLinkWithIdOnly = await prisma.unsubscribeLink.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UnsubscribeLinkCreateManyAndReturnArgs>(args?: SelectSubset<T, UnsubscribeLinkCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnsubscribeLinkPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a UnsubscribeLink.
+     * @param {UnsubscribeLinkDeleteArgs} args - Arguments to delete one UnsubscribeLink.
+     * @example
+     * // Delete one UnsubscribeLink
+     * const UnsubscribeLink = await prisma.unsubscribeLink.delete({
+     *   where: {
+     *     // ... filter to delete one UnsubscribeLink
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UnsubscribeLinkDeleteArgs>(args: SelectSubset<T, UnsubscribeLinkDeleteArgs<ExtArgs>>): Prisma__UnsubscribeLinkClient<$Result.GetResult<Prisma.$UnsubscribeLinkPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one UnsubscribeLink.
+     * @param {UnsubscribeLinkUpdateArgs} args - Arguments to update one UnsubscribeLink.
+     * @example
+     * // Update one UnsubscribeLink
+     * const unsubscribeLink = await prisma.unsubscribeLink.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UnsubscribeLinkUpdateArgs>(args: SelectSubset<T, UnsubscribeLinkUpdateArgs<ExtArgs>>): Prisma__UnsubscribeLinkClient<$Result.GetResult<Prisma.$UnsubscribeLinkPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more UnsubscribeLinks.
+     * @param {UnsubscribeLinkDeleteManyArgs} args - Arguments to filter UnsubscribeLinks to delete.
+     * @example
+     * // Delete a few UnsubscribeLinks
+     * const { count } = await prisma.unsubscribeLink.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UnsubscribeLinkDeleteManyArgs>(args?: SelectSubset<T, UnsubscribeLinkDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UnsubscribeLinks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnsubscribeLinkUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UnsubscribeLinks
+     * const unsubscribeLink = await prisma.unsubscribeLink.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UnsubscribeLinkUpdateManyArgs>(args: SelectSubset<T, UnsubscribeLinkUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one UnsubscribeLink.
+     * @param {UnsubscribeLinkUpsertArgs} args - Arguments to update or create a UnsubscribeLink.
+     * @example
+     * // Update or create a UnsubscribeLink
+     * const unsubscribeLink = await prisma.unsubscribeLink.upsert({
+     *   create: {
+     *     // ... data to create a UnsubscribeLink
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UnsubscribeLink we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UnsubscribeLinkUpsertArgs>(args: SelectSubset<T, UnsubscribeLinkUpsertArgs<ExtArgs>>): Prisma__UnsubscribeLinkClient<$Result.GetResult<Prisma.$UnsubscribeLinkPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of UnsubscribeLinks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnsubscribeLinkCountArgs} args - Arguments to filter UnsubscribeLinks to count.
+     * @example
+     * // Count the number of UnsubscribeLinks
+     * const count = await prisma.unsubscribeLink.count({
+     *   where: {
+     *     // ... the filter for the UnsubscribeLinks we want to count
+     *   }
+     * })
+    **/
+    count<T extends UnsubscribeLinkCountArgs>(
+      args?: Subset<T, UnsubscribeLinkCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UnsubscribeLinkCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UnsubscribeLink.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnsubscribeLinkAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UnsubscribeLinkAggregateArgs>(args: Subset<T, UnsubscribeLinkAggregateArgs>): Prisma.PrismaPromise<GetUnsubscribeLinkAggregateType<T>>
+
+    /**
+     * Group by UnsubscribeLink.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnsubscribeLinkGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UnsubscribeLinkGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UnsubscribeLinkGroupByArgs['orderBy'] }
+        : { orderBy?: UnsubscribeLinkGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UnsubscribeLinkGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUnsubscribeLinkGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UnsubscribeLink model
+   */
+  readonly fields: UnsubscribeLinkFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UnsubscribeLink.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UnsubscribeLinkClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UnsubscribeLink model
+   */ 
+  interface UnsubscribeLinkFieldRefs {
+    readonly id: FieldRef<"UnsubscribeLink", 'String'>
+    readonly name: FieldRef<"UnsubscribeLink", 'String'>
+    readonly message: FieldRef<"UnsubscribeLink", 'String'>
+    readonly anchorText: FieldRef<"UnsubscribeLink", 'String'>
+    readonly isActive: FieldRef<"UnsubscribeLink", 'Boolean'>
+    readonly organizationId: FieldRef<"UnsubscribeLink", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UnsubscribeLink findUnique
+   */
+  export type UnsubscribeLinkFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnsubscribeLink
+     */
+    select?: UnsubscribeLinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnsubscribeLinkInclude<ExtArgs> | null
+    /**
+     * Filter, which UnsubscribeLink to fetch.
+     */
+    where: UnsubscribeLinkWhereUniqueInput
+  }
+
+  /**
+   * UnsubscribeLink findUniqueOrThrow
+   */
+  export type UnsubscribeLinkFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnsubscribeLink
+     */
+    select?: UnsubscribeLinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnsubscribeLinkInclude<ExtArgs> | null
+    /**
+     * Filter, which UnsubscribeLink to fetch.
+     */
+    where: UnsubscribeLinkWhereUniqueInput
+  }
+
+  /**
+   * UnsubscribeLink findFirst
+   */
+  export type UnsubscribeLinkFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnsubscribeLink
+     */
+    select?: UnsubscribeLinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnsubscribeLinkInclude<ExtArgs> | null
+    /**
+     * Filter, which UnsubscribeLink to fetch.
+     */
+    where?: UnsubscribeLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UnsubscribeLinks to fetch.
+     */
+    orderBy?: UnsubscribeLinkOrderByWithRelationInput | UnsubscribeLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UnsubscribeLinks.
+     */
+    cursor?: UnsubscribeLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UnsubscribeLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UnsubscribeLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UnsubscribeLinks.
+     */
+    distinct?: UnsubscribeLinkScalarFieldEnum | UnsubscribeLinkScalarFieldEnum[]
+  }
+
+  /**
+   * UnsubscribeLink findFirstOrThrow
+   */
+  export type UnsubscribeLinkFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnsubscribeLink
+     */
+    select?: UnsubscribeLinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnsubscribeLinkInclude<ExtArgs> | null
+    /**
+     * Filter, which UnsubscribeLink to fetch.
+     */
+    where?: UnsubscribeLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UnsubscribeLinks to fetch.
+     */
+    orderBy?: UnsubscribeLinkOrderByWithRelationInput | UnsubscribeLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UnsubscribeLinks.
+     */
+    cursor?: UnsubscribeLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UnsubscribeLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UnsubscribeLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UnsubscribeLinks.
+     */
+    distinct?: UnsubscribeLinkScalarFieldEnum | UnsubscribeLinkScalarFieldEnum[]
+  }
+
+  /**
+   * UnsubscribeLink findMany
+   */
+  export type UnsubscribeLinkFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnsubscribeLink
+     */
+    select?: UnsubscribeLinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnsubscribeLinkInclude<ExtArgs> | null
+    /**
+     * Filter, which UnsubscribeLinks to fetch.
+     */
+    where?: UnsubscribeLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UnsubscribeLinks to fetch.
+     */
+    orderBy?: UnsubscribeLinkOrderByWithRelationInput | UnsubscribeLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UnsubscribeLinks.
+     */
+    cursor?: UnsubscribeLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UnsubscribeLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UnsubscribeLinks.
+     */
+    skip?: number
+    distinct?: UnsubscribeLinkScalarFieldEnum | UnsubscribeLinkScalarFieldEnum[]
+  }
+
+  /**
+   * UnsubscribeLink create
+   */
+  export type UnsubscribeLinkCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnsubscribeLink
+     */
+    select?: UnsubscribeLinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnsubscribeLinkInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UnsubscribeLink.
+     */
+    data: XOR<UnsubscribeLinkCreateInput, UnsubscribeLinkUncheckedCreateInput>
+  }
+
+  /**
+   * UnsubscribeLink createMany
+   */
+  export type UnsubscribeLinkCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UnsubscribeLinks.
+     */
+    data: UnsubscribeLinkCreateManyInput | UnsubscribeLinkCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UnsubscribeLink createManyAndReturn
+   */
+  export type UnsubscribeLinkCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnsubscribeLink
+     */
+    select?: UnsubscribeLinkSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many UnsubscribeLinks.
+     */
+    data: UnsubscribeLinkCreateManyInput | UnsubscribeLinkCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnsubscribeLinkIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UnsubscribeLink update
+   */
+  export type UnsubscribeLinkUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnsubscribeLink
+     */
+    select?: UnsubscribeLinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnsubscribeLinkInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UnsubscribeLink.
+     */
+    data: XOR<UnsubscribeLinkUpdateInput, UnsubscribeLinkUncheckedUpdateInput>
+    /**
+     * Choose, which UnsubscribeLink to update.
+     */
+    where: UnsubscribeLinkWhereUniqueInput
+  }
+
+  /**
+   * UnsubscribeLink updateMany
+   */
+  export type UnsubscribeLinkUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UnsubscribeLinks.
+     */
+    data: XOR<UnsubscribeLinkUpdateManyMutationInput, UnsubscribeLinkUncheckedUpdateManyInput>
+    /**
+     * Filter which UnsubscribeLinks to update
+     */
+    where?: UnsubscribeLinkWhereInput
+  }
+
+  /**
+   * UnsubscribeLink upsert
+   */
+  export type UnsubscribeLinkUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnsubscribeLink
+     */
+    select?: UnsubscribeLinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnsubscribeLinkInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UnsubscribeLink to update in case it exists.
+     */
+    where: UnsubscribeLinkWhereUniqueInput
+    /**
+     * In case the UnsubscribeLink found by the `where` argument doesn't exist, create a new UnsubscribeLink with this data.
+     */
+    create: XOR<UnsubscribeLinkCreateInput, UnsubscribeLinkUncheckedCreateInput>
+    /**
+     * In case the UnsubscribeLink was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UnsubscribeLinkUpdateInput, UnsubscribeLinkUncheckedUpdateInput>
+  }
+
+  /**
+   * UnsubscribeLink delete
+   */
+  export type UnsubscribeLinkDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnsubscribeLink
+     */
+    select?: UnsubscribeLinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnsubscribeLinkInclude<ExtArgs> | null
+    /**
+     * Filter which UnsubscribeLink to delete.
+     */
+    where: UnsubscribeLinkWhereUniqueInput
+  }
+
+  /**
+   * UnsubscribeLink deleteMany
+   */
+  export type UnsubscribeLinkDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UnsubscribeLinks to delete
+     */
+    where?: UnsubscribeLinkWhereInput
+  }
+
+  /**
+   * UnsubscribeLink without action
+   */
+  export type UnsubscribeLinkDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnsubscribeLink
+     */
+    select?: UnsubscribeLinkSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnsubscribeLinkInclude<ExtArgs> | null
   }
 
 
@@ -25063,6 +26217,7 @@ export namespace Prisma {
     integrationId: 'integrationId',
     organizationId: 'organizationId',
     leadId: 'leadId',
+    contactId: 'contactId',
     source: 'source'
   };
 
@@ -25114,6 +26269,18 @@ export namespace Prisma {
   };
 
   export type MailServiceFromEmailScalarFieldEnum = (typeof MailServiceFromEmailScalarFieldEnum)[keyof typeof MailServiceFromEmailScalarFieldEnum]
+
+
+  export const UnsubscribeLinkScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    message: 'message',
+    anchorText: 'anchorText',
+    isActive: 'isActive',
+    organizationId: 'organizationId'
+  };
+
+  export type UnsubscribeLinkScalarFieldEnum = (typeof UnsubscribeLinkScalarFieldEnum)[keyof typeof UnsubscribeLinkScalarFieldEnum]
 
 
   export const JobScalarFieldEnum: {
@@ -25663,6 +26830,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailListRelationFilter
     LeadProject?: LeadProjectListRelationFilter
     LeadActivity?: LeadActivityListRelationFilter
+    UnsubscribeLink?: UnsubscribeLinkListRelationFilter
   }
 
   export type OrganizationOrderByWithRelationInput = {
@@ -25686,6 +26854,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailOrderByRelationAggregateInput
     LeadProject?: LeadProjectOrderByRelationAggregateInput
     LeadActivity?: LeadActivityOrderByRelationAggregateInput
+    UnsubscribeLink?: UnsubscribeLinkOrderByRelationAggregateInput
   }
 
   export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
@@ -25712,6 +26881,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailListRelationFilter
     LeadProject?: LeadProjectListRelationFilter
     LeadActivity?: LeadActivityListRelationFilter
+    UnsubscribeLink?: UnsubscribeLinkListRelationFilter
   }, "id">
 
   export type OrganizationOrderByWithAggregationInput = {
@@ -26212,6 +27382,7 @@ export namespace Prisma {
     isUnsubscribed?: BoolFilter<"Contact"> | boolean
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     lead?: XOR<LeadRelationFilter, LeadWhereInput>
+    Email?: EmailListRelationFilter
   }
 
   export type ContactOrderByWithRelationInput = {
@@ -26233,6 +27404,7 @@ export namespace Prisma {
     isUnsubscribed?: SortOrder
     organization?: OrganizationOrderByWithRelationInput
     lead?: LeadOrderByWithRelationInput
+    Email?: EmailOrderByRelationAggregateInput
   }
 
   export type ContactWhereUniqueInput = Prisma.AtLeast<{
@@ -26257,6 +27429,7 @@ export namespace Prisma {
     isUnsubscribed?: BoolFilter<"Contact"> | boolean
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     lead?: XOR<LeadRelationFilter, LeadWhereInput>
+    Email?: EmailListRelationFilter
   }, "id">
 
   export type ContactOrderByWithAggregationInput = {
@@ -26501,7 +27674,9 @@ export namespace Prisma {
     integrationId?: StringFilter<"Email"> | string
     organizationId?: StringFilter<"Email"> | string
     leadId?: StringNullableFilter<"Email"> | string | null
+    contactId?: StringNullableFilter<"Email"> | string | null
     source?: EnumIntegrationTypeFilter<"Email"> | $Enums.IntegrationType
+    contact?: XOR<ContactNullableRelationFilter, ContactWhereInput> | null
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     EmailQueue?: EmailQueueListRelationFilter
@@ -26532,7 +27707,9 @@ export namespace Prisma {
     integrationId?: SortOrder
     organizationId?: SortOrder
     leadId?: SortOrderInput | SortOrder
+    contactId?: SortOrderInput | SortOrder
     source?: SortOrder
+    contact?: ContactOrderByWithRelationInput
     lead?: LeadOrderByWithRelationInput
     organization?: OrganizationOrderByWithRelationInput
     EmailQueue?: EmailQueueOrderByRelationAggregateInput
@@ -26566,7 +27743,9 @@ export namespace Prisma {
     integrationId?: StringFilter<"Email"> | string
     organizationId?: StringFilter<"Email"> | string
     leadId?: StringNullableFilter<"Email"> | string | null
+    contactId?: StringNullableFilter<"Email"> | string | null
     source?: EnumIntegrationTypeFilter<"Email"> | $Enums.IntegrationType
+    contact?: XOR<ContactNullableRelationFilter, ContactWhereInput> | null
     lead?: XOR<LeadNullableRelationFilter, LeadWhereInput> | null
     organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
     EmailQueue?: EmailQueueListRelationFilter
@@ -26597,6 +27776,7 @@ export namespace Prisma {
     integrationId?: SortOrder
     organizationId?: SortOrder
     leadId?: SortOrderInput | SortOrder
+    contactId?: SortOrderInput | SortOrder
     source?: SortOrder
     _count?: EmailCountOrderByAggregateInput
     _avg?: EmailAvgOrderByAggregateInput
@@ -26633,6 +27813,7 @@ export namespace Prisma {
     integrationId?: StringWithAggregatesFilter<"Email"> | string
     organizationId?: StringWithAggregatesFilter<"Email"> | string
     leadId?: StringNullableWithAggregatesFilter<"Email"> | string | null
+    contactId?: StringNullableWithAggregatesFilter<"Email"> | string | null
     source?: EnumIntegrationTypeWithAggregatesFilter<"Email"> | $Enums.IntegrationType
   }
 
@@ -26896,6 +28077,66 @@ export namespace Prisma {
     organizationId?: StringWithAggregatesFilter<"MailServiceFromEmail"> | string
     createdAt?: BigIntWithAggregatesFilter<"MailServiceFromEmail"> | bigint | number
     updatedAt?: BigIntWithAggregatesFilter<"MailServiceFromEmail"> | bigint | number
+  }
+
+  export type UnsubscribeLinkWhereInput = {
+    AND?: UnsubscribeLinkWhereInput | UnsubscribeLinkWhereInput[]
+    OR?: UnsubscribeLinkWhereInput[]
+    NOT?: UnsubscribeLinkWhereInput | UnsubscribeLinkWhereInput[]
+    id?: StringFilter<"UnsubscribeLink"> | string
+    name?: StringFilter<"UnsubscribeLink"> | string
+    message?: StringNullableFilter<"UnsubscribeLink"> | string | null
+    anchorText?: StringFilter<"UnsubscribeLink"> | string
+    isActive?: BoolFilter<"UnsubscribeLink"> | boolean
+    organizationId?: StringFilter<"UnsubscribeLink"> | string
+    organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
+  }
+
+  export type UnsubscribeLinkOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    message?: SortOrderInput | SortOrder
+    anchorText?: SortOrder
+    isActive?: SortOrder
+    organizationId?: SortOrder
+    organization?: OrganizationOrderByWithRelationInput
+  }
+
+  export type UnsubscribeLinkWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UnsubscribeLinkWhereInput | UnsubscribeLinkWhereInput[]
+    OR?: UnsubscribeLinkWhereInput[]
+    NOT?: UnsubscribeLinkWhereInput | UnsubscribeLinkWhereInput[]
+    name?: StringFilter<"UnsubscribeLink"> | string
+    message?: StringNullableFilter<"UnsubscribeLink"> | string | null
+    anchorText?: StringFilter<"UnsubscribeLink"> | string
+    isActive?: BoolFilter<"UnsubscribeLink"> | boolean
+    organizationId?: StringFilter<"UnsubscribeLink"> | string
+    organization?: XOR<OrganizationRelationFilter, OrganizationWhereInput>
+  }, "id">
+
+  export type UnsubscribeLinkOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    message?: SortOrderInput | SortOrder
+    anchorText?: SortOrder
+    isActive?: SortOrder
+    organizationId?: SortOrder
+    _count?: UnsubscribeLinkCountOrderByAggregateInput
+    _max?: UnsubscribeLinkMaxOrderByAggregateInput
+    _min?: UnsubscribeLinkMinOrderByAggregateInput
+  }
+
+  export type UnsubscribeLinkScalarWhereWithAggregatesInput = {
+    AND?: UnsubscribeLinkScalarWhereWithAggregatesInput | UnsubscribeLinkScalarWhereWithAggregatesInput[]
+    OR?: UnsubscribeLinkScalarWhereWithAggregatesInput[]
+    NOT?: UnsubscribeLinkScalarWhereWithAggregatesInput | UnsubscribeLinkScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UnsubscribeLink"> | string
+    name?: StringWithAggregatesFilter<"UnsubscribeLink"> | string
+    message?: StringNullableWithAggregatesFilter<"UnsubscribeLink"> | string | null
+    anchorText?: StringWithAggregatesFilter<"UnsubscribeLink"> | string
+    isActive?: BoolWithAggregatesFilter<"UnsubscribeLink"> | boolean
+    organizationId?: StringWithAggregatesFilter<"UnsubscribeLink"> | string
   }
 
   export type JobWhereInput = {
@@ -27437,6 +28678,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateInput = {
@@ -27460,6 +28702,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUpdateInput = {
@@ -27483,6 +28726,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateInput = {
@@ -27506,6 +28750,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationCreateManyInput = {
@@ -28012,6 +29257,7 @@ export namespace Prisma {
     isUnsubscribed?: boolean
     organization: OrganizationCreateNestedOneWithoutContactInput
     lead: LeadCreateNestedOneWithoutContactsInput
+    Email?: EmailCreateNestedManyWithoutContactInput
   }
 
   export type ContactUncheckedCreateInput = {
@@ -28031,6 +29277,7 @@ export namespace Prisma {
     organizationId: string
     isPrimay?: boolean
     isUnsubscribed?: boolean
+    Email?: EmailUncheckedCreateNestedManyWithoutContactInput
   }
 
   export type ContactUpdateInput = {
@@ -28050,6 +29297,7 @@ export namespace Prisma {
     isUnsubscribed?: BoolFieldUpdateOperationsInput | boolean
     organization?: OrganizationUpdateOneRequiredWithoutContactNestedInput
     lead?: LeadUpdateOneRequiredWithoutContactsNestedInput
+    Email?: EmailUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateInput = {
@@ -28069,6 +29317,7 @@ export namespace Prisma {
     organizationId?: StringFieldUpdateOperationsInput | string
     isPrimay?: BoolFieldUpdateOperationsInput | boolean
     isUnsubscribed?: BoolFieldUpdateOperationsInput | boolean
+    Email?: EmailUncheckedUpdateManyWithoutContactNestedInput
   }
 
   export type ContactCreateManyInput = {
@@ -28320,6 +29569,7 @@ export namespace Prisma {
     deletedAt?: bigint | number
     integrationId: string
     source: $Enums.IntegrationType
+    contact?: ContactCreateNestedOneWithoutEmailInput
     lead?: LeadCreateNestedOneWithoutEmailInput
     organization: OrganizationCreateNestedOneWithoutEmailInput
     EmailQueue?: EmailQueueCreateNestedManyWithoutEmailInput
@@ -28350,6 +29600,7 @@ export namespace Prisma {
     integrationId: string
     organizationId: string
     leadId?: string | null
+    contactId?: string | null
     source: $Enums.IntegrationType
     EmailQueue?: EmailQueueUncheckedCreateNestedManyWithoutEmailInput
   }
@@ -28378,6 +29629,7 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    contact?: ContactUpdateOneWithoutEmailNestedInput
     lead?: LeadUpdateOneWithoutEmailNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutEmailNestedInput
     EmailQueue?: EmailQueueUpdateManyWithoutEmailNestedInput
@@ -28408,6 +29660,7 @@ export namespace Prisma {
     integrationId?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
     EmailQueue?: EmailQueueUncheckedUpdateManyWithoutEmailNestedInput
   }
@@ -28437,6 +29690,7 @@ export namespace Prisma {
     integrationId: string
     organizationId: string
     leadId?: string | null
+    contactId?: string | null
     source: $Enums.IntegrationType
   }
 
@@ -28491,6 +29745,7 @@ export namespace Prisma {
     integrationId?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
   }
 
@@ -28773,6 +30028,68 @@ export namespace Prisma {
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type UnsubscribeLinkCreateInput = {
+    id?: string
+    name: string
+    message?: string | null
+    anchorText: string
+    isActive?: boolean
+    organization: OrganizationCreateNestedOneWithoutUnsubscribeLinkInput
+  }
+
+  export type UnsubscribeLinkUncheckedCreateInput = {
+    id?: string
+    name: string
+    message?: string | null
+    anchorText: string
+    isActive?: boolean
+    organizationId: string
+  }
+
+  export type UnsubscribeLinkUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    anchorText?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organization?: OrganizationUpdateOneRequiredWithoutUnsubscribeLinkNestedInput
+  }
+
+  export type UnsubscribeLinkUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    anchorText?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UnsubscribeLinkCreateManyInput = {
+    id?: string
+    name: string
+    message?: string | null
+    anchorText: string
+    isActive?: boolean
+    organizationId: string
+  }
+
+  export type UnsubscribeLinkUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    anchorText?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type UnsubscribeLinkUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    anchorText?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
   }
 
   export type JobCreateInput = {
@@ -29464,6 +30781,12 @@ export namespace Prisma {
     none?: LeadProjectWhereInput
   }
 
+  export type UnsubscribeLinkListRelationFilter = {
+    every?: UnsubscribeLinkWhereInput
+    some?: UnsubscribeLinkWhereInput
+    none?: UnsubscribeLinkWhereInput
+  }
+
   export type ProjectOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -29497,6 +30820,10 @@ export namespace Prisma {
   }
 
   export type LeadProjectOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UnsubscribeLinkOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -30180,6 +31507,11 @@ export namespace Prisma {
     not?: NestedEnumIntegrationTypeFilter<$PrismaModel> | $Enums.IntegrationType
   }
 
+  export type ContactNullableRelationFilter = {
+    is?: ContactWhereInput | null
+    isNot?: ContactWhereInput | null
+  }
+
   export type LeadNullableRelationFilter = {
     is?: LeadWhereInput | null
     isNot?: LeadWhereInput | null
@@ -30220,6 +31552,7 @@ export namespace Prisma {
     integrationId?: SortOrder
     organizationId?: SortOrder
     leadId?: SortOrder
+    contactId?: SortOrder
     source?: SortOrder
   }
 
@@ -30250,6 +31583,7 @@ export namespace Prisma {
     integrationId?: SortOrder
     organizationId?: SortOrder
     leadId?: SortOrder
+    contactId?: SortOrder
     source?: SortOrder
   }
 
@@ -30273,6 +31607,7 @@ export namespace Prisma {
     integrationId?: SortOrder
     organizationId?: SortOrder
     leadId?: SortOrder
+    contactId?: SortOrder
     source?: SortOrder
   }
 
@@ -30568,6 +31903,33 @@ export namespace Prisma {
   export type MailServiceFromEmailSumOrderByAggregateInput = {
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type UnsubscribeLinkCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    message?: SortOrder
+    anchorText?: SortOrder
+    isActive?: SortOrder
+    organizationId?: SortOrder
+  }
+
+  export type UnsubscribeLinkMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    message?: SortOrder
+    anchorText?: SortOrder
+    isActive?: SortOrder
+    organizationId?: SortOrder
+  }
+
+  export type UnsubscribeLinkMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    message?: SortOrder
+    anchorText?: SortOrder
+    isActive?: SortOrder
+    organizationId?: SortOrder
   }
 
   export type EnumJobStatusFilter<$PrismaModel = never> = {
@@ -31191,6 +32553,13 @@ export namespace Prisma {
     connect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
   }
 
+  export type UnsubscribeLinkCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<UnsubscribeLinkCreateWithoutOrganizationInput, UnsubscribeLinkUncheckedCreateWithoutOrganizationInput> | UnsubscribeLinkCreateWithoutOrganizationInput[] | UnsubscribeLinkUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: UnsubscribeLinkCreateOrConnectWithoutOrganizationInput | UnsubscribeLinkCreateOrConnectWithoutOrganizationInput[]
+    createMany?: UnsubscribeLinkCreateManyOrganizationInputEnvelope
+    connect?: UnsubscribeLinkWhereUniqueInput | UnsubscribeLinkWhereUniqueInput[]
+  }
+
   export type ProjectUncheckedCreateNestedManyWithoutOrganizationInput = {
     create?: XOR<ProjectCreateWithoutOrganizationInput, ProjectUncheckedCreateWithoutOrganizationInput> | ProjectCreateWithoutOrganizationInput[] | ProjectUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutOrganizationInput | ProjectCreateOrConnectWithoutOrganizationInput[]
@@ -31280,6 +32649,13 @@ export namespace Prisma {
     connectOrCreate?: LeadActivityCreateOrConnectWithoutOrganizationInput | LeadActivityCreateOrConnectWithoutOrganizationInput[]
     createMany?: LeadActivityCreateManyOrganizationInputEnvelope
     connect?: LeadActivityWhereUniqueInput | LeadActivityWhereUniqueInput[]
+  }
+
+  export type UnsubscribeLinkUncheckedCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<UnsubscribeLinkCreateWithoutOrganizationInput, UnsubscribeLinkUncheckedCreateWithoutOrganizationInput> | UnsubscribeLinkCreateWithoutOrganizationInput[] | UnsubscribeLinkUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: UnsubscribeLinkCreateOrConnectWithoutOrganizationInput | UnsubscribeLinkCreateOrConnectWithoutOrganizationInput[]
+    createMany?: UnsubscribeLinkCreateManyOrganizationInputEnvelope
+    connect?: UnsubscribeLinkWhereUniqueInput | UnsubscribeLinkWhereUniqueInput[]
   }
 
   export type ProjectUpdateManyWithoutOrganizationNestedInput = {
@@ -31464,6 +32840,20 @@ export namespace Prisma {
     deleteMany?: LeadActivityScalarWhereInput | LeadActivityScalarWhereInput[]
   }
 
+  export type UnsubscribeLinkUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<UnsubscribeLinkCreateWithoutOrganizationInput, UnsubscribeLinkUncheckedCreateWithoutOrganizationInput> | UnsubscribeLinkCreateWithoutOrganizationInput[] | UnsubscribeLinkUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: UnsubscribeLinkCreateOrConnectWithoutOrganizationInput | UnsubscribeLinkCreateOrConnectWithoutOrganizationInput[]
+    upsert?: UnsubscribeLinkUpsertWithWhereUniqueWithoutOrganizationInput | UnsubscribeLinkUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: UnsubscribeLinkCreateManyOrganizationInputEnvelope
+    set?: UnsubscribeLinkWhereUniqueInput | UnsubscribeLinkWhereUniqueInput[]
+    disconnect?: UnsubscribeLinkWhereUniqueInput | UnsubscribeLinkWhereUniqueInput[]
+    delete?: UnsubscribeLinkWhereUniqueInput | UnsubscribeLinkWhereUniqueInput[]
+    connect?: UnsubscribeLinkWhereUniqueInput | UnsubscribeLinkWhereUniqueInput[]
+    update?: UnsubscribeLinkUpdateWithWhereUniqueWithoutOrganizationInput | UnsubscribeLinkUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: UnsubscribeLinkUpdateManyWithWhereWithoutOrganizationInput | UnsubscribeLinkUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: UnsubscribeLinkScalarWhereInput | UnsubscribeLinkScalarWhereInput[]
+  }
+
   export type ProjectUncheckedUpdateManyWithoutOrganizationNestedInput = {
     create?: XOR<ProjectCreateWithoutOrganizationInput, ProjectUncheckedCreateWithoutOrganizationInput> | ProjectCreateWithoutOrganizationInput[] | ProjectUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutOrganizationInput | ProjectCreateOrConnectWithoutOrganizationInput[]
@@ -31644,6 +33034,20 @@ export namespace Prisma {
     update?: LeadActivityUpdateWithWhereUniqueWithoutOrganizationInput | LeadActivityUpdateWithWhereUniqueWithoutOrganizationInput[]
     updateMany?: LeadActivityUpdateManyWithWhereWithoutOrganizationInput | LeadActivityUpdateManyWithWhereWithoutOrganizationInput[]
     deleteMany?: LeadActivityScalarWhereInput | LeadActivityScalarWhereInput[]
+  }
+
+  export type UnsubscribeLinkUncheckedUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<UnsubscribeLinkCreateWithoutOrganizationInput, UnsubscribeLinkUncheckedCreateWithoutOrganizationInput> | UnsubscribeLinkCreateWithoutOrganizationInput[] | UnsubscribeLinkUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: UnsubscribeLinkCreateOrConnectWithoutOrganizationInput | UnsubscribeLinkCreateOrConnectWithoutOrganizationInput[]
+    upsert?: UnsubscribeLinkUpsertWithWhereUniqueWithoutOrganizationInput | UnsubscribeLinkUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: UnsubscribeLinkCreateManyOrganizationInputEnvelope
+    set?: UnsubscribeLinkWhereUniqueInput | UnsubscribeLinkWhereUniqueInput[]
+    disconnect?: UnsubscribeLinkWhereUniqueInput | UnsubscribeLinkWhereUniqueInput[]
+    delete?: UnsubscribeLinkWhereUniqueInput | UnsubscribeLinkWhereUniqueInput[]
+    connect?: UnsubscribeLinkWhereUniqueInput | UnsubscribeLinkWhereUniqueInput[]
+    update?: UnsubscribeLinkUpdateWithWhereUniqueWithoutOrganizationInput | UnsubscribeLinkUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: UnsubscribeLinkUpdateManyWithWhereWithoutOrganizationInput | UnsubscribeLinkUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: UnsubscribeLinkScalarWhereInput | UnsubscribeLinkScalarWhereInput[]
   }
 
   export type OrganizationCreateNestedOneWithoutMembersInput = {
@@ -32234,6 +33638,20 @@ export namespace Prisma {
     connect?: LeadWhereUniqueInput
   }
 
+  export type EmailCreateNestedManyWithoutContactInput = {
+    create?: XOR<EmailCreateWithoutContactInput, EmailUncheckedCreateWithoutContactInput> | EmailCreateWithoutContactInput[] | EmailUncheckedCreateWithoutContactInput[]
+    connectOrCreate?: EmailCreateOrConnectWithoutContactInput | EmailCreateOrConnectWithoutContactInput[]
+    createMany?: EmailCreateManyContactInputEnvelope
+    connect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+  }
+
+  export type EmailUncheckedCreateNestedManyWithoutContactInput = {
+    create?: XOR<EmailCreateWithoutContactInput, EmailUncheckedCreateWithoutContactInput> | EmailCreateWithoutContactInput[] | EmailUncheckedCreateWithoutContactInput[]
+    connectOrCreate?: EmailCreateOrConnectWithoutContactInput | EmailCreateOrConnectWithoutContactInput[]
+    createMany?: EmailCreateManyContactInputEnvelope
+    connect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+  }
+
   export type OrganizationUpdateOneRequiredWithoutContactNestedInput = {
     create?: XOR<OrganizationCreateWithoutContactInput, OrganizationUncheckedCreateWithoutContactInput>
     connectOrCreate?: OrganizationCreateOrConnectWithoutContactInput
@@ -32248,6 +33666,34 @@ export namespace Prisma {
     upsert?: LeadUpsertWithoutContactsInput
     connect?: LeadWhereUniqueInput
     update?: XOR<XOR<LeadUpdateToOneWithWhereWithoutContactsInput, LeadUpdateWithoutContactsInput>, LeadUncheckedUpdateWithoutContactsInput>
+  }
+
+  export type EmailUpdateManyWithoutContactNestedInput = {
+    create?: XOR<EmailCreateWithoutContactInput, EmailUncheckedCreateWithoutContactInput> | EmailCreateWithoutContactInput[] | EmailUncheckedCreateWithoutContactInput[]
+    connectOrCreate?: EmailCreateOrConnectWithoutContactInput | EmailCreateOrConnectWithoutContactInput[]
+    upsert?: EmailUpsertWithWhereUniqueWithoutContactInput | EmailUpsertWithWhereUniqueWithoutContactInput[]
+    createMany?: EmailCreateManyContactInputEnvelope
+    set?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    disconnect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    delete?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    connect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    update?: EmailUpdateWithWhereUniqueWithoutContactInput | EmailUpdateWithWhereUniqueWithoutContactInput[]
+    updateMany?: EmailUpdateManyWithWhereWithoutContactInput | EmailUpdateManyWithWhereWithoutContactInput[]
+    deleteMany?: EmailScalarWhereInput | EmailScalarWhereInput[]
+  }
+
+  export type EmailUncheckedUpdateManyWithoutContactNestedInput = {
+    create?: XOR<EmailCreateWithoutContactInput, EmailUncheckedCreateWithoutContactInput> | EmailCreateWithoutContactInput[] | EmailUncheckedCreateWithoutContactInput[]
+    connectOrCreate?: EmailCreateOrConnectWithoutContactInput | EmailCreateOrConnectWithoutContactInput[]
+    upsert?: EmailUpsertWithWhereUniqueWithoutContactInput | EmailUpsertWithWhereUniqueWithoutContactInput[]
+    createMany?: EmailCreateManyContactInputEnvelope
+    set?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    disconnect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    delete?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    connect?: EmailWhereUniqueInput | EmailWhereUniqueInput[]
+    update?: EmailUpdateWithWhereUniqueWithoutContactInput | EmailUpdateWithWhereUniqueWithoutContactInput[]
+    updateMany?: EmailUpdateManyWithWhereWithoutContactInput | EmailUpdateManyWithWhereWithoutContactInput[]
+    deleteMany?: EmailScalarWhereInput | EmailScalarWhereInput[]
   }
 
   export type LeadCreateNestedOneWithoutAttachmentsInput = {
@@ -32344,6 +33790,12 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type ContactCreateNestedOneWithoutEmailInput = {
+    create?: XOR<ContactCreateWithoutEmailInput, ContactUncheckedCreateWithoutEmailInput>
+    connectOrCreate?: ContactCreateOrConnectWithoutEmailInput
+    connect?: ContactWhereUniqueInput
+  }
+
   export type LeadCreateNestedOneWithoutEmailInput = {
     create?: XOR<LeadCreateWithoutEmailInput, LeadUncheckedCreateWithoutEmailInput>
     connectOrCreate?: LeadCreateOrConnectWithoutEmailInput
@@ -32396,6 +33848,16 @@ export namespace Prisma {
 
   export type EnumIntegrationTypeFieldUpdateOperationsInput = {
     set?: $Enums.IntegrationType
+  }
+
+  export type ContactUpdateOneWithoutEmailNestedInput = {
+    create?: XOR<ContactCreateWithoutEmailInput, ContactUncheckedCreateWithoutEmailInput>
+    connectOrCreate?: ContactCreateOrConnectWithoutEmailInput
+    upsert?: ContactUpsertWithoutEmailInput
+    disconnect?: ContactWhereInput | boolean
+    delete?: ContactWhereInput | boolean
+    connect?: ContactWhereUniqueInput
+    update?: XOR<XOR<ContactUpdateToOneWithWhereWithoutEmailInput, ContactUpdateWithoutEmailInput>, ContactUncheckedUpdateWithoutEmailInput>
   }
 
   export type LeadUpdateOneWithoutEmailNestedInput = {
@@ -32748,6 +34210,20 @@ export namespace Prisma {
     upsert?: OrganizationUpsertWithoutMailServiceFromEmailInput
     connect?: OrganizationWhereUniqueInput
     update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutMailServiceFromEmailInput, OrganizationUpdateWithoutMailServiceFromEmailInput>, OrganizationUncheckedUpdateWithoutMailServiceFromEmailInput>
+  }
+
+  export type OrganizationCreateNestedOneWithoutUnsubscribeLinkInput = {
+    create?: XOR<OrganizationCreateWithoutUnsubscribeLinkInput, OrganizationUncheckedCreateWithoutUnsubscribeLinkInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutUnsubscribeLinkInput
+    connect?: OrganizationWhereUniqueInput
+  }
+
+  export type OrganizationUpdateOneRequiredWithoutUnsubscribeLinkNestedInput = {
+    create?: XOR<OrganizationCreateWithoutUnsubscribeLinkInput, OrganizationUncheckedCreateWithoutUnsubscribeLinkInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutUnsubscribeLinkInput
+    upsert?: OrganizationUpsertWithoutUnsubscribeLinkInput
+    connect?: OrganizationWhereUniqueInput
+    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutUnsubscribeLinkInput, OrganizationUpdateWithoutUnsubscribeLinkInput>, OrganizationUncheckedUpdateWithoutUnsubscribeLinkInput>
   }
 
   export type IntegrationCreateNestedOneWithoutJobsInput = {
@@ -33747,6 +35223,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutInvitesInput = {
@@ -33769,6 +35246,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutInvitesInput = {
@@ -33848,6 +35326,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutInvitesInput = {
@@ -33870,6 +35349,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type ProjectCreateWithoutOrganizationInput = {
@@ -34090,6 +35570,7 @@ export namespace Prisma {
     isPrimay?: boolean
     isUnsubscribed?: boolean
     lead: LeadCreateNestedOneWithoutContactsInput
+    Email?: EmailCreateNestedManyWithoutContactInput
   }
 
   export type ContactUncheckedCreateWithoutOrganizationInput = {
@@ -34108,6 +35589,7 @@ export namespace Prisma {
     deletedAt: bigint | number
     isPrimay?: boolean
     isUnsubscribed?: boolean
+    Email?: EmailUncheckedCreateNestedManyWithoutContactInput
   }
 
   export type ContactCreateOrConnectWithoutOrganizationInput = {
@@ -34230,6 +35712,7 @@ export namespace Prisma {
     deletedAt?: bigint | number
     integrationId: string
     source: $Enums.IntegrationType
+    contact?: ContactCreateNestedOneWithoutEmailInput
     lead?: LeadCreateNestedOneWithoutEmailInput
     EmailQueue?: EmailQueueCreateNestedManyWithoutEmailInput
   }
@@ -34258,6 +35741,7 @@ export namespace Prisma {
     deletedAt?: bigint | number
     integrationId: string
     leadId?: string | null
+    contactId?: string | null
     source: $Enums.IntegrationType
     EmailQueue?: EmailQueueUncheckedCreateNestedManyWithoutEmailInput
   }
@@ -34367,6 +35851,32 @@ export namespace Prisma {
 
   export type LeadActivityCreateManyOrganizationInputEnvelope = {
     data: LeadActivityCreateManyOrganizationInput | LeadActivityCreateManyOrganizationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UnsubscribeLinkCreateWithoutOrganizationInput = {
+    id?: string
+    name: string
+    message?: string | null
+    anchorText: string
+    isActive?: boolean
+  }
+
+  export type UnsubscribeLinkUncheckedCreateWithoutOrganizationInput = {
+    id?: string
+    name: string
+    message?: string | null
+    anchorText: string
+    isActive?: boolean
+  }
+
+  export type UnsubscribeLinkCreateOrConnectWithoutOrganizationInput = {
+    where: UnsubscribeLinkWhereUniqueInput
+    create: XOR<UnsubscribeLinkCreateWithoutOrganizationInput, UnsubscribeLinkUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type UnsubscribeLinkCreateManyOrganizationInputEnvelope = {
+    data: UnsubscribeLinkCreateManyOrganizationInput | UnsubscribeLinkCreateManyOrganizationInput[]
     skipDuplicates?: boolean
   }
 
@@ -34658,6 +36168,7 @@ export namespace Prisma {
     integrationId?: StringFilter<"Email"> | string
     organizationId?: StringFilter<"Email"> | string
     leadId?: StringNullableFilter<"Email"> | string | null
+    contactId?: StringNullableFilter<"Email"> | string | null
     source?: EnumIntegrationTypeFilter<"Email"> | $Enums.IntegrationType
   }
 
@@ -34739,6 +36250,34 @@ export namespace Prisma {
     data: XOR<LeadActivityUpdateManyMutationInput, LeadActivityUncheckedUpdateManyWithoutOrganizationInput>
   }
 
+  export type UnsubscribeLinkUpsertWithWhereUniqueWithoutOrganizationInput = {
+    where: UnsubscribeLinkWhereUniqueInput
+    update: XOR<UnsubscribeLinkUpdateWithoutOrganizationInput, UnsubscribeLinkUncheckedUpdateWithoutOrganizationInput>
+    create: XOR<UnsubscribeLinkCreateWithoutOrganizationInput, UnsubscribeLinkUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type UnsubscribeLinkUpdateWithWhereUniqueWithoutOrganizationInput = {
+    where: UnsubscribeLinkWhereUniqueInput
+    data: XOR<UnsubscribeLinkUpdateWithoutOrganizationInput, UnsubscribeLinkUncheckedUpdateWithoutOrganizationInput>
+  }
+
+  export type UnsubscribeLinkUpdateManyWithWhereWithoutOrganizationInput = {
+    where: UnsubscribeLinkScalarWhereInput
+    data: XOR<UnsubscribeLinkUpdateManyMutationInput, UnsubscribeLinkUncheckedUpdateManyWithoutOrganizationInput>
+  }
+
+  export type UnsubscribeLinkScalarWhereInput = {
+    AND?: UnsubscribeLinkScalarWhereInput | UnsubscribeLinkScalarWhereInput[]
+    OR?: UnsubscribeLinkScalarWhereInput[]
+    NOT?: UnsubscribeLinkScalarWhereInput | UnsubscribeLinkScalarWhereInput[]
+    id?: StringFilter<"UnsubscribeLink"> | string
+    name?: StringFilter<"UnsubscribeLink"> | string
+    message?: StringNullableFilter<"UnsubscribeLink"> | string | null
+    anchorText?: StringFilter<"UnsubscribeLink"> | string
+    isActive?: BoolFilter<"UnsubscribeLink"> | boolean
+    organizationId?: StringFilter<"UnsubscribeLink"> | string
+  }
+
   export type OrganizationCreateWithoutMembersInput = {
     id?: string
     name: string
@@ -34759,6 +36298,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutMembersInput = {
@@ -34781,6 +36321,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutMembersInput = {
@@ -34904,6 +36445,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutMembersInput = {
@@ -34926,6 +36468,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type UserUpsertWithoutOrgMembersInput = {
@@ -35005,6 +36548,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutProjectInput = {
@@ -35027,6 +36571,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutProjectInput = {
@@ -35142,6 +36687,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutProjectInput = {
@@ -35164,6 +36710,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type LeadProjectUpsertWithWhereUniqueWithoutProjectInput = {
@@ -35590,6 +37137,7 @@ export namespace Prisma {
     isPrimay?: boolean
     isUnsubscribed?: boolean
     organization: OrganizationCreateNestedOneWithoutContactInput
+    Email?: EmailCreateNestedManyWithoutContactInput
   }
 
   export type ContactUncheckedCreateWithoutLeadInput = {
@@ -35608,6 +37156,7 @@ export namespace Prisma {
     organizationId: string
     isPrimay?: boolean
     isUnsubscribed?: boolean
+    Email?: EmailUncheckedCreateNestedManyWithoutContactInput
   }
 
   export type ContactCreateOrConnectWithoutLeadInput = {
@@ -35672,6 +37221,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutLeadInput = {
@@ -35694,6 +37244,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutLeadInput = {
@@ -35770,6 +37321,7 @@ export namespace Prisma {
     deletedAt?: bigint | number
     integrationId: string
     source: $Enums.IntegrationType
+    contact?: ContactCreateNestedOneWithoutEmailInput
     organization: OrganizationCreateNestedOneWithoutEmailInput
     EmailQueue?: EmailQueueCreateNestedManyWithoutEmailInput
   }
@@ -35798,6 +37350,7 @@ export namespace Prisma {
     deletedAt?: bigint | number
     integrationId: string
     organizationId: string
+    contactId?: string | null
     source: $Enums.IntegrationType
     EmailQueue?: EmailQueueUncheckedCreateNestedManyWithoutEmailInput
   }
@@ -35967,6 +37520,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutLeadInput = {
@@ -35989,6 +37543,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type IntegrationUpsertWithoutLeadInput = {
@@ -36201,6 +37756,7 @@ export namespace Prisma {
     Email?: EmailCreateNestedManyWithoutOrganizationInput
     MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutLeadProjectInput = {
@@ -36223,6 +37779,7 @@ export namespace Prisma {
     Email?: EmailUncheckedCreateNestedManyWithoutOrganizationInput
     MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutLeadProjectInput = {
@@ -36402,6 +37959,7 @@ export namespace Prisma {
     Email?: EmailUpdateManyWithoutOrganizationNestedInput
     MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutLeadProjectInput = {
@@ -36424,6 +37982,7 @@ export namespace Prisma {
     Email?: EmailUncheckedUpdateManyWithoutOrganizationNestedInput
     MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationCreateWithoutContactInput = {
@@ -36446,6 +38005,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutContactInput = {
@@ -36468,6 +38028,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutContactInput = {
@@ -36520,6 +38081,74 @@ export namespace Prisma {
     create: XOR<LeadCreateWithoutContactsInput, LeadUncheckedCreateWithoutContactsInput>
   }
 
+  export type EmailCreateWithoutContactInput = {
+    id?: string
+    from: JsonNullValueInput | InputJsonValue
+    to?: EmailCreatetoInput | string[]
+    replyTo?: string | null
+    cc?: EmailCreateccInput | string[]
+    bcc?: EmailCreatebccInput | string[]
+    status?: $Enums.EmailStatus
+    subject?: string | null
+    body: string
+    html?: string | null
+    trackingId?: string | null
+    messageId?: string | null
+    threadId?: string | null
+    historyId?: string | null
+    labelIds?: EmailCreatelabelIdsInput | string[]
+    isOpened?: boolean
+    openedAt?: bigint | number
+    isClicked?: boolean
+    clickedAt?: bigint | number
+    sentAt?: bigint | number
+    deletedAt?: bigint | number
+    integrationId: string
+    source: $Enums.IntegrationType
+    lead?: LeadCreateNestedOneWithoutEmailInput
+    organization: OrganizationCreateNestedOneWithoutEmailInput
+    EmailQueue?: EmailQueueCreateNestedManyWithoutEmailInput
+  }
+
+  export type EmailUncheckedCreateWithoutContactInput = {
+    id?: string
+    from: JsonNullValueInput | InputJsonValue
+    to?: EmailCreatetoInput | string[]
+    replyTo?: string | null
+    cc?: EmailCreateccInput | string[]
+    bcc?: EmailCreatebccInput | string[]
+    status?: $Enums.EmailStatus
+    subject?: string | null
+    body: string
+    html?: string | null
+    trackingId?: string | null
+    messageId?: string | null
+    threadId?: string | null
+    historyId?: string | null
+    labelIds?: EmailCreatelabelIdsInput | string[]
+    isOpened?: boolean
+    openedAt?: bigint | number
+    isClicked?: boolean
+    clickedAt?: bigint | number
+    sentAt?: bigint | number
+    deletedAt?: bigint | number
+    integrationId: string
+    organizationId: string
+    leadId?: string | null
+    source: $Enums.IntegrationType
+    EmailQueue?: EmailQueueUncheckedCreateNestedManyWithoutEmailInput
+  }
+
+  export type EmailCreateOrConnectWithoutContactInput = {
+    where: EmailWhereUniqueInput
+    create: XOR<EmailCreateWithoutContactInput, EmailUncheckedCreateWithoutContactInput>
+  }
+
+  export type EmailCreateManyContactInputEnvelope = {
+    data: EmailCreateManyContactInput | EmailCreateManyContactInput[]
+    skipDuplicates?: boolean
+  }
+
   export type OrganizationUpsertWithoutContactInput = {
     update: XOR<OrganizationUpdateWithoutContactInput, OrganizationUncheckedUpdateWithoutContactInput>
     create: XOR<OrganizationCreateWithoutContactInput, OrganizationUncheckedCreateWithoutContactInput>
@@ -36551,6 +38180,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutContactInput = {
@@ -36573,6 +38203,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type LeadUpsertWithoutContactsInput = {
@@ -36624,6 +38255,22 @@ export namespace Prisma {
     leadNotes?: LeadNotesUncheckedUpdateManyWithoutLeadNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutLeadNestedInput
     Email?: EmailUncheckedUpdateManyWithoutLeadNestedInput
+  }
+
+  export type EmailUpsertWithWhereUniqueWithoutContactInput = {
+    where: EmailWhereUniqueInput
+    update: XOR<EmailUpdateWithoutContactInput, EmailUncheckedUpdateWithoutContactInput>
+    create: XOR<EmailCreateWithoutContactInput, EmailUncheckedCreateWithoutContactInput>
+  }
+
+  export type EmailUpdateWithWhereUniqueWithoutContactInput = {
+    where: EmailWhereUniqueInput
+    data: XOR<EmailUpdateWithoutContactInput, EmailUncheckedUpdateWithoutContactInput>
+  }
+
+  export type EmailUpdateManyWithWhereWithoutContactInput = {
+    where: EmailScalarWhereInput
+    data: XOR<EmailUpdateManyMutationInput, EmailUncheckedUpdateManyWithoutContactInput>
   }
 
   export type LeadCreateWithoutAttachmentsInput = {
@@ -36742,6 +38389,7 @@ export namespace Prisma {
     Email?: EmailCreateNestedManyWithoutOrganizationInput
     MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
+    UnsubscribeLink?: UnsubscribeLinkCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutLeadActivityInput = {
@@ -36764,6 +38412,7 @@ export namespace Prisma {
     Email?: EmailUncheckedCreateNestedManyWithoutOrganizationInput
     MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutLeadActivityInput = {
@@ -36907,6 +38556,7 @@ export namespace Prisma {
     Email?: EmailUpdateManyWithoutOrganizationNestedInput
     MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutLeadActivityInput = {
@@ -36929,6 +38579,7 @@ export namespace Prisma {
     Email?: EmailUncheckedUpdateManyWithoutOrganizationNestedInput
     MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type LeadUpsertWithoutLeadActivitiesInput = {
@@ -37054,6 +38705,49 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type ContactCreateWithoutEmailInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    secondaryEmail?: string | null
+    primaryPhNo?: string | null
+    secondaryPhNo?: string | null
+    industry?: string | null
+    type?: string | null
+    lastContacted?: bigint | number | null
+    createdAt: bigint | number
+    updatedAt: bigint | number
+    deletedAt: bigint | number
+    isPrimay?: boolean
+    isUnsubscribed?: boolean
+    organization: OrganizationCreateNestedOneWithoutContactInput
+    lead: LeadCreateNestedOneWithoutContactsInput
+  }
+
+  export type ContactUncheckedCreateWithoutEmailInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    secondaryEmail?: string | null
+    primaryPhNo?: string | null
+    secondaryPhNo?: string | null
+    industry?: string | null
+    type?: string | null
+    leadId: string
+    lastContacted?: bigint | number | null
+    createdAt: bigint | number
+    updatedAt: bigint | number
+    deletedAt: bigint | number
+    organizationId: string
+    isPrimay?: boolean
+    isUnsubscribed?: boolean
+  }
+
+  export type ContactCreateOrConnectWithoutEmailInput = {
+    where: ContactWhereUniqueInput
+    create: XOR<ContactCreateWithoutEmailInput, ContactUncheckedCreateWithoutEmailInput>
+  }
+
   export type LeadCreateWithoutEmailInput = {
     id?: string
     shopifyDomain: string
@@ -37119,6 +38813,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutEmailInput = {
@@ -37141,6 +38836,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutEmailInput = {
@@ -37174,6 +38870,55 @@ export namespace Prisma {
   export type EmailQueueCreateManyEmailInputEnvelope = {
     data: EmailQueueCreateManyEmailInput | EmailQueueCreateManyEmailInput[]
     skipDuplicates?: boolean
+  }
+
+  export type ContactUpsertWithoutEmailInput = {
+    update: XOR<ContactUpdateWithoutEmailInput, ContactUncheckedUpdateWithoutEmailInput>
+    create: XOR<ContactCreateWithoutEmailInput, ContactUncheckedCreateWithoutEmailInput>
+    where?: ContactWhereInput
+  }
+
+  export type ContactUpdateToOneWithWhereWithoutEmailInput = {
+    where?: ContactWhereInput
+    data: XOR<ContactUpdateWithoutEmailInput, ContactUncheckedUpdateWithoutEmailInput>
+  }
+
+  export type ContactUpdateWithoutEmailInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isPrimay?: BoolFieldUpdateOperationsInput | boolean
+    isUnsubscribed?: BoolFieldUpdateOperationsInput | boolean
+    organization?: OrganizationUpdateOneRequiredWithoutContactNestedInput
+    lead?: LeadUpdateOneRequiredWithoutContactsNestedInput
+  }
+
+  export type ContactUncheckedUpdateWithoutEmailInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    leadId?: StringFieldUpdateOperationsInput | string
+    lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    isPrimay?: BoolFieldUpdateOperationsInput | boolean
+    isUnsubscribed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type LeadUpsertWithoutEmailInput = {
@@ -37258,6 +39003,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutEmailInput = {
@@ -37280,6 +39026,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type EmailQueueUpsertWithWhereUniqueWithoutEmailInput = {
@@ -37335,6 +39082,7 @@ export namespace Prisma {
     deletedAt?: bigint | number
     integrationId: string
     source: $Enums.IntegrationType
+    contact?: ContactCreateNestedOneWithoutEmailInput
     lead?: LeadCreateNestedOneWithoutEmailInput
     organization: OrganizationCreateNestedOneWithoutEmailInput
   }
@@ -37364,6 +39112,7 @@ export namespace Prisma {
     integrationId: string
     organizationId: string
     leadId?: string | null
+    contactId?: string | null
     source: $Enums.IntegrationType
   }
 
@@ -37407,6 +39156,7 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    contact?: ContactUpdateOneWithoutEmailNestedInput
     lead?: LeadUpdateOneWithoutEmailNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutEmailNestedInput
   }
@@ -37436,6 +39186,7 @@ export namespace Prisma {
     integrationId?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
   }
 
@@ -37524,6 +39275,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutIntegrationsInput = {
@@ -37546,6 +39298,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutIntegrationsInput = {
@@ -37777,6 +39530,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutIntegrationsInput = {
@@ -37799,6 +39553,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type LeadUpsertWithWhereUniqueWithoutIntegrationInput = {
@@ -37943,6 +39698,7 @@ export namespace Prisma {
     Email?: EmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutMailServiceFromEmailInput = {
@@ -37965,6 +39721,7 @@ export namespace Prisma {
     Email?: EmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutMailServiceFromEmailInput = {
@@ -38054,6 +39811,7 @@ export namespace Prisma {
     Email?: EmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutMailServiceFromEmailInput = {
@@ -38074,6 +39832,115 @@ export namespace Prisma {
     LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
     webhooks?: WebhookUncheckedUpdateManyWithoutOrganizationNestedInput
     Email?: EmailUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
+    LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedUpdateManyWithoutOrganizationNestedInput
+  }
+
+  export type OrganizationCreateWithoutUnsubscribeLinkInput = {
+    id?: string
+    name: string
+    logo?: string | null
+    description?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    Project?: ProjectCreateNestedManyWithoutOrganizationInput
+    members?: OrgMemberCreateNestedManyWithoutOrganizationInput
+    invites?: OrgMemberInviteCreateNestedManyWithoutOrganizationInput
+    integrations?: IntegrationCreateNestedManyWithoutOrganizationInput
+    Lead?: LeadCreateNestedManyWithoutOrganizationInput
+    contact?: ContactCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookCreateNestedManyWithoutOrganizationInput
+    Email?: EmailCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
+    LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationUncheckedCreateWithoutUnsubscribeLinkInput = {
+    id?: string
+    name: string
+    logo?: string | null
+    description?: string | null
+    createdAt?: bigint | number
+    updatedAt?: bigint | number
+    deletedAt: bigint | number
+    Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
+    members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
+    invites?: OrgMemberInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    integrations?: IntegrationUncheckedCreateNestedManyWithoutOrganizationInput
+    Lead?: LeadUncheckedCreateNestedManyWithoutOrganizationInput
+    contact?: ContactUncheckedCreateNestedManyWithoutOrganizationInput
+    Template?: TemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadStatus?: LeadStatusUncheckedCreateNestedManyWithoutOrganizationInput
+    webhooks?: WebhookUncheckedCreateNestedManyWithoutOrganizationInput
+    Email?: EmailUncheckedCreateNestedManyWithoutOrganizationInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
+    LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
+    LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationCreateOrConnectWithoutUnsubscribeLinkInput = {
+    where: OrganizationWhereUniqueInput
+    create: XOR<OrganizationCreateWithoutUnsubscribeLinkInput, OrganizationUncheckedCreateWithoutUnsubscribeLinkInput>
+  }
+
+  export type OrganizationUpsertWithoutUnsubscribeLinkInput = {
+    update: XOR<OrganizationUpdateWithoutUnsubscribeLinkInput, OrganizationUncheckedUpdateWithoutUnsubscribeLinkInput>
+    create: XOR<OrganizationCreateWithoutUnsubscribeLinkInput, OrganizationUncheckedCreateWithoutUnsubscribeLinkInput>
+    where?: OrganizationWhereInput
+  }
+
+  export type OrganizationUpdateToOneWithWhereWithoutUnsubscribeLinkInput = {
+    where?: OrganizationWhereInput
+    data: XOR<OrganizationUpdateWithoutUnsubscribeLinkInput, OrganizationUncheckedUpdateWithoutUnsubscribeLinkInput>
+  }
+
+  export type OrganizationUpdateWithoutUnsubscribeLinkInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    Project?: ProjectUpdateManyWithoutOrganizationNestedInput
+    members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
+    invites?: OrgMemberInviteUpdateManyWithoutOrganizationNestedInput
+    integrations?: IntegrationUpdateManyWithoutOrganizationNestedInput
+    Lead?: LeadUpdateManyWithoutOrganizationNestedInput
+    contact?: ContactUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
+    LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
+    LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
+  }
+
+  export type OrganizationUncheckedUpdateWithoutUnsubscribeLinkInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
+    members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
+    invites?: OrgMemberInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    integrations?: IntegrationUncheckedUpdateManyWithoutOrganizationNestedInput
+    Lead?: LeadUncheckedUpdateManyWithoutOrganizationNestedInput
+    contact?: ContactUncheckedUpdateManyWithoutOrganizationNestedInput
+    Template?: TemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    LeadStatus?: LeadStatusUncheckedUpdateManyWithoutOrganizationNestedInput
+    webhooks?: WebhookUncheckedUpdateManyWithoutOrganizationNestedInput
+    Email?: EmailUncheckedUpdateManyWithoutOrganizationNestedInput
+    MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
   }
@@ -38304,6 +40171,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutWebhooksInput = {
@@ -38326,6 +40194,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutWebhooksInput = {
@@ -38364,6 +40233,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutWebhooksInput = {
@@ -38386,6 +40256,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationCreateWithoutTemplateInput = {
@@ -38408,6 +40279,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutTemplateInput = {
@@ -38430,6 +40302,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutTemplateInput = {
@@ -38503,6 +40376,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutTemplateInput = {
@@ -38525,6 +40399,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type UserUpsertWithoutTemplatesInput = {
@@ -38638,6 +40513,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutLeadStatusInput = {
@@ -38660,6 +40536,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedCreateNestedManyWithoutOrganizationInput
     LeadProject?: LeadProjectUncheckedCreateNestedManyWithoutOrganizatioonInput
     LeadActivity?: LeadActivityUncheckedCreateNestedManyWithoutOrganizationInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutLeadStatusInput = {
@@ -38714,6 +40591,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutLeadStatusInput = {
@@ -38736,6 +40614,7 @@ export namespace Prisma {
     MailServiceFromEmail?: MailServiceFromEmailUncheckedUpdateManyWithoutOrganizationNestedInput
     LeadProject?: LeadProjectUncheckedUpdateManyWithoutOrganizatioonNestedInput
     LeadActivity?: LeadActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+    UnsubscribeLink?: UnsubscribeLinkUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type LeadActivityCreateManyUserInput = {
@@ -39086,6 +40965,7 @@ export namespace Prisma {
     deletedAt?: bigint | number
     integrationId: string
     leadId?: string | null
+    contactId?: string | null
     source: $Enums.IntegrationType
   }
 
@@ -39121,6 +41001,14 @@ export namespace Prisma {
     userId?: string | null
     noteId?: string | null
     type: $Enums.LeadActivityType
+  }
+
+  export type UnsubscribeLinkCreateManyOrganizationInput = {
+    id?: string
+    name: string
+    message?: string | null
+    anchorText: string
+    isActive?: boolean
   }
 
   export type ProjectUpdateWithoutOrganizationInput = {
@@ -39354,6 +41242,7 @@ export namespace Prisma {
     isPrimay?: BoolFieldUpdateOperationsInput | boolean
     isUnsubscribed?: BoolFieldUpdateOperationsInput | boolean
     lead?: LeadUpdateOneRequiredWithoutContactsNestedInput
+    Email?: EmailUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateWithoutOrganizationInput = {
@@ -39372,6 +41261,7 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     isPrimay?: BoolFieldUpdateOperationsInput | boolean
     isUnsubscribed?: BoolFieldUpdateOperationsInput | boolean
+    Email?: EmailUncheckedUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateManyWithoutOrganizationInput = {
@@ -39499,6 +41389,7 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    contact?: ContactUpdateOneWithoutEmailNestedInput
     lead?: LeadUpdateOneWithoutEmailNestedInput
     EmailQueue?: EmailQueueUpdateManyWithoutEmailNestedInput
   }
@@ -39527,6 +41418,7 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
     EmailQueue?: EmailQueueUncheckedUpdateManyWithoutEmailNestedInput
   }
@@ -39555,6 +41447,7 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
     leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
   }
 
@@ -39658,6 +41551,30 @@ export namespace Prisma {
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     noteId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumLeadActivityTypeFieldUpdateOperationsInput | $Enums.LeadActivityType
+  }
+
+  export type UnsubscribeLinkUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    anchorText?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type UnsubscribeLinkUncheckedUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    anchorText?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type UnsubscribeLinkUncheckedUpdateManyWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    anchorText?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type IntegrationCreateManyMembersInput = {
@@ -39907,6 +41824,7 @@ export namespace Prisma {
     deletedAt?: bigint | number
     integrationId: string
     organizationId: string
+    contactId?: string | null
     source: $Enums.IntegrationType
   }
 
@@ -40024,6 +41942,7 @@ export namespace Prisma {
     isPrimay?: BoolFieldUpdateOperationsInput | boolean
     isUnsubscribed?: BoolFieldUpdateOperationsInput | boolean
     organization?: OrganizationUpdateOneRequiredWithoutContactNestedInput
+    Email?: EmailUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateWithoutLeadInput = {
@@ -40042,6 +41961,7 @@ export namespace Prisma {
     organizationId?: StringFieldUpdateOperationsInput | string
     isPrimay?: BoolFieldUpdateOperationsInput | boolean
     isUnsubscribed?: BoolFieldUpdateOperationsInput | boolean
+    Email?: EmailUncheckedUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateManyWithoutLeadInput = {
@@ -40119,6 +42039,7 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    contact?: ContactUpdateOneWithoutEmailNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutEmailNestedInput
     EmailQueue?: EmailQueueUpdateManyWithoutEmailNestedInput
   }
@@ -40147,6 +42068,7 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
     EmailQueue?: EmailQueueUncheckedUpdateManyWithoutEmailNestedInput
   }
@@ -40175,6 +42097,121 @@ export namespace Prisma {
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     integrationId?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+  }
+
+  export type EmailCreateManyContactInput = {
+    id?: string
+    from: JsonNullValueInput | InputJsonValue
+    to?: EmailCreatetoInput | string[]
+    replyTo?: string | null
+    cc?: EmailCreateccInput | string[]
+    bcc?: EmailCreatebccInput | string[]
+    status?: $Enums.EmailStatus
+    subject?: string | null
+    body: string
+    html?: string | null
+    trackingId?: string | null
+    messageId?: string | null
+    threadId?: string | null
+    historyId?: string | null
+    labelIds?: EmailCreatelabelIdsInput | string[]
+    isOpened?: boolean
+    openedAt?: bigint | number
+    isClicked?: boolean
+    clickedAt?: bigint | number
+    sentAt?: bigint | number
+    deletedAt?: bigint | number
+    integrationId: string
+    organizationId: string
+    leadId?: string | null
+    source: $Enums.IntegrationType
+  }
+
+  export type EmailUpdateWithoutContactInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    from?: JsonNullValueInput | InputJsonValue
+    to?: EmailUpdatetoInput | string[]
+    replyTo?: NullableStringFieldUpdateOperationsInput | string | null
+    cc?: EmailUpdateccInput | string[]
+    bcc?: EmailUpdatebccInput | string[]
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingId?: NullableStringFieldUpdateOperationsInput | string | null
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    threadId?: NullableStringFieldUpdateOperationsInput | string | null
+    historyId?: NullableStringFieldUpdateOperationsInput | string | null
+    labelIds?: EmailUpdatelabelIdsInput | string[]
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
+    openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
+    clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integrationId?: StringFieldUpdateOperationsInput | string
+    source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    lead?: LeadUpdateOneWithoutEmailNestedInput
+    organization?: OrganizationUpdateOneRequiredWithoutEmailNestedInput
+    EmailQueue?: EmailQueueUpdateManyWithoutEmailNestedInput
+  }
+
+  export type EmailUncheckedUpdateWithoutContactInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    from?: JsonNullValueInput | InputJsonValue
+    to?: EmailUpdatetoInput | string[]
+    replyTo?: NullableStringFieldUpdateOperationsInput | string | null
+    cc?: EmailUpdateccInput | string[]
+    bcc?: EmailUpdatebccInput | string[]
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingId?: NullableStringFieldUpdateOperationsInput | string | null
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    threadId?: NullableStringFieldUpdateOperationsInput | string | null
+    historyId?: NullableStringFieldUpdateOperationsInput | string | null
+    labelIds?: EmailUpdatelabelIdsInput | string[]
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
+    openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
+    clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integrationId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
+    EmailQueue?: EmailQueueUncheckedUpdateManyWithoutEmailNestedInput
+  }
+
+  export type EmailUncheckedUpdateManyWithoutContactInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    from?: JsonNullValueInput | InputJsonValue
+    to?: EmailUpdatetoInput | string[]
+    replyTo?: NullableStringFieldUpdateOperationsInput | string | null
+    cc?: EmailUpdateccInput | string[]
+    bcc?: EmailUpdatebccInput | string[]
+    status?: EnumEmailStatusFieldUpdateOperationsInput | $Enums.EmailStatus
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingId?: NullableStringFieldUpdateOperationsInput | string | null
+    messageId?: NullableStringFieldUpdateOperationsInput | string | null
+    threadId?: NullableStringFieldUpdateOperationsInput | string | null
+    historyId?: NullableStringFieldUpdateOperationsInput | string | null
+    labelIds?: EmailUpdatelabelIdsInput | string[]
+    isOpened?: BoolFieldUpdateOperationsInput | boolean
+    openedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    isClicked?: BoolFieldUpdateOperationsInput | boolean
+    clickedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    sentAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    integrationId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    leadId?: NullableStringFieldUpdateOperationsInput | string | null
     source?: EnumIntegrationTypeFieldUpdateOperationsInput | $Enums.IntegrationType
   }
 
@@ -40592,6 +42629,10 @@ export namespace Prisma {
      */
     export type LeadCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = LeadCountOutputTypeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use ContactCountOutputTypeDefaultArgs instead
+     */
+    export type ContactCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ContactCountOutputTypeDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use EmailCountOutputTypeDefaultArgs instead
      */
     export type EmailCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = EmailCountOutputTypeDefaultArgs<ExtArgs>
@@ -40667,6 +42708,10 @@ export namespace Prisma {
      * @deprecated Use MailServiceFromEmailDefaultArgs instead
      */
     export type MailServiceFromEmailArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MailServiceFromEmailDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use UnsubscribeLinkDefaultArgs instead
+     */
+    export type UnsubscribeLinkArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UnsubscribeLinkDefaultArgs<ExtArgs>
     /**
      * @deprecated Use JobDefaultArgs instead
      */

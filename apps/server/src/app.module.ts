@@ -39,6 +39,9 @@ import { LeadStatusModule } from './LeadStatus/lead-status.module';
 import { LeadStatusService } from './LeadStatus/lead-status.service';
 import { LeadModule } from './leads/lead.module';
 import { LeadQueryBuilder } from './queryBuilders/LeadQueryBuilder';
+import { UnsubscribeLinkModule } from './unsubscribe-link/unsubscribe-link.module';
+import { UnsubscribeLinkService } from './unsubscribe-link/unsubscribe-link.service';
+import { UnsubscribeLinkController } from './unsubscribe-link/unsubscribe-link.controller';
 
 @Module({
   imports: [
@@ -70,6 +73,7 @@ import { LeadQueryBuilder } from './queryBuilders/LeadQueryBuilder';
     AuthModule,
     IntegrationModule,
     LeadStatusModule,
+    UnsubscribeLinkModule,
   ],
   controllers: [
     UserController,
@@ -84,6 +88,7 @@ import { LeadQueryBuilder } from './queryBuilders/LeadQueryBuilder';
     LeadActivityController,
     LeadNotesController,
     ContactController,
+    UnsubscribeLinkController
   ],
   providers: [
     UserService,
@@ -103,6 +108,7 @@ import { LeadQueryBuilder } from './queryBuilders/LeadQueryBuilder';
     ContactService,
     Service,
     LeadQueryBuilder,
+    UnsubscribeLinkService
   ],
 })
 export class AppModule {

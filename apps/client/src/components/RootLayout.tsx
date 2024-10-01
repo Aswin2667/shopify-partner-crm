@@ -31,6 +31,8 @@ import IntegrationService from "@/services/IntegrationService";
 import { useDispatch, useSelector } from "react-redux";
 import { integrationAction } from "@/redux/integrationSlice";
 import { mailAction } from "@/redux/mailSlice";
+import { organizationAction } from "@/redux/organizationSlice";
+import UnsubscribeLinkService from "@/services/UnSubscribeLinkService";
 
 const defaultLayout = [17, 32];
 export default function RootLayout() {
@@ -82,6 +84,19 @@ export default function RootLayout() {
     {
       onSuccess: (data) =>
         dispatch(integrationAction.setPresentIntegrations(data)),
+      onError: (error) => console.error(error),
+    }
+  );
+
+  useQueryEvents(
+    useQuery({
+      queryKey: ["getUnsubscribeLinks", organizationId],
+      queryFn: async () =>
+        await UnsubscribeLinkService.getByOrgId(organizationId ?? ""),
+    }),
+    {
+      onSuccess: (response) =>
+        dispatch(organizationAction.setUnsubscribeLinks(response?.data.data)),
       onError: (error) => console.error(error),
     }
   );
