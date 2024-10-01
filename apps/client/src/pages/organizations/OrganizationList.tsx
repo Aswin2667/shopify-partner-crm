@@ -211,7 +211,7 @@ export default function OrganizationList() {
   const { organizations } = useSelector((state: any) => state.organization);
 
   useEffect(() => {
-    dispatch(organizationAction.setCurrentOrgMember(null));
+    dispatch(organizationAction.reset());
     dispatch(integrationAction.reset());
     localStorage.removeItem("presentOrgMemberDetails");
   }, []);

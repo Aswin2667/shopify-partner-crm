@@ -26,16 +26,27 @@ import { DatePicker } from "rsuite";
 import "rsuite/DatePicker/styles/index.css";
 import { FaCalendar } from "react-icons/fa";
 import RecipientInput from "./RecipientInput";
+import { id } from "date-fns/locale";
 
 type Props = {};
 
+const NEW_LINE = "<p><br></p>";
+const FOOTER = `<footer style="text-align: center; padding: 20px; font-size: 12px; color: #888;">
+  <p>If you no longer wish to receive these emails, you can <a href="https://cartrabbit.io/" target="_blank" >unsubscribe</a>.</p>
+</footer>`;
+const DEFAULT_BODY =
+  NEW_LINE +
+    JSON.parse(localStorage.getItem("presentOrgMemberDetails") || "{}")
+      ?.signature || "" + NEW_LINE + FOOTER;
+
+console.log(DEFAULT_BODY);
 const initialArgs = {
   from: null,
   to: [],
   cc: { isEnabled: false, value: [] },
   bcc: { isEnabled: false, value: [] },
   subject: "",
-  body: "",
+  body: DEFAULT_BODY,
   template: { selected: {}, all: defaultTemplates || [] },
   scheduledAt: null,
 };
@@ -149,6 +160,7 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
     (contact: any) => ({
       label: `${contact.name} <${contact.email}>`,
       value: contact.email,
+      id: contact.id,
     })
   );
 
@@ -174,25 +186,44 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
   });
 
   const sendHandler = () => {
-    const mailContext = {
-      from: { name: compose.from.fromName, email: compose.from.fromEmail },
-      to: compose.to.map((el: any) => el.value),
-      cc: compose.cc.value,
-      bcc: compose.bcc.value,
-      replyTo: compose.from.replyTo,
-      subject: compose.subject,
-      body: compose.body,
-      integrationId: compose.from.integrationId,
-      organizationId,
-      leadId,
-      source: compose.from.type,
-      scheduledAt: compose.scheduledAt
-        ? compose.scheduledAt
-        : DateHelper.getCurrentUnixTime(),
-    };
+    // const mailContext = {
+    //   from: { name: compose.from.fromName, email: compose.from.fromEmail },
+    //   to: compose.to.map((contact: any) => contact.value),
+    //   cc: compose.cc.value,
+    //   bcc: compose.bcc.value,
+    //   replyTo: compose.from.replyTo,
+    //   subject: compose.subject,
+    //   body: compose.body,
+    //   integrationId: compose.from.integrationId,
+    //   organizationId,
+    //   leadId,
+    //   source: compose.from.type,
+    //   scheduledAt: compose.scheduledAt
+    //     ? compose.scheduledAt
+    //     : DateHelper.getCurrentUnixTime(),
+    // };
 
-    console.log(mailContext);
-    // sendMail(mailContext);
+    compose.to.forEach((contact: any) => {
+      const mailContext = {
+        from: { name: compose.from.fromName, email: compose.from.fromEmail },
+        to: [contact.value],
+        cc: compose.cc.value,
+        bcc: compose.bcc.value,
+        replyTo: compose.from.replyTo,
+        subject: compose.subject,
+        body: compose.body,
+        integrationId: compose.from.integrationId,
+        contactId: contact.id ?? null,
+        organizationId,
+        leadId,
+        source: compose.from.type,
+        scheduledAt: compose.scheduledAt
+          ? compose.scheduledAt
+          : DateHelper.getCurrentUnixTime(),
+      };
+      console.log(mailContext);
+      sendMail(mailContext);
+    });
   };
 
   const setBody = (value: any) => {
@@ -235,6 +266,18 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
       });
     }
   }
+
+  console.log(compose);
+
+  useEffect(() => {
+    const DEFAULT_BODY =
+      NEW_LINE +
+        JSON.parse(localStorage.getItem("presentOrgMemberDetails") || "{}")
+          ?.signature || "" + NEW_LINE + FOOTER;
+
+    console.log(DEFAULT_BODY);
+    console.log(DEFAULT_BODY + NEW_LINE + FOOTER);
+  }, []);
 
   useEffect(() => {
     if (setInitialArgs) {
@@ -336,6 +379,7 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
           </div>
         </div>
       )}
+
       {/* BCC */}
       {compose.bcc.isEnabled && (
         <div className="px-3 py-2 border-b flex items-center gap-4">
@@ -359,6 +403,7 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
           </div>
         </div>
       )}
+      
       {/* SUbject and Template */}
       <div className="flex">
         <div className="w-[60%] ">
@@ -378,7 +423,7 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
             options={[...new Set(compose.template.all)]}
             onChange={(template: any) => {
               dispatch({ type: "selectedTemplate", payload: template });
-              dispatch({ type: "body", payload: template.html });
+              dispatch({ type: "body", payload: template.html + DEFAULT_BODY });
             }}
           />
         </div>

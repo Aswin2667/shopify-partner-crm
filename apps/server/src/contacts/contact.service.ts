@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@org/data-source';
 import { CreateContactDto, UpdateContactDto } from './dto/contact.dto';
 import { DateHelper } from '@org/utils';
+import { unsubscribe } from 'diagnostics_channel';
 
 @Injectable()
 export class ContactService {
@@ -113,6 +114,20 @@ export class ContactService {
       return { status: true, message: 'Contact deleted', data: id };
     } catch (error) {
       throw new Error('Failed to delete contact');
+    }
+  }
+
+  async unSubscribe(id: string) {
+    try {
+      const contact = await this.prisma.contact.update({
+        where: { id },
+        data: {
+          isUnsubscribed: true,
+        },
+      });
+      return { status: true, message: 'Contact unsubscribed', data: contact };
+    } catch (error) {
+      throw new Error('Failed to unsubscribe contact');
     }
   }
 }

@@ -7,6 +7,7 @@ import {
   HttpException,
   HttpStatus,
   UseGuards,
+  Post,
 } from '@nestjs/common';
 import { OrgMemberService } from './org-member.service';
 import { UpdateRoleDto } from './dto/update-role.dto';
@@ -68,5 +69,14 @@ export class OrgMemberController {
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  @Patch(':memberId/signature')
+  @UseGuards(AuthGuard)
+  async generateSignature(
+    @Param('memberId') memberId: string,
+    @Body() body: any,
+  ) {
+    return this.orgMemberService.generateSignature(memberId, body.signature);
   }
 }

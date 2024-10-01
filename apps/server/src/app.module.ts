@@ -37,6 +37,9 @@ import { IntegrationModule } from './integration/integration.module';
 import { Service } from './.service';
 import { LeadStatusModule } from './LeadStatus/lead-status.module';
 import { LeadStatusService } from './LeadStatus/lead-status.service';
+import { UnsubscribeLinkModule } from './unsubscribe-link/unsubscribe-link.module';
+import { UnsubscribeLinkService } from './unsubscribe-link/unsubscribe-link.service';
+import { UnsubscribeLinkController } from './unsubscribe-link/unsubscribe-link.controller';
 
 @Module({
   imports: [
@@ -68,6 +71,7 @@ import { LeadStatusService } from './LeadStatus/lead-status.service';
     AuthModule,
     IntegrationModule,
     LeadStatusModule,
+    UnsubscribeLinkModule,
   ],
   controllers: [
     UserController,
@@ -82,6 +86,7 @@ import { LeadStatusService } from './LeadStatus/lead-status.service';
     LeadActivityController,
     LeadNotesController,
     ContactController,
+    UnsubscribeLinkController
   ],
   providers: [
     UserService,
@@ -100,6 +105,7 @@ import { LeadStatusService } from './LeadStatus/lead-status.service';
     LeadNotesService,
     ContactService,
     Service,
+    UnsubscribeLinkService
   ],
 })
 export class AppModule {

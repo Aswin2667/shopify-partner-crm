@@ -35,20 +35,26 @@ export default class OrganizationService {
   }
   public static async getInvitations(organizationId: string | undefined) {
     try {
-      const response =  await axiosInstance.get("/invitation/all?orgId=" + organizationId);
-      console.log(response)
-      return response
+      const response = await axiosInstance.get(
+        "/invitation/all?orgId=" + organizationId
+      );
+      console.log(response);
+      return response;
     } catch (error) {
       console.log(error);
     }
   }
 
-  public static async getTotalRevenueByOrgId(organizationId: string | undefined) {
+  public static async getTotalRevenueByOrgId(
+    organizationId: string | undefined
+  ) {
     try {
-      console.log("hello")
-      const response =  await axiosInstance.get("/leads/total-revenue/" + organizationId);
-      console.log(response)
-      return response
+      console.log("hello");
+      const response = await axiosInstance.get(
+        "/leads/total-revenue/" + organizationId
+      );
+      console.log(response);
+      return response;
     } catch (error) {
       console.log(error);
     }
