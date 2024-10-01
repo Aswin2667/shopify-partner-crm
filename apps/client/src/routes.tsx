@@ -41,7 +41,8 @@ import Signature from "./pages/Emails/components/Signature";
 import EditEmailPage from "./pages/Emails/components/EditEmail";
 import Demo from "./components/Demo";
 import UnsubscribeLinkEditor from "./pages/Emails/components/UnsubscribeLinkEditor";
-
+import TaskPage from "./pages/tasks/TaskPage";
+ 
 export const routes = createBrowserRouter([
   {
     path: "/",
@@ -134,6 +135,10 @@ export const routes = createBrowserRouter([
       {
         path: "contacts",
         element: <ContactTable />,
+      },
+      {
+        path: "tasks",
+        element: <TaskPage />,
       },
       {
         path: "settings",

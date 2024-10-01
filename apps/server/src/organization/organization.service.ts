@@ -37,9 +37,7 @@ export class OrganizationService {
       });
       const defaultStatus = [
         'Potential',
-        'Bad Fit',
         'Qualified',
-        'Not Interested',
         'Customer',
         'Interested',
         'Canceled',

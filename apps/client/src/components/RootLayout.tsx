@@ -10,6 +10,7 @@ import {
   ArchiveX,
   Folder,
   Settings,
+  ClipboardList,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -203,18 +204,18 @@ export default function RootLayout() {
                   url: "contacts",
                 },
                 {
-                  title: "Integration",
-                  label: "",
-                  icon: LayoutGrid,
-                  variant: "ghost",
-                  url: "settings/integration",
-                },
-                {
                   title: "Workflows",
                   label: "23",
                   icon: ArchiveX,
                   variant: "ghost",
                   url: "workflows",
+                },
+                {
+                  title: "Tasks",
+                  label: "0",
+                  icon: ClipboardList,
+                  variant: "ghost",
+                  url: "tasks",
                 },
                 {
                   title: "Media Library",

@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
-  SheetClose,
   SheetFooter,
   SheetHeader,
   SheetTitle,
@@ -31,9 +30,8 @@ export default function ContactFilter({ onBackClick }: any) {
 
   const orgId = window.location.pathname.split("/")[1];
 
-  // Function to build SQL query based on selected filters
   const buildSQLQuery = () => {
-    let whereClause = "1=1"; // Default to true
+    let whereClause = "1=1"; 
 
     if (filters.contactNameFilter) {
       whereClause += ` AND c.firstName ILIKE '%${filters.contactNameFilter}%'`;
@@ -89,11 +87,11 @@ export default function ContactFilter({ onBackClick }: any) {
       ORDER BY l."createdAt" DESC;
     `;
 
-    console.log(sqlQuery); // Log the constructed SQL query
+    console.log(sqlQuery);
   };
 
   useEffect(() => {
-    buildSQLQuery(); // Call the function to build and log the SQL query
+    buildSQLQuery();
   }, [filters]);
 
   return (

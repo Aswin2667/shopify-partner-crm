@@ -38,7 +38,75 @@ export class LeadQueryBuilder {
       }
     }
   }
+  addFirstNameFilter(firstName: string, nameFilterOption: string) {
+    if (firstName && nameFilterOption) {
+      switch (nameFilterOption) {
+        case 'contains':
+          this.filters.push(`l."firstName" LIKE '%${firstName}%'`);
+          break;
+        case 'does-not-contain':
+          this.filters.push(`l."firstName" NOT LIKE '%${firstName}%'`);
+          break;
+        case 'contains phrase':
+          this.filters.push(`l."firstName" LIKE '%${firstName}%'`);
+          break;
+        case 'does not contain phrase':
+          this.filters.push(`l."firstName" NOT LIKE '%${firstName}%'`);
+          break;
+        case 'is exactly':
+          this.filters.push(`l."firstName" = '${firstName}'`);
+          break;
+        case 'is not exactly':
+          this.filters.push(`l."firstName" != '${firstName}'`);
+          break;
+        case 'contains words starting with':
+          this.filters.push(`l."firstName" LIKE '${firstName}%'`);
+          break;
+        case 'does not contain words starting':
+          this.filters.push(`l."firstName" NOT LIKE '${firstName}%'`);
+          break;
+        default:
+          console.warn(`Unhandled name filter option: ${nameFilterOption}`);
+          break;
+      }
+    }
+  }
 
+  addTitleFilter(title: string, titleFilterOption: string) {
+    if (title && titleFilterOption) {
+      switch (titleFilterOption) {
+        case 'contains':
+          this.filters.push(`l."title" LIKE '%${title}%'`);
+          break;
+        case 'does-not-contain':
+          this.filters.push(`l."title" NOT LIKE '%${title}%'`);
+          break;
+        case 'contains phrase':
+          this.filters.push(`l."title" LIKE '%${title}%'`);
+          break;
+        case 'does not contain phrase':
+          this.filters.push(`l."title" NOT LIKE '%${title}%'`);
+          break;
+        case 'is exactly':
+          this.filters.push(`l."title" = '${title}'`);
+          break;
+        case 'is not exactly':
+          this.filters.push(`l."title" != '${title}'`);
+          break;
+        case 'contains words starting with':
+          this.filters.push(`l."title" LIKE '${title}%'`);
+          break;
+        case 'does not contain words starting':
+          this.filters.push(`l."title" NOT LIKE '${title}%'`);
+          break;
+        default:
+          console.warn(`Unhandled title filter option: ${titleFilterOption}`);
+          break;
+      }
+    }
+  }
+
+  
   // Add Lead Status Filter
   addLeadStatusFilter(
     leadStatusFilterOption: string,

@@ -87,24 +87,7 @@ export default function LeadFilter({ onBackClick }: any) {
       selectedDateOption: selectedDateOption?.value || undefined,
       customDate: customDate || undefined,
     };
-    const EnabledFilters = {
-        lead: {
-          createdAt: createdAt ? {/* Your date range logic here */} : undefined,
-          domain: {
-            shopifyDomain: shopifyDomain ? domainValue : undefined,
-            domainFilterOption: domainFilterOption?.value || undefined,
-          },
-          status: {
-            data: selectedStatuses ? selectedStatuses.map((status: any) => status.value) : [],
-            boolean: selectedStatuses.length > 0,  // If there are statuses selected, this is true
-          },
-          dateComparison: {
-            selectedDateComparison: selectedDateComparison?.value || undefined,
-            selectedDateOption: selectedDateOption?.value || undefined,
-            customDate: customDate || undefined,
-          },
-        },
-      }
+    const EnabledFilters = true
      dispatch(leadsAction.setfiltersEnabled(EnabledFilters));
       const response = await LeadService.getLeadsByOrganizationId(
         orgId, filters.shopifyDomain, filters.domainFilterOption, selectedStatuses, filters.createdAt as any ,filters.statusFilterOption,
@@ -114,6 +97,7 @@ export default function LeadFilter({ onBackClick }: any) {
       );
 
        console.log("Fetched leads:", JSON.stringify(response.data.data));
+       dispatch(leadsAction.setfiltersEnabled(""))
       dispatch(leadsAction.setLeads(response.data.data));
     } catch (error) {
       console.error("Error fetching leads:", error);
