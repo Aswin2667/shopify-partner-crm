@@ -65,6 +65,7 @@ model Organization {
   MailServiceFromEmail MailServiceFromEmail[]
   LeadProject          LeadProject[]
   LeadActivity         LeadActivity[]
+  UnsubscribeLink      UnsubscribeLink[]
 }
 
 model OrgMember {
@@ -175,6 +176,8 @@ model Contact {
   isUnsubscribed Boolean      @default(false)
   organization   Organization @relation(fields: [organizationId], references: [id])
   lead           Lead         @relation(fields: [leadId], references: [id])
+
+  Email Email[]               
 }
 
 model Attachment {
@@ -234,10 +237,13 @@ model Email {
 
   sentAt         BigInt  @default(0)
   deletedAt      BigInt  @default(0)
+
   integrationId  String
   organizationId String
   leadId         String?
+  contactId      String?
 
+  contact      Contact?         @relation(fields: [contactId],references: [id])
   lead         Lead?           @relation(fields: [leadId], references: [id])
   organization Organization    @relation(fields: [organizationId], references: [id])
   source       IntegrationType
@@ -306,6 +312,17 @@ model MailServiceFromEmail {
 
   integration  Integration  @relation(fields: [integrationId], references: [id], onDelete: Cascade)
   organization Organization @relation(fields: [organizationId], references: [id])
+}
+
+model UnsubscribeLink {
+  id                String         @id @default(uuid())
+  name              String
+  message           String?
+  anchorText        String
+  isActive          Boolean        @default(false)
+  organizationId    String
+
+  organization      Organization   @relation(fields: [organizationId], references: [id])
 }
 
 model Job {

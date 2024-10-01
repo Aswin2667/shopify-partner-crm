@@ -208,6 +208,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
       body,
       replyTo,
       integrationId,
+      contactId,
       organizationId,
     } = emailData;
     const integration = await this.getIntegrationById(integrationId);
@@ -235,6 +236,10 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         customMessageId,
         replyTo,
       );
+
+      console.log('contactId: ', contactId);
+      console.log(body);
+      console.log('-----------------------');
 
       const message = `${headers}\r\n\r\n${body}`;
       const encodedMessage = this.encodeMessage(message);
@@ -272,6 +277,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     subject: string;
     body: string;
     integrationId: string;
+    contactId: string;
     organizationId: string;
     leadId: string;
     scheduledAt: bigint | number;
@@ -286,6 +292,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         subject,
         body,
         integrationId,
+        contactId,
         organizationId,
         leadId,
         scheduledAt,
@@ -302,6 +309,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
           leadId,
           body,
           integrationId,
+          contactId,
           organizationId,
           source,
           replyTo,

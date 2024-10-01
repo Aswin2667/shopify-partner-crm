@@ -10,6 +10,7 @@ import {
   ArchiveX,
   Folder,
   Settings,
+  ClipboardList,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -31,6 +32,8 @@ import IntegrationService from "@/services/IntegrationService";
 import { useDispatch, useSelector } from "react-redux";
 import { integrationAction } from "@/redux/integrationSlice";
 import { mailAction } from "@/redux/mailSlice";
+import { organizationAction } from "@/redux/organizationSlice";
+import UnsubscribeLinkService from "@/services/UnSubscribeLinkService";
 
 const defaultLayout = [17, 32];
 export default function RootLayout() {
@@ -82,6 +85,19 @@ export default function RootLayout() {
     {
       onSuccess: (data) =>
         dispatch(integrationAction.setPresentIntegrations(data)),
+      onError: (error) => console.error(error),
+    }
+  );
+
+  useQueryEvents(
+    useQuery({
+      queryKey: ["getUnsubscribeLinks", organizationId],
+      queryFn: async () =>
+        await UnsubscribeLinkService.getByOrgId(organizationId ?? ""),
+    }),
+    {
+      onSuccess: (response) =>
+        dispatch(organizationAction.setUnsubscribeLinks(response?.data.data)),
       onError: (error) => console.error(error),
     }
   );
@@ -188,18 +204,18 @@ export default function RootLayout() {
                   url: "contacts",
                 },
                 {
-                  title: "Integration",
-                  label: "",
-                  icon: LayoutGrid,
-                  variant: "ghost",
-                  url: "settings/integration",
-                },
-                {
                   title: "Workflows",
                   label: "23",
                   icon: ArchiveX,
                   variant: "ghost",
                   url: "workflows",
+                },
+                {
+                  title: "Tasks",
+                  label: "0",
+                  icon: ClipboardList,
+                  variant: "ghost",
+                  url: "tasks",
                 },
                 {
                   title: "Media Library",

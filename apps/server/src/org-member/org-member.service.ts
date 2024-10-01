@@ -3,10 +3,14 @@ import {
   NotFoundException,
   UnauthorizedException,
   BadRequestException,
+  Logger,
 } from '@nestjs/common';
+import { PrismaService } from '@org/data-source';
 
 @Injectable()
 export class OrgMemberService {
+  private readonly logger = new Logger(OrgMemberService.name);
+  constructor(private readonly prisma: PrismaService) {}
   private members = [{ id: 'ck2j49r2a0d1m0741gzhjo41v', role: 'MEMBER' }];
 
   async updateRole(memberId: string, role: string) {
@@ -32,5 +36,28 @@ export class OrgMemberService {
     }
 
     this.members.splice(memberIndex, 1);
+  }
+
+  async generateSignature(memberId: string, signature: string) {
+    const member = await this.prisma.orgMember.findUnique({
+      where: {
+        id: memberId,
+      },
+    });
+
+    if (!member) {
+      throw new NotFoundException(`Member not found with id ${memberId}.`);
+    }
+
+    const orgMemberWithSignature = await this.prisma.orgMember.update({
+      where: {
+        id: memberId,
+      },
+      data: {
+        signature,
+      },
+    });
+
+    return orgMemberWithSignature;
   }
 }

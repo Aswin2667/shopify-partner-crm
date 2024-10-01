@@ -52,7 +52,6 @@ const Navbar = ({ links, isCollapsed }: any) => {
           ) : (
             <NavLink
               // to={link.title.toLowerCase() + "/"}
-              // end
               to={`/${organizationId}/${link.url}`}
               className={({ isActive }) =>
                 cn(

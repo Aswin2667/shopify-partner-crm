@@ -38,6 +38,7 @@ import OrganizationService from "@/services/OrganizationService";
 import ProjectService from "@/services/ProjectService";
 import LeadStatusService from "@/services/LeadStatusService";
 import FilterChoose from "./FilterChoose";
+import { useParams } from "react-router-dom";
 const schema = z.object({
   myShopifyDomain: z
     .string()
@@ -63,9 +64,7 @@ export function DataTableToolbar({ leads, setLeads }: any) {
   const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
   const { toast } = useToast();
   const [project, setProject] = useState([]);
-  const { currentOrgMember } = useSelector(
-    (state: any) => state.organization
-  );
+  const { organizationId } = useParams();
 
   // TODO: remove current integration
   const { currentIntegration } = useSelector((state: any) => state.integration);
@@ -75,7 +74,7 @@ export function DataTableToolbar({ leads, setLeads }: any) {
       ...data,
       userId,
       // TODO: DO We need id's here
-      organizationId: currentOrgMember?.id,
+      organizationId: organizationId,
       integrationId: currentIntegration?.id,
     });
 
