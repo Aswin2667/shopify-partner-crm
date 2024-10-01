@@ -20,13 +20,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import {
   Tooltip,
   TooltipContent,
@@ -41,6 +35,7 @@ import { useQueryEvents } from "@/hooks/useQueryEvents";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { leadAction } from "@/redux/leadSlice";
+import { getPhoneData, PhoneInput } from "@/components/phoneInput/components";
 
 // Zod schema for validation
 const contactSchema = z.object({
@@ -58,6 +53,7 @@ const ExpandableContactCard = ({
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const { leadId, organizationId } = useParams();
+  const [phone, setPhone] = useState("");
 
   const { leadContacts: contacts } = useSelector((state: any) => state.lead);
 
@@ -70,7 +66,9 @@ const ExpandableContactCard = ({
     resolver: zodResolver(contactSchema),
     defaultValues: { name: "", email: "" },
   });
-
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhone(e.target.value);
+  };
   useQueryEvents(
     useQuery({
       queryKey: ["getAllContactsForLead", leadId],
@@ -113,6 +111,8 @@ const ExpandableContactCard = ({
       console.error("Creation failed:", error?.response.data);
     }
   };
+  const phoneData = getPhoneData(phone);
+  console.log(phoneData);
   const router = useNavigate();
   return (
     <TooltipProvider>
@@ -198,6 +198,10 @@ const ExpandableContactCard = ({
                                   {errors.email.message}
                                 </p>
                               )}
+                               <PhoneInput
+                                value={phone}
+                                onChange={handleOnChange}
+                              />
                             </div>
                           </div>
                           <br />

@@ -36,7 +36,7 @@ import { organizationAction } from "@/redux/organizationSlice";
 import { useQueryEvents } from "@/hooks/useQueryEvents";
 import { StateFromReducersMapObject } from "@reduxjs/toolkit";
 import { integrationAction } from "@/redux/integrationSlice";
-import CreateOrganization from "@/Test";
+import CreateOrganization from "./CreateOrganization";
 
 const organizationSchema = z.object({
   name: z.string().min(1, "Organization name is required"),
@@ -115,7 +115,7 @@ export function CreateOrganizationPopup({
       <AlertDialogTrigger asChild>
         <Button>{message}</Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="p-0">
         <AlertDialogHeader>
           <AlertDialogTitle>Create new Organization</AlertDialogTitle>
           <AlertDialogDescription>
@@ -151,11 +151,15 @@ export function CreateOrganizationPopup({
                 placeholder="Description"
               ></textarea>
             </div>
-            <br />
+            {/* <br /> */}
             {/* <div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="picture">Logo</Label>
-                <input type="file" accept="image/*" onChange={handleFileChange} />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
               </div>
               {errors.logo && (
                 <p className="mt-2 text-sm text-red-600 dark:text-red-500">
@@ -163,7 +167,6 @@ export function CreateOrganizationPopup({
                 </p>
               )}
             </div> */}
-            {/* <CreateOrganization /> */}
           </div>
           <br />
           <AlertDialogFooter>
@@ -199,6 +202,7 @@ export function CreateOrganizationPopup({
             )}
           </AlertDialogFooter>
         </form>
+        {/* <CreateOrganization /> */}
       </AlertDialogContent>
     </>
   );
