@@ -42,7 +42,8 @@ import EditEmailPage from "./pages/Emails/components/EditEmail";
 import Demo from "./components/Demo";
 import UnsubscribeLinkEditor from "./pages/Emails/components/UnsubscribeLinkEditor";
 import TaskPage from "./pages/tasks/TaskPage";
- 
+import UnsubscribePage from "./pages/Emails/components/UnSubscribePage";
+
 export const routes = createBrowserRouter([
   {
     path: "/",
@@ -287,5 +288,9 @@ export const routes = createBrowserRouter([
   {
     path: "demo",
     element: <Demo />,
+  },
+  {
+    path: "unsubscribe/:contactId",
+    element: <UnsubscribePage />,
   },
 ]);

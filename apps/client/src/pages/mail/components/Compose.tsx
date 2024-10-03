@@ -32,23 +32,19 @@ type Props = {};
 
 const NEW_LINE = "<p><br></p>";
 const FOOTER = `<footer style="text-align: center; padding: 20px; font-size: 12px; color: #888;">
-  <p>If you no longer wish to receive these emails, you can <a href="https://cartrabbit.io/" target="_blank" >unsubscribe</a>.</p>
+  <p>If you no longer wish to receive these emails, you can <a href="http://localhost:3000/unsubscribe" target="_blank" >unsubscribe</a>.</p>
 </footer>`;
-const DEFAULT_BODY =
-  NEW_LINE +
-    JSON.parse(localStorage.getItem("presentOrgMemberDetails") || "{}")
-      ?.signature || "" + NEW_LINE + FOOTER;
 
-console.log(DEFAULT_BODY);
 const initialArgs = {
   from: null,
   to: [],
   cc: { isEnabled: false, value: [] },
   bcc: { isEnabled: false, value: [] },
   subject: "",
-  body: DEFAULT_BODY,
+  body: "",
   template: { selected: {}, all: defaultTemplates || [] },
   scheduledAt: null,
+  signature: null,
 };
 
 const reducerFn = (prevState: any, action: any) => {
@@ -122,6 +118,9 @@ const reducerFn = (prevState: any, action: any) => {
   if (action.type === "body") {
     return { ...prevState, body: action.payload };
   }
+  if (action.type === "signature") {
+    return { ...prevState, signature: action.payload };
+  }
   if (action.type === "allTemplate" || action.type === "selectedTemplate") {
     return action.type === "allTemplate"
       ? {
@@ -156,13 +155,15 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
     () => initialArgs
   );
 
-  const contacts = useSelector((state: any) => state.lead.leadContacts).map(
-    (contact: any) => ({
+  const contacts = useSelector((state: any) => state.lead.leadContacts)
+    .filter((contact: any) => !contact.isUnsubscribed)
+    .map((contact: any) => ({
       label: `${contact.name} <${contact.email}>`,
       value: contact.email,
       id: contact.id,
-    })
-  );
+    }));
+
+  const { currentOrgMember } = useSelector((state: any) => state.organization);
 
   const { integrations, presentIntegrations } = useSelector(
     (state: any) => state.integration
@@ -215,6 +216,7 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
         integrationId: compose.from.integrationId,
         contactId: contact.id ?? null,
         organizationId,
+        userId: currentOrgMember.userId,
         leadId,
         source: compose.from.type,
         scheduledAt: compose.scheduledAt
@@ -270,14 +272,20 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
   console.log(compose);
 
   useEffect(() => {
-    const DEFAULT_BODY =
+    const SIGNATURE =
       NEW_LINE +
         JSON.parse(localStorage.getItem("presentOrgMemberDetails") || "{}")
-          ?.signature || "" + NEW_LINE + FOOTER;
+          ?.signature ||
+      currentOrgMember?.signature ||
+      "";
+    dispatch({ type: "signature", payload: SIGNATURE });
 
-    console.log(DEFAULT_BODY);
-    console.log(DEFAULT_BODY + NEW_LINE + FOOTER);
-  }, []);
+    dispatch({
+      type: "body",
+      payload: SIGNATURE,
+      // + NEW_LINE + FOOTER,
+    });
+  }, [currentOrgMember]);
 
   useEffect(() => {
     if (setInitialArgs) {
@@ -403,7 +411,7 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
           </div>
         </div>
       )}
-      
+
       {/* SUbject and Template */}
       <div className="flex">
         <div className="w-[60%] ">
@@ -423,7 +431,10 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
             options={[...new Set(compose.template.all)]}
             onChange={(template: any) => {
               dispatch({ type: "selectedTemplate", payload: template });
-              dispatch({ type: "body", payload: template.html + DEFAULT_BODY });
+              dispatch({
+                type: "body",
+                payload: template.html + compose.signature,
+              });
             }}
           />
         </div>

@@ -49,8 +49,8 @@ const s3Client = new S3Client({
   region: "us-east-1",
   endpoint: "http://localhost:9001", // MinIO endpoint
   credentials: {
-    accessKeyId: "YDFDWRDCtopvBv9p9CTn",
-    secretAccessKey: "mwhRf9PgmCW5xEABpAAUVdlPtQOJ4prFY9U56Zs6",
+    accessKeyId: "jiOqGEpwVPO18z0cLzYJ",
+    secretAccessKey: "u3RwAFmfdvrC26lYZusr8ug8wi9T0jpiGD8WNKoq",
   },
   forcePathStyle: true, // Required for MinIO
 });
@@ -67,7 +67,7 @@ export default function Page() {
   const fetchFiles = async () => {
     try {
       const command = new ListObjectsCommand({
-        Bucket: "shopjar", // replace with your bucket name
+        Bucket: "crm-bucket", // replace with your bucket name
       });
       const response = await s3Client.send(command);
       if (response.Contents) {
@@ -105,6 +105,7 @@ export default function Page() {
       case "jpeg":
       case "png":
       case "gif":
+      case "svg":
         return "image";
       case "mp4":
       case "mov":
@@ -123,7 +124,7 @@ export default function Page() {
 
   // Placeholder for presigned URL generation (you would implement this with your server-side logic)
   const getPresignedUrl = (key: string) => {
-    return `http://localhost:9001/shopjar/${key}`; // Assuming the key will be accessible directly from your S3/MinIO setup
+    return `http://localhost:9001/crm-bucket/${key}`; // Assuming the key will be accessible directly from your S3/MinIO setup
   };
 
   // Handle file upload
@@ -145,7 +146,7 @@ export default function Page() {
       console.log("Uploading file:", selectedFile.name);
       try {
         const uploadParams = {
-          Bucket: "shopjar", // Replace with your bucket name
+          Bucket: "crm-bucket", // Replace with your bucket name
           Key: selectedFile.name,
           Body: selectedFile,
           ContentType: selectedFile.type,
@@ -181,7 +182,7 @@ export default function Page() {
   const handleDelete = async (key: string) => {
     try {
       const deleteParams = {
-        Bucket: "shopjar",
+        Bucket: "crm-bucket",
         Key: key,
       };
       await s3Client.send(new DeleteObjectCommand(deleteParams));

@@ -241,8 +241,19 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
       console.log(body);
       console.log('-----------------------');
 
-      const message = `${headers}\r\n\r\n${body}`;
+      // Build the email body with footer if contactId is provided
+      const bodyWithFooter = await this.buildBodyWithFooter(
+        body,
+        contactId,
+        organizationId,
+      );
+
+      console.log(bodyWithFooter);
+
+      const message = `${headers}\r\n\r\n${bodyWithFooter}`;
       const encodedMessage = this.encodeMessage(message);
+
+      console.log(encodedMessage);
 
       const mailResponse = await gmail.users.messages.send({
         userId: 'me',
@@ -259,10 +270,11 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
       this.logger.log('Mail sent successfully');
 
       const updatedMailResponse = await this.updateEmailInDatabase(
-        emailData.id,
+        emailData,
         response.data,
       );
       return updatedMailResponse;
+      return { message: 'Mail sent successfully' };
     } catch (error) {
       await this.handleError(error, refreshToken, integrationId, emailData);
     }
@@ -276,6 +288,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     replyTo: string;
     subject: string;
     body: string;
+    userId: string;
     integrationId: string;
     contactId: string;
     organizationId: string;
@@ -293,6 +306,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         body,
         integrationId,
         contactId,
+        userId,
         organizationId,
         leadId,
         scheduledAt,
@@ -311,6 +325,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
           integrationId,
           contactId,
           organizationId,
+          userId,
           source,
           replyTo,
         },
@@ -608,6 +623,46 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     }
   }
 
+  /**
+   * Builds the email body with an unsubscribe footer if contactId is provided.
+   * @param body The original email body.
+   * @param contactId The contact ID used to generate the unsubscribe link.
+   * @param organizationId The organization ID to fetch the unsubscribe message and anchor text.
+   * @returns The email body appended with the unsubscribe footer.
+   */
+  private async buildBodyWithFooter(
+    body: string,
+    contactId: string | undefined,
+    organizationId: string,
+  ): Promise<string> {
+    if (!contactId) {
+      return body;
+    }
+
+    // Fetch the unsubscribe link details based on organizationId
+    const unsubscribeLink = await this.prisma.unsubscribeLink.findFirst({
+      where: {
+        organizationId: organizationId,
+      },
+    });
+
+    const NEW_LINE = '<p><br></p>';
+    //  https://dinesh.server.ngrok.dev/contacts/1/unsubscribe
+
+    const FOOTER = `
+      <footer style="text-align: center; padding: 20px; font-size: 12px; color: #888;">
+        <p>
+          ${unsubscribeLink?.message || 'If you no longer wish to receive these emails, you can '}
+          <a href="https://crmclient.ngrok.dev/unsubscribe/${contactId}" target="_blank">
+            ${unsubscribeLink?.anchorText || 'unsubscribe'}
+          </a>.
+        </p>
+      </footer>
+    `;
+
+    return `${body}${FOOTER}`;
+  }
+
   private createEncodedHeader({ to, cc, bcc, subject, inReplyTo, references }) {
     return [
       `To: ${to.join(', ')}`,
@@ -743,10 +798,10 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     );
   }
 
-  private async updateEmailInDatabase(emailId, emailData) {
-    return await this.prisma.email.update({
+  private async updateEmailInDatabase(email: Email, emailData) {
+    const updatedEmail = await this.prisma.email.update({
       where: {
-        id: emailId,
+        id: email.id,
       },
       data: {
         messageId: emailData.id,
@@ -757,6 +812,21 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         status: 'SEND',
       },
     });
+
+    await this.prisma.leadActivity.create({
+      data: {
+        type: 'MAIL_SENT',
+        data: { message: 'Email sent successfully via Gmail', data: emailData },
+        leadId: email.leadId,
+        orgId: email.organizationId,
+        userId: email.userId ?? '',
+        createdAt: DateHelper.getCurrentUnixTime(),
+        updatedAt: 0,
+        deletedAt: 0,
+      },
+    });
+
+    return updatedEmail;
   }
 
   private async refreshAccessToken(
@@ -811,7 +881,14 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
 
       return access_token;
     } catch (error) {
-      this.logger.error('Error refreshing access token:', error.message);
+      if (axios.isAxiosError(error)) {
+        console.error(
+          'Error refreshing access token:',
+          error.response?.data || error.message,
+        );
+      } else {
+        console.error('Unexpected error:', error);
+      }
       throw new HttpException(
         'Failed to refresh access token',
         HttpStatus.UNAUTHORIZED,

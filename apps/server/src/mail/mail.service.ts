@@ -47,6 +47,7 @@ export class MailService {
     }
   }
 
+  // From Email(Send As)
   async getFromEmailsByOrgId(orgId: string) {
     try {
       return this.prisma.mailServiceFromEmail.findMany({
@@ -116,6 +117,19 @@ export class MailService {
     return await this.prisma.mailServiceFromEmail.delete({
       where: {
         id,
+      },
+    });
+  }
+
+  async updateFromEmail(id: any, data: any) {
+    return await this.prisma.mailServiceFromEmail.update({
+      where: {
+        id,
+      },
+      data: {
+        fromEmail: data.fromEmail,
+        fromName: data.fromName,
+        replyTo: data.replyTo ?? '',
       },
     });
   }

@@ -119,6 +119,12 @@ export default function RootLayout() {
     }
   }, [navigate]);
 
+  React.useEffect(() => {
+    if (organizationId !== currentOrgMember?.organizationId) {
+      navigate("/");
+    }
+  }, [organizationId, currentOrgMember?.organizationId]);
+
   if (loading) {
     return <Loader />;
   }

@@ -24,6 +24,8 @@ model User {
   orgMemberInvites     OrgMemberInvite[]
   templates            Template[]
   LeadNotes            LeadNotes[]
+
+  Email Email[]
 }
 
 model OrgMemberInvite {
@@ -242,7 +244,9 @@ model Email {
   organizationId String
   leadId         String?
   contactId      String?
+  userId         String?
 
+  user         User?           @relation(fields: [userId], references: [id])
   contact      Contact?         @relation(fields: [contactId],references: [id])
   lead         Lead?           @relation(fields: [leadId], references: [id])
   organization Organization    @relation(fields: [organizationId], references: [id])
@@ -323,6 +327,7 @@ model UnsubscribeLink {
   organizationId    String
 
   organization      Organization   @relation(fields: [organizationId], references: [id])
+  @@unique([organizationId])
 }
 
 model Job {
@@ -425,7 +430,7 @@ enum LeadActivityType {
   NOTE_CREATED
   NOTE_UPDATED
   NOTE_DELETED
-  EMAIL
+  MAIL_SENT
   CALL
   TASK
   MEETING

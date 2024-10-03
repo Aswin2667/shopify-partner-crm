@@ -116,7 +116,8 @@ const FromMail = (props: Props) => {
   );
 
   const mailServiceIntegrations = integrations.filter(
-    (integration: any) => integration.category === "MAIL_SERVICE"
+    (integration: any) =>
+      integration.category === "MAIL_SERVICE" && integration.isSingular
   );
 
   console.log(sendAs);
@@ -312,64 +313,51 @@ const FromMail = (props: Props) => {
             </div>
 
             {/*  Name */}
-            {from.type.value && from.type.value !== "GMAIL" && (
-              <div>
-                <label
-                  className="block mb-2 text-sm font-medium"
-                  htmlFor="name"
-                >
-                  Name
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  value={from.name.value}
-                  onChange={(e) => {
-                    dispatch({ type: "nameVal", payload: e.target.value });
-                  }}
-                  onFocus={() => {
-                    from.name.error &&
-                      dispatch({ type: "nameErr", payload: "" });
-                  }}
-                  className={`bg-gray-50 border ${from.name.error ? "border-red-500 " : "border-gray-300"} rounded-lg block w-full p-2.5`}
-                  placeholder="e.g. Bonnie Green"
-                />
-                {from.name.error && (
-                  <p className="mt-2 text-sm text-red-600">{from.name.error}</p>
-                )}
-              </div>
-            )}
+            <div>
+              <label className="block mb-2 text-sm font-medium" htmlFor="name">
+                Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                value={from.name.value}
+                onChange={(e) => {
+                  dispatch({ type: "nameVal", payload: e.target.value });
+                }}
+                onFocus={() => {
+                  from.name.error && dispatch({ type: "nameErr", payload: "" });
+                }}
+                className={`bg-gray-50 border ${from.name.error ? "border-red-500 " : "border-gray-300"} rounded-lg block w-full p-2.5`}
+                placeholder="e.g. Bonnie Green"
+              />
+              {from.name.error && (
+                <p className="mt-2 text-sm text-red-600">{from.name.error}</p>
+              )}
+            </div>
 
             {/*  Email */}
-            {from.type.value && from.type.value !== "GMAIL" && (
-              <div>
-                <label
-                  className="block mb-2 text-sm font-medium"
-                  htmlFor="email"
-                >
-                  Email
-                </label>
-                <input
-                  id="email"
-                  type="text"
-                  value={from.email.value}
-                  onChange={(e) => {
-                    dispatch({ type: "emailVal", payload: e.target.value });
-                  }}
-                  onFocus={() => {
-                    from.email.error &&
-                      dispatch({ type: "emailErr", payload: "" });
-                  }}
-                  className={`bg-gray-50 border ${from.email.error ? "border-red-500 " : "border-gray-300"} rounded-lg block w-full p-2.5`}
-                  placeholder="e.g. bonniegreen@gmail.com"
-                />
-                {from.email.error && (
-                  <p className="mt-2 text-sm text-red-600">
-                    {from.email.error}
-                  </p>
-                )}
-              </div>
-            )}
+            <div>
+              <label className="block mb-2 text-sm font-medium" htmlFor="email">
+                Email
+              </label>
+              <input
+                id="email"
+                type="text"
+                value={from.email.value}
+                onChange={(e) => {
+                  dispatch({ type: "emailVal", payload: e.target.value });
+                }}
+                onFocus={() => {
+                  from.email.error &&
+                    dispatch({ type: "emailErr", payload: "" });
+                }}
+                className={`bg-gray-50 border ${from.email.error ? "border-red-500 " : "border-gray-300"} rounded-lg block w-full p-2.5`}
+                placeholder="e.g. bonniegreen@gmail.com"
+              />
+              {from.email.error && (
+                <p className="mt-2 text-sm text-red-600">{from.email.error}</p>
+              )}
+            </div>
 
             {/*  Reply To */}
             <div>

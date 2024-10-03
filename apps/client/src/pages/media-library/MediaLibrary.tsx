@@ -12,8 +12,8 @@ const MediaLibrary = () => {
     region: "us-east-1",
     endpoint: "http://localhost:9001", // MinIO endpoint
     credentials: {
-      accessKeyId: "3qPU2HcjkpOsxiEE0Mxs",
-      secretAccessKey: "NdCaOrsz5feMiY1jvNmZ8czVzr8Cxc0nwpfIaqqT",
+      accessKeyId: "jiOqGEpwVPO18z0cLzYJ",
+      secretAccessKey: "u3RwAFmfdvrC26lYZusr8ug8wi9T0jpiGD8WNKoq",
     },
     forcePathStyle: true, // Required for MinIO
   });
@@ -29,7 +29,7 @@ const MediaLibrary = () => {
     }
 
     const uploadParams = {
-      Bucket: "test123",
+      Bucket: "crm-bucket",
       Key: file.name,
       Body: file,
       ContentType: file.type,
