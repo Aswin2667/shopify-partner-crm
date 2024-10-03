@@ -149,6 +149,7 @@ exports.Prisma.OrganizationScalarFieldEnum = {
   description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  details: 'details',
   deletedAt: 'deletedAt'
 };
 
@@ -216,6 +217,10 @@ exports.Prisma.LeadProjectScalarFieldEnum = {
 
 exports.Prisma.ContactScalarFieldEnum = {
   id: 'id',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  suffix: 'suffix',
+  phone: 'phone',
   name: 'name',
   email: 'email',
   secondaryEmail: 'secondaryEmail',
@@ -388,12 +393,12 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.JsonNullValueInput = {
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
 };
 
-exports.Prisma.NullableJsonNullValueInput = {
-  DbNull: Prisma.DbNull,
+exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 

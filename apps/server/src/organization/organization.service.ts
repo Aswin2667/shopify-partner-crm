@@ -21,7 +21,7 @@ export class OrganizationService {
           description: data.description,
           createdAt: DateHelper.getCurrentUnixTime(),
           updatedAt: 0,
-          logo: 'https://www.shutterstock.com/shutterstock/photos/2330509313/display_1500/stock-photo-aerial-drone-view-of-shapes-of-cha-gorreana-tea-plantation-at-sao-miguel-azores-portugal-2330509313.jpg',
+          logo: data.logo,
           deletedAt: 0,
         },
       });

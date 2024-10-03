@@ -49,6 +49,7 @@ model Organization {
   description  String?
   createdAt    BigInt            @default(autoincrement())
   updatedAt    BigInt            @default(autoincrement())
+  details      Json?
   deletedAt    BigInt
   Project      Project[]
   members      OrgMember[]
@@ -159,11 +160,15 @@ model LeadProject {
 
 model Contact {
   id             String       @id @default(uuid())
+  firstName      String?
+  lastName       String?
+  suffix         String?
+  phone          Json?
   name           String?
   email          String?
   secondaryEmail String?
-  primaryPhNo    String?
-  secondaryPhNo  String?
+  primaryPhNo    Json?
+  secondaryPhNo  Json?
   industry       String?
   type           String?
   leadId         String
