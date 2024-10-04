@@ -54,6 +54,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { leadAction } from "@/redux/leadSlice";
 import { getPhoneData, PhoneInput } from "@/components/phoneInput/components";
+import ContactCreate from "./ContactCreate";
 
 // Zod schema for validation
 const contactSchema = z.object({
@@ -130,7 +131,6 @@ const ExpandableContactCard = ({
     }
   };
   const phoneData = getPhoneData(phone);
-  console.log(phoneData);
   const router = useNavigate();
   return (
     <TooltipProvider>
@@ -233,7 +233,7 @@ const ExpandableContactCard = ({
                           </AlertDialogFooter>
                         </form>
                       </AlertDialogHeader> */}
-                      <div className=" p-4 rounded-md mb-6 min">
+                      {/* <div className=" p-4 rounded-md mb-6 min">
                         <h2 className="text-lg font-semibold mb-4">
                           Contact Information
                         </h2>
@@ -310,7 +310,8 @@ const ExpandableContactCard = ({
                       <div className="flex justify-end space-x-4">
                         <Button variant="outline">Cancel</Button>
                         <Button>Save</Button>
-                      </div>
+                      </div> */}
+                      <ContactCreate user={user} />
                     </AlertDialogContent>
                   </AlertDialog>
                 </th>

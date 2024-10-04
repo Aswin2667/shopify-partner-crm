@@ -162,14 +162,13 @@ model Contact {
   id             String       @id @default(uuid())
   firstName      String?
   lastName       String?
-  suffix         String?
-  phone          Json?
+  title          String?
+  Salutation     String?
   name           String?
   email          String?
   secondaryEmail String?
   primaryPhNo    Json?
   secondaryPhNo  Json?
-  industry       String?
   type           String?
   leadId         String
   lastContacted  BigInt?

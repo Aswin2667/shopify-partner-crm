@@ -1,13 +1,29 @@
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Home, Menu, Package2, Search } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarDays,
+  Edit,
+  Home,
+  Menu,
+  Package2,
+  Search,
+  Users,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -15,12 +31,13 @@ import { useToast } from "@/components/ui/use-toast";
 import OrganizationService from "@/services/OrganizationService";
 import DateHelper from "@/utils/DateHelper";
 import SkeletonCard from "@/components/skelotons/SkeletonCard";
-import OrganizationCard from "./OrganizationCard";
+// import OrganizationCard from "./OrganizationCard";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -29,6 +46,8 @@ import { organizationAction } from "@/redux/organizationSlice";
 import { useQueryEvents } from "@/hooks/useQueryEvents";
 import { integrationAction } from "@/redux/integrationSlice";
 import CreateOrganization from "./CreateOrganization";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 // import CreateOrganization from "./CreateOrganization";
 
 const organizationSchema = z.object({
@@ -39,7 +58,16 @@ const organizationSchema = z.object({
     .refine((files) => files.length === 1, "Logo is required")
     .optional(),
 });
-
+interface Organization {
+  id: number;
+  name: string;
+  logo: string;
+  description: string;
+  createdAt: string;
+  memberCount: number;
+  industry: string;
+  tags: string[];
+}
 export default function OrganizationList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -47,6 +75,7 @@ export default function OrganizationList() {
 
   const [reload, setReload] = React.useState(true);
   const { organizations } = useSelector((state: any) => state.organization);
+  const [editingOrg, setEditingOrg] = useState<Organization | null>(null);
 
   useEffect(() => {
     dispatch(organizationAction.reset());
@@ -178,12 +207,11 @@ export default function OrganizationList() {
               </div>
             </form>
           </div>
-          {/* <UserNav /> */}
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
           {isLoading ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {[...Array(16)].map((_, index) => (
+              {[...Array(12)].map((_, index) => (
                 <SkeletonCard key={index} />
               ))}
             </div>
@@ -208,11 +236,6 @@ export default function OrganizationList() {
           ) : (
             <>
               <div className="w-full flex items-center justify-end">
-                {/* <CreateOrganizationPopup
-                  message="Create"
-                  setReload={setReload}
-                  reload={reload}
-                /> */}
                 <AlertDialogTrigger asChild>
                   <Button>Create Organization</Button>
                 </AlertDialogTrigger>
@@ -220,13 +243,28 @@ export default function OrganizationList() {
                   <CreateOrganization setReload={setReload} reload={reload} />
                 </AlertDialogContent>
               </div>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 {organizations.map((organization: any) => (
                   <OrganizationCard
                     key={organization.id}
                     organization={organization}
                   />
                 ))}
+              </div> */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {false
+                  ? Array.from({ length: 6 }).map((_, index) => (
+                      <SkeletonCard key={index} />
+                    ))
+                  : organizations.map((org: Organization) => (
+                      <>
+                        <OrganizationCard
+                          key={org.id}
+                          org={org}
+                          onEdit={setEditingOrg}
+                        />
+                      </>
+                    ))}
               </div>
             </>
           )}
@@ -235,3 +273,104 @@ export default function OrganizationList() {
     </div>
   );
 }
+
+const OrganizationCard: React.FC<{
+  org: any;
+  onEdit: (org: Organization) => void;
+}> = ({ org, onEdit }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); 
+  const clickHandler = () => {
+    console.log(org);
+    localStorage.setItem(
+      "presentOrgMemberDetails",
+      JSON.stringify(org)
+    );
+
+    navigate(`/${org.organizationId}/dashboard`);
+
+    dispatch(organizationAction.setCurrentOrgMember(org));
+    // localStorage.setItem("organization", JSON.stringify(organization));
+  };
+  return (
+    <AlertDialog>
+      <Card className="  overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ">
+        <CardHeader className="flex flex-row items-center gap-4 pb-2">
+          <Avatar className="h-20 w-20 rounded-xl">
+            <AvatarImage
+              src={org.organization.logo}
+              alt={org.organization.name}
+            />
+            <AvatarFallback className="text-lg font-bold bg-primary/10 text-primary">
+              {org.organization.name.slice(0, 2).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <h3 className="text-2xl font-bold leading-none">
+            {org.organization.name}
+          </h3>
+          <div className="space-y-1">
+            <p className="text-sm text-muted-foreground">{org.industry}</p>
+            <div className="flex flex-wrap gap-1 pt-1">
+              {org?.organization?.details?.tags.map(
+                (
+                  tag:
+                    | string
+                    | number
+                    | boolean
+                    | React.ReactElement<
+                        any,
+                        string | React.JSXElementConstructor<any>
+                      >
+                    | Iterable<React.ReactNode>
+                    | React.ReactPortal
+                    | null
+                    | undefined,
+                  index: React.Key | null | undefined
+                ) => (
+                  <Badge key={index} variant="secondary" className="text-xs">
+                    {tag}
+                  </Badge>
+                )
+              )}
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-1">
+            {org.organization.description}
+          </p>
+        </CardContent>
+        <CardFooter className="flex flex-col space-y-2 pt-4 border-t">
+          <div className="flex justify-between w-full text-sm text-muted-foreground">
+            <div className="flex items-center">
+              <CalendarDays className="mr-2 h-4 w-4" />
+              {org.organization.createdAt}
+            </div>
+            <div className="flex items-center">
+              <Users className="mr-2 h-4 w-4" />9 members
+            </div>
+          </div>
+          <div className="flex justify-between w-full">
+            <AlertDialogTrigger>
+              <Button variant="outline" onClick={() => onEdit(org)}>
+                <Edit className="mr-2 h-4 w-4" />
+                Edit
+              </Button>
+            </AlertDialogTrigger>
+            <Button variant="outline" onClick={clickHandler}>
+              View
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+        </CardFooter>
+      </Card>
+      <AlertDialogContent className="p-0">
+        <CreateOrganization
+          setReload={false}
+          reload={true}
+          organization={org}
+        />
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};

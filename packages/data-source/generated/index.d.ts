@@ -12294,11 +12294,11 @@ export namespace Prisma {
     id: string | null
     firstName: string | null
     lastName: string | null
-    suffix: string | null
+    title: string | null
+    Salutation: string | null
     name: string | null
     email: string | null
     secondaryEmail: string | null
-    industry: string | null
     type: string | null
     leadId: string | null
     lastContacted: bigint | null
@@ -12314,11 +12314,11 @@ export namespace Prisma {
     id: string | null
     firstName: string | null
     lastName: string | null
-    suffix: string | null
+    title: string | null
+    Salutation: string | null
     name: string | null
     email: string | null
     secondaryEmail: string | null
-    industry: string | null
     type: string | null
     leadId: string | null
     lastContacted: bigint | null
@@ -12334,14 +12334,13 @@ export namespace Prisma {
     id: number
     firstName: number
     lastName: number
-    suffix: number
-    phone: number
+    title: number
+    Salutation: number
     name: number
     email: number
     secondaryEmail: number
     primaryPhNo: number
     secondaryPhNo: number
-    industry: number
     type: number
     leadId: number
     lastContacted: number
@@ -12373,11 +12372,11 @@ export namespace Prisma {
     id?: true
     firstName?: true
     lastName?: true
-    suffix?: true
+    title?: true
+    Salutation?: true
     name?: true
     email?: true
     secondaryEmail?: true
-    industry?: true
     type?: true
     leadId?: true
     lastContacted?: true
@@ -12393,11 +12392,11 @@ export namespace Prisma {
     id?: true
     firstName?: true
     lastName?: true
-    suffix?: true
+    title?: true
+    Salutation?: true
     name?: true
     email?: true
     secondaryEmail?: true
-    industry?: true
     type?: true
     leadId?: true
     lastContacted?: true
@@ -12413,14 +12412,13 @@ export namespace Prisma {
     id?: true
     firstName?: true
     lastName?: true
-    suffix?: true
-    phone?: true
+    title?: true
+    Salutation?: true
     name?: true
     email?: true
     secondaryEmail?: true
     primaryPhNo?: true
     secondaryPhNo?: true
-    industry?: true
     type?: true
     leadId?: true
     lastContacted?: true
@@ -12523,14 +12521,13 @@ export namespace Prisma {
     id: string
     firstName: string | null
     lastName: string | null
-    suffix: string | null
-    phone: JsonValue | null
+    title: string | null
+    Salutation: string | null
     name: string | null
     email: string | null
     secondaryEmail: string | null
     primaryPhNo: JsonValue | null
     secondaryPhNo: JsonValue | null
-    industry: string | null
     type: string | null
     leadId: string
     lastContacted: bigint | null
@@ -12565,14 +12562,13 @@ export namespace Prisma {
     id?: boolean
     firstName?: boolean
     lastName?: boolean
-    suffix?: boolean
-    phone?: boolean
+    title?: boolean
+    Salutation?: boolean
     name?: boolean
     email?: boolean
     secondaryEmail?: boolean
     primaryPhNo?: boolean
     secondaryPhNo?: boolean
-    industry?: boolean
     type?: boolean
     leadId?: boolean
     lastContacted?: boolean
@@ -12592,14 +12588,13 @@ export namespace Prisma {
     id?: boolean
     firstName?: boolean
     lastName?: boolean
-    suffix?: boolean
-    phone?: boolean
+    title?: boolean
+    Salutation?: boolean
     name?: boolean
     email?: boolean
     secondaryEmail?: boolean
     primaryPhNo?: boolean
     secondaryPhNo?: boolean
-    industry?: boolean
     type?: boolean
     leadId?: boolean
     lastContacted?: boolean
@@ -12617,14 +12612,13 @@ export namespace Prisma {
     id?: boolean
     firstName?: boolean
     lastName?: boolean
-    suffix?: boolean
-    phone?: boolean
+    title?: boolean
+    Salutation?: boolean
     name?: boolean
     email?: boolean
     secondaryEmail?: boolean
     primaryPhNo?: boolean
     secondaryPhNo?: boolean
-    industry?: boolean
     type?: boolean
     leadId?: boolean
     lastContacted?: boolean
@@ -12658,14 +12652,13 @@ export namespace Prisma {
       id: string
       firstName: string | null
       lastName: string | null
-      suffix: string | null
-      phone: Prisma.JsonValue | null
+      title: string | null
+      Salutation: string | null
       name: string | null
       email: string | null
       secondaryEmail: string | null
       primaryPhNo: Prisma.JsonValue | null
       secondaryPhNo: Prisma.JsonValue | null
-      industry: string | null
       type: string | null
       leadId: string
       lastContacted: bigint | null
@@ -13074,14 +13067,13 @@ export namespace Prisma {
     readonly id: FieldRef<"Contact", 'String'>
     readonly firstName: FieldRef<"Contact", 'String'>
     readonly lastName: FieldRef<"Contact", 'String'>
-    readonly suffix: FieldRef<"Contact", 'String'>
-    readonly phone: FieldRef<"Contact", 'Json'>
+    readonly title: FieldRef<"Contact", 'String'>
+    readonly Salutation: FieldRef<"Contact", 'String'>
     readonly name: FieldRef<"Contact", 'String'>
     readonly email: FieldRef<"Contact", 'String'>
     readonly secondaryEmail: FieldRef<"Contact", 'String'>
     readonly primaryPhNo: FieldRef<"Contact", 'Json'>
     readonly secondaryPhNo: FieldRef<"Contact", 'Json'>
-    readonly industry: FieldRef<"Contact", 'String'>
     readonly type: FieldRef<"Contact", 'String'>
     readonly leadId: FieldRef<"Contact", 'String'>
     readonly lastContacted: FieldRef<"Contact", 'BigInt'>
@@ -26188,14 +26180,13 @@ export namespace Prisma {
     id: 'id',
     firstName: 'firstName',
     lastName: 'lastName',
-    suffix: 'suffix',
-    phone: 'phone',
+    title: 'title',
+    Salutation: 'Salutation',
     name: 'name',
     email: 'email',
     secondaryEmail: 'secondaryEmail',
     primaryPhNo: 'primaryPhNo',
     secondaryPhNo: 'secondaryPhNo',
-    industry: 'industry',
     type: 'type',
     leadId: 'leadId',
     lastContacted: 'lastContacted',
@@ -27421,14 +27412,13 @@ export namespace Prisma {
     id?: StringFilter<"Contact"> | string
     firstName?: StringNullableFilter<"Contact"> | string | null
     lastName?: StringNullableFilter<"Contact"> | string | null
-    suffix?: StringNullableFilter<"Contact"> | string | null
-    phone?: JsonNullableFilter<"Contact">
+    title?: StringNullableFilter<"Contact"> | string | null
+    Salutation?: StringNullableFilter<"Contact"> | string | null
     name?: StringNullableFilter<"Contact"> | string | null
     email?: StringNullableFilter<"Contact"> | string | null
     secondaryEmail?: StringNullableFilter<"Contact"> | string | null
     primaryPhNo?: JsonNullableFilter<"Contact">
     secondaryPhNo?: JsonNullableFilter<"Contact">
-    industry?: StringNullableFilter<"Contact"> | string | null
     type?: StringNullableFilter<"Contact"> | string | null
     leadId?: StringFilter<"Contact"> | string
     lastContacted?: BigIntNullableFilter<"Contact"> | bigint | number | null
@@ -27447,14 +27437,13 @@ export namespace Prisma {
     id?: SortOrder
     firstName?: SortOrderInput | SortOrder
     lastName?: SortOrderInput | SortOrder
-    suffix?: SortOrderInput | SortOrder
-    phone?: SortOrderInput | SortOrder
+    title?: SortOrderInput | SortOrder
+    Salutation?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     secondaryEmail?: SortOrderInput | SortOrder
     primaryPhNo?: SortOrderInput | SortOrder
     secondaryPhNo?: SortOrderInput | SortOrder
-    industry?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
     leadId?: SortOrder
     lastContacted?: SortOrderInput | SortOrder
@@ -27476,14 +27465,13 @@ export namespace Prisma {
     NOT?: ContactWhereInput | ContactWhereInput[]
     firstName?: StringNullableFilter<"Contact"> | string | null
     lastName?: StringNullableFilter<"Contact"> | string | null
-    suffix?: StringNullableFilter<"Contact"> | string | null
-    phone?: JsonNullableFilter<"Contact">
+    title?: StringNullableFilter<"Contact"> | string | null
+    Salutation?: StringNullableFilter<"Contact"> | string | null
     name?: StringNullableFilter<"Contact"> | string | null
     email?: StringNullableFilter<"Contact"> | string | null
     secondaryEmail?: StringNullableFilter<"Contact"> | string | null
     primaryPhNo?: JsonNullableFilter<"Contact">
     secondaryPhNo?: JsonNullableFilter<"Contact">
-    industry?: StringNullableFilter<"Contact"> | string | null
     type?: StringNullableFilter<"Contact"> | string | null
     leadId?: StringFilter<"Contact"> | string
     lastContacted?: BigIntNullableFilter<"Contact"> | bigint | number | null
@@ -27502,14 +27490,13 @@ export namespace Prisma {
     id?: SortOrder
     firstName?: SortOrderInput | SortOrder
     lastName?: SortOrderInput | SortOrder
-    suffix?: SortOrderInput | SortOrder
-    phone?: SortOrderInput | SortOrder
+    title?: SortOrderInput | SortOrder
+    Salutation?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     secondaryEmail?: SortOrderInput | SortOrder
     primaryPhNo?: SortOrderInput | SortOrder
     secondaryPhNo?: SortOrderInput | SortOrder
-    industry?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
     leadId?: SortOrder
     lastContacted?: SortOrderInput | SortOrder
@@ -27533,14 +27520,13 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Contact"> | string
     firstName?: StringNullableWithAggregatesFilter<"Contact"> | string | null
     lastName?: StringNullableWithAggregatesFilter<"Contact"> | string | null
-    suffix?: StringNullableWithAggregatesFilter<"Contact"> | string | null
-    phone?: JsonNullableWithAggregatesFilter<"Contact">
+    title?: StringNullableWithAggregatesFilter<"Contact"> | string | null
+    Salutation?: StringNullableWithAggregatesFilter<"Contact"> | string | null
     name?: StringNullableWithAggregatesFilter<"Contact"> | string | null
     email?: StringNullableWithAggregatesFilter<"Contact"> | string | null
     secondaryEmail?: StringNullableWithAggregatesFilter<"Contact"> | string | null
     primaryPhNo?: JsonNullableWithAggregatesFilter<"Contact">
     secondaryPhNo?: JsonNullableWithAggregatesFilter<"Contact">
-    industry?: StringNullableWithAggregatesFilter<"Contact"> | string | null
     type?: StringNullableWithAggregatesFilter<"Contact"> | string | null
     leadId?: StringWithAggregatesFilter<"Contact"> | string
     lastContacted?: BigIntNullableWithAggregatesFilter<"Contact"> | bigint | number | null
@@ -29325,14 +29311,13 @@ export namespace Prisma {
     id?: string
     firstName?: string | null
     lastName?: string | null
-    suffix?: string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: string | null
     type?: string | null
     lastContacted?: bigint | number | null
     createdAt: bigint | number
@@ -29349,14 +29334,13 @@ export namespace Prisma {
     id?: string
     firstName?: string | null
     lastName?: string | null
-    suffix?: string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: string | null
     type?: string | null
     leadId: string
     lastContacted?: bigint | number | null
@@ -29373,14 +29357,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    suffix?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -29397,14 +29380,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    suffix?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: StringFieldUpdateOperationsInput | string
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -29421,14 +29403,13 @@ export namespace Prisma {
     id?: string
     firstName?: string | null
     lastName?: string | null
-    suffix?: string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: string | null
     type?: string | null
     leadId: string
     lastContacted?: bigint | number | null
@@ -29444,14 +29425,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    suffix?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -29465,14 +29445,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    suffix?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: StringFieldUpdateOperationsInput | string
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -31404,14 +31383,13 @@ export namespace Prisma {
     id?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
-    suffix?: SortOrder
-    phone?: SortOrder
+    title?: SortOrder
+    Salutation?: SortOrder
     name?: SortOrder
     email?: SortOrder
     secondaryEmail?: SortOrder
     primaryPhNo?: SortOrder
     secondaryPhNo?: SortOrder
-    industry?: SortOrder
     type?: SortOrder
     leadId?: SortOrder
     lastContacted?: SortOrder
@@ -31434,11 +31412,11 @@ export namespace Prisma {
     id?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
-    suffix?: SortOrder
+    title?: SortOrder
+    Salutation?: SortOrder
     name?: SortOrder
     email?: SortOrder
     secondaryEmail?: SortOrder
-    industry?: SortOrder
     type?: SortOrder
     leadId?: SortOrder
     lastContacted?: SortOrder
@@ -31454,11 +31432,11 @@ export namespace Prisma {
     id?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
-    suffix?: SortOrder
+    title?: SortOrder
+    Salutation?: SortOrder
     name?: SortOrder
     email?: SortOrder
     secondaryEmail?: SortOrder
-    industry?: SortOrder
     type?: SortOrder
     leadId?: SortOrder
     lastContacted?: SortOrder
@@ -35678,14 +35656,13 @@ export namespace Prisma {
     id?: string
     firstName?: string | null
     lastName?: string | null
-    suffix?: string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: string | null
     type?: string | null
     lastContacted?: bigint | number | null
     createdAt: bigint | number
@@ -35701,14 +35678,13 @@ export namespace Prisma {
     id?: string
     firstName?: string | null
     lastName?: string | null
-    suffix?: string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: string | null
     type?: string | null
     leadId: string
     lastContacted?: bigint | number | null
@@ -36165,14 +36141,13 @@ export namespace Prisma {
     id?: StringFilter<"Contact"> | string
     firstName?: StringNullableFilter<"Contact"> | string | null
     lastName?: StringNullableFilter<"Contact"> | string | null
-    suffix?: StringNullableFilter<"Contact"> | string | null
-    phone?: JsonNullableFilter<"Contact">
+    title?: StringNullableFilter<"Contact"> | string | null
+    Salutation?: StringNullableFilter<"Contact"> | string | null
     name?: StringNullableFilter<"Contact"> | string | null
     email?: StringNullableFilter<"Contact"> | string | null
     secondaryEmail?: StringNullableFilter<"Contact"> | string | null
     primaryPhNo?: JsonNullableFilter<"Contact">
     secondaryPhNo?: JsonNullableFilter<"Contact">
-    industry?: StringNullableFilter<"Contact"> | string | null
     type?: StringNullableFilter<"Contact"> | string | null
     leadId?: StringFilter<"Contact"> | string
     lastContacted?: BigIntNullableFilter<"Contact"> | bigint | number | null
@@ -37265,14 +37240,13 @@ export namespace Prisma {
     id?: string
     firstName?: string | null
     lastName?: string | null
-    suffix?: string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: string | null
     type?: string | null
     lastContacted?: bigint | number | null
     createdAt: bigint | number
@@ -37288,14 +37262,13 @@ export namespace Prisma {
     id?: string
     firstName?: string | null
     lastName?: string | null
-    suffix?: string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: string | null
     type?: string | null
     lastContacted?: bigint | number | null
     createdAt: bigint | number
@@ -38873,14 +38846,13 @@ export namespace Prisma {
     id?: string
     firstName?: string | null
     lastName?: string | null
-    suffix?: string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: string | null
     type?: string | null
     lastContacted?: bigint | number | null
     createdAt: bigint | number
@@ -38896,14 +38868,13 @@ export namespace Prisma {
     id?: string
     firstName?: string | null
     lastName?: string | null
-    suffix?: string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: string | null
     type?: string | null
     leadId: string
     lastContacted?: bigint | number | null
@@ -39061,14 +39032,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    suffix?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -39084,14 +39054,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    suffix?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: StringFieldUpdateOperationsInput | string
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -41108,14 +41077,13 @@ export namespace Prisma {
     id?: string
     firstName?: string | null
     lastName?: string | null
-    suffix?: string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: string | null
     type?: string | null
     leadId: string
     lastContacted?: bigint | number | null
@@ -41442,14 +41410,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    suffix?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -41465,14 +41432,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    suffix?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: StringFieldUpdateOperationsInput | string
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -41488,14 +41454,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    suffix?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: StringFieldUpdateOperationsInput | string
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -41999,14 +41964,13 @@ export namespace Prisma {
     id?: string
     firstName?: string | null
     lastName?: string | null
-    suffix?: string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: string | null
     type?: string | null
     lastContacted?: bigint | number | null
     createdAt: bigint | number
@@ -42158,14 +42122,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    suffix?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -42181,14 +42144,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    suffix?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -42204,14 +42166,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    suffix?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableJsonNullValueInput | InputJsonValue
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
     primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number

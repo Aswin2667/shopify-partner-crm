@@ -66,7 +66,7 @@ export default function DashBoardPage() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">${totalRevenue.toLocaleString()}</div>
+                  <div className="text-2xl font-bold">${totalRevenue?.toLocaleString()}</div>
                   <p className="text-xs text-muted-foreground">
                     +20.1% from last month
                   </p>

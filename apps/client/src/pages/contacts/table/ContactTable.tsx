@@ -88,7 +88,7 @@ export default function ContactTable() {
                 className="hover:bg-gray-100 p-0 pl-4 min-h-[5px] "
               >
                 <TableCell className="font-medium p-0 pl-4 ">
-                  {contact.name}
+                  {contact?.Salutation}{contact.firstName} {contact.lastName}
                 </TableCell>
                 <TableCell className="font-medium text-blue-600 p-0 pl-4 hover:underline cursor-pointer">
                   {contact.email}
