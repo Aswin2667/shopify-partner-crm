@@ -1,14 +1,8 @@
 import React, { useState } from "react";
-import { Pencil, Plus, Save, Trash2 } from "lucide-react";
+import { Plus, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Textarea } from "@/components/ui/textarea";
 
 export default function TaskExpandableCard() {
@@ -37,10 +31,6 @@ export default function TaskExpandableCard() {
     // Implement save logic here
   };
 
-  const handleDelete = () => {
-    console.log("Contact deleted");
-    // Implement delete logic here
-  };
 
   return (
     <Card className="border-0 p-1 shadow-none">

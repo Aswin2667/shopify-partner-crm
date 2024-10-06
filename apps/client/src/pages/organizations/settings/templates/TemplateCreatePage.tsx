@@ -1,36 +1,31 @@
-import { Separator } from "@/components/ui/separator";
 import EmailEditor from "@/pages/leads/components/EmailEditor";
 import React, { useState } from "react";
-import axios from "axios"; // Make sure axios is installed
-import axiosInstance from "@/utils/_axios";
 import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import TemplateService from "@/services/TemplatesService";
-import { useToast } from "@/components/ui/use-toast"
-  
+import { useToast } from "@/components/ui/use-toast";
+
 const TemplateCreatePage = () => {
   const [data, setData] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
-  const { toast } = useToast()
-   const { currentOrgMember } = useSelector(
-    (state: any) => state.organization,
-  );
+  const { toast } = useToast();
+  const { currentOrgMember } = useSelector((state: any) => state.organization);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-       const response = await TemplateService.create({
+      const response = await TemplateService.create({
         name,
         html: data,
         userId,
-        orgId:currentOrgMember.id
-      })
+        orgId: currentOrgMember.id,
+      });
       toast({
         title: "Template created successfully",
-      })
+      });
 
       // Handle success
       console.log("Template created:", response.data);

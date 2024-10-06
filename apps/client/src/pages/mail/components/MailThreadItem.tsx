@@ -1,35 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import {
   ChevronDown,
   ChevronUp,
   CornerUpRight,
   Reply,
-  ReplyAll,
   Star,
-  MoreHorizontal,
-  Paperclip,
-  Download,
-  Flag,
-  Tag,
 } from "lucide-react";
-import { emails } from "./MailThread";
-import MailReply from "./MailReply";
+ import MailReply from "./MailReply";
 import TimeAgo from "timeago-react";
 import DateHelper from "@/utils/DateHelper";
 // @ts-ignore
 import DOMPurify from "dompurify";
-import { is } from "date-fns/locale";
-
+ 
 const MailThreadItem = ({ message, mail }: any) => {
   const [action, setAction] = useState<null | string>(null);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -47,18 +33,18 @@ const MailThreadItem = ({ message, mail }: any) => {
     console.log(`Replying to email ${id}`);
   };
 
-  const handleReplyAll = (id: string) => {
-    console.log(`Replying to all for email ${id}`);
-  };
+  // const handleReplyAll = (id: string) => {
+  //   console.log(`Replying to all for email ${id}`);
+  // };
 
   const handleForward = (id: string) => {
     setAction("FORWARD");
     console.log(`Forwarding email ${id}`);
   };
 
-  const handleDownload = (attachmentId: string) => {
-    console.log(`Downloading attachment ${attachmentId}`);
-  };
+  // const handleDownload = (attachmentId: string) => {
+  //   console.log(`Downloading attachment ${attachmentId}`);
+  // };
 
   function getInitials(name: string): string {
     return name
@@ -88,13 +74,13 @@ const MailThreadItem = ({ message, mail }: any) => {
     return colors[index];
   }
 
-  const handleFlag = (id: string) => {
-    console.log(`Flagging email ${id}`);
-  };
+  // const handleFlag = (id: string) => {
+  //   console.log(`Flagging email ${id}`);
+  // };
 
-  const handleAddLabel = (id: string) => {
-    console.log(`Adding label to email ${id}`);
-  };
+  // const handleAddLabel = (id: string) => {
+  //   console.log(`Adding label to email ${id}`);
+  // };
 
   useEffect(() => {
     const fixBase64 = (str: any) => {

@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { unsubscribe } from "diagnostics_channel";
-
 const initialState = {
   currentOrgMember: null,
   organizations: [],

@@ -5548,6 +5548,7 @@ export namespace Prisma {
     description: number
     createdAt: number
     updatedAt: number
+    details: number
     deletedAt: number
     _all: number
   }
@@ -5592,6 +5593,7 @@ export namespace Prisma {
     description?: true
     createdAt?: true
     updatedAt?: true
+    details?: true
     deletedAt?: true
     _all?: true
   }
@@ -5689,6 +5691,7 @@ export namespace Prisma {
     description: string | null
     createdAt: bigint
     updatedAt: bigint
+    details: JsonValue | null
     deletedAt: bigint
     _count: OrganizationCountAggregateOutputType | null
     _avg: OrganizationAvgAggregateOutputType | null
@@ -5718,6 +5721,7 @@ export namespace Prisma {
     description?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    details?: boolean
     deletedAt?: boolean
     Project?: boolean | Organization$ProjectArgs<ExtArgs>
     members?: boolean | Organization$membersArgs<ExtArgs>
@@ -5743,6 +5747,7 @@ export namespace Prisma {
     description?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    details?: boolean
     deletedAt?: boolean
   }, ExtArgs["result"]["organization"]>
 
@@ -5753,6 +5758,7 @@ export namespace Prisma {
     description?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    details?: boolean
     deletedAt?: boolean
   }
 
@@ -5800,6 +5806,7 @@ export namespace Prisma {
       description: string | null
       createdAt: bigint
       updatedAt: bigint
+      details: Prisma.JsonValue | null
       deletedAt: bigint
     }, ExtArgs["result"]["organization"]>
     composites: {}
@@ -6214,6 +6221,7 @@ export namespace Prisma {
     readonly description: FieldRef<"Organization", 'String'>
     readonly createdAt: FieldRef<"Organization", 'BigInt'>
     readonly updatedAt: FieldRef<"Organization", 'BigInt'>
+    readonly details: FieldRef<"Organization", 'Json'>
     readonly deletedAt: FieldRef<"Organization", 'BigInt'>
   }
     
@@ -12284,12 +12292,13 @@ export namespace Prisma {
 
   export type ContactMinAggregateOutputType = {
     id: string | null
+    firstName: string | null
+    lastName: string | null
+    title: string | null
+    Salutation: string | null
     name: string | null
     email: string | null
     secondaryEmail: string | null
-    primaryPhNo: string | null
-    secondaryPhNo: string | null
-    industry: string | null
     type: string | null
     leadId: string | null
     lastContacted: bigint | null
@@ -12303,12 +12312,13 @@ export namespace Prisma {
 
   export type ContactMaxAggregateOutputType = {
     id: string | null
+    firstName: string | null
+    lastName: string | null
+    title: string | null
+    Salutation: string | null
     name: string | null
     email: string | null
     secondaryEmail: string | null
-    primaryPhNo: string | null
-    secondaryPhNo: string | null
-    industry: string | null
     type: string | null
     leadId: string | null
     lastContacted: bigint | null
@@ -12322,12 +12332,15 @@ export namespace Prisma {
 
   export type ContactCountAggregateOutputType = {
     id: number
+    firstName: number
+    lastName: number
+    title: number
+    Salutation: number
     name: number
     email: number
     secondaryEmail: number
     primaryPhNo: number
     secondaryPhNo: number
-    industry: number
     type: number
     leadId: number
     lastContacted: number
@@ -12357,12 +12370,13 @@ export namespace Prisma {
 
   export type ContactMinAggregateInputType = {
     id?: true
+    firstName?: true
+    lastName?: true
+    title?: true
+    Salutation?: true
     name?: true
     email?: true
     secondaryEmail?: true
-    primaryPhNo?: true
-    secondaryPhNo?: true
-    industry?: true
     type?: true
     leadId?: true
     lastContacted?: true
@@ -12376,12 +12390,13 @@ export namespace Prisma {
 
   export type ContactMaxAggregateInputType = {
     id?: true
+    firstName?: true
+    lastName?: true
+    title?: true
+    Salutation?: true
     name?: true
     email?: true
     secondaryEmail?: true
-    primaryPhNo?: true
-    secondaryPhNo?: true
-    industry?: true
     type?: true
     leadId?: true
     lastContacted?: true
@@ -12395,12 +12410,15 @@ export namespace Prisma {
 
   export type ContactCountAggregateInputType = {
     id?: true
+    firstName?: true
+    lastName?: true
+    title?: true
+    Salutation?: true
     name?: true
     email?: true
     secondaryEmail?: true
     primaryPhNo?: true
     secondaryPhNo?: true
-    industry?: true
     type?: true
     leadId?: true
     lastContacted?: true
@@ -12501,12 +12519,15 @@ export namespace Prisma {
 
   export type ContactGroupByOutputType = {
     id: string
+    firstName: string | null
+    lastName: string | null
+    title: string | null
+    Salutation: string | null
     name: string | null
     email: string | null
     secondaryEmail: string | null
-    primaryPhNo: string | null
-    secondaryPhNo: string | null
-    industry: string | null
+    primaryPhNo: JsonValue | null
+    secondaryPhNo: JsonValue | null
     type: string | null
     leadId: string
     lastContacted: bigint | null
@@ -12539,12 +12560,15 @@ export namespace Prisma {
 
   export type ContactSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    title?: boolean
+    Salutation?: boolean
     name?: boolean
     email?: boolean
     secondaryEmail?: boolean
     primaryPhNo?: boolean
     secondaryPhNo?: boolean
-    industry?: boolean
     type?: boolean
     leadId?: boolean
     lastContacted?: boolean
@@ -12562,12 +12586,15 @@ export namespace Prisma {
 
   export type ContactSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    title?: boolean
+    Salutation?: boolean
     name?: boolean
     email?: boolean
     secondaryEmail?: boolean
     primaryPhNo?: boolean
     secondaryPhNo?: boolean
-    industry?: boolean
     type?: boolean
     leadId?: boolean
     lastContacted?: boolean
@@ -12583,12 +12610,15 @@ export namespace Prisma {
 
   export type ContactSelectScalar = {
     id?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    title?: boolean
+    Salutation?: boolean
     name?: boolean
     email?: boolean
     secondaryEmail?: boolean
     primaryPhNo?: boolean
     secondaryPhNo?: boolean
-    industry?: boolean
     type?: boolean
     leadId?: boolean
     lastContacted?: boolean
@@ -12620,12 +12650,15 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      firstName: string | null
+      lastName: string | null
+      title: string | null
+      Salutation: string | null
       name: string | null
       email: string | null
       secondaryEmail: string | null
-      primaryPhNo: string | null
-      secondaryPhNo: string | null
-      industry: string | null
+      primaryPhNo: Prisma.JsonValue | null
+      secondaryPhNo: Prisma.JsonValue | null
       type: string | null
       leadId: string
       lastContacted: bigint | null
@@ -13032,12 +13065,15 @@ export namespace Prisma {
    */ 
   interface ContactFieldRefs {
     readonly id: FieldRef<"Contact", 'String'>
+    readonly firstName: FieldRef<"Contact", 'String'>
+    readonly lastName: FieldRef<"Contact", 'String'>
+    readonly title: FieldRef<"Contact", 'String'>
+    readonly Salutation: FieldRef<"Contact", 'String'>
     readonly name: FieldRef<"Contact", 'String'>
     readonly email: FieldRef<"Contact", 'String'>
     readonly secondaryEmail: FieldRef<"Contact", 'String'>
-    readonly primaryPhNo: FieldRef<"Contact", 'String'>
-    readonly secondaryPhNo: FieldRef<"Contact", 'String'>
-    readonly industry: FieldRef<"Contact", 'String'>
+    readonly primaryPhNo: FieldRef<"Contact", 'Json'>
+    readonly secondaryPhNo: FieldRef<"Contact", 'Json'>
     readonly type: FieldRef<"Contact", 'String'>
     readonly leadId: FieldRef<"Contact", 'String'>
     readonly lastContacted: FieldRef<"Contact", 'BigInt'>
@@ -26056,6 +26092,7 @@ export namespace Prisma {
     description: 'description',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    details: 'details',
     deletedAt: 'deletedAt'
   };
 
@@ -26141,12 +26178,15 @@ export namespace Prisma {
 
   export const ContactScalarFieldEnum: {
     id: 'id',
+    firstName: 'firstName',
+    lastName: 'lastName',
+    title: 'title',
+    Salutation: 'Salutation',
     name: 'name',
     email: 'email',
     secondaryEmail: 'secondaryEmail',
     primaryPhNo: 'primaryPhNo',
     secondaryPhNo: 'secondaryPhNo',
-    industry: 'industry',
     type: 'type',
     leadId: 'leadId',
     lastContacted: 'lastContacted',
@@ -26355,19 +26395,19 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-  export const JsonNullValueInput: {
-    JsonNull: typeof JsonNull
-  };
-
-  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
-
-
   export const NullableJsonNullValueInput: {
     DbNull: typeof DbNull,
     JsonNull: typeof JsonNull
   };
 
   export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const QueryMode: {
@@ -26816,6 +26856,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Organization"> | string | null
     createdAt?: BigIntFilter<"Organization"> | bigint | number
     updatedAt?: BigIntFilter<"Organization"> | bigint | number
+    details?: JsonNullableFilter<"Organization">
     deletedAt?: BigIntFilter<"Organization"> | bigint | number
     Project?: ProjectListRelationFilter
     members?: OrgMemberListRelationFilter
@@ -26840,6 +26881,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    details?: SortOrderInput | SortOrder
     deletedAt?: SortOrder
     Project?: ProjectOrderByRelationAggregateInput
     members?: OrgMemberOrderByRelationAggregateInput
@@ -26867,6 +26909,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Organization"> | string | null
     createdAt?: BigIntFilter<"Organization"> | bigint | number
     updatedAt?: BigIntFilter<"Organization"> | bigint | number
+    details?: JsonNullableFilter<"Organization">
     deletedAt?: BigIntFilter<"Organization"> | bigint | number
     Project?: ProjectListRelationFilter
     members?: OrgMemberListRelationFilter
@@ -26891,6 +26934,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    details?: SortOrderInput | SortOrder
     deletedAt?: SortOrder
     _count?: OrganizationCountOrderByAggregateInput
     _avg?: OrganizationAvgOrderByAggregateInput
@@ -26909,6 +26953,7 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Organization"> | string | null
     createdAt?: BigIntWithAggregatesFilter<"Organization"> | bigint | number
     updatedAt?: BigIntWithAggregatesFilter<"Organization"> | bigint | number
+    details?: JsonNullableWithAggregatesFilter<"Organization">
     deletedAt?: BigIntWithAggregatesFilter<"Organization"> | bigint | number
   }
 
@@ -27365,12 +27410,15 @@ export namespace Prisma {
     OR?: ContactWhereInput[]
     NOT?: ContactWhereInput | ContactWhereInput[]
     id?: StringFilter<"Contact"> | string
+    firstName?: StringNullableFilter<"Contact"> | string | null
+    lastName?: StringNullableFilter<"Contact"> | string | null
+    title?: StringNullableFilter<"Contact"> | string | null
+    Salutation?: StringNullableFilter<"Contact"> | string | null
     name?: StringNullableFilter<"Contact"> | string | null
     email?: StringNullableFilter<"Contact"> | string | null
     secondaryEmail?: StringNullableFilter<"Contact"> | string | null
-    primaryPhNo?: StringNullableFilter<"Contact"> | string | null
-    secondaryPhNo?: StringNullableFilter<"Contact"> | string | null
-    industry?: StringNullableFilter<"Contact"> | string | null
+    primaryPhNo?: JsonNullableFilter<"Contact">
+    secondaryPhNo?: JsonNullableFilter<"Contact">
     type?: StringNullableFilter<"Contact"> | string | null
     leadId?: StringFilter<"Contact"> | string
     lastContacted?: BigIntNullableFilter<"Contact"> | bigint | number | null
@@ -27387,12 +27435,15 @@ export namespace Prisma {
 
   export type ContactOrderByWithRelationInput = {
     id?: SortOrder
+    firstName?: SortOrderInput | SortOrder
+    lastName?: SortOrderInput | SortOrder
+    title?: SortOrderInput | SortOrder
+    Salutation?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     secondaryEmail?: SortOrderInput | SortOrder
     primaryPhNo?: SortOrderInput | SortOrder
     secondaryPhNo?: SortOrderInput | SortOrder
-    industry?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
     leadId?: SortOrder
     lastContacted?: SortOrderInput | SortOrder
@@ -27412,12 +27463,15 @@ export namespace Prisma {
     AND?: ContactWhereInput | ContactWhereInput[]
     OR?: ContactWhereInput[]
     NOT?: ContactWhereInput | ContactWhereInput[]
+    firstName?: StringNullableFilter<"Contact"> | string | null
+    lastName?: StringNullableFilter<"Contact"> | string | null
+    title?: StringNullableFilter<"Contact"> | string | null
+    Salutation?: StringNullableFilter<"Contact"> | string | null
     name?: StringNullableFilter<"Contact"> | string | null
     email?: StringNullableFilter<"Contact"> | string | null
     secondaryEmail?: StringNullableFilter<"Contact"> | string | null
-    primaryPhNo?: StringNullableFilter<"Contact"> | string | null
-    secondaryPhNo?: StringNullableFilter<"Contact"> | string | null
-    industry?: StringNullableFilter<"Contact"> | string | null
+    primaryPhNo?: JsonNullableFilter<"Contact">
+    secondaryPhNo?: JsonNullableFilter<"Contact">
     type?: StringNullableFilter<"Contact"> | string | null
     leadId?: StringFilter<"Contact"> | string
     lastContacted?: BigIntNullableFilter<"Contact"> | bigint | number | null
@@ -27434,12 +27488,15 @@ export namespace Prisma {
 
   export type ContactOrderByWithAggregationInput = {
     id?: SortOrder
+    firstName?: SortOrderInput | SortOrder
+    lastName?: SortOrderInput | SortOrder
+    title?: SortOrderInput | SortOrder
+    Salutation?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     secondaryEmail?: SortOrderInput | SortOrder
     primaryPhNo?: SortOrderInput | SortOrder
     secondaryPhNo?: SortOrderInput | SortOrder
-    industry?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
     leadId?: SortOrder
     lastContacted?: SortOrderInput | SortOrder
@@ -27461,12 +27518,15 @@ export namespace Prisma {
     OR?: ContactScalarWhereWithAggregatesInput[]
     NOT?: ContactScalarWhereWithAggregatesInput | ContactScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Contact"> | string
+    firstName?: StringNullableWithAggregatesFilter<"Contact"> | string | null
+    lastName?: StringNullableWithAggregatesFilter<"Contact"> | string | null
+    title?: StringNullableWithAggregatesFilter<"Contact"> | string | null
+    Salutation?: StringNullableWithAggregatesFilter<"Contact"> | string | null
     name?: StringNullableWithAggregatesFilter<"Contact"> | string | null
     email?: StringNullableWithAggregatesFilter<"Contact"> | string | null
     secondaryEmail?: StringNullableWithAggregatesFilter<"Contact"> | string | null
-    primaryPhNo?: StringNullableWithAggregatesFilter<"Contact"> | string | null
-    secondaryPhNo?: StringNullableWithAggregatesFilter<"Contact"> | string | null
-    industry?: StringNullableWithAggregatesFilter<"Contact"> | string | null
+    primaryPhNo?: JsonNullableWithAggregatesFilter<"Contact">
+    secondaryPhNo?: JsonNullableWithAggregatesFilter<"Contact">
     type?: StringNullableWithAggregatesFilter<"Contact"> | string | null
     leadId?: StringWithAggregatesFilter<"Contact"> | string
     lastContacted?: BigIntNullableWithAggregatesFilter<"Contact"> | bigint | number | null
@@ -28664,6 +28724,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberCreateNestedManyWithoutOrganizationInput
@@ -28688,6 +28749,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
@@ -28712,6 +28774,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
@@ -28736,6 +28799,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -28760,6 +28824,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
   }
 
@@ -28770,6 +28835,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
@@ -28780,6 +28846,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
@@ -29242,12 +29309,15 @@ export namespace Prisma {
 
   export type ContactCreateInput = {
     id?: string
+    firstName?: string | null
+    lastName?: string | null
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
-    primaryPhNo?: string | null
-    secondaryPhNo?: string | null
-    industry?: string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     lastContacted?: bigint | number | null
     createdAt: bigint | number
@@ -29262,12 +29332,15 @@ export namespace Prisma {
 
   export type ContactUncheckedCreateInput = {
     id?: string
+    firstName?: string | null
+    lastName?: string | null
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
-    primaryPhNo?: string | null
-    secondaryPhNo?: string | null
-    industry?: string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     leadId: string
     lastContacted?: bigint | number | null
@@ -29282,12 +29355,15 @@ export namespace Prisma {
 
   export type ContactUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    primaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -29302,12 +29378,15 @@ export namespace Prisma {
 
   export type ContactUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    primaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: StringFieldUpdateOperationsInput | string
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -29322,12 +29401,15 @@ export namespace Prisma {
 
   export type ContactCreateManyInput = {
     id?: string
+    firstName?: string | null
+    lastName?: string | null
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
-    primaryPhNo?: string | null
-    secondaryPhNo?: string | null
-    industry?: string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     leadId: string
     lastContacted?: bigint | number | null
@@ -29341,12 +29423,15 @@ export namespace Prisma {
 
   export type ContactUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    primaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -29358,12 +29443,15 @@ export namespace Prisma {
 
   export type ContactUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    primaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: StringFieldUpdateOperationsInput | string
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -30726,6 +30814,28 @@ export namespace Prisma {
     _min?: NestedEnumOrgMemberRoleFilter<$PrismaModel>
     _max?: NestedEnumOrgMemberRoleFilter<$PrismaModel>
   }
+  export type JsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type ProjectListRelationFilter = {
     every?: ProjectWhereInput
@@ -30834,6 +30944,7 @@ export namespace Prisma {
     description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    details?: SortOrder
     deletedAt?: SortOrder
   }
 
@@ -30867,6 +30978,31 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type OrgMemberOrganizationIdUserIdCompoundUniqueInput = {
@@ -31109,28 +31245,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deletedAt?: SortOrder
   }
-  export type JsonNullableFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type LeadStatusNullableRelationFilter = {
     is?: LeadStatusWhereInput | null
@@ -31206,31 +31320,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deletedAt?: SortOrder
   }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
-  }
 
   export type ProjectRelationFilter = {
     is?: ProjectWhereInput
@@ -31292,12 +31381,15 @@ export namespace Prisma {
 
   export type ContactCountOrderByAggregateInput = {
     id?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    title?: SortOrder
+    Salutation?: SortOrder
     name?: SortOrder
     email?: SortOrder
     secondaryEmail?: SortOrder
     primaryPhNo?: SortOrder
     secondaryPhNo?: SortOrder
-    industry?: SortOrder
     type?: SortOrder
     leadId?: SortOrder
     lastContacted?: SortOrder
@@ -31318,12 +31410,13 @@ export namespace Prisma {
 
   export type ContactMaxOrderByAggregateInput = {
     id?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    title?: SortOrder
+    Salutation?: SortOrder
     name?: SortOrder
     email?: SortOrder
     secondaryEmail?: SortOrder
-    primaryPhNo?: SortOrder
-    secondaryPhNo?: SortOrder
-    industry?: SortOrder
     type?: SortOrder
     leadId?: SortOrder
     lastContacted?: SortOrder
@@ -31337,12 +31430,13 @@ export namespace Prisma {
 
   export type ContactMinOrderByAggregateInput = {
     id?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    title?: SortOrder
+    Salutation?: SortOrder
     name?: SortOrder
     email?: SortOrder
     secondaryEmail?: SortOrder
-    primaryPhNo?: SortOrder
-    secondaryPhNo?: SortOrder
-    industry?: SortOrder
     type?: SortOrder
     leadId?: SortOrder
     lastContacted?: SortOrder
@@ -34565,6 +34659,28 @@ export namespace Prisma {
     _min?: NestedEnumOrgMemberRoleFilter<$PrismaModel>
     _max?: NestedEnumOrgMemberRoleFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
@@ -34637,28 +34753,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-  export type NestedJsonNullableFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedEnumLeadActivityTypeFilter<$PrismaModel = never> = {
@@ -35210,6 +35304,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberCreateNestedManyWithoutOrganizationInput
@@ -35233,6 +35328,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
@@ -35313,6 +35409,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
@@ -35336,6 +35433,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -35556,12 +35654,15 @@ export namespace Prisma {
 
   export type ContactCreateWithoutOrganizationInput = {
     id?: string
+    firstName?: string | null
+    lastName?: string | null
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
-    primaryPhNo?: string | null
-    secondaryPhNo?: string | null
-    industry?: string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     lastContacted?: bigint | number | null
     createdAt: bigint | number
@@ -35575,12 +35676,15 @@ export namespace Prisma {
 
   export type ContactUncheckedCreateWithoutOrganizationInput = {
     id?: string
+    firstName?: string | null
+    lastName?: string | null
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
-    primaryPhNo?: string | null
-    secondaryPhNo?: string | null
-    industry?: string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     leadId: string
     lastContacted?: bigint | number | null
@@ -36035,12 +36139,15 @@ export namespace Prisma {
     OR?: ContactScalarWhereInput[]
     NOT?: ContactScalarWhereInput | ContactScalarWhereInput[]
     id?: StringFilter<"Contact"> | string
+    firstName?: StringNullableFilter<"Contact"> | string | null
+    lastName?: StringNullableFilter<"Contact"> | string | null
+    title?: StringNullableFilter<"Contact"> | string | null
+    Salutation?: StringNullableFilter<"Contact"> | string | null
     name?: StringNullableFilter<"Contact"> | string | null
     email?: StringNullableFilter<"Contact"> | string | null
     secondaryEmail?: StringNullableFilter<"Contact"> | string | null
-    primaryPhNo?: StringNullableFilter<"Contact"> | string | null
-    secondaryPhNo?: StringNullableFilter<"Contact"> | string | null
-    industry?: StringNullableFilter<"Contact"> | string | null
+    primaryPhNo?: JsonNullableFilter<"Contact">
+    secondaryPhNo?: JsonNullableFilter<"Contact">
     type?: StringNullableFilter<"Contact"> | string | null
     leadId?: StringFilter<"Contact"> | string
     lastContacted?: BigIntNullableFilter<"Contact"> | bigint | number | null
@@ -36285,6 +36392,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectCreateNestedManyWithoutOrganizationInput
     invites?: OrgMemberInviteCreateNestedManyWithoutOrganizationInput
@@ -36308,6 +36416,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
     invites?: OrgMemberInviteUncheckedCreateNestedManyWithoutOrganizationInput
@@ -36432,6 +36541,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUpdateManyWithoutOrganizationNestedInput
     invites?: OrgMemberInviteUpdateManyWithoutOrganizationNestedInput
@@ -36455,6 +36565,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     invites?: OrgMemberInviteUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -36535,6 +36646,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     members?: OrgMemberCreateNestedManyWithoutOrganizationInput
     invites?: OrgMemberInviteCreateNestedManyWithoutOrganizationInput
@@ -36558,6 +36670,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
     invites?: OrgMemberInviteUncheckedCreateNestedManyWithoutOrganizationInput
@@ -36674,6 +36787,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
     invites?: OrgMemberInviteUpdateManyWithoutOrganizationNestedInput
@@ -36697,6 +36811,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
     invites?: OrgMemberInviteUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -37123,12 +37238,15 @@ export namespace Prisma {
 
   export type ContactCreateWithoutLeadInput = {
     id?: string
+    firstName?: string | null
+    lastName?: string | null
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
-    primaryPhNo?: string | null
-    secondaryPhNo?: string | null
-    industry?: string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     lastContacted?: bigint | number | null
     createdAt: bigint | number
@@ -37142,12 +37260,15 @@ export namespace Prisma {
 
   export type ContactUncheckedCreateWithoutLeadInput = {
     id?: string
+    firstName?: string | null
+    lastName?: string | null
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
-    primaryPhNo?: string | null
-    secondaryPhNo?: string | null
-    industry?: string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     lastContacted?: bigint | number | null
     createdAt: bigint | number
@@ -37208,6 +37329,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberCreateNestedManyWithoutOrganizationInput
@@ -37231,6 +37353,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
@@ -37507,6 +37630,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
@@ -37530,6 +37654,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -37743,6 +37868,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberCreateNestedManyWithoutOrganizationInput
@@ -37766,6 +37892,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
@@ -37946,6 +38073,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
@@ -37969,6 +38097,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -37992,6 +38121,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberCreateNestedManyWithoutOrganizationInput
@@ -38015,6 +38145,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
@@ -38167,6 +38298,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
@@ -38190,6 +38322,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -38376,6 +38509,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberCreateNestedManyWithoutOrganizationInput
@@ -38399,6 +38533,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
@@ -38543,6 +38678,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
@@ -38566,6 +38702,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -38707,12 +38844,15 @@ export namespace Prisma {
 
   export type ContactCreateWithoutEmailInput = {
     id?: string
+    firstName?: string | null
+    lastName?: string | null
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
-    primaryPhNo?: string | null
-    secondaryPhNo?: string | null
-    industry?: string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     lastContacted?: bigint | number | null
     createdAt: bigint | number
@@ -38726,12 +38866,15 @@ export namespace Prisma {
 
   export type ContactUncheckedCreateWithoutEmailInput = {
     id?: string
+    firstName?: string | null
+    lastName?: string | null
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
-    primaryPhNo?: string | null
-    secondaryPhNo?: string | null
-    industry?: string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     leadId: string
     lastContacted?: bigint | number | null
@@ -38800,6 +38943,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberCreateNestedManyWithoutOrganizationInput
@@ -38823,6 +38967,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
@@ -38885,12 +39030,15 @@ export namespace Prisma {
 
   export type ContactUpdateWithoutEmailInput = {
     id?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    primaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -38904,12 +39052,15 @@ export namespace Prisma {
 
   export type ContactUncheckedUpdateWithoutEmailInput = {
     id?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    primaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: StringFieldUpdateOperationsInput | string
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -38990,6 +39141,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
@@ -39013,6 +39165,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -39262,6 +39415,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberCreateNestedManyWithoutOrganizationInput
@@ -39285,6 +39439,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
@@ -39517,6 +39672,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
@@ -39540,6 +39696,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -39685,6 +39842,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberCreateNestedManyWithoutOrganizationInput
@@ -39708,6 +39866,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
@@ -39798,6 +39957,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
@@ -39821,6 +39981,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -39844,6 +40005,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberCreateNestedManyWithoutOrganizationInput
@@ -39867,6 +40029,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
@@ -39906,6 +40069,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
@@ -39929,6 +40093,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -40158,6 +40323,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberCreateNestedManyWithoutOrganizationInput
@@ -40181,6 +40347,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
@@ -40220,6 +40387,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
@@ -40243,6 +40411,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -40266,6 +40435,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberCreateNestedManyWithoutOrganizationInput
@@ -40289,6 +40459,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
@@ -40363,6 +40534,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
@@ -40386,6 +40558,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -40500,6 +40673,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberCreateNestedManyWithoutOrganizationInput
@@ -40523,6 +40697,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: bigint | number
     updatedAt?: bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt: bigint | number
     Project?: ProjectUncheckedCreateNestedManyWithoutOrganizationInput
     members?: OrgMemberUncheckedCreateNestedManyWithoutOrganizationInput
@@ -40578,6 +40753,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUpdateManyWithoutOrganizationNestedInput
@@ -40601,6 +40777,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
     updatedAt?: BigIntFieldUpdateOperationsInput | bigint | number
+    details?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: BigIntFieldUpdateOperationsInput | bigint | number
     Project?: ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     members?: OrgMemberUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -40898,12 +41075,15 @@ export namespace Prisma {
 
   export type ContactCreateManyOrganizationInput = {
     id?: string
+    firstName?: string | null
+    lastName?: string | null
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
-    primaryPhNo?: string | null
-    secondaryPhNo?: string | null
-    industry?: string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     leadId: string
     lastContacted?: bigint | number | null
@@ -41228,12 +41408,15 @@ export namespace Prisma {
 
   export type ContactUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    primaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -41247,12 +41430,15 @@ export namespace Prisma {
 
   export type ContactUncheckedUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    primaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: StringFieldUpdateOperationsInput | string
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -41266,12 +41452,15 @@ export namespace Prisma {
 
   export type ContactUncheckedUpdateManyWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    primaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     leadId?: StringFieldUpdateOperationsInput | string
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -41773,12 +41962,15 @@ export namespace Prisma {
 
   export type ContactCreateManyLeadInput = {
     id?: string
+    firstName?: string | null
+    lastName?: string | null
+    title?: string | null
+    Salutation?: string | null
     name?: string | null
     email?: string | null
     secondaryEmail?: string | null
-    primaryPhNo?: string | null
-    secondaryPhNo?: string | null
-    industry?: string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     lastContacted?: bigint | number | null
     createdAt: bigint | number
@@ -41928,12 +42120,15 @@ export namespace Prisma {
 
   export type ContactUpdateWithoutLeadInput = {
     id?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    primaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -41947,12 +42142,15 @@ export namespace Prisma {
 
   export type ContactUncheckedUpdateWithoutLeadInput = {
     id?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    primaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number
@@ -41966,12 +42164,15 @@ export namespace Prisma {
 
   export type ContactUncheckedUpdateManyWithoutLeadInput = {
     id?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    Salutation?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     secondaryEmail?: NullableStringFieldUpdateOperationsInput | string | null
-    primaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    secondaryPhNo?: NullableStringFieldUpdateOperationsInput | string | null
-    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    primaryPhNo?: NullableJsonNullValueInput | InputJsonValue
+    secondaryPhNo?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     lastContacted?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: BigIntFieldUpdateOperationsInput | bigint | number

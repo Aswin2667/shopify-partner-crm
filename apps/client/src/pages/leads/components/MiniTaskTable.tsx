@@ -3,8 +3,7 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
-  TableHead,
+   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";

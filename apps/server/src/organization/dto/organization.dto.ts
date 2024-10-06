@@ -10,6 +10,7 @@ export class CreateOrganizationDto {
   @IsEnum(['ADMIN', 'MEMBER'])
   role: string;
   description: any;
+  logo: any;
 }
 
 export class UpdateOrganizationDto {

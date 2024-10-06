@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function RadialProgress({ progress }: { progress: number }) {
   return (
     <div

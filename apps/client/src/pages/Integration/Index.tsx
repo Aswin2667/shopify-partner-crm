@@ -1,13 +1,12 @@
 import React from "react";
 import download from "../../assets/download.svg";
 import IntegrationItem from "./components/IntegrationItem";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { TbArrowNarrowLeft } from "react-icons/tb";
 
 const Integration: React.FC = () => {
-  const dispatch = useDispatch();
-  const { presentIntegrations, integrations } = useSelector(
+   const { presentIntegrations, integrations } = useSelector(
     (state: any) => state.integration
   );
 

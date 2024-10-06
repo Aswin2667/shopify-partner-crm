@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import MailThreadItem from "./MailThreadItem";
 import IntegrationService from "@/services/IntegrationService";
 import DateHelper from "../../../utils/DateHelper";

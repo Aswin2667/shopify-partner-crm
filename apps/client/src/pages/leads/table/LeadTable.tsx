@@ -16,7 +16,7 @@ import FilterChoose from "./components/FilterChoose";
 import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { leadsAction } from "@/redux/LeadSlice";
-import { ChevronDownIcon, XIcon } from "lucide-react";
+import { XIcon } from "lucide-react";
 
 type Project = {
   id: string;
@@ -30,29 +30,12 @@ type Project = {
   updatedAt: number;
 };
 
-type Lead = {
-  id: string;
-  shopifyDomain: string;
-  shopifyStoreId: string;
-  leadSource: string | null;
-  shopDetails: string | null;
-  industry: string | null;
-  createdAt: number;
-  status: string;
-  updatedAt: string;
-  deletedAt: string;
-  integrationId: string;
-  organizationId: string;
-  projectCount: string;
-  projects: Project[];
-};
-
 const LeadTable: React.FC = () => {
   const { organizationId } = useParams();
   // const [leads, setLeads] = useState<Lead[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(15);
-  const [totalItems, setTotalItems] = useState<number>(0);
+  const [_totalItems, setTotalItems] = useState<number>(0);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const navigate = useNavigate();
@@ -164,7 +147,7 @@ const LeadTable: React.FC = () => {
                   remove filter
                   <button className="ml-2 focus:outline-none">
                     <XIcon className="w-4 h-4 text-blue-500 hover:text-blue-700" onClick={()=>{
-                      dispatch(leadsAction.setfiltersDisabled(""))
+                      dispatch(leadsAction.setfiltersDisabled())
                     }} />
                   </button>
                 </div>

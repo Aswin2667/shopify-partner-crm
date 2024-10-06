@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import { z } from "zod";
-import { toast } from "sonner";
 import {
   Ellipsis,
   Expand,
@@ -12,15 +9,16 @@ import {
 } from "lucide-react";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Tooltip,
   TooltipContent,
@@ -28,47 +26,20 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import ContactService from "@/services/ContactService";
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQueryEvents } from "@/hooks/useQueryEvents";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
-import { leadAction } from "@/redux/leadSlice";
-import { getPhoneData, PhoneInput } from "@/components/phoneInput/components";
+import ContactCreate from "./ContactCreate";
+import { leadAction } from "@/redux/leadSlices";
 
-// Zod schema for validation
-const contactSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email address"),
-});
-
-type FormData = z.infer<typeof contactSchema>;
-
-const ExpandableContactCard = ({
-  integrationId,
-}: {
-  integrationId: string;
-}) => {
+ 
+const ExpandableContactCard = () => {
   const dispatch = useDispatch();
-  const queryClient = useQueryClient();
-  const { leadId, organizationId } = useParams();
-  const [phone, setPhone] = useState("");
-
+   const { leadId } = useParams();
+  const user = JSON.parse(localStorage.getItem("session") ?? "");
   const { leadContacts: contacts } = useSelector((state: any) => state.lead);
 
-  const {
-    control,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(contactSchema),
-    defaultValues: { name: "", email: "" },
-  });
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhone(e.target.value);
-  };
   useQueryEvents(
     useQuery({
       queryKey: ["getAllContactsForLead", leadId],
@@ -82,38 +53,27 @@ const ExpandableContactCard = ({
     }
   );
 
-  const { mutate: createContact } = useMutation({
-    mutationFn: async (data: any) =>
-      await ContactService.create({
-        ...data,
-        leadId,
-        integrationId,
-        organizationId,
-      }),
-    onSuccess: (response) => {
-      console.log(response);
-      reset(); // Clear form data
-      queryClient.invalidateQueries({
-        queryKey: ["getAllContactsForLead", leadId],
-      });
-      toast.success("Contact added successfully");
-    },
-    onError: (error: any) => {
-      toast.error("Failed to add contact");
-      console.error("Creation failed:", error?.response.data);
-    },
-  });
-
-  const onSubmit = async (data: FormData) => {
-    try {
-      await createContact(data);
-    } catch (error: any) {
-      console.error("Creation failed:", error?.response.data);
-    }
-  };
-  const phoneData = getPhoneData(phone);
-  console.log(phoneData);
-  const router = useNavigate();
+  // const { mutate: createContact } = useMutation({
+  //   mutationFn: async (data: any) =>
+  //     await ContactService.create({
+  //       ...data,
+  //       leadId,
+  //       integrationId,
+  //       organizationId,
+  //     }),
+  //   onSuccess: (response) => {
+  //     console.log(response);
+  //      queryClient.invalidateQueries({
+  //       queryKey: ["getAllContactsForLead", leadId],
+  //     });
+  //     toast.success("Contact added successfully");
+  //   },
+  //   onError: (error: any) => {
+  //     toast.error("Failed to add contact");
+  //     console.error("Creation failed:", error?.response.data);
+  //   },
+  // });
+   const router = useNavigate();
   return (
     <TooltipProvider>
       <DropdownMenu>
@@ -133,8 +93,8 @@ const ExpandableContactCard = ({
                     <AlertDialogTrigger>
                       <Plus className="w-4 h-4" />
                     </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
+                    <AlertDialogContent className="min-w-fit ">
+                      {/* <AlertDialogHeader>
                         <AlertDialogTitle>
                           Add a contact to this lead
                         </AlertDialogTitle>
@@ -214,7 +174,86 @@ const ExpandableContactCard = ({
                             </AlertDialogAction>
                           </AlertDialogFooter>
                         </form>
-                      </AlertDialogHeader>
+                      </AlertDialogHeader> */}
+                      {/* <div className=" p-4 rounded-md mb-6 min">
+                        <h2 className="text-lg font-semibold mb-4">
+                          Contact Information
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div>
+                            <Label htmlFor="contact-owner">Contact Owner</Label>
+                            <div className="flex items-center space-x-2">
+                              <img
+                                src={user?.avatarUrl ?? ""}
+                                referrerPolicy="no-referrer"
+                                className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-semibold"
+                              />
+                              <span>{user?.name ?? ""}</span>
+                            </div>
+                          </div>
+
+                          <div className="md:col-span-2">
+                            <Label htmlFor="name" className="mb-2 block">
+                              *Name
+                            </Label>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                              <Select>
+                                <SelectTrigger id="salutation">
+                                  <SelectValue placeholder="Salutation" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="none">--None--</SelectItem>
+                                  <SelectItem value="mr">Mr.</SelectItem>
+                                  <SelectItem value="ms">Ms.</SelectItem>
+                                  <SelectItem value="mrs">Mrs.</SelectItem>
+                                  <SelectItem value="dr">Dr.</SelectItem>
+                                  <SelectItem value="prof">Prof.</SelectItem>
+                                  <SelectItem value="mx">Mx.</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <Input
+                                placeholder="First Name"
+                                className="lg:col-span-2"
+                              />
+                              <Input
+                                placeholder="Last Name"
+                                className="lg:col-span-2"
+                              />
+                            </div>
+                          </div>
+
+                          <div>
+                            <Label htmlFor="suffix">Suffix</Label>
+                            <Input id="suffix" placeholder="Suffix" />
+                          </div>
+
+                          <div>
+                            <Label htmlFor="title">Title</Label>
+                            <Input id="title" placeholder="Title" />
+                          </div>
+
+                          <div>
+                            <Label htmlFor="email">Email</Label>
+                            <Input
+                              id="email"
+                              type="email"
+                              placeholder="Email"
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="phone">Phone</Label>
+                            <PhoneInput
+                              value={phone}
+                              onChange={handleOnChange}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex justify-end space-x-4">
+                        <Button variant="outline">Cancel</Button>
+                        <Button>Save</Button>
+                      </div> */}
+                      <ContactCreate user={user} />
                     </AlertDialogContent>
                   </AlertDialog>
                 </th>
@@ -235,6 +274,7 @@ const ExpandableContactCard = ({
                   <td className="px-6 py-4 text-end"></td>
                   <td className="px-6 py-4 flex justify-end gap-5 relative">
                     <TooltipProvider>
+                      {/* Call Button */}
                       <Tooltip>
                         <TooltipTrigger>
                           <button className="flex items-center hover:text-gray-600 justify-end cursor-pointer ">
@@ -243,6 +283,8 @@ const ExpandableContactCard = ({
                         </TooltipTrigger>
                         <TooltipContent>Call</TooltipContent>
                       </Tooltip>
+
+                      {/* Send Email Button */}
                       <Tooltip>
                         <TooltipTrigger onClick={() => router("emails")}>
                           <button className="flex items-center hover:text-gray-600 justify-end cursor-pointer">
@@ -251,32 +293,37 @@ const ExpandableContactCard = ({
                         </TooltipTrigger>
                         <TooltipContent>Send Email</TooltipContent>
                       </Tooltip>
-                      {/* <Tooltip>
-                        <TooltipTrigger>
-                          <DropdownMenuTrigger asChild>
-                            <button className="flex items-center hover:text-gray-600 justify-end">
-                              <Ellipsis className="w-4 h-4" />
-                            </button>
-                          </DropdownMenuTrigger>
-                        </TooltipTrigger>
-                        <TooltipContent>More Options</TooltipContent>
-                      </Tooltip>
-                      <DropdownMenuContent className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 shadow-lg">
-                        <DropdownMenuItem className="flex items-center gap-2">
-                          <Workflow className="w-4 h-4" />
-                          Enroll in Workflow
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="flex items-center gap-2">
-                          <Expand className="w-4 h-4" />
-                          Detailed View
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="flex items-center gap-2">
-                          <Trash className="w-4 h-4" />
-                          Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent> */}
+
+                      {/* More Options Dropdown */}
+                      <DropdownMenu>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <DropdownMenuTrigger asChild>
+                              <button className="flex items-center hover:text-gray-600 justify-end">
+                                <Ellipsis className="w-4 h-4" />
+                              </button>
+                            </DropdownMenuTrigger>
+                          </TooltipTrigger>
+                          <TooltipContent>More Options</TooltipContent>
+                        </Tooltip>
+
+                        <DropdownMenuContent className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 shadow-lg">
+                          <DropdownMenuItem className="flex items-center gap-2">
+                            <Workflow className="w-4 h-4" />
+                            Enroll in Workflow
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="flex items-center gap-2">
+                            <Expand className="w-4 h-4" />
+                            Detailed View
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="flex items-center gap-2 text-red-600">
+                            <Trash className="w-4 h-4" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </TooltipProvider>
                   </td>
                 </tr>

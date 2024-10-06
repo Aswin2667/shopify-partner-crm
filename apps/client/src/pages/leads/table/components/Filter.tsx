@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/select";
 
 export default function Filter() {
-  const [isOpen, setIsOpen] = useState(false);
   const [anyTextChecked, setAnyTextChecked] = useState(false);
   const [dateOfStatusChecked, setDateOfStatusChecked] = useState(false);
   const [dateCreatedChecked, setDateCreatedChecked] = useState(false);

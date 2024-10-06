@@ -10,7 +10,6 @@ import {
   Background,
   Controls,
   MiniMap,
-  useReactFlow,
   ReactFlowProvider,
   useNodesState,
   useEdgesState,
@@ -18,7 +17,7 @@ import {
   OnConnect,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import NodeSettings from "../components/NodeSettings";
 import { Separator } from "@/components/ui/separator";
 import { ChevronLeft } from "lucide-react";

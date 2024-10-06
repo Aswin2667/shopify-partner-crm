@@ -7,7 +7,7 @@ import organizationSlice from "./organizationSlice";
 import integrationSlice from "./integrationSlice";
 import projectSlice from "./projectSlice";
  import mailSlice from "./mailSlice";
-import leadSlice from "./leadSlice";
+import leadSlice from "./leadSlices";
  import LeadSlice from "./LeadSlice";
  const persistConfig = {
   key: "root",

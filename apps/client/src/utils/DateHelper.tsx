@@ -1,6 +1,4 @@
 import { DateTime } from "luxon";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
 export default class DateHelper {
   public static getCurrentUnixTime() {
     return DateTime.now().toLocal().toUTC().toUnixInteger();

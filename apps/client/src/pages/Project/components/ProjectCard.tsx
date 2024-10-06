@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { projectAction } from "@/redux/projectSlice";
 import DateHelper from "@/utils/DateHelper";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const ProjectCard = ({ project }: any) => {

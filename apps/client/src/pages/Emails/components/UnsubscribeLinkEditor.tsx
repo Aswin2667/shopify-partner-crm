@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 import { Button } from "@/components/ui/button";
 import { Trash2, Copy } from "lucide-react";
 import { TbArrowNarrowLeft } from "react-icons/tb";

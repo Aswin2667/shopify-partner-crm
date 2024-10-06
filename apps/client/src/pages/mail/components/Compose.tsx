@@ -1,20 +1,16 @@
 import { useSelector } from "react-redux";
 import Editor from "./Editor";
-import { act, useEffect, useReducer, useState } from "react";
-import InitialsAvatar from "react-initials-avatar";
-import "react-initials-avatar/lib/ReactInitialsAvatar.css";
+import { useEffect, useReducer } from "react";
+ import "react-initials-avatar/lib/ReactInitialsAvatar.css";
 import ReactSelect from "@/components/ReactSelect";
 import { Trash2 } from "lucide-react";
 import MailBadge from "./MailBadge";
 import { useMutation } from "@tanstack/react-query";
-import MailService from "@/services/MailService";
-import { useParams } from "react-router-dom";
+ import { useParams } from "react-router-dom";
 import IntegrationService from "@/services/IntegrationService";
-import axios from "axios";
-import TemplateService from "@/services/TemplatesService";
+ import TemplateService from "@/services/TemplatesService";
 import { defaultTemplates } from "@/pages/organizations/settings/templates/Templates";
-import template from "lodash.template";
-import {
+ import {
   Select,
   SelectContent,
   SelectItem,
@@ -26,11 +22,8 @@ import { DatePicker } from "rsuite";
 import "rsuite/DatePicker/styles/index.css";
 import { FaCalendar } from "react-icons/fa";
 import RecipientInput from "./RecipientInput";
- import { id } from "date-fns/locale";
- import { DatetimePicker } from "@/components/customDatePicker/DatetimePicker";
  
-type Props = {};
-
+ 
 const NEW_LINE = "<p><br></p>";
 const FOOTER = `<footer style="text-align: center; padding: 20px; font-size: 12px; color: #888;">
   <p>If you no longer wish to receive these emails, you can <a href="https://cartrabbit.io/" target="_blank" >unsubscribe</a>.</p>
@@ -182,7 +175,7 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
         "SCHEDULE_MAIL",
         data
       ),
-    onSuccess: (res) => dispatch({ type: "clear" }),
+    onSuccess: () => dispatch({ type: "clear" }),
     onError: (error) => console.error(error),
   });
 
@@ -251,19 +244,19 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
     if (type === "toRemove") {
       dispatch({
         type,
-        payload: compose.to.filter((el: any, i: number) => i !== index),
+        payload: compose.to.filter((_el: any, i: number) => i !== index),
       });
     }
     if (type === "ccValueRemove") {
       dispatch({
         type,
-        payload: compose.cc.value.filter((el: any, i: number) => i !== index),
+        payload: compose.cc.value.filter((_el: any, i: number) => i !== index),
       });
     }
     if (type === "bccValueRemove") {
       dispatch({
         type,
-        payload: compose.bcc.value.filter((el: any, i: number) => i !== index),
+        payload: compose.bcc.value.filter((_el: any, i: number) => i !== index),
       });
     }
   }

@@ -5,8 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -69,12 +68,12 @@ export function ProfileForm() {
     mode: "onChange",
   });
 
-  const { fields, append } = useFieldArray({
+  const { append } = useFieldArray({
     name: "urls",
     control: form.control,
   });
 
-  function onSubmit(data: ProfileFormValues) {
+   function onSubmit(data: ProfileFormValues) {
     toast({
       title: "You submitted the following values:",
       description: (

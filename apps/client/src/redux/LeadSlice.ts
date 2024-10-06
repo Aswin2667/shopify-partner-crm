@@ -15,10 +15,10 @@ const Leadslice = createSlice({
     reset: (state) => {
       state.Leads = [];
     },
-    setfiltersEnabled: (state, action) => {
+    setfiltersEnabled: (state) => {
       state.filtersEanabled = true;
     },
-    setfiltersDisabled: (state, action) => {
+    setfiltersDisabled: (state) => {
       state.filtersEanabled = false;
     },
   },

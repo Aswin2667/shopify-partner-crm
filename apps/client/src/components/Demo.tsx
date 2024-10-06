@@ -1,10 +1,7 @@
-"use client";
-
+ 
 import * as React from "react";
 import { X } from "lucide-react";
 import Select, {
-  components,
-  MultiValueRemoveProps,
   MultiValueGenericProps,
   GroupBase,
 } from "react-select";
@@ -60,15 +57,15 @@ const MultiValueContainer = (
 };
 
 // Custom MultiValueRemove (optional, since we're handling removal in MultiValueContainer)
-const MultiValueRemove = (
-  props: MultiValueRemoveProps<OptionType, true, GroupBase<OptionType>>
-) => {
-  return (
-    <components.MultiValueRemove {...props}>
-      <X className="h-3 w-3" />
-    </components.MultiValueRemove>
-  );
-};
+// const MultiValueRemove = (
+//   props: MultiValueRemoveProps<OptionType, true, GroupBase<OptionType>>
+// ) => {
+//   return (
+//     <components.MultiValueRemove {...props}>
+//       <X className="h-3 w-3" />
+//     </components.MultiValueRemove>
+//   );
+// };
 
 export default function EmailRecipientInput() {
   const [recipients, setRecipients] = React.useState<OptionType[]>([]);

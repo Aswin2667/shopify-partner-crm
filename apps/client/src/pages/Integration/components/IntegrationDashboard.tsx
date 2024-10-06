@@ -1,10 +1,8 @@
-import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useParams } from "react-router-dom";
 import React from "react";
-import { useToast } from "@/components/ui/use-toast";
 import SkeletonCard from "@/components/skelotons/SkeletonCard";
-import { dataTagSymbol, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import IntegrationService from "@/services/IntegrationService";
 import { useDispatch, useSelector } from "react-redux";
 import { useQueryEvents } from "@/hooks/useQueryEvents.tsx";

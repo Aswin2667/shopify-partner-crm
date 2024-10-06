@@ -1,5 +1,4 @@
-import React from "react";
-
+ 
 const FIleInput = () => {
   return (
     <div className="flex items-center justify-center w-full">

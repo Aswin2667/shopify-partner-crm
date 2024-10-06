@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,10 +7,8 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
-import { integrationAction } from "@/redux/integrationSlice";
-import DateHelper from "@/utils/DateHelper";
 import { Settings } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
@@ -20,8 +17,6 @@ type Props = {
 
 const IntegrationCard = ({ type }: Props) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   const integration = useSelector(
     (state: any) => state.integration.presentIntegrations
   ).find((int: any) => type === int.type);

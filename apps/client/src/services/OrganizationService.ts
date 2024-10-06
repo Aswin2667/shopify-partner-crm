@@ -25,7 +25,6 @@ export default class OrganizationService {
 
   public static async create(data: organizationCreate) {
     try {
-      console.log(data);
       const response = await axiosInstance.post(this.BASE_PATH, data);
       return response.data;
     } catch (error) {
