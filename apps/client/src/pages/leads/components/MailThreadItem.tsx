@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { GoChevronRight, GoChevronDown } from "react-icons/go";
 
 const MailThreadItem = ({ thread }: any) => {

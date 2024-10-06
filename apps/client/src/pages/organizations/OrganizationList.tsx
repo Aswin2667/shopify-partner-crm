@@ -1,12 +1,6 @@
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import {
@@ -24,15 +18,11 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { useToast } from "@/components/ui/use-toast";
+  import { useToast } from "@/components/ui/use-toast";
 import OrganizationService from "@/services/OrganizationService";
 import DateHelper from "@/utils/DateHelper";
 import SkeletonCard from "@/components/skelotons/SkeletonCard";
-// import OrganizationCard from "./OrganizationCard";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
@@ -48,16 +38,6 @@ import { integrationAction } from "@/redux/integrationSlice";
 import CreateOrganization from "./CreateOrganization";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-// import CreateOrganization from "./CreateOrganization";
-
-const organizationSchema = z.object({
-  name: z.string().min(1, "Organization name is required"),
-  description: z.string().optional(),
-  logo: z
-    .any()
-    .refine((files) => files.length === 1, "Logo is required")
-    .optional(),
-});
 interface Organization {
   id: number;
   name: string;
@@ -75,7 +55,7 @@ export default function OrganizationList() {
 
   const [reload, setReload] = React.useState(true);
   const { organizations } = useSelector((state: any) => state.organization);
-  const [editingOrg, setEditingOrg] = useState<Organization | null>(null);
+  const [, setEditingOrg] = useState<Organization | null>(null);
 
   useEffect(() => {
     dispatch(organizationAction.reset());

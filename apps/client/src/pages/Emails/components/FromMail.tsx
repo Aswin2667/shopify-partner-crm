@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import { useReducer } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -30,12 +30,9 @@ import { useToast } from "@/components/ui/use-toast";
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import MailService from "@/services/MailService";
-import { PiCheckCircleDuotone } from "react-icons/pi";
-import { Copy, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
-import DateHelper from "../../../utils/DateHelper";
-
-type Props = {};
-
+import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+ 
+ 
 const initialArg = {
   name: { value: "", error: "" },
   email: { value: "", error: "" },
@@ -104,7 +101,7 @@ const reducerFn = (prevState: any, action: any) => {
   return prevState;
 };
 
-const FromMail = (props: Props) => {
+const FromMail = () => {
   const { toast } = useToast();
   const { organizationId } = useParams();
 

@@ -1,19 +1,15 @@
-import Clock from "@/pages/Clock";
-import {
+ import {
   ActivityIcon,
-  Mail,
-  Phone,
+   Phone,
   MessageCircle,
-  AlarmClockCheck,
-  Notebook,
+   Notebook,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const Tabs = () => {
   const tabs = [
     { to: "", icon: ActivityIcon, label: "My Settings" },
-    // { to: "limit", icon: Mail, label: "Sending Limits" },
-    { to: "from", icon: MessageCircle, label: "From Mail" },
+     { to: "from", icon: MessageCircle, label: "From Mail" },
     { to: "signature", icon: Notebook, label: "Signature" },
     { to: "unsubscribe-link", icon: Phone, label: "Unsubscribe Link" },
   ];

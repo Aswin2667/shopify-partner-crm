@@ -88,7 +88,7 @@ export default function LeadFilter({ onBackClick }: any) {
       customDate: customDate || undefined,
     };
     const EnabledFilters = true
-     dispatch(leadsAction.setfiltersEnabled(EnabledFilters));
+     dispatch(leadsAction.setfiltersEnabled(EnabledFilters as any));
       const response = await LeadService.getLeadsByOrganizationId(
         orgId, filters.shopifyDomain, filters.domainFilterOption, selectedStatuses, filters.createdAt as any ,filters.statusFilterOption,
         selectedDateComparison,
@@ -97,7 +97,7 @@ export default function LeadFilter({ onBackClick }: any) {
       );
 
        console.log("Fetched leads:", JSON.stringify(response.data.data));
-       dispatch(leadsAction.setfiltersEnabled(""))
+       dispatch(leadsAction.setfiltersEnabled("" as any))
       dispatch(leadsAction.setLeads(response.data.data));
     } catch (error) {
       console.error("Error fetching leads:", error);

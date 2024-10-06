@@ -34,8 +34,7 @@ import {
   SelectGroup,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+ } from "@/components/ui/select";
 
 import { Outlet, useParams } from "react-router-dom";
 import Tabs from "./components/Tabs";
@@ -264,7 +263,7 @@ export default function LeadDashboard() {
             </CardFooter>
           </Card>
           <Separator className="my-4" />
-          <ExpandableContactCard integrationId={lead.integrationId} />
+          <ExpandableContactCard />
         </div>
         <Separator orientation="vertical" />
         <div className="w-3/4">

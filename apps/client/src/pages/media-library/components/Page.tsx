@@ -59,7 +59,7 @@ export default function Page() {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [fileTypeFilter, setFileTypeFilter] = useState("all");
+  const [fileTypeFilter, _setFileTypeFilter] = useState("all");
   const [mediaItems, setMediaItems] = useState<any[]>([]); // Holds the fetched files
 
   const defaultImageUrl =

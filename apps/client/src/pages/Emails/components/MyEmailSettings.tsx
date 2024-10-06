@@ -1,11 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import React from "react";
-import { Link } from "react-router-dom";
+ import { Link } from "react-router-dom";
 
 const MyEmailSettings = () => {
-  const [value, setValue] = React.useState<string>("");
-  return (
+   return (
     <div className="max-w-3xl">
       <br />
 

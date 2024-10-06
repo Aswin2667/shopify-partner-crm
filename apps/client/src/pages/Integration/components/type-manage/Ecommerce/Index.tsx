@@ -1,13 +1,11 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProjectList from "@/pages/Project/components/ProjectList";
 import ProjectForm from "@/pages/Project/components/ProjectForm";
 
-type Props = {};
 
-const Index = (props: Props) => {
+const Index = () => {
   const [activeTab, setActiveTab] = useState("projectsList");
 
   const handleTabChange = (value: string) => {

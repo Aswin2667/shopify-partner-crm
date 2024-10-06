@@ -1,5 +1,4 @@
-import { Separator } from "@/components/ui/separator";
-import { SidebarNav } from "./components/sidebar-nav";
+ import { SidebarNav } from "./components/sidebar-nav";
 import { Outlet } from "react-router-dom";
 
 export const metadata: any = {

@@ -2,12 +2,11 @@ import { useQueryEvents } from "@/hooks/useQueryEvents";
 import { useParams } from "react-router-dom";
 import MailService from "@/services/MailService";
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
-import MailThreadItem from "./MailThreadItem";
+import { useState } from "react";
 import MailThread from "./MailThread";
-type Props = {};
 
-const MailThreadList = (props: Props) => {
+
+const MailThreadList = () => {
   const { leadId } = useParams();
 
   const [mailsForLead, setMailsForLead] = useState([]);

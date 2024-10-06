@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
 const Invitation = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tokenDetails, setTokenDetails] = useState<any>(null);
+   const [tokenDetails, setTokenDetails] = useState<any>(null);
   const [error, setError] = useState("");
 
   const token = new URLSearchParams(window.location.search).get("token");
@@ -25,7 +24,7 @@ const Invitation = () => {
         })
         .catch((error) => {
           setError("Token expired or not found");
-          console.log("Token expired or not found");
+          console.log(error.message || "Token expired or not found");
         });
     } else {
       setError("Invalid invitation link");
@@ -36,13 +35,6 @@ const Invitation = () => {
     setIsOpen(true);
   };
 
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
 
   const handleAccept = async () => {
     try {

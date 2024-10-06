@@ -23,22 +23,10 @@ import LeadService from "@/services/LeadService";
 import { useToast } from "@/components/ui/use-toast";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import Filter from "./Filter";
 import OrganizationService from "@/services/OrganizationService";
 import ProjectService from "@/services/ProjectService";
 import LeadStatusService from "@/services/LeadStatusService";
-import FilterChoose from "./FilterChoose";
-import { useParams } from "react-router-dom";
+ import { useParams } from "react-router-dom";
 const schema = z.object({
   myShopifyDomain: z
     .string()
@@ -48,7 +36,7 @@ const schema = z.object({
   description: z.string().optional(),
 });
 
-export function DataTableToolbar({ leads, setLeads }: any) {
+export function DataTableToolbar({ leads }: any) {
   const [open, setOpen] = useState(false);
 
   const {

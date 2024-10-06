@@ -25,7 +25,7 @@ export default function IntegrationDashboardLayout() {
   const [organizations, setOrganizations] = React.useState([]);
   const [reload, setReload] = React.useState(false);
   const { currentIntegration } = useSelector((state: any) => state.integration);
-
+console.log(organizations)
   const fetchOrganizations = async () => {
     try {
       const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
@@ -41,6 +41,8 @@ export default function IntegrationDashboardLayout() {
           duration: 1000,
           variant: `${response.status ? "default" : "destructive"}`,
         });
+
+        setReload(!reload);
       }
     } catch (error) {
       console.error("Error fetching organizations:", error);
@@ -62,6 +64,7 @@ export default function IntegrationDashboardLayout() {
 
   React.useEffect(() => {
     if (currentIntegration && !integrationId) {
+      //@ts-ignore
       dispatch(integrationAction.setCurrentIntegration(null));
     }
   });

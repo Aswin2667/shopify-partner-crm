@@ -1,7 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { AppearanceForm } from "./appearance-form";
-import { ThemeCustomizer } from "./ThemeCoustomizer";
-
+ 
 export default function SettingsAppearancePage() {
   return (
     <div className="space-y-6 w-full">

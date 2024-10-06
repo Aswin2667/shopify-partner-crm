@@ -1,12 +1,8 @@
-import React from "react";
-
-type Props = {};
-
 const MailBadge = ({ text = "Badge Name", onClick, color = "blue" }: any) => {
   return (
     <span
       id="badge-dismiss-default"
-      className={`inline-flex items-center px-2 py-1 me-2 text-sm font-medium text-${color}-800 bg-${color}-100 rounded dark:bg-${color}-900 dark:text-${color}-300`}
+      className={`inline-flexclear items-center px-2 py-1 me-2 text-sm font-medium text-${color}-800 bg-${color}-100 rounded dark:bg-${color}-900 dark:text-${color}-300`}
     >
       {text}
       <button

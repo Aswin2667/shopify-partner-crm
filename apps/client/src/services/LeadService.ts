@@ -38,7 +38,7 @@ class LeadService {
     shopifyDomain?: string,
     domainFilterOption?: { value: string },
     selectedStatuses: { value: string }[] = [],
-    createdAt?: { startDate: string; endDate: string },
+    _createdAt?: { startDate: string; endDate: string },
     leadStatusFilterOption?: string,
     selectedDateComparison?: string,
     selectedDateOption?: string,

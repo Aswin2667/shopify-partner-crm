@@ -1,18 +1,3 @@
-import { useEffect, useState } from "react";
-import { z } from "zod";
-
-import { Search } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { toast } from "sonner";
 import {
   Ellipsis,
   Expand,
@@ -24,12 +9,7 @@ import {
 } from "lucide-react";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import {
@@ -46,48 +26,20 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import ContactService from "@/services/ContactService";
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQueryEvents } from "@/hooks/useQueryEvents";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
-import { leadAction } from "@/redux/leadSlice";
-import { getPhoneData, PhoneInput } from "@/components/phoneInput/components";
 import ContactCreate from "./ContactCreate";
+import { leadAction } from "@/redux/leadSlices";
 
-// Zod schema for validation
-const contactSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email address"),
-});
-
-type FormData = z.infer<typeof contactSchema>;
-
-const ExpandableContactCard = ({
-  integrationId,
-}: {
-  integrationId: string;
-}) => {
+ 
+const ExpandableContactCard = () => {
   const dispatch = useDispatch();
-  const queryClient = useQueryClient();
-  const { leadId, organizationId } = useParams();
-  const [phone, setPhone] = useState("");
+   const { leadId } = useParams();
   const user = JSON.parse(localStorage.getItem("session") ?? "");
   const { leadContacts: contacts } = useSelector((state: any) => state.lead);
 
-  const {
-    control,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(contactSchema),
-    defaultValues: { name: "", email: "" },
-  });
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhone(e.target.value);
-  };
   useQueryEvents(
     useQuery({
       queryKey: ["getAllContactsForLead", leadId],
@@ -101,37 +53,27 @@ const ExpandableContactCard = ({
     }
   );
 
-  const { mutate: createContact } = useMutation({
-    mutationFn: async (data: any) =>
-      await ContactService.create({
-        ...data,
-        leadId,
-        integrationId,
-        organizationId,
-      }),
-    onSuccess: (response) => {
-      console.log(response);
-      reset(); // Clear form data
-      queryClient.invalidateQueries({
-        queryKey: ["getAllContactsForLead", leadId],
-      });
-      toast.success("Contact added successfully");
-    },
-    onError: (error: any) => {
-      toast.error("Failed to add contact");
-      console.error("Creation failed:", error?.response.data);
-    },
-  });
-
-  const onSubmit = async (data: FormData) => {
-    try {
-      await createContact(data);
-    } catch (error: any) {
-      console.error("Creation failed:", error?.response.data);
-    }
-  };
-  const phoneData = getPhoneData(phone);
-  const router = useNavigate();
+  // const { mutate: createContact } = useMutation({
+  //   mutationFn: async (data: any) =>
+  //     await ContactService.create({
+  //       ...data,
+  //       leadId,
+  //       integrationId,
+  //       organizationId,
+  //     }),
+  //   onSuccess: (response) => {
+  //     console.log(response);
+  //      queryClient.invalidateQueries({
+  //       queryKey: ["getAllContactsForLead", leadId],
+  //     });
+  //     toast.success("Contact added successfully");
+  //   },
+  //   onError: (error: any) => {
+  //     toast.error("Failed to add contact");
+  //     console.error("Creation failed:", error?.response.data);
+  //   },
+  // });
+   const router = useNavigate();
   return (
     <TooltipProvider>
       <DropdownMenu>

@@ -31,11 +31,6 @@ export default function OpurtunityExpandableCard() {
     // Implement save logic here
   };
 
-  const handleDelete = () => {
-    console.log("Contact deleted");
-    // Implement delete logic here
-  };
-
   return (
 
     <Card className="border-0 p-1 shadow-none">

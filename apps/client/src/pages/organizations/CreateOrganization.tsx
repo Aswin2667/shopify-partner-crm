@@ -60,7 +60,7 @@ export default function CreateOrganization({
         employeeCount,
         logo: base64Image,
       };
-
+     console.log(selectedFile);
       const response = isUpdate
         ? "await OrganizationService.update({ ...data, userId, id: organization.id })"
         : await OrganizationService.create({ ...data, userId } as any);

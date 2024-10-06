@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useReducer } from "react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -7,23 +7,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import IntegrationService from "@/services/IntegrationService";
-import ReduxHelper from "@/utils/ReduxHelper";
-import ShopifyInput from "./type-inputs/ShopifyInput";
-import { IntegrationType } from "@org/integrations";
 import IntegrationInput, {
   IntegrationInputType,
 } from "./type-inputs/IntegrationInput";
@@ -118,7 +105,7 @@ const CreateIntegrationModal = ({ open, setOpen }: any) => {
   };
 
   const submitHandler = (e: any) => {
-    e.preventDefault(); 
+    e.preventDefault();
     // if (integration.name.value.trim() === "") {
     //   dispatch({ type: "nameErr", payload: "integration name is required" });
     //   return;
@@ -149,9 +136,11 @@ const CreateIntegrationModal = ({ open, setOpen }: any) => {
         <form onSubmit={submitHandler} className="space-y-4">
           {/* Integration Name */}
           <div>
-            <label className="block mb-2 text-sm font-medium" htmlFor="name">Name</label>
+            <label className="block mb-2 text-sm font-medium" htmlFor="name">
+              Name
+            </label>
             <input
-            id="name"
+              id="name"
               type="text"
               value={integration.name.value}
               onChange={(e) => {

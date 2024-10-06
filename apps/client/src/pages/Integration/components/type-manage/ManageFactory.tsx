@@ -1,17 +1,14 @@
-import React from "react";
-import Ecommerce from "./Ecommerce/Index";
+ import Ecommerce from "./Ecommerce/Index";
 import MailService from "./MailService/Index";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-
-type Props = {};
 
 const IntegrationCategory: Record<string, JSX.Element> = {
   ECOMMERCE: <Ecommerce />,
   MAIL_SERVICE: <MailService />,
 };
 
-const ManageFactory = (props: Props) => {
+const ManageFactory = () => {
   const { integrationType } = useParams();
   const selectedIntegration = useSelector(
     (state: any) => state.integration.presentIntegrations
