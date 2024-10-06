@@ -68,6 +68,9 @@ interface LeadActivityBadgeProps {
   type: LeadActivityType
 }
 
+
+
+
 export default function LeadActivityBadge({ type }: LeadActivityBadgeProps) {
   const badgeColor = badgeColors[type]
   return (
