@@ -19,8 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Card } from "@/components/ui/card";
+ import { Card } from "@/components/ui/card";
 
 export default function Component() {
   const navigate = useNavigate();

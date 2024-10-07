@@ -3,8 +3,6 @@
 import * as React from "react";
 import { X } from "lucide-react";
 import Select, {
-  components,
-  MultiValueRemoveProps,
   MultiValueGenericProps,
   GroupBase,
 } from "react-select";
@@ -20,21 +18,21 @@ type RecipientInputProps = {
 };
 
 // Sample contacts data
-const contacts: OptionType[] = [
-  {
-    value: "kaarthika@retainful.com",
-    label: "Kaarthika Nagarajan <kaarthika@retainful.com>",
-  },
-  { value: "madhav@shopjar.co", label: "Madhav Krishna <madhav@shopjar.co>" },
-  {
-    value: "team@retainful.com",
-    label: "Ramesh Subramaniam <team@retainful.com>",
-  },
-  {
-    value: "vaishaak@flycart.org",
-    label: "Vaishaak Shanmugharaj <vaishaak@flycart.org>",
-  },
-];
+// const contacts: OptionType[] = [
+//   {
+//     value: "kaarthika@retainful.com",
+//     label: "Kaarthika Nagarajan <kaarthika@retainful.com>",
+//   },
+//   { value: "madhav@shopjar.co", label: "Madhav Krishna <madhav@shopjar.co>" },
+//   {
+//     value: "team@retainful.com",
+//     label: "Ramesh Subramaniam <team@retainful.com>",
+//   },
+//   {
+//     value: "vaishaak@flycart.org",
+//     label: "Vaishaak Shanmugharaj <vaishaak@flycart.org>",
+//   },
+// ];
 
 // Email validation function
 const isValidEmail = (email: string) => {
@@ -65,15 +63,15 @@ const MultiValueContainer = (
 };
 
 // Custom MultiValueRemove (optional, since we're handling removal in MultiValueContainer)
-const MultiValueRemove = (
-  props: MultiValueRemoveProps<OptionType, true, GroupBase<OptionType>>
-) => {
-  return (
-    <components.MultiValueRemove {...props}>
-      <X className="h-3 w-3" />
-    </components.MultiValueRemove>
-  );
-};
+// const MultiValueRemove = (
+//   props: MultiValueRemoveProps<OptionType, true, GroupBase<OptionType>>
+// ) => {
+//   return (
+//     <components.MultiValueRemove {...props}>
+//       <X className="h-3 w-3" />
+//     </components.MultiValueRemove>
+//   );
+// };
 
 export default function RecipientInput({
   contacts,
@@ -81,7 +79,7 @@ export default function RecipientInput({
 }: RecipientInputProps) {
   const [recipients, setRecipients] = React.useState<OptionType[]>([]);
   const [inputValue, setInputValue] = React.useState("");
-  const [error, setError] = React.useState<string | null>(null);
+  const [, setError] = React.useState<string | null>(null);
   console.log(recipients);
 
   const options = contacts;

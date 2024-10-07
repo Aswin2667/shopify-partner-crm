@@ -14,7 +14,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-interface DataTablePaginationProps<TData> {
+//@ts-ignore
+interface DataTablePaginationProps<any> {
   currentPage: number;
   totalItems: number;
   itemsPerPage: number;

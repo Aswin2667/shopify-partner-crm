@@ -1,10 +1,7 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-type Props = {};
-
-const IntegrateGmail = (props: Props) => {
+const IntegrateGmail = () => {
   const navigate = useNavigate();
   const { organizationId } = useParams();
 

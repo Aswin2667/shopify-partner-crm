@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useReducer } from "react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -21,8 +21,6 @@ import { useMutation } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProjectService from "@/services/ProjectService";
-import ReduxHelper from "@/utils/ReduxHelper";
-import ShopifyInput from "./type-input/ShopifyInput";
 import ProjectInput from "./type-input/ProjectInput";
 import { Input } from "@/components/ui/input";
 

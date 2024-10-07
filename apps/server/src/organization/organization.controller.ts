@@ -122,4 +122,22 @@ export class OrganizationController {
       );
     }
   }
+
+  @Get('/dashboard/:id')
+  async getOrganizationDashboardById(@Param('id') id: string) {
+    // try {
+    //   const organization = await this.organizationService.getDashboardData(id);
+    //   return {
+    //     status: true,
+    //     message: 'Organization retrieved successfully.',
+    //     // data: organization,
+    //   };
+    // } catch (error) {
+    //   throw new HttpException(
+    //     error.message ||
+    //       'An unexpected error occurred while retrieving the organization.',
+    //     error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+    //   );
+    // }
+  }
 }

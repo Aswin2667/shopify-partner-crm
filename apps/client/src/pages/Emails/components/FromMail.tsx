@@ -29,11 +29,10 @@ import { useToast } from "@/components/ui/use-toast";
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import MailService from "@/services/MailService";
-import { Copy, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,

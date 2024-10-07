@@ -9,6 +9,7 @@ import { setupSwagger } from './config/swagger.config';
 import { MailService } from '@org/utils';
 import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
+import { json } from 'express';
 
 async function bootstrap() {
   try {
@@ -22,7 +23,7 @@ async function bootstrap() {
     // app.useGlobalInterceptors(new CustomInterceptors());
     // app.useGlobalFilters(new CustomExceptionFilter());
     app.enableCors({ origin: '*' });
-
+    app.use(json({ limit: '5mb' }));
     app.use(helmet());
     setupSwagger(app);
     await app.listen(process.env.BACKEND_PORT || 8080);

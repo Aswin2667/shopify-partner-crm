@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import React, { useEffect } from "react";
+ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Editor from "../../mail/components/Editor";
 import { useMutation } from "@tanstack/react-query";

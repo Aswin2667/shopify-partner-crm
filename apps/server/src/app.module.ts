@@ -1,8 +1,7 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { UserController } from './user/user.controller';
-import { UserModule } from './user/user.module';
-import { UserService } from './user/user.service';
+ import { UserService } from './user/user.service';
 import { MagicLinkService } from './magic-link/magic-link.service';
 import { MagicLinkController } from './magic-link/magic-link.controller';
 import { OrganizationService } from './organization/organization.service';
@@ -42,6 +41,7 @@ import { LeadQueryBuilder } from './queryBuilders/LeadQueryBuilder';
 import { UnsubscribeLinkModule } from './unsubscribe-link/unsubscribe-link.module';
 import { UnsubscribeLinkService } from './unsubscribe-link/unsubscribe-link.service';
 import { UnsubscribeLinkController } from './unsubscribe-link/unsubscribe-link.controller';
+import { ZipkinMiddleware } from './common/middleware/zipkin.middleware';
 
 @Module({
   imports: [
@@ -114,7 +114,7 @@ import { UnsubscribeLinkController } from './unsubscribe-link/unsubscribe-link.c
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(AuthMiddleware)
+      .apply(AuthMiddleware,ZipkinMiddleware)
       .forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 }

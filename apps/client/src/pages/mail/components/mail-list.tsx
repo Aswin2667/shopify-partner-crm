@@ -1,17 +1,13 @@
 import { ComponentProps } from "react";
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Mail } from "../data";
 import { useMail } from "../use-mail";
 import { NavLink, useParams } from "react-router-dom";
 import { IoMailOutline, IoMailOpenOutline } from "react-icons/io5";
-import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 

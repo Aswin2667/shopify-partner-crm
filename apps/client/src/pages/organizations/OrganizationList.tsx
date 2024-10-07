@@ -1,209 +1,53 @@
 import {
-  AlertDialogAction,
-  AlertDialogCancel,
+  AlertDialog,
   AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Home, Menu, Package2, Search } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarDays,
+  Edit,
+  Home,
+  Menu,
+  Package2,
+  Search,
+  Users,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
-import { UserNav } from "@/components/ui/userNav";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { useToast } from "@/components/ui/use-toast";
+import React, { useEffect, useState } from "react";
+  import { useToast } from "@/components/ui/use-toast";
 import OrganizationService from "@/services/OrganizationService";
 import DateHelper from "@/utils/DateHelper";
 import SkeletonCard from "@/components/skelotons/SkeletonCard";
-import OrganizationCard from "./OrganizationCard";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { useDispatch, useSelector } from "react-redux";
 import { organizationAction } from "@/redux/organizationSlice";
 import { useQueryEvents } from "@/hooks/useQueryEvents";
-import { StateFromReducersMapObject } from "@reduxjs/toolkit";
 import { integrationAction } from "@/redux/integrationSlice";
-import CreateOrganization from "@/Test";
-
-const organizationSchema = z.object({
-  name: z.string().min(1, "Organization name is required"),
-  description: z.string().optional(),
-  logo: z
-    .any()
-    .refine((files) => files.length === 1, "Logo is required")
-    .optional(),
-});
-
-export function CreateOrganizationPopup({
-  message,
-  setReload,
-  reload,
-}: {
-  message: string;
-  setReload: any;
-  reload: boolean;
-}) {
-  const queryClient = useQueryClient();
-
-  const [image] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  }: any = useForm({
-    resolver: zodResolver(organizationSchema),
-  });
-  const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
-
-  // const handleFileChange = async (event: any) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     try {
-  //       const formData = new FormData();
-  //       formData.append("image", file);
-  //       // setImage(formData);
-  //       console.log(formData);
-  //     } catch (error) {
-  //       console.error("Error uploading file", error);
-  //     }
-  //   }
-  // };
-  const { mutate: onSubmit } = useMutation({
-    mutationFn: async (data: any): Promise<any> =>
-      await OrganizationService.create({ ...data, userId, image }),
-    onSuccess: (response) => {
-      toast({
-        title: response.message,
-        description: DateHelper.formatTimestamp(response.data.createdAt),
-        duration: 1000,
-        variant: `${response.status ? "default" : "destructive"}`,
-      });
-      setReload(!reload);
-      reset();
-      queryClient;
-      setLoading(false);
-      queryClient.invalidateQueries({ queryKey: ["fetchOrganizations"] });
-    },
-    onError: (error: any) => {
-      console.error("Login failed:", error?.response.data);
-    },
-  });
-
-  const handleCancel = () => {
-    reset();
-  };
-  const { toast } = useToast();
-
-  return (
-    <>
-      <AlertDialogTrigger asChild>
-        <Button>{message}</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Create new Organization</AlertDialogTitle>
-          <AlertDialogDescription>
-            Fill the following details to create an organization
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <div>
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Your organization name
-              </label>
-              <input
-                type="text"
-                {...register("name")}
-                className={`bg-gray-50 border ${errors.name ? "border-red-500 " : "border-gray-300"} focus-visible:outline-none focus-visible:border-none text-gray-900 placeholder-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
-                placeholder="Bonnie Green"
-              />
-              {errors.name && (
-                <p className="mt-2 text-sm text-red-600 dark:text-red-500">
-                  {errors.name.message}
-                </p>
-              )}
-            </div>
-            <br />
-            <div>
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Description
-              </label>
-              <textarea
-                {...register("description")}
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Description"
-              ></textarea>
-            </div>
-            <br />
-            {/* <div>
-              <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="picture">Logo</Label>
-                <input type="file" accept="image/*" onChange={handleFileChange} />
-              </div>
-              {errors.logo && (
-                <p className="mt-2 text-sm text-red-600 dark:text-red-500">
-                  {errors.logo.message}
-                </p>
-              )}
-            </div> */}
-            {/* <CreateOrganization /> */}
-          </div>
-          <br />
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleCancel}>Cancel</AlertDialogCancel>
-            {loading ? (
-              <Button>
-                <svg
-                  aria-hidden="true"
-                  role="status"
-                  className="inline w-4 h-4 me-3 text-white animate-spin"
-                  viewBox="0 0 100 101"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                    fill="#E5E7EB"
-                  />
-                  <path
-                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                    fill="currentColor"
-                  />
-                </svg>
-                creating
-              </Button>
-            ) : (
-              <AlertDialogAction
-                type="submit"
-                onClick={(data) => onSubmit(data)}
-              >
-                Create
-              </AlertDialogAction>
-            )}
-          </AlertDialogFooter>
-        </form>
-      </AlertDialogContent>
-    </>
-  );
+import CreateOrganization from "./CreateOrganization";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+interface Organization {
+  id: number;
+  name: string;
+  logo: string;
+  description: string;
+  createdAt: string;
+  memberCount: number;
+  industry: string;
+  tags: string[];
 }
-
 export default function OrganizationList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -211,6 +55,7 @@ export default function OrganizationList() {
 
   const [reload, setReload] = React.useState(true);
   const { organizations } = useSelector((state: any) => state.organization);
+  const [, setEditingOrg] = useState<Organization | null>(null);
 
   useEffect(() => {
     dispatch(organizationAction.reset());
@@ -342,12 +187,11 @@ export default function OrganizationList() {
               </div>
             </form>
           </div>
-          {/* <UserNav /> */}
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
           {isLoading ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {[...Array(16)].map((_, index) => (
+              {[...Array(12)].map((_, index) => (
                 <SkeletonCard key={index} />
               ))}
             </div>
@@ -361,29 +205,46 @@ export default function OrganizationList() {
                   You can start by creating a new organization or join by
                   invitation
                 </p>
-                <CreateOrganizationPopup
-                  message="Create new Organization"
-                  setReload={setReload}
-                  reload={reload}
-                />
+                <AlertDialogTrigger asChild>
+                  <Button>Create new Organization</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent className="p-0">
+                  <CreateOrganization setReload={setReload} reload={reload} />
+                </AlertDialogContent>
               </div>
             </div>
           ) : (
             <>
               <div className="w-full flex items-center justify-end">
-                <CreateOrganizationPopup
-                  message="Create"
-                  setReload={setReload}
-                  reload={reload}
-                />
+                <AlertDialogTrigger asChild>
+                  <Button>Create Organization</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent className="p-0">
+                  <CreateOrganization setReload={setReload} reload={reload} />
+                </AlertDialogContent>
               </div>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 {organizations.map((organization: any) => (
                   <OrganizationCard
                     key={organization.id}
                     organization={organization}
                   />
                 ))}
+              </div> */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {false
+                  ? Array.from({ length: 6 }).map((_, index) => (
+                      <SkeletonCard key={index} />
+                    ))
+                  : organizations.map((org: Organization) => (
+                      <>
+                        <OrganizationCard
+                          key={org.id}
+                          org={org}
+                          onEdit={setEditingOrg}
+                        />
+                      </>
+                    ))}
               </div>
             </>
           )}
@@ -392,3 +253,104 @@ export default function OrganizationList() {
     </div>
   );
 }
+
+const OrganizationCard: React.FC<{
+  org: any;
+  onEdit: (org: Organization) => void;
+}> = ({ org, onEdit }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); 
+  const clickHandler = () => {
+    console.log(org);
+    localStorage.setItem(
+      "presentOrgMemberDetails",
+      JSON.stringify(org)
+    );
+
+    navigate(`/${org.organizationId}/dashboard`);
+
+    dispatch(organizationAction.setCurrentOrgMember(org));
+    // localStorage.setItem("organization", JSON.stringify(organization));
+  };
+  return (
+    <AlertDialog>
+      <Card className="  overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ">
+        <CardHeader className="flex flex-row items-center gap-4 pb-2">
+          <Avatar className="h-20 w-20 rounded-xl">
+            <AvatarImage
+              src={org.organization.logo}
+              alt={org.organization.name}
+            />
+            <AvatarFallback className="text-lg font-bold bg-primary/10 text-primary">
+              {org.organization.name.slice(0, 2).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <h3 className="text-2xl font-bold leading-none">
+            {org.organization.name}
+          </h3>
+          <div className="space-y-1">
+            <p className="text-sm text-muted-foreground">{org.industry}</p>
+            <div className="flex flex-wrap gap-1 pt-1">
+              {org?.organization?.details?.tags.map(
+                (
+                  tag:
+                    | string
+                    | number
+                    | boolean
+                    | React.ReactElement<
+                        any,
+                        string | React.JSXElementConstructor<any>
+                      >
+                    | Iterable<React.ReactNode>
+                    | React.ReactPortal
+                    | null
+                    | undefined,
+                  index: React.Key | null | undefined
+                ) => (
+                  <Badge key={index} variant="secondary" className="text-xs">
+                    {tag}
+                  </Badge>
+                )
+              )}
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-1">
+            {org.organization.description}
+          </p>
+        </CardContent>
+        <CardFooter className="flex flex-col space-y-2 pt-4 border-t">
+          <div className="flex justify-between w-full text-sm text-muted-foreground">
+            <div className="flex items-center">
+              <CalendarDays className="mr-2 h-4 w-4" />
+              {org.organization.createdAt}
+            </div>
+            <div className="flex items-center">
+              <Users className="mr-2 h-4 w-4" />9 members
+            </div>
+          </div>
+          <div className="flex justify-between w-full">
+            <AlertDialogTrigger>
+              <Button variant="outline" onClick={() => onEdit(org)}>
+                <Edit className="mr-2 h-4 w-4" />
+                Edit
+              </Button>
+            </AlertDialogTrigger>
+            <Button variant="outline" onClick={clickHandler}>
+              View
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+        </CardFooter>
+      </Card>
+      <AlertDialogContent className="p-0">
+        <CreateOrganization
+          setReload={false}
+          reload={true}
+          organization={org}
+        />
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};

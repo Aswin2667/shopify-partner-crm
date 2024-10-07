@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import CreateProjectModal from "./components/CreateProjectModal";
 import ProjectList from "./components/ProjectList";
 import { useSelector } from "react-redux";
 import ReduxHelper from "@/utils/ReduxHelper";
 
 const Project: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [, setIsModalOpen] = useState(false);
   const integrationExist = ReduxHelper.getParticularIntegrations(
     useSelector((state: any) => state.integration).integrations,
     "GMAIL",

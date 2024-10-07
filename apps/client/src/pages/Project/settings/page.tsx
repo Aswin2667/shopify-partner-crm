@@ -1,14 +1,11 @@
 import { SidebarNav } from "@/pages/organizations/settings/components/sidebar-nav";
-import React from "react";
-import CliAccesTokens from "./CliAccessTokens";
 import { Link, Outlet, useParams } from "react-router-dom";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+ } from "@/components/ui/breadcrumb";
 import { useSelector } from "react-redux";
 
 const sidebarNavItems: any[] = [

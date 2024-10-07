@@ -1,8 +1,5 @@
-import { Separator } from "@/components/ui/separator";
 import EmailEditor from "@/pages/leads/components/EmailEditor";
 import React, { useState } from "react";
-import axios from "axios"; // Make sure axios is installed
-import axiosInstance from "@/utils/_axios";
 import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import TemplateService from "@/services/TemplatesService";
@@ -10,6 +7,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Copy } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { TbArrowNarrowLeft } from "react-icons/tb";
+import { Separator } from "@/components/ui/separator";
 
 const shortcodes = [
   { code: "{{name}}", description: "Recipient's name" },

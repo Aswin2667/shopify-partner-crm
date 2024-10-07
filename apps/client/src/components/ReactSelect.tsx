@@ -1,5 +1,4 @@
-import React from "react";
-import Select from "react-select";
+ import Select from "react-select";
 import { useTheme } from "./ThemeProvider";
 
 const customStyles = (isDarkMode: boolean) => ({
@@ -47,8 +46,7 @@ const ReactSelect = ({
   styles,
   options = [],
   defaultValue,
-  dispatch,
-  onChange,
+   onChange,
 }: any) => {
   const { theme } = useTheme();
 

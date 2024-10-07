@@ -1,7 +1,5 @@
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Mail } from "./components/mail";
-import { accounts } from "./data";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryEvents } from "@/hooks/useQueryEvents";
 import { organizationAction } from "@/redux/organizationSlice";

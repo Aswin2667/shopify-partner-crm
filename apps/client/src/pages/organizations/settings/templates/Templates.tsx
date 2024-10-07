@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
@@ -37,8 +37,6 @@ export const defaultTemplates = [
     userId: "system",
   },
 ];
-import { useToast } from "@/components/ui/use-toast";
-
 const Templates = () => {
   const [templates, setTemplates] = useState(defaultTemplates);
   const [isModalOpen, setIsModalOpen] = useState(false);

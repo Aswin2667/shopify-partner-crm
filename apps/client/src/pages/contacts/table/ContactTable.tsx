@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -8,15 +8,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Mail, Phone, MoreHorizontal } from "lucide-react";
-import axios from "axios"; // Assuming you're using axios to fetch data
-import { DataTablePagination } from "./components/data-table-pagination";
+import { Mail, Phone } from "lucide-react";
+ import { DataTablePagination } from "./components/data-table-pagination";
 import ContactService from "@/services/ContactService";
 import { useParams } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
 import DateHelper from "@/utils/DateHelper";
 import LeadBadge from "@/pages/leads/components/LeadBadge";
-
+ 
 export default function ContactTable() {
   const [contacts, setContacts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,12 +26,15 @@ export default function ContactTable() {
   // Fetch contacts from backend API
   useEffect(() => {
     const fetchContacts = async () => {
+      setIsLoading(true);
       if (true) {
         try {
           const response: any =
             await ContactService.getByOrganizationId(organizationId);
           if (response.status) {
             setContacts(response.data);
+            setIsLoading(false);
+            setTotalItems(response?.data?.length);
           } else {
             toast({
               title: response.message,
@@ -88,7 +90,7 @@ export default function ContactTable() {
                 className="hover:bg-gray-100 p-0 pl-4 min-h-[5px] "
               >
                 <TableCell className="font-medium p-0 pl-4 ">
-                  {contact.name}
+                  {contact?.Salutation}{contact.firstName} {contact.lastName}
                 </TableCell>
                 <TableCell className="font-medium text-blue-600 p-0 pl-4 hover:underline cursor-pointer">
                   {contact.email}

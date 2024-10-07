@@ -7,8 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Textarea } from "@/components/ui/textarea";
-import {
+ import {
   ChevronDown,
   ArrowLeft,
   ArrowRight,
@@ -18,8 +17,6 @@ import {
   Link,
   MoreHorizontal,
   Trash2,
-  ChevronUp,
-  Copy,
   CircleMinus,
 } from "lucide-react";
 import EmailEditor from "./Editor";
@@ -195,19 +192,19 @@ export default function MailReply({
     if (type === "toRemove") {
       dispatch({
         type,
-        payload: reply.to.filter((el: any, i: number) => i !== index),
+        payload: reply.to.filter((_el: any, i: number) => i !== index),
       });
     }
     if (type === "ccValueRemove") {
       dispatch({
         type,
-        payload: reply.cc.value.filter((el: any, i: number) => i !== index),
+        payload: reply.cc.value.filter((_el: any, i: number) => i !== index),
       });
     }
     if (type === "bccValueRemove") {
       dispatch({
         type,
-        payload: reply.bcc.value.filter((el: any, i: number) => i !== index),
+        payload: reply.bcc.value.filter((_el: any, i: number) => i !== index),
       });
     }
   }

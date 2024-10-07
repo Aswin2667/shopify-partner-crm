@@ -68,7 +68,7 @@ export default function UnsubscribeLinkEditor() {
     };
 
     console.log(unsubscribeLink);
-    // mutate(unsubscribeLink);
+    mutate(unsubscribeLink);
   }
 
   useEffect(() => {

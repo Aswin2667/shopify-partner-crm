@@ -19,7 +19,7 @@ import LeadDashboard from "./pages/leads/DashBoard";
 import LeadTable from "./pages/leads/table/LeadTable";
 import MailPage from "./pages/mail/Index";
 import Project from "./pages/Project/Index";
-import Activity from "./pages/leads/components/Activity";
+import Activity from "./pages/leads/activity/Activity";
 import MediaLibrary from "./pages/media-library/MediaLibrary";
 import Notes from "./pages/leads/notes/Notes";
 import LeadMail from "./pages/leads/components/LeadMail";

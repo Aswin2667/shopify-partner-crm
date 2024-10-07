@@ -1,20 +1,33 @@
-import { AreaGraph } from '@/components/charts/area-graph';
-import { BarGraph } from '@/components/charts/bar-graph';
-import { PieGraph } from '@/components/charts/pie-graph';
-  import { Button } from '@/components/ui/button';
+import { AreaGraph } from "@/components/charts/area-graph";
+import { BarGraph } from "@/components/charts/bar-graph";
+import { PieGraph } from "@/components/charts/pie-graph";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
-} from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { RecentSales } from './components/recent-sales';
-import PageContainer from '@/components/page-container';
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { RecentSales } from "./components/recent-sales";
+import PageContainer from "@/components/page-container";
+import OrganizationService from "@/services/OrganizationService";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function DashBoardPage() {
-  const userName = JSON.parse(localStorage.getItem("session")??"").name
+  const userName = JSON.parse(localStorage.getItem("session") ?? "").name;
+  const { organizationId } = useParams();
+  const [totalRevenue, setTotalRevenue] = useState(0);
+  const fetchData = async () => {
+    const response =
+      await OrganizationService.getTotalRevenueByOrgId(organizationId);
+    setTotalRevenue(response?.data?.data.totalAmount);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <PageContainer scrollable={true}>
       <div className="space-y-2">
@@ -29,9 +42,7 @@ export default function DashBoardPage() {
         <Tabs defaultValue="overview" className="space-y-4">
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="analytics" >
-              Analytics
-            </TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
           </TabsList>
           <TabsContent value="overview" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -54,7 +65,7 @@ export default function DashBoardPage() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">$45,231.89</div>
+                  <div className="text-2xl font-bold">${totalRevenue?.toLocaleString()}</div>
                   <p className="text-xs text-muted-foreground">
                     +20.1% from last month
                   </p>

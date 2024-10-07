@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import GmailIcon from "../../../../../assets/gmail.png";
 import DateHelper from "@/utils/DateHelper";
 import { PiCheckCircleDuotone } from "react-icons/pi";
-import { Mail, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import IntegrationService from "@/services/IntegrationService";
@@ -13,12 +12,10 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Form,
@@ -41,9 +38,7 @@ const formSchema = z.object({
   email: z.string().email({ message: "Must be a valid email." }),
 });
 
-type Props = {};
-
-const Index = (props: Props) => {
+const Index = () => {
   const { toast } = useToast();
   const { organizationId, integrationType } = useParams();
 

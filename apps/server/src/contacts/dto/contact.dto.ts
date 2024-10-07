@@ -45,6 +45,8 @@ export class CreateContactDto {
   @IsOptional()
   @IsUUID()
   organizationId?: string;
+  title: any;
+  salutation: any;
 }
 
 export class UpdateContactDto extends CreateContactDto {
