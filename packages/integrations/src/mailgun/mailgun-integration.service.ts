@@ -278,7 +278,7 @@ export class MailgunIntegrationService extends BaseIntegrationService<object> {
 
     await this.prisma.leadActivity.create({
       data: {
-        type: 'MAIL_SENT',
+        type: 'MAIL',
         data: {
           message: 'Email sent successfully via Mailgun',
           data: emailData,

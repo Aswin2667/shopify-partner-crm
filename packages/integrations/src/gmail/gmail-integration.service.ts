@@ -102,6 +102,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
 
       const integrationExists = await this.prisma.integration.findFirst({
         where: {
+          organizationId,
           data: {
             path: ['email'],
             equals: data.email,
@@ -841,7 +842,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
 
     await this.prisma.leadActivity.create({
       data: {
-        type: 'MAIL_SENT',
+        type: 'MAIL',
         data: { message: 'Email sent successfully via Gmail', data: emailData },
         leadId: email.leadId,
         orgId: email.organizationId,
