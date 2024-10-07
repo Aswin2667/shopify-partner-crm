@@ -107,7 +107,9 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
     replyTo: string;
     subject: string;
     body: string;
+    userId: string;
     integrationId: string;
+    contactId: string;
     organizationId: string;
     leadId: string;
     scheduledAt: bigint | number;
@@ -122,6 +124,8 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
         subject,
         body,
         integrationId,
+        contactId,
+        userId,
         organizationId,
         leadId,
         scheduledAt,
@@ -138,7 +142,9 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
           leadId,
           body,
           integrationId,
+          contactId,
           organizationId,
+          userId,
           source,
           replyTo,
         },
@@ -164,8 +170,19 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
 
   private async sendMail(emailData: Email) {
     try {
-      const { from, to, cc, bcc, subject, body, integrationId, replyTo } =
-        emailData;
+      const {
+        from,
+        to,
+        cc,
+        bcc,
+        subject,
+        body,
+        integrationId,
+        replyTo,
+        contactId,
+        organizationId,
+        leadId,
+      } = emailData;
 
       const integration = await this.getIntegrationById(integrationId);
 
@@ -174,6 +191,18 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
         email: string;
         name: string;
       };
+
+      const bodyWithShortCodes = await this.replaceShortCodes(
+        body,
+        contactId,
+        leadId,
+      );
+
+      const bodyWithFooter = await this.buildBodyWithFooter(
+        bodyWithShortCodes,
+        contactId,
+        organizationId,
+      );
 
       sgMail.setApiKey(apiKey);
       const msg: MailDataRequired | MailDataRequired[] = {
@@ -186,17 +215,25 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
         }, // Change to your verified sender
         subject,
         // text: 'and easy to do anywhere, even with Node.js',
-        html: body,
+        html: bodyWithFooter,
         replyTo: replyTo || sender.email,
       };
 
       sgMail
         .send(msg)
-        .then((res: any) => {
+        .then(async (res: any) => {
           console.log(res);
           console.log('Email sent');
+
+          const updatedMailResponse = await this.updateEmailInDatabase(
+            emailData,
+            res,
+            bodyWithFooter,
+          );
+
           return {
             success: true,
+            data: updatedMailResponse,
             message: 'Email sent successfully',
           };
         })
@@ -207,6 +244,87 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
     } catch (error) {
       return { success: false, error: error.message };
     }
+  }
+
+  private async updateEmailInDatabase(email: Email, emailData, body) {
+    const updatedEmail = await this.prisma.email.update({
+      where: {
+        id: email.id,
+      },
+      data: {
+        sentAt: DateHelper.getCurrentUnixTime(),
+        status: 'SEND',
+        body,
+      },
+    });
+
+    await this.prisma.leadActivity.create({
+      data: {
+        type: 'MAIL_SENT',
+        data: {
+          message: 'Email sent successfully via SendGrid',
+          data: emailData,
+        },
+        leadId: email.leadId,
+        orgId: email.organizationId,
+        userId: email.userId ?? '',
+        createdAt: DateHelper.getCurrentUnixTime(),
+        updatedAt: 0,
+        deletedAt: 0,
+      },
+    });
+
+    return updatedEmail;
+  }
+
+  private async buildBodyWithFooter(
+    body: string,
+    contactId: string | undefined,
+    organizationId: string,
+  ): Promise<string> {
+    if (!contactId) {
+      return body;
+    }
+
+    // Fetch the unsubscribe link details based on organizationId
+    const unsubscribeLink = await this.prisma.unsubscribeLink.findFirst({
+      where: {
+        organizationId: organizationId,
+      },
+    });
+
+    const NEW_LINE = '<p><br></p>';
+    //  https://dinesh.server.ngrok.dev/contacts/1/unsubscribe
+
+    const FOOTER = `
+      <footer style="text-align: center; padding: 20px; font-size: 12px; color: #888;">
+        <p>
+          ${unsubscribeLink?.message || 'If you no longer wish to receive these emails, you can '}
+          <a href="https://crmclient.ngrok.dev/unsubscribe/${contactId}" target="_blank">
+            ${unsubscribeLink?.anchorText || 'unsubscribe'}
+          </a>.
+        </p>
+      </footer>
+    `;
+
+    return `${body}${FOOTER}`;
+  }
+
+  private async replaceShortCodes(body: string, contactId, leadId) {
+    const contact = await this.prisma.contact.findFirst({
+      where: {
+        id: contactId,
+      },
+    });
+    const lead = await this.prisma.lead.findFirst({
+      where: {
+        id: leadId,
+      },
+    });
+    return body
+      .replace(/{{name}}/g, contact.name)
+      .replace(/{{email}}/g, contact.email)
+      .replace(/{{shopify_domain}}/g, lead.shopifyDomain);
   }
 
   private async getIntegrationById(integrationId: string) {

@@ -1,68 +1,31 @@
-import { useEffect, useReducer } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Trash2, Copy } from "lucide-react";
 import { TbArrowNarrowLeft } from "react-icons/tb";
-import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import UnsubscribeLinkService from "@/services/UnSubscribeLinkService";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-const initialArgs = {
-  name: { value: "", error: null },
-  message: { value: "", error: null },
-  anchorText: { value: "", error: null },
-};
-
-const reducerFn = (prevState: any, action: any) => {
-  if (action.type === "nameVal" || action.type === "nameErr") {
-    return action.type === "nameVal"
-      ? {
-          ...prevState,
-          name: { ...prevState.name, value: action.payload },
-        }
-      : {
-          ...prevState,
-          name: { ...prevState.name, error: action.payload },
-        };
-  }
-  if (action.type === "messageVal" || action.type === "messageErr") {
-    return action.type === "messageVal"
-      ? {
-          ...prevState,
-          message: { ...prevState.message, value: action.payload },
-        }
-      : {
-          ...prevState,
-          message: { ...prevState.message, error: action.payload },
-        };
-  }
-  if (
-    action.type === "anchorTextVal" ||
-    action.type === "anchorTextErr" ||
-    action.type === "anchorTextReset"
-  ) {
-    return action.type === "anchorTextVal"
-      ? {
-          ...prevState,
-          anchorText: { ...prevState.anchorText, value: action.payload },
-        }
-      : action.type === "anchorTextErr"
-        ? {
-            ...prevState,
-            anchorText: { ...prevState.anchorText, error: action.payload },
-          }
-        : {
-            ...prevState,
-            anchorText: { value: "", error: null },
-          };
-  }
-
-  if (action.type === "reset") {
-    return initialArgs;
-  }
-
-  return prevState;
-};
+const formSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  message: z.string().min(1, "Message is required"),
+  anchorText: z.string().min(1, "Anchor text is required"),
+});
 
 export default function UnsubscribeLinkEditor() {
   const navigate = useNavigate();
@@ -71,16 +34,20 @@ export default function UnsubscribeLinkEditor() {
 
   const isNew = unsubscribeLinkId === "new";
 
-  const [unSubscribeLink, dispatch] = useReducer(
-    reducerFn,
-    initialArgs,
-    () => initialArgs
-  );
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      message: "",
+      anchorText: "",
+    },
+  });
 
   const { unsubscribeLinks } = useSelector((state: any) => state.organization);
 
   const { mutate } = useMutation({
-    mutationFn: async (data: any) => await UnsubscribeLinkService.create(data),
+    mutationFn: async (data: z.infer<typeof formSchema>) =>
+      await UnsubscribeLinkService.create(data),
     onSuccess: (response) => {
       console.log(response);
       queryClient.invalidateQueries({
@@ -93,34 +60,34 @@ export default function UnsubscribeLinkEditor() {
     },
   });
 
-  const saveHandler = () => {
+  function onSubmit(values: z.infer<typeof formSchema>) {
     const unsubscribeLink = {
       id: isNew ? "1" : unsubscribeLinkId,
-      name: unSubscribeLink.name.value,
-      message: unSubscribeLink.message.value,
-      anchorText: unSubscribeLink.anchorText.value,
+      ...values,
       organizationId: organizationId,
     };
 
     console.log(unsubscribeLink);
     mutate(unsubscribeLink);
-  };
+  }
 
   useEffect(() => {
     if (unsubscribeLinkId && !isNew) {
       const unsubscribeLink = unsubscribeLinks.find(
         (link: any) => link.id === unsubscribeLinkId
       );
-      if (unsubscribeLink.id) {
-        dispatch({ type: "nameVal", payload: unsubscribeLink.name });
-        dispatch({ type: "messageVal", payload: unsubscribeLink.message });
-        dispatch({
-          type: "anchorTextVal",
-          payload: unsubscribeLink.anchorText,
+      if (unsubscribeLink?.id) {
+        // form.setValue("name", unsubscribeLink.name);
+        // form.setValue("message", unsubscribeLink.message);
+        // form.setValue("anchorText", unsubscribeLink.anchorText);
+        form.reset({
+          name: unsubscribeLink.name,
+          message: unsubscribeLink.message,
+          anchorText: unsubscribeLink.anchorText,
         });
       }
     }
-  }, [unsubscribeLinkId, unsubscribeLinks, isNew]);
+  }, [unsubscribeLinkId, unsubscribeLinks, isNew, form]);
 
   return (
     <div className="w-full mx-auto p-6">
@@ -129,17 +96,13 @@ export default function UnsubscribeLinkEditor() {
         <div className="border-b p-5 w-full">
           <Link
             to=".."
-            className="flex items-center gap-1 text-sm text-[#767676]
-          hover:text-gray-800 w-fit"
+            className="flex items-center gap-1 text-sm text-[#767676] hover:text-gray-800 w-fit"
           >
             <TbArrowNarrowLeft size={20} />
-
-            <h6 className="">{`${isNew ? "New" : "Edit"} Unsubscribe Links`}</h6>
+            <h6>{`${isNew ? "New" : "Edit"} Unsubscribe Links`}</h6>
           </Link>
           <h1 className="text-2xl font-medium">
-            {unSubscribeLink.name.value
-              ? unSubscribeLink.name.value
-              : "New Unsubscribe Link"}
+            {form.watch("name") || "New Unsubscribe Link"}
           </h1>
         </div>
 
@@ -152,177 +115,72 @@ export default function UnsubscribeLinkEditor() {
             <Copy className="h-4 w-4 mr-2" />
             Duplicate
           </Button>
-          <Button variant="outline" onClick={() => navigate(`..`)}>
+          <Button variant="outline" onClick={() => navigate("..")}>
             Cancel
           </Button>
-          <Button onClick={saveHandler}>{isNew ? "Save" : "Update"}</Button>
+          <Button onClick={form.handleSubmit(onSubmit)}>
+            {isNew ? "Save" : "Update"}
+          </Button>
         </div>
       </header>
 
-      <form className="space-y-6">
-        {/* Name */}
-        <div>
-          <label className="block mb-2 text-sm font-medium" htmlFor="name">
-            Name
-          </label>
-          <input
-            id="name"
-            type="text"
-            value={unSubscribeLink.name.value}
-            onChange={(e) => {
-              dispatch({ type: "nameVal", payload: e.target.value });
-            }}
-            onFocus={() => {
-              unSubscribeLink.name.error &&
-                dispatch({ type: "nameErr", payload: "" });
-            }}
-            className={`bg-gray-50 border ${
-              unSubscribeLink.name.error ? "border-red-500 " : "border-gray-300"
-            } rounded-lg block w-full p-2.5`}
-            placeholder="Default Unsubscribe Link"
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Default Unsubscribe Link" {...field} />
+                </FormControl>
+                <FormDescription>
+                  Enter a name for this unsubscribe link.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {unSubscribeLink.name.error && (
-            <p className="mt-2 text-sm text-red-600">
-              {unSubscribeLink.name.error}
-            </p>
-          )}
-        </div>
 
-        {/* Message */}
-        <div>
-          <label className="block mb-2 text-sm font-medium" htmlFor="message">
-            Unsubscribe Message
-          </label>
-          <textarea
-            id="message"
-            value={unSubscribeLink.message.value}
-            onChange={(e) => {
-              dispatch({ type: "messageVal", payload: e.target.value });
-            }}
-            onFocus={() => {
-              unSubscribeLink.message.error &&
-                dispatch({ type: "messageErr", payload: "" });
-            }}
-            className={`bg-gray-50 border ${
-              unSubscribeLink.message.error
-                ? "border-red-500 "
-                : "border-gray-300"
-            } rounded-lg block w-full p-2.5`}
-            placeholder="To stop receiving these emails,"
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Unsubscribe Message</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="To stop receiving these emails,"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Enter the message to be displayed with the unsubscribe link.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {unSubscribeLink.message.error && (
-            <p className="mt-2 text-sm text-red-600">
-              {unSubscribeLink.message.error}
-            </p>
-          )}
-        </div>
 
-        {/* Anchor Text */}
-        <div>
-          <label
-            className="block mb-2 text-sm font-medium"
-            htmlFor="anchorText"
-          >
-            Anchor Text
-          </label>
-          <input
-            id="anchorText"
-            type="text"
-            value={unSubscribeLink.anchorText.value}
-            onChange={(e) => {
-              dispatch({ type: "anchorTextVal", payload: e.target.value });
-            }}
-            onFocus={() => {
-              unSubscribeLink.anchorText.error &&
-                dispatch({ type: "anchorTextErr", payload: "" });
-            }}
-            className={`bg-gray-50 border ${
-              unSubscribeLink.anchorText.error
-                ? "border-red-500 "
-                : "border-gray-300"
-            } rounded-lg block w-full p-2.5`}
-            placeholder="e.g. Click here"
+          <FormField
+            control={form.control}
+            name="anchorText"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Anchor Text</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g. Click here" {...field} />
+                </FormControl>
+                <FormDescription>
+                  Enter the text to be displayed for the unsubscribe link.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {unSubscribeLink.anchorText.error && (
-            <p className="mt-2 text-sm text-red-600">
-              {unSubscribeLink.anchorText.error}
-            </p>
-          )}
-        </div>
-      </form>
+        </form>
+      </Form>
     </div>
   );
-}
-
-{
-  /* <div>
-<label
-  htmlFor="name"
-  className="block text-sm font-medium text-gray-700 mb-1"
->
-  Name<span className="text-red-500">*</span>
-</label>
-<Input
-  id="name"
-  value={name}
-  onChange={(e) => setName(e.target.value)}
-  className="w-full"
-  required
-/>
-</div>
-
-<div>
-<label
-  htmlFor="message"
-  className="block text-sm font-medium text-gray-700 mb-1"
->
-  Unsubscribe Message<span className="text-red-500">*</span>
-</label>
-<div className="border rounded-md">
-  <Textarea
-    id="message"
-    value={message}
-    onChange={(e) => setMessage(e.target.value)}
-    className="w-full min-h-[100px] p-2"
-    required
-  />
-  <div className="flex justify-between items-center p-2 border-t">
-    <div className="flex space-x-2">
-      <Button variant="ghost" size="sm">
-        <Bold className="h-4 w-4" />
-      </Button>
-      <Button variant="ghost" size="sm">
-        <Italic className="h-4 w-4" />
-      </Button>
-      <Button variant="ghost" size="sm">
-        <Underline className="h-4 w-4" />
-      </Button>
-      <Button variant="ghost" size="sm">
-        <Strikethrough className="h-4 w-4" />
-      </Button>
-      <Button variant="ghost" size="sm">
-        A
-      </Button>
-      <Button variant="ghost" size="sm">
-        <List className="h-4 w-4" />
-      </Button>
-      <Button variant="ghost" size="sm">
-        <ListOrdered className="h-4 w-4" />
-      </Button>
-      <Button variant="ghost" size="sm">
-        <Quote className="h-4 w-4" />
-      </Button>
-      <Button variant="ghost" size="sm">
-        <Undo className="h-4 w-4" />
-      </Button>
-      <Button variant="ghost" size="sm">
-        <Code className="h-4 w-4" />
-      </Button>
-    </div>
-    <span className="text-sm text-gray-500">
-      {message.length}/1000
-    </span>
-  </div>
-</div>
-</div> */
 }

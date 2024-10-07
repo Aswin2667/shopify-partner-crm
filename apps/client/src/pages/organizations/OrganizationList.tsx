@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-  import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import OrganizationService from "@/services/OrganizationService";
 import DateHelper from "@/utils/DateHelper";
 import SkeletonCard from "@/components/skelotons/SkeletonCard";
@@ -256,17 +256,11 @@ const OrganizationCard: React.FC<{
 }> = ({ org, onEdit , setReload,
   reload}) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const clickHandler = () => {
     console.log(org);
-    localStorage.setItem(
-      "presentOrgMemberDetails",
-      JSON.stringify(org)
-    );
-
-    navigate(`/${org.organizationId}/dashboard`);
-
     dispatch(organizationAction.setCurrentOrgMember(org));
+    navigate(`/${org.organizationId}/dashboard`);
     // localStorage.setItem("organization", JSON.stringify(organization));
   };
   return (

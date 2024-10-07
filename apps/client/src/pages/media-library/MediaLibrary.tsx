@@ -1,9 +1,6 @@
 import Page from "./components/Page";
 const MediaLibrary = () => {
-
-  return (
-    <Page />
-  );
+  return <Page />;
 };
 
 export default MediaLibrary;

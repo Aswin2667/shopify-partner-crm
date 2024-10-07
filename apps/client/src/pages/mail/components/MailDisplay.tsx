@@ -51,9 +51,9 @@ const MailDisplay = ({ mail }: any) => {
           <span className={`${!mail.read ? "font-semibold" : ""}`}>
             {mail.subject}
           </span>
-          <span className="text-gray-500">
+          <span className="text-gray-500 ">
             {" "}
-            - {mail.body.replace(/<\/?[^>]+(>|$)/g, "")}
+            - {mail.body.replace(/<\/?[^>]+(>|$)/g, "").slice(0, 180)}...
           </span>
         </div>
       </div>

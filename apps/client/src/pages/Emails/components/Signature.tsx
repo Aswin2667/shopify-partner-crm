@@ -1,18 +1,18 @@
 import { Button } from "@/components/ui/button";
- import React, { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Editor from "../../mail/components/Editor";
 import { useMutation } from "@tanstack/react-query";
 import OrgMemberService from "@/services/OrgMemberService";
+import { useSelector } from "react-redux";
 
 const Signature = () => {
-  const orgMemberDetails = JSON.parse(
-    localStorage.getItem("presentOrgMemberDetails") ?? ""
-  );
   const [value, setValue] = React.useState<string>(
     ""
     // "<p>--</p><p><br></p><p> </p>"
   );
+
+  const { currentOrgMember } = useSelector((state: any) => state.organization);
 
   const { mutate: generateSignature } = useMutation({
     mutationFn: async (data: any) => OrgMemberService.generateSignature(data),
@@ -21,16 +21,16 @@ const Signature = () => {
   });
 
   const saveHandler = () => {
-    console.log(value, orgMemberDetails?.id);
+    console.log(value, currentOrgMember?.id);
     generateSignature({
-      orgMemberId: orgMemberDetails?.id,
+      orgMemberId: currentOrgMember?.id,
       signature: value,
     });
   };
 
   useEffect(() => {
-    if (orgMemberDetails?.signature) {
-      setValue(orgMemberDetails?.signature);
+    if (currentOrgMember?.signature) {
+      setValue(currentOrgMember?.signature);
     }
   }, []);
 
