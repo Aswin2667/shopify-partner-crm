@@ -1,5 +1,10 @@
-import React, { useReducer } from "react";
+"use client";
+
+import React from "react";
 import { useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,105 +15,80 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import ProjectService from "@/services/ProjectService";
 
 import ProjectInput from "./type-input/ProjectInput";
+import { shopifySchema } from "./type-input/ShopifyInput";
 
-const initialArg = {
-  name: { value: "", error: "" },
-  data: { value: {}, error: "" },
+const baseSchema = z.object({
+  name: z.string().min(1, "Project name is required"),
+});
+
+const createDynamicSchema = (integrationType: string) => {
+  switch (integrationType) {
+    case "SHOPIFY":
+      return baseSchema.extend({ data: shopifySchema });
+    default:
+      return baseSchema.extend({ data: z.record(z.any()) });
+  }
 };
 
-const reducerFn = (prevState: any, action: any) => {
-  if (action.type === "nameVal" || action.type === "nameErr") {
-    return action.type === "nameVal"
-      ? {
-          ...prevState,
-          name: { ...prevState.name, value: action.payload },
-        }
-      : {
-          ...prevState,
-          name: { ...prevState.name, error: action.payload },
-        };
-  }
-
-  if (
-    action.type === "dataVal" ||
-    action.type === "dataErr" ||
-    action.type === "dataReset"
-  ) {
-    return action.type === "dataVal"
-      ? {
-          ...prevState,
-          data: {
-            ...prevState.data,
-            value: { ...prevState.data.value, ...action.payload },
-          },
-        }
-      : action.type === "dataErr"
-        ? {
-            ...prevState,
-            data: {
-              ...prevState.data,
-              error: action.payload,
-            },
-          }
-        : {
-            ...prevState,
-            data: { value: {}, error: "" },
-          };
-  }
-  if (action.type === "reset") {
-    return initialArg;
-  }
-  return prevState;
-};
-
-const ProjectForm = ({ handleTabChange }: any) => {
+const ProjectForm = ({
+  handleTabChange,
+}: {
+  handleTabChange: (tab: string) => void;
+}) => {
   const queryClient = useQueryClient();
   const { integrationType, organizationId } = useParams();
-  const [project, dispatch] = useReducer(
-    reducerFn,
-    initialArg,
-    () => initialArg
-  );
 
   const integration = useSelector(
     (state: any) => state.integration.integrations
   ).find((integration: any) => integration.type === integrationType);
 
+  const dynamicSchema = createDynamicSchema(integrationType as string);
+
+  const form = useForm<z.infer<typeof dynamicSchema>>({
+    resolver: zodResolver(dynamicSchema),
+    defaultValues: {
+      name: "",
+      data: {},
+    },
+  });
+
   const { mutate: createProject } = useMutation({
-    mutationFn: async (data) => await ProjectService.create(data),
+    mutationFn: async (data: z.infer<typeof dynamicSchema>) =>
+      await ProjectService.create(data),
     onSuccess: () => {
-      dispatch({ type: "reset" });
+      form.reset();
       queryClient.invalidateQueries({
         queryKey: ["getAllProjects", organizationId],
       });
       handleTabChange("projectsList");
-      // ["getAllProjects", organizationId]
     },
     onError: (error: any) => {
       console.error("Creation failed:", error?.response.data);
     },
   });
 
-  const submitHandler = () => {
-    if (project.name.value.trim() === "") {
-      dispatch({ type: "nameErr", payload: "Project name is required" });
-      return;
-    }
-    const projectData: any = {
-      name: project.name.value,
+  const onSubmit = (values: z.infer<typeof dynamicSchema>) => {
+    const projectData = {
+      ...values,
       type: integration.type,
-      data: project.data.value,
       organizationId,
       integrationId: integration.id,
     };
     console.log(projectData);
-    // handleTabChange("projectsList");
     createProject(projectData);
   };
 
@@ -120,41 +100,30 @@ const ProjectForm = ({ handleTabChange }: any) => {
           Fill in the details to create a project.
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-2">
-        <form>
-          {/* Project Name */}
-          <div>
-            <label className="block mb-2 text-sm font-medium" id="name">
-              Project Name
-            </label>
-            <Input
-              type="text"
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <CardContent className="space-y-2">
+            <FormField
+              control={form.control}
               name="name"
-              value={project.name.value}
-              onChange={(e) => {
-                dispatch({ type: "nameVal", payload: e.target.value });
-              }}
-              onFocus={() => {
-                project.name.error &&
-                  dispatch({ type: "nameErr", payload: "" });
-              }}
-              className={` border ${project.name.error ? "border-red-500 " : ""} rounded-lg block w-full p-2.5`}
-              placeholder="e.g. Bonnie Green"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Project Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g. Bonnie Green" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {project.name.error && (
-              <p className="mt-2 text-sm text-red-600">{project.name.error}</p>
-            )}
-          </div>
 
-          {/* Project Data Fields based on integration type */}
-          <ProjectInput dispatch={dispatch} type={integration.type} />
-
-          {/* More dynamic fields for other integration types can be added similarly */}
+            <ProjectInput control={form.control} type={integration.type} />
+          </CardContent>
+          <CardFooter className="mt-6">
+            <Button type="submit">Create</Button>
+          </CardFooter>
         </form>
-      </CardContent>
-      <CardFooter className="mt-6">
-        <Button onClick={submitHandler}>Create</Button>
-      </CardFooter>
+      </Form>
     </Card>
   );
 };

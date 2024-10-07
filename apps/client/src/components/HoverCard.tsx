@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/hover-card";
 import DateHelper from "@/utils/DateHelper";
 
-export default function ProfileHoverCard({ user, leadActivityCreatedAt }: any) {
+export default function ProfileHoverCard({ user, createdAt }: any) {
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
@@ -30,7 +30,7 @@ export default function ProfileHoverCard({ user, leadActivityCreatedAt }: any) {
             <div className="flex items-center min-w-fit pt-2">
               <CalendarDays className="mr-2 h-4 w-4 opacity-70" />
               <span className="text-xs text-muted-foreground">
-                {DateHelper.formatTimestamp(leadActivityCreatedAt ?? "")}
+                {DateHelper.formatTimestamp(createdAt ?? "")}
               </span>
             </div>
           </div>

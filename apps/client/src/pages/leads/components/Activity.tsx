@@ -418,7 +418,7 @@ function leadCreated(activity: any): any {
           {activity.data.message + " "}
           <ProfileHoverCard
             user={user}
-            leadActivityCreatedAt={activity.createdAt}
+            createdAt={activity.createdAt}
           />
         </div>
       </div>
@@ -448,7 +448,7 @@ function leadNoteCreated(activity: any): any {
           <div className="text-sm font-normal text-gray-500 lex dark:text-gray-300">
             <ProfileHoverCard
               user={user}
-              leadActivityCreatedAt={activity.createdAt}
+              createdAt={activity.createdAt}
             />
             added a note
           </div>
@@ -484,7 +484,7 @@ function leadRelationShipInstalled(activity: any): any {
           {activity.data.message + " "}
           {/* <ProfileHoverCard
               user={user}
-              leadActivityCreatedAt={activity.createdAt}
+              createdAt={activity.createdAt}
             /> */}
         </div>
       </div>
@@ -513,7 +513,7 @@ function leadRelationShipUnInstalled(activity: any): any {
           {activity.data.message + " "}
           {/* <ProfileHoverCard
               user={user}
-              leadActivityCreatedAt={activity.createdAt}
+              createdAt={activity.createdAt}
             /> */}
         </div>
       </div>
@@ -552,7 +552,7 @@ function leadStatusUpdated(activity: any) {
           by{" "}
           <ProfileHoverCard
             user={user}
-            leadActivityCreatedAt={activity.createdAt}
+            createdAt={activity.createdAt}
           />
         </div>
       </div>
@@ -585,7 +585,7 @@ function leadMailSent(activity: any): any {
             {activity.data.message} by{" "}
             <ProfileHoverCard
               user={user}
-              leadActivityCreatedAt={activity.createdAt}
+              createdAt={activity.createdAt}
             />
           </div>
         </div>

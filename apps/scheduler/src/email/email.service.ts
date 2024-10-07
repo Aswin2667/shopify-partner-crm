@@ -39,8 +39,8 @@ export class EmailCronService {
           email.body = getTrackingImage(email.body, trackingId);
 
           // Sending email via Integration Manager
-          console.log(email);
-          await this.IntegrationManager.performIntegrationAction(
+          // console.log(email);
+          const res = await this.IntegrationManager.performIntegrationAction(
             email.source as any,
             'SEND_MAIL',
             email,
@@ -57,7 +57,10 @@ export class EmailCronService {
               where: { id: emailQueueEntry.id },
             });
 
-          this.logger.log(`Email ${emailQueueEntry.emailId} sent successfully`);
+          res &&
+            this.logger.log(
+              `Email ${emailQueueEntry.emailId} sent successfully`,
+            );
         } catch (error) {
           this.logger.error(
             `Failed to send email ${emailQueueEntry.emailId}`,

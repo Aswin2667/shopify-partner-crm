@@ -210,6 +210,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
       integrationId,
       contactId,
       organizationId,
+      leadId,
     } = emailData;
     const integration = await this.getIntegrationById(integrationId);
 
@@ -241,9 +242,15 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
       console.log(body);
       console.log('-----------------------');
 
+      const bodyWithShortCodes = await this.replaceShortCodes(
+        body,
+        contactId,
+        leadId,
+      );
+
       // Build the email body with footer if contactId is provided
       const bodyWithFooter = await this.buildBodyWithFooter(
-        body,
+        bodyWithShortCodes,
         contactId,
         organizationId,
       );
@@ -253,7 +260,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
       const message = `${headers}\r\n\r\n${bodyWithFooter}`;
       const encodedMessage = this.encodeMessage(message);
 
-      console.log(encodedMessage);
+      console.log(message);
 
       const mailResponse = await gmail.users.messages.send({
         userId: 'me',
@@ -272,6 +279,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
       const updatedMailResponse = await this.updateEmailInDatabase(
         emailData,
         response.data,
+        bodyWithFooter,
       );
       return updatedMailResponse;
       return { message: 'Mail sent successfully' };
@@ -663,6 +671,23 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     return `${body}${FOOTER}`;
   }
 
+  private async replaceShortCodes(body: string, contactId, leadId) {
+    const contact = await this.prisma.contact.findFirst({
+      where: {
+        id: contactId,
+      },
+    });
+    const lead = await this.prisma.lead.findFirst({
+      where: {
+        id: leadId,
+      },
+    });
+    return body
+      .replace(/{{name}}/g, contact.name)
+      .replace(/{{email}}/g, contact.email)
+      .replace(/{{shopify_domain}}/g, lead.shopifyDomain);
+  }
+
   private createEncodedHeader({ to, cc, bcc, subject, inReplyTo, references }) {
     return [
       `To: ${to.join(', ')}`,
@@ -798,7 +823,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
     );
   }
 
-  private async updateEmailInDatabase(email: Email, emailData) {
+  private async updateEmailInDatabase(email: Email, emailData, body) {
     const updatedEmail = await this.prisma.email.update({
       where: {
         id: email.id,
@@ -810,6 +835,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         labelIds: emailData.labelIds,
         sentAt: DateHelper.getCurrentUnixTime(),
         status: 'SEND',
+        body: body,
       },
     });
 

@@ -181,6 +181,7 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
         replyTo,
         contactId,
         organizationId,
+        leadId,
       } = emailData;
 
       const integration = await this.getIntegrationById(integrationId);
@@ -191,8 +192,14 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
         name: string;
       };
 
-      const bodyWithFooter = await this.buildBodyWithFooter(
+      const bodyWithShortCodes = await this.replaceShortCodes(
         body,
+        contactId,
+        leadId,
+      );
+
+      const bodyWithFooter = await this.buildBodyWithFooter(
+        bodyWithShortCodes,
         contactId,
         organizationId,
       );
@@ -221,6 +228,7 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
           const updatedMailResponse = await this.updateEmailInDatabase(
             emailData,
             res,
+            bodyWithFooter,
           );
 
           return {
@@ -238,7 +246,7 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
     }
   }
 
-  private async updateEmailInDatabase(email: Email, emailData) {
+  private async updateEmailInDatabase(email: Email, emailData, body) {
     const updatedEmail = await this.prisma.email.update({
       where: {
         id: email.id,
@@ -246,6 +254,7 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
       data: {
         sentAt: DateHelper.getCurrentUnixTime(),
         status: 'SEND',
+        body,
       },
     });
 
@@ -299,6 +308,23 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
     `;
 
     return `${body}${FOOTER}`;
+  }
+
+  private async replaceShortCodes(body: string, contactId, leadId) {
+    const contact = await this.prisma.contact.findFirst({
+      where: {
+        id: contactId,
+      },
+    });
+    const lead = await this.prisma.lead.findFirst({
+      where: {
+        id: leadId,
+      },
+    });
+    return body
+      .replace(/{{name}}/g, contact.name)
+      .replace(/{{email}}/g, contact.email)
+      .replace(/{{shopify_domain}}/g, lead.shopifyDomain);
   }
 
   private async getIntegrationById(integrationId: string) {

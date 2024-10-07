@@ -1,4 +1,5 @@
 import React from "react";
+import { Control, useFormContext } from "react-hook-form";
 import ShopifyInput from "./ShopifyInput";
 import MailGunInput from "./MailGunInput";
 import SendGridInput from "./SendGridInput";
@@ -7,15 +8,19 @@ export type IntegrationInputType = "SHOPIFY" | "MAILGUN" | "SENDGRID";
 
 type Props = {
   type: IntegrationInputType;
-  dispatch: React.Dispatch<any>;
+  control: Control<any, any>;
 };
 
-const IntegrationInput = ({ type, dispatch }: Props) => {
+const IntegrationInput = ({ type, control }: Props) => {
+  // const { control } = useFormContext();
+
   const Inputs = {
-    SHOPIFY: <ShopifyInput dispatch={dispatch} />,
-    MAILGUN: <MailGunInput dispatch={dispatch} />,
-    SENDGRID: <SendGridInput dispatch={dispatch} />,
+    SHOPIFY: <ShopifyInput control={control} />,
+    MAILGUN: <MailGunInput control={control} />,
+    SENDGRID: <SendGridInput control={control} />,
   };
+
+  // @ts-ignore
   return Inputs[type];
 };
 
