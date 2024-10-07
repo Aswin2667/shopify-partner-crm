@@ -3,13 +3,12 @@ FROM node:18-alpine AS base
 RUN apk update && apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Stage 2: Builder (for pruning unnecessary files)
 FROM base AS builder
 RUN npm install -g turbo
 COPY . .
 RUN turbo prune --scope=server --docker
 
-# Stage 3: Installer (to install dependencies)
+
 FROM base AS installer
 WORKDIR /app
 

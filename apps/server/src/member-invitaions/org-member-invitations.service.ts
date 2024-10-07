@@ -4,24 +4,27 @@ import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bullmq';
 import { v4 as uuidv4 } from 'uuid';
 import { DateHelper } from '@org/utils';
+import { PrismaService } from '@org/data-source';
 @Injectable()
 export class OrgMemberInvitationsService {
+  constructor(@InjectQueue('events') private readonly eventQueue: Queue,private readonly prisma: PrismaService) {}
+
   async acceptInviteToken(token: string) {
     try {
       // Delete the invitation based on the token and retrieve the invite details
-      const inviteData = await prisma.orgMemberInvite.delete({
+      const inviteData = await this.prisma.orgMemberInvite.delete({
         where: {
           token: token,
         },
       });
       console.log(inviteData)
-      const user = await prisma.user.findUnique({
+      const user = await this.prisma.user.findUnique({
         where: {
           email: inviteData.email,   
       }});
       console.log(user)
       // Add the new member to the organization
-      const newMember = await prisma.orgMember.create({
+      const newMember = await this.prisma.orgMember.create({
         data: {
           createdAt: DateHelper.getCurrentUnixTime(),
           updatedAt: DateHelper.getCurrentUnixTime(), // Assuming this is the current timestamp
@@ -39,7 +42,6 @@ export class OrgMemberInvitationsService {
     }
   }
   
-  constructor(@InjectQueue('events') private readonly eventQueue: Queue) {}
 
   async sendInviteLink(sendInviteLinkData: SendInviteLinkDto): Promise<void> {
     try {
@@ -47,7 +49,7 @@ export class OrgMemberInvitationsService {
       const upsertPromises = await sendInviteLinkData.emails.map(
         async (email) => {
           const token = uuidv4();
-          await prisma.orgMemberInvite.upsert({
+          await this.prisma.orgMemberInvite.upsert({
             where: {
               organizationId_email: {
                 organizationId: sendInviteLinkData.organizationId,
@@ -93,7 +95,7 @@ export class OrgMemberInvitationsService {
 
   async verifyInviteToken(token: string): Promise<any> {
     try {
-      const invitation =  await prisma.orgMemberInvite.findFirst({
+      const invitation =  await this.prisma.orgMemberInvite.findFirst({
         where: {
           token: token,
         },
@@ -113,7 +115,7 @@ export class OrgMemberInvitationsService {
   }
 
   async getMemberByOrgId(orgId: string) {
-    return await prisma.orgMember.findMany({
+    return await this.prisma.orgMember.findMany({
       where: {
         organizationId: orgId,
       },include:{
@@ -122,7 +124,7 @@ export class OrgMemberInvitationsService {
     });
   }
   async getPendingInvitationByOrgId(orgId: string) {
-    return await prisma.orgMemberInvite.findMany({
+    return await this.prisma.orgMemberInvite.findMany({
       where: {
         organizationId: orgId,
       },

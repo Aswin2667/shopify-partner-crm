@@ -16,6 +16,8 @@ export class CreateOrganizationDto {
 export class UpdateOrganizationDto {
   @IsString()
   name: string;
+  description: any;
+  logo: any;
 }
 
 export class OrgMemberAdd {

@@ -8,12 +8,14 @@ import {
   Param,
   HttpException,
   HttpStatus,
+  Put,
 } from '@nestjs/common';
 import { OrganizationService } from './organization.service';
 import {
   UpdateOrganizationDto,
   CreateOrganizationDto,
 } from './dto/organization.dto';
+import { isUUID } from 'class-validator';
 
 @Controller('organization')
 export class OrganizationController {
@@ -81,29 +83,32 @@ export class OrganizationController {
     }
   }
 
-  @Patch(':id')
-  async updateOrganization(
-    @Param('id') id: string,
-    @Body() updateOrganizationDto: UpdateOrganizationDto,
-  ) {
-    try {
-      // const updatedOrganization = await this.organizationService.update(
-      //   id,
-      //   updateOrganizationDto,
-      // );
-      return {
-        status: true,
-        message: 'Organization name updated successfully.',
-        // data: updatedOrganization,
-      };
-    } catch (error) {
-      throw new HttpException(
-        error.message ||
-          'An unexpected error occurred while updating the organization.',
-        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+  @Put(':id')
+async updateOrganization(
+  @Param('id') id: string,
+  @Body() updateOrganizationDto: UpdateOrganizationDto,
+) {
+  try {
+    // Validate ID format (assuming UUID format here)
+    if (!isUUID(id)) {
+      throw new HttpException('Invalid ID format', HttpStatus.BAD_REQUEST);
     }
+
+    const updatedOrganization = await this.organizationService.update(id, updateOrganizationDto);
+
+    return {
+      status: true,
+      message: 'Organization updated successfully.',
+      data: updatedOrganization,
+    };
+  } catch (error) {
+    console.error(error);
+    throw new HttpException(
+      error.message || 'An unexpected error occurred while updating the organization.',
+      error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+    );
   }
+}
 
   @Get('/id/:id')
   async getOrganizationById(@Param('id') id: string) {

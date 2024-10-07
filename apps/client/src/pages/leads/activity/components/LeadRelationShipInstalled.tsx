@@ -1,6 +1,6 @@
 import image from "../../../../assets/shopify-logo.svg";
 import DateHelper from '@/utils/DateHelper';
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import TimeAgo from 'timeago-react';
 import LeadActivityBadge from "./LeadActivityBadge";
 const LeadRelationShipInstalled = ({activity}:any) => {

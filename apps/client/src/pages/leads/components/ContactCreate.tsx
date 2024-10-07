@@ -27,10 +27,12 @@ const contactSchema = z.object({
 	suffix: z.string().optional(),
 	title: z.string().optional(),
 	email: z.string().email({ message: 'Invalid email address' }),
-	phone: z.string().min(1, { message: 'Phone is required' }), // Integrated phone validation here
+	phone: z.string().min(1, { message: 'Phone is required' }),
 });
 
-export function ContactCreate({ user } : any) {
+
+
+export function ContactCreate({ user,isModalOpen,setIsModalOpen } : any) {
     const {leadId,organizationId} = useParams()
 	const form = useForm<z.infer<typeof contactSchema>>({
 		mode: "onBlur",
@@ -69,7 +71,7 @@ export function ContactCreate({ user } : any) {
             title: 'Success',
             description: 'Contact saved successfully!',
           });
-      
+		  setIsModalOpen(!isModalOpen)
           console.log({ ...data, phone: phoneData, response });
         } catch (error:any) {
            toast({

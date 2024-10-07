@@ -9,6 +9,9 @@ services:
       - 3000:3000
     networks:
       - app_network
+    depends_on:
+      - server
+  
   server:
     container_name: server
     build:
@@ -17,12 +20,23 @@ services:
     restart: always
     ports:
       - 8080:8080
+    environment:
+      VITE_FRONTEND_PORT: ${VITE_FRONTEND_PORT}
+      VITE_EXAMPLE: ${VITE_EXAMPLE}
+      VITE_CLIENT_ID: ${VITE_CLIENT_ID}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      VITE_TOKEN_SECRET_KEY: ${VITE_TOKEN_SECRET_KEY}
+      BACKEND_PORT: ${BACKEND_PORT}
+
     networks:
       - app_network
     depends_on:
       - redis
       - postgres
       - s3
+      - zipkin
+  
   redis:
     image: ${REDIS_IMAGE:-redis}
     container_name: ${REDIS_CONTAINER_NAME:-redis}

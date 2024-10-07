@@ -32,6 +32,7 @@ import { useQuery, } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import ContactCreate from "./ContactCreate";
 import { leadAction } from "@/redux/leadSlices";
+import { useState } from "react";
 
  
 const ExpandableContactCard = () => {
@@ -74,6 +75,7 @@ const ExpandableContactCard = () => {
   //   },
   // });
    const router = useNavigate();
+   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <TooltipProvider>
       <DropdownMenu>
@@ -89,7 +91,7 @@ const ExpandableContactCard = () => {
                   scope="col"
                   className="px-6 py-3 justify-end flex items-center"
                 >
-                  <AlertDialog>
+                  <AlertDialog onOpenChange={setIsModalOpen} open={isModalOpen}>
                     <AlertDialogTrigger>
                       <Plus className="w-4 h-4" />
                     </AlertDialogTrigger>
@@ -253,7 +255,7 @@ const ExpandableContactCard = () => {
                         <Button variant="outline">Cancel</Button>
                         <Button>Save</Button>
                       </div> */}
-                      <ContactCreate user={user} />
+                      <ContactCreate user={user} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
                     </AlertDialogContent>
                   </AlertDialog>
                 </th>
@@ -269,7 +271,7 @@ const ExpandableContactCard = () => {
                     scope="row"
                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-4"
                   >
-                    {`${contact.name} <${contact.email}>`}
+                    {`${contact.firstName} <${contact.email}>`}
                   </th>
                   <td className="px-6 py-4 text-end"></td>
                   <td className="px-6 py-4 flex justify-end gap-5 relative">
