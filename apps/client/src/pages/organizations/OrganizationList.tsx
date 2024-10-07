@@ -223,14 +223,6 @@ export default function OrganizationList() {
                   <CreateOrganization setReload={setReload} reload={reload} />
                 </AlertDialogContent>
               </div>
-              {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                {organizations.map((organization: any) => (
-                  <OrganizationCard
-                    key={organization.id}
-                    organization={organization}
-                  />
-                ))}
-              </div> */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {false
                   ? Array.from({ length: 6 }).map((_, index) => (
@@ -242,6 +234,8 @@ export default function OrganizationList() {
                           key={org.id}
                           org={org}
                           onEdit={setEditingOrg}
+                          setReload={setReload} 
+                          reload={reload}
                         />
                       </>
                     ))}
@@ -257,7 +251,10 @@ export default function OrganizationList() {
 const OrganizationCard: React.FC<{
   org: any;
   onEdit: (org: Organization) => void;
-}> = ({ org, onEdit }) => {
+  setReload: any;
+  reload: boolean;
+}> = ({ org, onEdit , setReload,
+  reload}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const clickHandler = () => {
@@ -340,8 +337,8 @@ const OrganizationCard: React.FC<{
       </Card>
       <AlertDialogContent className="p-0">
         <CreateOrganization
-          setReload={false}
-          reload={true}
+          setReload={setReload}
+          reload={reload}
           organization={org}
         />
       </AlertDialogContent>

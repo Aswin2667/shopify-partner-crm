@@ -43,7 +43,7 @@ export default function CreateOrganization({
   const userId = JSON.parse(localStorage.getItem("session") ?? "").id;
 
   const isUpdate = !!organization;
-
+console.log(organization);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -62,7 +62,7 @@ export default function CreateOrganization({
       };
      console.log(selectedFile);
       const response = isUpdate
-        ? "await OrganizationService.update({ ...data, userId, id: organization.id })"
+        ? await OrganizationService.update({ ...data, userId }, organization.organizationId)
         : await OrganizationService.create({ ...data, userId } as any);
 
       if (response.status) {
@@ -73,8 +73,6 @@ export default function CreateOrganization({
             : "Organization created successfully",
           variant: "default",
         });
-
-        // Reset fields after success
         setOrgName("");
         setDescription("");
         setFilePreview(null);
@@ -93,9 +91,9 @@ export default function CreateOrganization({
           });
         });
       } else {
-        toast({
+         toast({
           title: "Error",
-          description: "Something went wrong. Please try again.",
+          description: "sdfsdfsdf Something went wrong. Please try again.",
           variant: "destructive",
         });
       }

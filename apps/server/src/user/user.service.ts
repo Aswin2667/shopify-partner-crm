@@ -7,9 +7,9 @@ import {
 import { CreateUserDto } from './dto/user.dto';
 import { DateHelper, MailService } from '@org/utils';
 import { OAuth2Client } from 'google-auth-library/build/src/auth/oauth2client';
-import prisma from '../shared/utils/prisma';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bullmq';
+import { PrismaService } from '@org/data-source';
 const client = new OAuth2Client(
   '639566010681-lt4gkh6lf2v6s6nap66vfvjpueqaqgkm.apps.googleusercontent.com',
   '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',
@@ -17,7 +17,7 @@ const client = new OAuth2Client(
 
 @Injectable()
 export class UserService {
-  constructor(@InjectQueue('events') private readonly eventQueue: Queue) {}
+  constructor(@InjectQueue('events') private readonly eventQueue: Queue,private readonly prisma: PrismaService) {}
   async create(data: Omit<any, 'error' | 'error_description' | 'error_uri'>) {
     try {
       const user = await client.verifyIdToken({
@@ -25,13 +25,13 @@ export class UserService {
         audience: data.clientId,
       });
       const payload = user.getPayload();
-      const existingUser = await prisma.user.findUnique({
+      const existingUser = await this.prisma.user.findUnique({
         where: {
           email: payload.email,
         },
       });
       console.log(user);
-      const upsertedUser = await prisma.user.upsert({
+      const upsertedUser = await this.prisma.user.upsert({
         where: {
           email: payload.email,
         },

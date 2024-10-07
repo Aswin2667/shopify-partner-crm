@@ -1,7 +1,7 @@
 import image from "../../../../assets/shopify-logo.svg";
-import DateHelper from "@/utils/DateHelper";
+import DateHelper from '@/utils/DateHelper';
 import { ArrowRight } from "lucide-react";
-import TimeAgo from "timeago-react";
+import TimeAgo from 'timeago-react';
 import LeadActivityBadge from "./LeadActivityBadge";
 const LeadRelationShipInstalled = ({ activity }: any) => {
   const formatDate = (dateString: string) => {

@@ -29,4 +29,4 @@ const LeadCreated = ({activity}:any) => {
     );
 }
 
-export default LeadCreated
+export default LeadCreated;

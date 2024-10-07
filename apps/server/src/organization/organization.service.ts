@@ -9,10 +9,38 @@ import { PrismaService } from '@org/data-source';
 
 @Injectable()
 export class OrganizationService {
+
   constructor(
     private readonly LeadStatusService: LeadStatusService,
     private readonly prisma: PrismaService,
   ) {}
+
+  async update(id: string, data: UpdateOrganizationDto) {
+    try {
+       const organization = await this.prisma.organization.findUnique({ where: { id } });
+      if (!organization) {
+        throw new HttpException('Organization not found', HttpStatus.NOT_FOUND);
+      }
+  
+      return this.prisma.organization.update({
+        where: { id },
+        data: {
+          name: data.name,
+          description: data.description,
+          updatedAt: DateHelper.getCurrentUnixTime(),
+          logo: data.logo,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(
+        error.message || 'An unexpected error occurred while updating the organization.',
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+  
+  
   async create(data: CreateOrganizationDto): Promise<any> {
     try {
       const newOrganization = await this.prisma.organization.create({
