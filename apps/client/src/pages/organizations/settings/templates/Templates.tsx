@@ -42,9 +42,9 @@ const Templates = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { currentOrgMember } = useSelector(
-    (state: any) => state.organization
-  );
+  const { currentOrgMember } = useSelector((state: any) => state.organization);
+
+  console.log(templates);
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
@@ -161,7 +161,10 @@ const Templates = () => {
                   {html.userId === "system" ? (
                     "System"
                   ) : (
-                    <ProfileHoverCard user={html.user} />
+                    <ProfileHoverCard
+                      user={html.user}
+                      createdAt={html.createdAt}
+                    />
                   )}
                 </td>
                 <td className="px-4 py-2 font-medium text-gray-900 text-center whitespace-nowrap dark:text-white">

@@ -1,33 +1,41 @@
-import React, { useEffect } from "react";
+import { Control } from "react-hook-form";
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { z } from "zod";
 
 type Props = {
-  dispatch: React.Dispatch<any>;
+  control: Control<any>;
 };
 
-const SendGridInput = ({ dispatch }: Props) => {
-  useEffect(() => {
-    dispatch({
-      type: "dataVal",
-      payload: { apiKey: "" },
-    });
-  }, []);
+export const sendGridSchema = z.object({
+  apiKey: z.string().min(1, "API Key is required"),
+});
+
+const SendGridInput = ({ control }: Props) => {
   return (
-    <>
-      <div>
-        <label className="block mb-2 text-sm font-medium">Api Key</label>
-        <input
-          type="text"
-          className="bg-gray-50 border border-gray-300 rounded-lg block w-full p-2.5"
-          placeholder="e.g. 16642c21d157b6dlkswb672c474d5fe08-2b755df8-efa1d7f6"
-          onChange={(e) =>
-            dispatch({
-              type: "dataVal",
-              payload: { apiKey: e.target.value },
-            })
-          }
-        />
-      </div>
-    </>
+    <FormField
+      control={control}
+      name="data.apiKey"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>API Key</FormLabel>
+          <FormControl>
+            <Input
+              type="text"
+              placeholder="e.g. 16642c21d157b6dlkswb672c474d5fe08-2b755df8-efa1d7f6"
+              {...field}
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
   );
 };
 

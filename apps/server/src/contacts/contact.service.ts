@@ -128,8 +128,13 @@ export class ContactService {
           isUnsubscribed: true,
         },
       });
+
+      if (!contact) throw new NotFoundException(`Contact with ${id} not found`);
+
       return { status: true, message: 'Contact unsubscribed', data: contact };
     } catch (error) {
+      console.log(error);
+      throw error;
       throw new Error('Failed to unsubscribe contact');
     }
   }

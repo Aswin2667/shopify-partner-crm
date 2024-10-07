@@ -11,6 +11,7 @@ const organizationSlice = createSlice({
   initialState,
   reducers: {
     setCurrentOrgMember: (state, action) => {
+      console.log(action.payload);
       state.currentOrgMember = action.payload;
     },
     setOrganizations: (state, action) => {

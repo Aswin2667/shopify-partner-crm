@@ -288,6 +288,7 @@ exports.Prisma.EmailScalarFieldEnum = {
   organizationId: 'organizationId',
   leadId: 'leadId',
   contactId: 'contactId',
+  userId: 'userId',
   source: 'source'
 };
 
@@ -432,7 +433,7 @@ exports.LeadActivityType = exports.$Enums.LeadActivityType = {
   NOTE_CREATED: 'NOTE_CREATED',
   NOTE_UPDATED: 'NOTE_UPDATED',
   NOTE_DELETED: 'NOTE_DELETED',
-  EMAIL: 'EMAIL',
+  MAIL_SENT: 'MAIL_SENT',
   CALL: 'CALL',
   TASK: 'TASK',
   MEETING: 'MEETING',

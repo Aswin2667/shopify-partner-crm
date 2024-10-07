@@ -37,6 +37,7 @@ export default class MailService {
     }
   }
 
+  // From Email(Send As)
   public static async getFromEmailsByOrgId(orgId: string) {
     try {
       const response = await axiosInstance.get(
@@ -53,6 +54,19 @@ export default class MailService {
     try {
       const response = await axiosInstance.post(
         `${this.BASE_PATH}/createFromEmail`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching integration:", error);
+      throw error;
+    }
+  }
+
+  public static async updateFromEmail(data: any) {
+    try {
+      const response = await axiosInstance.patch(
+        `${this.BASE_PATH}/updateFromEmail/${data.id}`,
         data
       );
       return response.data;

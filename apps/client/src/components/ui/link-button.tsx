@@ -1,6 +1,7 @@
 import { IntegrationType } from "@org/integrations";
 import React, { useEffect, useState } from "react";
 import { HiOutlineExternalLink } from "react-icons/hi";
+import { useSelector } from "react-redux";
 
 type Props = {
   children?: React.ReactNode;
@@ -16,22 +17,16 @@ const redirectUri = `http://localhost:8080/auth/google/callback`;
 
 const LinkButton: React.FC<Props> = ({ title, type, onClick }: Props) => {
   const [currentUrl, setCurrentUrl] = useState("");
-  const [orgMemberId, setOrgMemberId] = useState<string | any>("");
+
+  const orgMemberId = useSelector(
+    (state: any) => state.organization.currentOrgMember
+  )?.id;
 
   console.log(orgMemberId);
   useEffect(() => {
     setCurrentUrl(encodeURIComponent(window.location.href));
   }, [window.location.href]);
   console.log(currentUrl);
-
-  useEffect(() => {
-    const presentOrganization = JSON.parse(
-      localStorage.getItem("presentOrgMemberDetails") as string
-    );
-    if (presentOrganization?.id) {
-      setOrgMemberId(encodeURIComponent(presentOrganization.id));
-    }
-  }, []);
 
   return (
     <div className="flex">

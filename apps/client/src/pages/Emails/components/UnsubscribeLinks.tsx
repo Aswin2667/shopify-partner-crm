@@ -131,9 +131,11 @@ export default function Component() {
             />
           </svg>
         </div>
-        <Button onClick={() => navigate("new")}>
-          <Plus className="h-4 w-4 mr-2" /> New Link
-        </Button>
+        {unsubscribeLinks.length < 0 && (
+          <Button onClick={() => navigate("new")}>
+            <Plus className="h-4 w-4 mr-2" /> New Link
+          </Button>
+        )}
       </div>
 
       {renderTableContent()}
