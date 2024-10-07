@@ -433,7 +433,7 @@ exports.LeadActivityType = exports.$Enums.LeadActivityType = {
   NOTE_CREATED: 'NOTE_CREATED',
   NOTE_UPDATED: 'NOTE_UPDATED',
   NOTE_DELETED: 'NOTE_DELETED',
-  MAIL_SENT: 'MAIL_SENT',
+  MAIL: 'MAIL',
   CALL: 'CALL',
   TASK: 'TASK',
   MEETING: 'MEETING',
