@@ -1,5 +1,4 @@
-import React from "react";
-import { Control, useFormContext } from "react-hook-form";
+import { Control } from "react-hook-form";
 import ShopifyInput from "./ShopifyInput";
 import MailGunInput from "./MailGunInput";
 import SendGridInput from "./SendGridInput";

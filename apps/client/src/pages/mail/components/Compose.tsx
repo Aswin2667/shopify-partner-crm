@@ -1,16 +1,16 @@
 import { useSelector } from "react-redux";
 import Editor from "./Editor";
 import { useEffect, useReducer } from "react";
- import "react-initials-avatar/lib/ReactInitialsAvatar.css";
+import "react-initials-avatar/lib/ReactInitialsAvatar.css";
 import ReactSelect from "@/components/ReactSelect";
 import { Trash2 } from "lucide-react";
 import MailBadge from "./MailBadge";
 import { useMutation } from "@tanstack/react-query";
- import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import IntegrationService from "@/services/IntegrationService";
- import TemplateService from "@/services/TemplatesService";
+import TemplateService from "@/services/TemplatesService";
 import { defaultTemplates } from "@/pages/organizations/settings/templates/Templates";
- import {
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -22,12 +22,11 @@ import { DatePicker } from "rsuite";
 import "rsuite/DatePicker/styles/index.css";
 import { FaCalendar } from "react-icons/fa";
 import RecipientInput from "./RecipientInput";
- 
- 
+
 const NEW_LINE = "<p><br></p>";
-const FOOTER = `<footer style="text-align: center; padding: 20px; font-size: 12px; color: #888;">
-  <p>If you no longer wish to receive these emails, you can <a href="http://localhost:3000/unsubscribe" target="_blank" >unsubscribe</a>.</p>
-</footer>`;
+// const FOOTER = `<footer style="text-align: center; padding: 20px; font-size: 12px; color: #888;">
+//   <p>If you no longer wish to receive these emails, you can <a href="http://localhost:3000/unsubscribe" target="_blank" >unsubscribe</a>.</p>
+// </footer>`;
 
 const initialArgs = {
   from: null,
@@ -266,12 +265,7 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
   console.log(compose);
 
   useEffect(() => {
-    const SIGNATURE =
-      NEW_LINE +
-        JSON.parse(localStorage.getItem("presentOrgMemberDetails") || "{}")
-          ?.signature ||
-      currentOrgMember?.signature ||
-      "";
+    const SIGNATURE = NEW_LINE + currentOrgMember?.signature || "";
     dispatch({ type: "signature", payload: SIGNATURE });
 
     dispatch({
@@ -443,9 +437,7 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
           >
             Send
           </button>
-          <div>
-            {/* <DatetimePicker /> */}
-          </div>
+          <div>{/* <DatetimePicker /> */}</div>
           <DatePicker
             format="dd MMM yyyy hh:mm:ss aa"
             placeholder="Schedule"

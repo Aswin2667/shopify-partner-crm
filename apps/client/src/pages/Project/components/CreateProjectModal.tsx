@@ -21,7 +21,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProjectService from "@/services/ProjectService";
-import ProjectInput from "./type-input/ProjectInput";
+// import ProjectInput from "./type-input/ProjectInput";
 import { Input } from "@/components/ui/input";
 
 const initialArg = {
@@ -224,10 +224,10 @@ const CreateProjectModal = ({ open, setOpen }: any) => {
           </div>
 
           {/* Project Data Fields based on integration type */}
-          <ProjectInput
+          {/* <ProjectInput
             dispatch={dispatch}
             type={project.integration.value.type}
-          />
+          /> */}
 
           {/* More dynamic fields for other integration types can be added similarly */}
 

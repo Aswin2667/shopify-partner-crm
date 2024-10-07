@@ -6,7 +6,7 @@ import {
   Inbox,
   Building,
   User,
-   ArchiveX,
+  ArchiveX,
   Folder,
   Settings,
   ClipboardList,
@@ -41,7 +41,6 @@ export default function RootLayout() {
   const { organizationId } = useParams();
   const [isCollapsed, setIsCollapsed] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
-  const [orgMemberId, setOrgMemberId] = React.useState<string | null>(null);
   const navCollapsedSize = undefined;
 
   // Fetch currentOrgMember and organizations from the Redux store
@@ -55,7 +54,7 @@ export default function RootLayout() {
       queryFn: async () =>
         await IntegrationService.getAllIntegrationsByOrgId(
           organizationId as string,
-          (orgMemberId as string) || currentOrgMember?.id
+          currentOrgMember?.id
         ),
       enabled: !!organizationId,
     }),
@@ -100,14 +99,6 @@ export default function RootLayout() {
       onError: (error) => console.error(error),
     }
   );
-
-  React.useEffect(() => {
-    const orgMemberDetails = localStorage.getItem("presentOrgMemberDetails");
-    if (orgMemberDetails) {
-      const parsedDetails = JSON.parse(orgMemberDetails);
-      setOrgMemberId(parsedDetails?.id); // Set orgMemberId from localStorage
-    }
-  }, []);
 
   React.useEffect(() => {
     const sessionData = localStorage.getItem("session");

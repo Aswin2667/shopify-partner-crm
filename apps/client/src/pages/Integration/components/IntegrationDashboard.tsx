@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate, useParams } from "react-router-dom";
-import React from "react";
 import SkeletonCard from "@/components/skelotons/SkeletonCard";
 import { useQuery } from "@tanstack/react-query";
 import IntegrationService from "@/services/IntegrationService";
@@ -14,7 +13,6 @@ export default function IntegrationDashboard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { organizationId } = useParams();
-  const [orgMemberId, setOrgMemberId] = React.useState<string | null>(null);
 
   const { integrations } = useSelector((state: any) => state.integration);
   const { currentOrgMember } = useSelector((state: any) => state.organization);
@@ -30,7 +28,7 @@ export default function IntegrationDashboard() {
       queryFn: async () =>
         await IntegrationService.getAllIntegrationsByOrgId(
           organizationId as string,
-          (orgMemberId as string) || currentOrgMember?.id
+          currentOrgMember?.id
         ),
     }),
     {
@@ -39,14 +37,6 @@ export default function IntegrationDashboard() {
       onError: (err: Error) => console.log("An error happened:", err.message),
     }
   );
-
-  React.useEffect(() => {
-    const orgMemberDetails = localStorage.getItem("presentOrgMemberDetails");
-    if (orgMemberDetails) {
-      const parsedDetails = JSON.parse(orgMemberDetails);
-      setOrgMemberId(parsedDetails?.id); // Set orgMemberId from localStorage
-    }
-  }, []);
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">

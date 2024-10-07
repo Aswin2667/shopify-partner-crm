@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Trash2, Copy } from "lucide-react";
 import { TbArrowNarrowLeft } from "react-icons/tb";
 import { useSelector } from "react-redux";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import MailService from "@/services/MailService";
 import {
   Form,
@@ -18,7 +18,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 const formSchema = z.object({
@@ -33,7 +32,6 @@ const formSchema = z.object({
 
 export default function SendAsEditor() {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const { sendAsId, organizationId } = useParams();
   const [type, setType] = useState("");
 
