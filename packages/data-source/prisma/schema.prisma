@@ -7,7 +7,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   // url      = env("DATABASE_URL")
-  url      = "postgresql://postgres:postgres@localhost:5432/shopify_crm?schema=public"
+  url = "postgresql://postgres:postgres@postgres_db:5432/shopify_crm?schema=public"
 }
 
 model User {

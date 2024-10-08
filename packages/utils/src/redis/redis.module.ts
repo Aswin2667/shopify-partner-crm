@@ -18,7 +18,7 @@ export class RedisModule {
     return {
       provide: 'RedisQueue',
       useFactory: (configService: ConfigService) => {
-        const host = configService.get<string>('REDIS_HOST');
+        const host = configService.get<string>('REDIS_HOST')||'redis';
         const port = configService.get<number>('REDIS_PORT');
         const userName = configService.get<string>('REDIS_USERNAME');
         const password = configService.get<string>('REDIS_PASSWORD');

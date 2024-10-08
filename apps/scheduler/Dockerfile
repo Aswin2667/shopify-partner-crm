@@ -4,7 +4,7 @@ WORKDIR /app
 FROM base AS builder
 RUN npm install -g turbo
 COPY . .
-RUN turbo prune --scope=event-consumer --docker
+RUN turbo prune --scope=scheduler --docker
 FROM base AS installer
 WORKDIR /app
 COPY --from=builder /app/out/full/ ./

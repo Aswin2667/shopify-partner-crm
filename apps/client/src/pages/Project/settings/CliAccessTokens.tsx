@@ -14,7 +14,7 @@ import axios from "axios";
 const CliAccesTokens: React.FC = () => {
   const [token, setToken] = useState<string | null>(null);
   const [secretKey] = useState<string>(
-    (import.meta.env.VITE_TOKEN_SECRET_KEY as string) ?? "1234567890123456"
+    (import.meta.env.VITE_TOKEN_SECRET_KEY as string) ?? "lfOkJ2r5bnBCMoVYWLZ9lNffK4RGOCSPX"
   );
   const [showToken, setShowToken] = useState<boolean>(false);
   const [openDialog, setOpenDialog] = useState<boolean>(false);

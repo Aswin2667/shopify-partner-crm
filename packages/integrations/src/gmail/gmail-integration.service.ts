@@ -41,8 +41,8 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
   constructor(private readonly prisma: PrismaService) {
     super();
     this.oauth2Client = new google.auth.OAuth2(
-      process.env.GOOGLE_CLIENT_ID,
-      process.env.GOOGLE_CLIENT_SECRET,
+      process.env.GOOGLE_CLIENT_ID || '132861762148-dhkdcu4kmkv3p3drdr6n1l3m748mbfk1.apps.googleusercontent.com',
+      process.env.GOOGLE_CLIENT_SECRET || "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",
       'http://localhost:8080/auth/google/callback',
     );
   }
@@ -60,8 +60,8 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         'https://oauth2.googleapis.com/token',
         new URLSearchParams({
           code,
-          client_id: process.env.GOOGLE_CLIENT_ID,
-          client_secret: process.env.GOOGLE_CLIENT_SECRET,
+          client_id: process.env.GOOGLE_CLIENT_ID || '132861762148-dhkdcu4kmkv3p3drdr6n1l3m748mbfk1.apps.googleusercontent.com',
+          client_secret: process.env.GOOGLE_CLIENT_SECRET||"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",
           redirect_uri: 'http://localhost:8080/auth/google/callback',
           grant_type: 'authorization_code',
         }).toString(),
@@ -868,8 +868,8 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         'https://oauth2.googleapis.com/token',
         new URLSearchParams({
           refresh_token: refreshToken,
-          client_id: process.env.GOOGLE_CLIENT_ID,
-          client_secret: process.env.GOOGLE_CLIENT_SECRET,
+          client_id: process.env.GOOGLE_CLIENT_ID || '132861762148-dhkdcu4kmkv3p3drdr6n1l3m748mbfk1.apps.googleusercontent.com',
+          client_secret: process.env.GOOGLE_CLIENT_SECRET || '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',
           grant_type: 'refresh_token',
         }).toString(),
         {

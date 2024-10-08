@@ -15,19 +15,13 @@ services:
       - "8082:8082"
       # scheduler
       - "8081:8081"
-      
     networks:
       - app_network
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "curl -f http://localhost:${APP_CLIENT_PORT:-3000} || exit 1",
-        ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
+    depends_on:
+      - redis
+      - postgres
+      - s3
+      - zipkin
 
   redis:
     image: ${REDIS_IMAGE:-redis}
@@ -63,46 +57,6 @@ services:
       retries: 5
     restart: always 
 
-  redis_gui:
-    image: ${REDIS_GUI_IMAGE:-redislabs/redisinsight:1.14.0}
-    container_name: ${REDIS_GUI_CONTAINER_NAME:-redis_gui}
-    ports:
-      - "${REDIS_GUI_PORT:-9002}:8001"
-    networks:
-      - app_network
-    volumes:
-      - redis_insight_volume_data:/db
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8001 || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-    restart: always 
-
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: postgres_gui
-    ports:
-      - "${PGADMIN_PORT:-8888}:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@pgadmin.com}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-password}
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
-    restart: always 
-    
-  zipkin:
-    image: ghcr.io/openzipkin/zipkin-slim:${TAG:-latest}
-    container_name: zipkin
-    restart: always
-    environment:
-      - STORAGE_TYPE=mem
-      - SELF_TRACING_ENABLED=true
-      - JAVA_OPTS=-Xms128m -Xmx128m -XX:+ExitOnOutOfMemoryError
-    ports:
-       - 9411:9411
-    command: --logging.level.zipkin2=DEBUG
-    
   s3:
     image: quay.io/minio/minio
     command: "server /data --console-address :9123"
@@ -121,6 +75,19 @@ services:
     networks:
       - app_network
     restart: always 
+
+  zipkin:
+    image: ghcr.io/openzipkin/zipkin-slim:${TAG:-latest}
+    container_name: zipkin
+    restart: always
+    environment:
+      - STORAGE_TYPE=mem
+      - SELF_TRACING_ENABLED=true
+      - JAVA_OPTS=-Xms128m -Xmx128m -XX:+ExitOnOutOfMemoryError
+    ports:
+       - 9411:9411
+    command: --logging.level.zipkin2=DEBUG
+  
   # jenkins:
   #   image: jenkins/jenkins:lts
   #   privileged: true

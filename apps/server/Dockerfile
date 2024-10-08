@@ -18,4 +18,4 @@ RUN adduser --system --uid 1001 nestjs
 USER nestjs
 COPY --from=installer --chown=nestjs:nodejs /app/ ./
 EXPOSE 8080
-CMD ["npm", "run", "prod:server"]
+CMD ["npm", "run", "prod"]

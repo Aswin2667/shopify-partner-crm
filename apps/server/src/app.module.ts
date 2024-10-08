@@ -62,7 +62,7 @@ import { ZipkinMiddleware } from './common/middleware/zipkin.middleware';
     BullModule.forRoot({
       redis: {
         host: 'localhost',
-        port: 6378,
+        port: 6379,
       },
     }),
     BullModule.registerQueue({

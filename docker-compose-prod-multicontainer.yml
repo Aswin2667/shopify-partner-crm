@@ -4,6 +4,11 @@ services:
     build:
       context: .
       dockerfile: ./apps/client/Dockerfile
+    environment:
+      VITE_FRONTEND_PORT: ${VITE_FRONTEND_PORT}
+      VITE_CLIENT_ID: ${VITE_CLIENT_ID}
+      VITE_TOKEN_SECRET_KEY: ${VITE_TOKEN_SECRET_KEY}
+      
     restart: always
     ports:
       - 3000:3000
@@ -18,30 +23,69 @@ services:
       context: .
       dockerfile: ./apps/server/Dockerfile
     restart: always
+    networks:
+      - app_network
     ports:
       - 8080:8080
     environment:
       VITE_FRONTEND_PORT: ${VITE_FRONTEND_PORT}
-      VITE_EXAMPLE: ${VITE_EXAMPLE}
       VITE_CLIENT_ID: ${VITE_CLIENT_ID}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
       VITE_TOKEN_SECRET_KEY: ${VITE_TOKEN_SECRET_KEY}
       BACKEND_PORT: ${BACKEND_PORT}
-
+  
+  tracker:
+    container_name: tracker
+    build:
+      context: .
+      dockerfile: ./apps/tracker/Dockerfile
+    restart: always
+    ports:
+      - 9090:9090
     networks:
       - app_network
     depends_on:
       - redis
-      - postgres
       - s3
       - zipkin
   
+  scheduler:
+    container_name: scheduler
+    build:
+      context: .
+      dockerfile: ./apps/scheduler/Dockerfile
+    restart: always
+    ports:
+      - 8081:8081
+    networks:
+      - app_network
+    depends_on:
+      - redis
+      - s3
+      - zipkin
+  
+  event-consumer:
+    container_name: event-consumer
+    build:
+      context: .
+      dockerfile: ./apps/event-consumer/Dockerfile
+    restart: always
+    ports:
+      - 8082:8082
+    networks:
+      - app_network
+    depends_on:
+      - redis
+      - s3
+      - zipkin
+  
+
   redis:
-    image: ${REDIS_IMAGE:-redis}
+    image: redis
     container_name: ${REDIS_CONTAINER_NAME:-redis}
     ports:
-      - "${REDIS_PORT:-6378}:6379"
+      - "${REDIS_PORT:-6379}:6379"
     networks:
       - app_network
     volumes:
@@ -69,7 +113,10 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-    restart: always 
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
 
   s3:
     image: quay.io/minio/minio
@@ -91,8 +138,12 @@ services:
     restart: always 
 
   zipkin:
-    image: ghcr.io/openzipkin/zipkin-slim:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: ./zipkin/Dockerfile
     container_name: zipkin
+    networks:
+      - app_network
     restart: always
     environment:
       - STORAGE_TYPE=mem
@@ -101,24 +152,12 @@ services:
     ports:
        - 9411:9411
     command: --logging.level.zipkin2=DEBUG
-  
-  # jenkins:
-  #   image: jenkins/jenkins:lts
-  #   privileged: true
-  #   user: root
-  #   ports:
-  #     - 4000:8080
-  #     - 50000:50000
-  #   container_name: jenkins
-  #   volumes:
-  #     - ~/jenkins:/var/jenkins_home
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - /usr/local/bin/docker:/usr/local/bin/docker
 
 volumes:
   redis_insight_volume_data:
   redis_volume_data:
   pgadmin-data:
+  postgres_data:
 
 networks:
   app_network:

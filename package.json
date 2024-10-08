@@ -4,9 +4,7 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "prod:server": "cd apps/server && npm run prod",
-    "prod:client": "cd apps/client && npm run prod",
-    "prod:tracker": "cd apps/tracker && npm run prod",
+    "prod": "turbo prod",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
