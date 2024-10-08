@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 import Editor from "../../mail/components/Editor";
 import { useMutation } from "@tanstack/react-query";
 import OrgMemberService from "@/services/OrgMemberService";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { organizationAction } from "@/redux/organizationSlice";
 
 const Signature = () => {
+  const dispatch = useDispatch();
   const [value, setValue] = React.useState<string>(
     ""
     // "<p>--</p><p><br></p><p> </p>"
@@ -16,7 +18,8 @@ const Signature = () => {
 
   const { mutate: generateSignature } = useMutation({
     mutationFn: async (data: any) => OrgMemberService.generateSignature(data),
-    onSuccess: (res) => console.log(res),
+    onSuccess: (res) =>
+      dispatch(organizationAction.setCurrentOrgMemberSignature(res.signature)),
     onError: (error) => console.error(error),
   });
 

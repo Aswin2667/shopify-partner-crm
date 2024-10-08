@@ -256,6 +256,9 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
         status: 'SEND',
         body,
       },
+      include: {
+        user: true,
+      },
     });
 
     await this.prisma.leadActivity.create({
@@ -263,7 +266,7 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
         type: 'MAIL',
         data: {
           message: 'Email sent successfully via SendGrid',
-          data: emailData,
+          data: updatedEmail as any,
         },
         leadId: email.leadId,
         orgId: email.organizationId,
@@ -321,10 +324,17 @@ export class SendGridIntegrationService extends BaseIntegrationService<object> {
         id: leadId,
       },
     });
+
+    const contactFirstName = contact ? contact.firstName : '-';
+    const contactLastName = contact ? contact.lastName : '-';
+    const contactEmail = contact ? contact.email : '-';
+    const shopifyDomain = lead ? lead.shopifyDomain : '-';
+
+    // Replace shortcodes with actual values or fallback values
     return body
-      .replace(/{{name}}/g, contact.name)
-      .replace(/{{email}}/g, contact.email)
-      .replace(/{{shopify_domain}}/g, lead.shopifyDomain);
+      .replace(/{{name}}/g, `${contactFirstName} ${contactLastName}`)
+      .replace(/{{email}}/g, contactEmail)
+      .replace(/{{shopify_domain}}/g, shopifyDomain);
   }
 
   private async getIntegrationById(integrationId: string) {
