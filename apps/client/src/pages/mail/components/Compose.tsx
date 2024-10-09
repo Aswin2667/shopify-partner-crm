@@ -38,6 +38,7 @@ const initialArgs = {
   template: { selected: {}, all: defaultTemplates || [] },
   scheduledAt: null,
   signature: null,
+  // reset: false,
 };
 
 const reducerFn = (prevState: any, action: any) => {
@@ -151,7 +152,7 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
   const contacts = useSelector((state: any) => state.lead.leadContacts)
     .filter((contact: any) => !contact.isUnsubscribed)
     .map((contact: any) => ({
-      label: `${contact.name} <${contact.email}>`,
+      label: `${contact.firstName} ${contact.lastName} <${contact.email}>`,
       value: contact.email,
       id: contact.id,
     }));
@@ -180,23 +181,6 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
   });
 
   const sendHandler = () => {
-    // const mailContext = {
-    //   from: { name: compose.from.fromName, email: compose.from.fromEmail },
-    //   to: compose.to.map((contact: any) => contact.value),
-    //   cc: compose.cc.value,
-    //   bcc: compose.bcc.value,
-    //   replyTo: compose.from.replyTo,
-    //   subject: compose.subject,
-    //   body: compose.body,
-    //   integrationId: compose.from.integrationId,
-    //   organizationId,
-    //   leadId,
-    //   source: compose.from.type,
-    //   scheduledAt: compose.scheduledAt
-    //     ? compose.scheduledAt
-    //     : DateHelper.getCurrentUnixTime(),
-    // };
-
     compose.to.forEach((contact: any) => {
       const mailContext = {
         from: { name: compose.from.fromName, email: compose.from.fromEmail },
@@ -299,6 +283,7 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
         <h6 className="text-gray-500">From</h6>
 
         <Select
+          value={compose.from}
           onValueChange={(value) => dispatch({ type: "from", payload: value })}
           // defaultValue={compose.from.data?.email}
         >
@@ -415,6 +400,7 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
         </div>
         <div className="w-[40%] border-l">
           <ReactSelect
+            value={compose.template.selected}
             placeholder="Choose a Template"
             options={[...new Set(compose.template.all)]}
             onChange={(template: any) => {
@@ -443,6 +429,7 @@ const Compose = ({ setInitialArgs }: any): JSX.Element => {
             placeholder="Schedule"
             showMeridian
             caretAs={FaCalendar}
+            value={compose.scheduledAt}
             disabled={!compose.from?.type}
             onChange={(e) =>
               dispatch({

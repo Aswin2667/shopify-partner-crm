@@ -683,10 +683,18 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         id: leadId,
       },
     });
+
+    // Set fallback values in case contact or lead is not found
+    const contactFirstName = contact ? contact.firstName : '-';
+    const contactLastName = contact ? contact.lastName : '-';
+    const contactEmail = contact ? contact.email : '-';
+    const shopifyDomain = lead ? lead.shopifyDomain : '-';
+
+    // Replace shortcodes with actual values or fallback values
     return body
-      .replace(/{{name}}/g, contact.name)
-      .replace(/{{email}}/g, contact.email)
-      .replace(/{{shopify_domain}}/g, lead.shopifyDomain);
+      .replace(/{{name}}/g, `${contactFirstName} ${contactLastName}`)
+      .replace(/{{email}}/g, contactEmail)
+      .replace(/{{shopify_domain}}/g, shopifyDomain);
   }
 
   private createEncodedHeader({ to, cc, bcc, subject, inReplyTo, references }) {
@@ -838,12 +846,18 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         status: 'SEND',
         body: body,
       },
+      include: {
+        user: true,
+      },
     });
 
     await this.prisma.leadActivity.create({
       data: {
         type: 'MAIL',
-        data: { message: 'Email sent successfully via Gmail', data: emailData },
+        data: {
+          message: 'Email sent successfully via Gmail',
+          data: updatedEmail as any,
+        },
         leadId: email.leadId,
         orgId: email.organizationId,
         userId: email.userId ?? '',
