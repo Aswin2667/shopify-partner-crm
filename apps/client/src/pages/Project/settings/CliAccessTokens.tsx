@@ -11,6 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import axios from "axios"; 
+import { useParams } from "react-router-dom";
 const CliAccesTokens: React.FC = () => {
   const [token, setToken] = useState<string | null>(null);
   const [secretKey] = useState<string>(
@@ -18,12 +19,12 @@ const CliAccesTokens: React.FC = () => {
   );
   const [showToken, setShowToken] = useState<boolean>(false);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const {projectId} = useParams()
 
   const url = "http://localhost:8080/";
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        const projectId = window.location.pathname.split("/")[3] ?? "";
         const response = await axios.get(`${url}project/${projectId}`);
 
         setToken(response.data.cliAccessToken);
@@ -36,7 +37,6 @@ const CliAccesTokens: React.FC = () => {
 
   const generateToken = async () => {
     try {
-      const projectId = window.location.pathname.split("/")[3] ?? "";
       const data = {
         projectId,
       };
@@ -65,7 +65,6 @@ const CliAccesTokens: React.FC = () => {
 
   const handleUpdateToken = async () => {
     try {
-      const projectId = window.location.pathname.split("/")[3] ?? "";
 
       await axios.patch(`${url}project/${projectId}`, { token });
       setOpenDialog(false);
