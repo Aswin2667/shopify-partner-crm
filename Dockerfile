@@ -2,9 +2,7 @@ FROM node:20-alpine AS base
 
 WORKDIR /app
 
-COPY ./package.json ./turbo.json ./
-COPY ./apps ./apps
-COPY ./packages ./packages
+COPY . .
 
 RUN npm install -g turbo
 RUN npm install --force
@@ -23,4 +21,4 @@ COPY --from=build /app .
 
 EXPOSE 3000 8080 8081 8082 9090
 
-CMD ["sh", "-c", "npm run prod"]
+CMD ["npm","run", "start"]

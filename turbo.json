@@ -14,7 +14,7 @@
       "cache": false,
       "persistent": true
     },
-    "prod": { 
+    "start": { 
       "cache": false,
       "persistent": true
     }

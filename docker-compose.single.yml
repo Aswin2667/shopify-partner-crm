@@ -17,12 +17,7 @@ services:
       - "8081:8081"
     networks:
       - app_network
-    depends_on:
-      - redis
-      - postgres
-      - s3
-      - zipkin
-
+      
   redis:
     image: ${REDIS_IMAGE:-redis}
     container_name: ${REDIS_CONTAINER_NAME:-redis}
@@ -38,68 +33,6 @@ services:
       timeout: 10s
       retries: 3
     restart: always 
-
-  postgres:
-    image: ${POSTGRES_IMAGE:-postgres:latest}
-    hostname: ${POSTGRES_HOSTNAME:-postgres}
-    container_name: ${POSTGRES_CONTAINER_NAME:-postgres_db}
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-    ports:
-      - "${POSTGRES_PORT:-5432}:5432"
-    networks:
-      - app_network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    restart: always 
-
-  s3:
-    image: quay.io/minio/minio
-    command: "server /data --console-address :9123"
-    ports:
-      - "9123:9123"
-      - "9001:9000"
-    healthcheck:
-      test: ["CMD", "mc", "ready", "local"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    environment:
-      MINIO_ROOT_USER: test
-      MINIO_ROOT_PASSWORD: 12345678
-    container_name: s3
-    networks:
-      - app_network
-    restart: always 
-
-  zipkin:
-    image: ghcr.io/openzipkin/zipkin-slim:${TAG:-latest}
-    container_name: zipkin
-    restart: always
-    environment:
-      - STORAGE_TYPE=mem
-      - SELF_TRACING_ENABLED=true
-      - JAVA_OPTS=-Xms128m -Xmx128m -XX:+ExitOnOutOfMemoryError
-    ports:
-       - 9411:9411
-    command: --logging.level.zipkin2=DEBUG
-  
-  # jenkins:
-  #   image: jenkins/jenkins:lts
-  #   privileged: true
-  #   user: root
-  #   ports:
-  #     - 4000:8080
-  #     - 50000:50000
-  #   container_name: jenkins
-  #   volumes:
-  #     - ~/jenkins:/var/jenkins_home
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - /usr/local/bin/docker:/usr/local/bin/docker
 
 volumes:
   redis_insight_volume_data:

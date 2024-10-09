@@ -12,7 +12,7 @@ export class BullMQClient {
   createQueue(queueName: string) {
     const queue = new Queue(queueName, {
       connection: {
-        host: this.configService.get('REDIS_HOST') || 'redis',
+        host: this.configService.get('REDIS_HOST') || 'redis-10294.c261.us-east-1-4.ec2.redns.redis-cloud.com',
         port: this.configService.get('REDIS_PORT') || 6379,
       },
     });
@@ -23,7 +23,7 @@ export class BullMQClient {
   createWorker(queueName: string, processor: (job) => Promise<void>) {
     const worker = new Worker(queueName, processor, {
       connection: {
-        host: this.configService.get('REDIS_HOST') || 'redis',
+        host: this.configService.get('REDIS_HOST') || 'redis-10294.c261.us-east-1-4.ec2.redns.redis-cloud.com',
         port: this.configService.get('REDIS_PORT') || 6379,
       },
     });

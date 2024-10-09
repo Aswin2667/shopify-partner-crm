@@ -13,8 +13,9 @@ import { BullModule } from '@nestjs/bull';
     PackageIntegrationModule,
     BullModule.forRoot({
       redis: {
-        host: 'redis',
-        port: 6379,
+        host: 'redis-10294.c261.us-east-1-4.ec2.redns.redis-cloud.com',
+        port: 10294,
+        
       },
     }),
     BullModule.registerQueue(

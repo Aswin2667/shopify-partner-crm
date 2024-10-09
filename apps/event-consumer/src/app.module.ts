@@ -18,8 +18,10 @@ import * as path from 'path';
     }),
     BullModule.forRoot({
       redis: {
-        host: 'redis',
-        port: 6379,
+        host: 'redis-10294.c261.us-east-1-4.ec2.redns.redis-cloud.com',
+        port: 10294,
+        username:"default",
+        password: "VSqteQE9zbSBBZcpJydJ8TodySmtIlGs",
       },
     }),
     BullModule.registerQueue(
