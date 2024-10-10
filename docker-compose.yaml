@@ -1,67 +1,67 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: ${APP_CONTAINER_NAME:-dev_app}
-    ports:
-      # client
-      - "3000:3000"
-      # server
-      - "8080:8080"
-      # tracker
-      - "9090:9090"
-      # event-consumer
-      - "8082:8082"
-      # scheduler
-      - "8081:8081"
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: ${APP_CONTAINER_NAME:-dev_app}
+  #   ports:
+  #     # client
+  #     - "3000:3000"
+  #     # server
+  #     - "8080:8080"
+  #     # tracker
+  #     - "9090:9090"
+  #     # event-consumer
+  #     - "8082:8082"
+  #     # scheduler
+  #     - "8081:8081"
       
-    networks:
-      - app_network
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "curl -f http://localhost:${APP_CLIENT_PORT:-3000} || exit 1",
-        ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
+  #   networks:
+  #     - app_network
+  #   healthcheck:
+  #     test:
+  #       [
+  #         "CMD-SHELL",
+  #         "curl -f http://localhost:${APP_CLIENT_PORT:-3000} || exit 1",
+  #       ]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #     start_period: 10s
 
-  redis:
-    image: ${REDIS_IMAGE:-redis}
-    container_name: ${REDIS_CONTAINER_NAME:-redis}
-    ports:
-      - "${REDIS_PORT:-6378}:6379"
-    networks:
-      - app_network
-    volumes:
-      - redis_volume_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-    restart: always 
+  # redis:
+  #   image: ${REDIS_IMAGE:-redis}
+  #   container_name: ${REDIS_CONTAINER_NAME:-redis}
+  #   ports:
+  #     - "${REDIS_PORT:-6378}:6379"
+  #   networks:
+  #     - app_network
+  #   volumes:
+  #     - redis_volume_data:/data
+  #   healthcheck:
+  #     test: ["CMD", "redis-cli", "ping"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #   restart: always 
 
-  postgres:
-    image: ${POSTGRES_IMAGE:-postgres:latest}
-    hostname: ${POSTGRES_HOSTNAME:-postgres}
-    container_name: ${POSTGRES_CONTAINER_NAME:-postgres_db}
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-    ports:
-      - "${POSTGRES_PORT:-5432}:5432"
-    networks:
-      - app_network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    restart: always 
+  # postgres:
+  #   image: ${POSTGRES_IMAGE:-postgres:latest}
+  #   hostname: ${POSTGRES_HOSTNAME:-postgres}
+  #   container_name: ${POSTGRES_CONTAINER_NAME:-postgres_db}
+  #   environment:
+  #     POSTGRES_USER: ${POSTGRES_USER:-postgres}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+  #   ports:
+  #     - "${POSTGRES_PORT:-5432}:5432"
+  #   networks:
+  #     - app_network
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 5
+  #   restart: always 
 
   redis_gui:
     image: ${REDIS_GUI_IMAGE:-redislabs/redisinsight:1.14.0}
@@ -79,48 +79,48 @@ services:
       retries: 3
     restart: always 
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: postgres_gui
-    ports:
-      - "${PGADMIN_PORT:-8888}:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@pgadmin.com}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-password}
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
-    restart: always 
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   container_name: postgres_gui
+  #   ports:
+  #     - "${PGADMIN_PORT:-8888}:80"
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@pgadmin.com}
+  #     PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-password}
+  #   volumes:
+  #     - pgadmin-data:/var/lib/pgadmin
+  #   restart: always 
     
-  zipkin:
-    image: ghcr.io/openzipkin/zipkin-slim:${TAG:-latest}
-    container_name: zipkin
-    restart: always
-    environment:
-      - STORAGE_TYPE=mem
-      - SELF_TRACING_ENABLED=true
-      - JAVA_OPTS=-Xms128m -Xmx128m -XX:+ExitOnOutOfMemoryError
-    ports:
-       - 9411:9411
-    command: --logging.level.zipkin2=DEBUG
+  # zipkin:
+  #   image: ghcr.io/openzipkin/zipkin-slim:${TAG:-latest}
+  #   container_name: zipkin
+  #   restart: always
+  #   environment:
+  #     - STORAGE_TYPE=mem
+  #     - SELF_TRACING_ENABLED=true
+  #     - JAVA_OPTS=-Xms128m -Xmx128m -XX:+ExitOnOutOfMemoryError
+  #   ports:
+  #      - 9411:9411
+  #   command: --logging.level.zipkin2=DEBUG
     
-  s3:
-    image: quay.io/minio/minio
-    command: "server /data --console-address :9123"
-    ports:
-      - "9123:9123"
-      - "9001:9000"
-    healthcheck:
-      test: ["CMD", "mc", "ready", "local"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    environment:
-      MINIO_ROOT_USER: test
-      MINIO_ROOT_PASSWORD: 12345678
-    container_name: s3
-    networks:
-      - app_network
-    restart: always 
+  # s3:
+  #   image: quay.io/minio/minio
+  #   command: "server /data --console-address :9123"
+  #   ports:
+  #     - "9123:9123"
+  #     - "9001:9000"
+  #   healthcheck:
+  #     test: ["CMD", "mc", "ready", "local"]
+  #     interval: 5s
+  #     timeout: 5s
+  #     retries: 5
+  #   environment:
+  #     MINIO_ROOT_USER: test
+  #     MINIO_ROOT_PASSWORD: 12345678
+  #   container_name: s3
+  #   networks:
+  #     - app_network
+  #   restart: always 
   # jenkins:
   #   image: jenkins/jenkins:lts
   #   privileged: true

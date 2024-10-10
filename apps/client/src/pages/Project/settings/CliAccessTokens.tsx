@@ -21,7 +21,7 @@ const CliAccesTokens: React.FC = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const {projectId} = useParams()
 
-  const url = "http://localhost:8080/";
+  const url = "https://shopcrm-server-5e5331b6be39.herokuapp.com/";
   useEffect(() => {
     const fetchToken = async () => {
       try {

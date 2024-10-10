@@ -11,8 +11,8 @@ type Props = {
 };
 
 // const currentUrl = encodeURIComponent(window.location.href);
-const redirectUri = `http://localhost:8080/auth/google/callback`;
-// const redirectUri = `http://localhost:8080/integration/connect/auth`;
+const redirectUri = `https://shopcrm-server-5e5331b6be39.herokuapp.com/auth/google/callback`;
+// const redirectUri = `https://shopcrm-server-5e5331b6be39.herokuapp.com/integration/connect/auth`;
 // console.log(currentUrl);
 
 const LinkButton: React.FC<Props> = ({ title, type, onClick }: Props) => {
