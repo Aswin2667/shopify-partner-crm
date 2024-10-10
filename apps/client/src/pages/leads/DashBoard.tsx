@@ -76,7 +76,7 @@ export default function LeadDashboard() {
     console.log(newStatus+"lkhjlkhjlkhjklh")
     try {
       // PUT request to update the lead status
-      await axios.put(`http://localhost:8080/leads/${lead.id}/status`, {
+      await axios.put(`https://shopcrm-server-5e5331b6be39.herokuapp.com/leads/${lead.id}/status`, {
         orgId,
         status: newStatus,
         statusData: (availableLeadStatus.find(

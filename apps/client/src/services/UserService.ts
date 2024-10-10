@@ -2,7 +2,7 @@ import { TokenResponse } from "@react-oauth/google";
 import axios from "../utils/_axios";
 
 class UserService {
-  private static BASE_URL: string = "http://localhost:8080/";
+  private static BASE_URL: string = "https://shopcrm-server-5e5331b6be39.herokuapp.com/";
   public static async login(
     data: Omit<TokenResponse, "error" | "error_description" | "error_uri">,
   ) {

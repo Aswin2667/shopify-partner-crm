@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "https://shopcrm-server-5e5331b6be39.herokuapp.com",
   // withCredentials: true,
 });
 

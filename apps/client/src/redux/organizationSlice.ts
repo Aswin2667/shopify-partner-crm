@@ -1,5 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-const initialState = {
+
+interface OrganizationState {
+  currentOrgMember: any;
+  organizations: any[]; // You can replace 'any' with more specific types
+  emails: any[];
+  unsubscribeLinks: any[];
+}
+
+const initialState: OrganizationState = {
   currentOrgMember: null,
   organizations: [],
   emails: [],
@@ -13,6 +21,12 @@ const organizationSlice = createSlice({
     setCurrentOrgMember: (state, action) => {
       console.log(action.payload);
       state.currentOrgMember = action.payload;
+    },
+    setCurrentOrgMemberSignature: (state, action) => {
+      state.currentOrgMember = {
+        ...(state.currentOrgMember || {}),
+        signature: action.payload,
+      };
     },
     setOrganizations: (state, action) => {
       state.organizations = action.payload;

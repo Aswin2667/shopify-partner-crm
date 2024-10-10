@@ -61,12 +61,20 @@ import { ZipkinMiddleware } from './common/middleware/zipkin.middleware';
     }),
     BullModule.forRoot({
       redis: {
-        host: 'localhost',
-        port: 6378,
+        host: 'redis-10294.c261.us-east-1-4.ec2.redns.redis-cloud.com',
+        port: 10294,
+        username:"default",
+        password: "VSqteQE9zbSBBZcpJydJ8TodySmtIlGs",
       },
     }),
     BullModule.registerQueue({
       name: 'events',
+      redis: {
+        host: 'redis-10294.c261.us-east-1-4.ec2.redns.redis-cloud.com',
+        port: 10294,
+        username:"default",
+        password: "VSqteQE9zbSBBZcpJydJ8TodySmtIlGs",
+      }
     }),
     MailModule,
     ProjectModule,
@@ -114,7 +122,7 @@ import { ZipkinMiddleware } from './common/middleware/zipkin.middleware';
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(AuthMiddleware,ZipkinMiddleware)
+      .apply(AuthMiddleware)
       .forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 }

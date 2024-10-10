@@ -2,10 +2,7 @@
 
 import * as React from "react";
 import { X } from "lucide-react";
-import Select, {
-  MultiValueGenericProps,
-  GroupBase,
-} from "react-select";
+import Select, { MultiValueGenericProps, GroupBase } from "react-select";
 
 import { Badge } from "@/components/ui/badge";
 
@@ -93,6 +90,11 @@ export default function RecipientInput({
   const handleInputChange = (newValue: string) => {
     setInputValue(newValue);
     setError(null);
+  };
+
+  const resetHandler = () => {
+    setRecipients([]);
+    dispatch({ type: "to", payload: [] });
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {

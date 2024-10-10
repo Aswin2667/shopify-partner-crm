@@ -23,6 +23,7 @@ export class UserService {
       const user = await client.verifyIdToken({
         idToken: data.credential,
         audience: data.clientId,
+        
       });
       const payload = user.getPayload();
       const existingUser = await this.prisma.user.findUnique({
@@ -53,7 +54,6 @@ export class UserService {
       });
         // Emit USER_CREATED event
        if (existingUser) {
-  
         await this.eventQueue.add('USER_CREATED', upsertedUser);
       }
       return {
@@ -62,6 +62,7 @@ export class UserService {
         data: upsertedUser,
       };
     } catch (error) {
+      console.log(error)
       throw new HttpException(
         'Invalid data for user. Please check the provided data.',
         HttpStatus.BAD_REQUEST,

@@ -6,6 +6,7 @@ import LeadRelationShipInstalled from "./components/LeadRelationShipInstalled";
 import LeadRelationShipUnInstalled from "./components/LeadRelationShipUnInstalled";
 import LeadStatusUpdated from "./components/LeadStatusUpdated";
 import LeadSubscriptionChargeActivated from "./components/LeadSubscriptionChargeActivated";
+import LeadMail from "./components/LeadMail";
 const Activity = () => {
   const [data, setData] = useState([]);
   const leadId = window.location.pathname.split("/")[3];
@@ -35,6 +36,8 @@ const Activity = () => {
           return <LeadStatusUpdated activity={activity} />;
         } else if (activity.type === "SUBSCRIPTION_CHARGE_ACTIVATED") {
           return <LeadSubscriptionChargeActivated activity={activity} />;
+        } else if (activity.type === "MAIL") {
+          return <LeadMail activity={activity} />;
         }
       })}
     </ol>

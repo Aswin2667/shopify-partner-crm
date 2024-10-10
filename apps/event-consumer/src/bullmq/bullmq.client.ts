@@ -6,8 +6,8 @@ import { BullModule } from '@nestjs/bullmq';
   imports: [
     BullModule.forRoot({
       connection: {
-        host: "localhost",
-        port: parseInt("6378"),
+        host: "redis-10294.c261.us-east-1-4.ec2.redns.redis-cloud.com",
+        port: parseInt("10294")
       },
     }),
   ],

@@ -164,8 +164,13 @@ export default function MailThread({ mail }: any) {
 
   return (
     <li className="mb-10 ms-6">
-      <span className="absolute flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full -start-4 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-        <Mail size={18} className="text-blue-900 dark:text-white" />
+      <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+        <img
+          className="rounded-full shadow-lg"
+          src={mail?.user?.avatarUrl || ""}
+          alt="Bonnie image"
+          referrerPolicy="no-referrer"
+        />
       </span>
       <div className="max-w-full mx-auto py-3 px-4 space-y-4 border rounded bg-gray-50">
         <div className="flex justify-between items-center mb-4">

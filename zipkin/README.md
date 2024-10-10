@@ -1,0 +1,1 @@
+Zipkin is a distributed tracing system that helps gather and visualize the performance data (or traces) of microservices-based applications. It is primarily used to monitor and troubleshoot issues in distributed systems by tracking how requests flow through the different services, enabling you to pinpoint where bottlenecks, latencies, or errors occur.
