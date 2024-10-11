@@ -10,16 +10,38 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                    script {
-                        sh 'docker build -t shopcrm-client .'
-                    }
+                script {
+                    sh 'docker build -t shopcrm-client .'
+                }
+            }
+        }
+
+        stage('Deploy to Heroku') {
+            environment {
+                HEROKU_APP_NAME = 'shopify-crm-prod'  // Replace with your Heroku app name
+                HEROKU_API_KEY = credentials('heroku')  // Jenkins credential for Heroku API key
+            }
+            steps {
+                script {
+                    // Log in to Heroku Container Registry
+                    sh 'echo $HEROKU_API_KEY | docker login --username=_ --password-stdin registry.heroku.com'
+                    
+                    // Tag the Docker image for Heroku
+                    sh 'docker tag shopcrm-client registry.heroku.com/$HEROKU_APP_NAME/web'
+
+                    // Push the Docker image to Heroku Container Registry
+                    sh 'docker push registry.heroku.com/$HEROKU_APP_NAME/web'
+
+                    // Release the pushed image
+                    sh 'heroku container:release web --app $HEROKU_APP_NAME'
+                }
             }
         }
     }
 
     post {
         always {
-            cleanWs()
+            cleanWs()  // Clean the workspace after each build
         }
         success {
             echo 'Deployment to Heroku was successful!'
