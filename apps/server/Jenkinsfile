@@ -27,7 +27,7 @@ pipeline {
                     sh 'echo $HEROKU_API_KEY | docker login --username=_ --password-stdin registry.heroku.com'
                     
                     // Tag the Docker image for Heroku
-                    sh 'docker tag shopcrm-client registry.heroku.com/$HEROKU_APP_NAME/web'
+                    sh 'docker tag shopcrm-server registry.heroku.com/$HEROKU_APP_NAME/web'
 
                     // Push the Docker image to Heroku Container Registry
                     sh 'docker push registry.heroku.com/$HEROKU_APP_NAME/web'
