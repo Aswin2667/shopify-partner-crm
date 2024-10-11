@@ -92,10 +92,6 @@ export default function RecipientInput({
     setError(null);
   };
 
-  const resetHandler = () => {
-    setRecipients([]);
-    dispatch({ type: "to", payload: [] });
-  };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (!inputValue) return;

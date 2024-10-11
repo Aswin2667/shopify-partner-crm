@@ -5,7 +5,6 @@ import {
   CheckCheck,
   ChevronDown,
   ChevronUp,
-  Mail,
   Trash2,
 } from "lucide-react";
 import MailThreadItem from "./MailThreadItem";
