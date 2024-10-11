@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/Aswin2667/shopify-partner-crm.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                dir('apps/client') {
+                    script {
+                        // Run docker build with sudo if needed
+                        sh 'sudo docker build -t shopcrm-client .'
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            echo 'Deployment to Heroku was successful!'
+        }
+        failure {
+            echo 'Deployment to Heroku failed.'
+        }
+    }
+}
