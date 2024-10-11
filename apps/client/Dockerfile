@@ -4,7 +4,7 @@ FROM base AS builder
 RUN apk update && apk add --no-cache libc6-compat
 WORKDIR /app
 RUN npm install -g turbo --ignore-engines
-COPY ../../ .
+COPY . .
 RUN turbo prune --scope=client --docker
 FROM base AS installer
 RUN apk update && apk add --no-cache libc6-compat
