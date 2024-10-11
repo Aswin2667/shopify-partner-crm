@@ -11,19 +11,20 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import axios from "axios"; 
+import { useParams } from "react-router-dom";
 const CliAccesTokens: React.FC = () => {
   const [token, setToken] = useState<string | null>(null);
   const [secretKey] = useState<string>(
-    (import.meta.env.VITE_TOKEN_SECRET_KEY as string) ?? "1234567890123456"
+    (import.meta.env.VITE_TOKEN_SECRET_KEY as string) ?? "lfOkJ2r5bnBCMoVYWLZ9lNffK4RGOCSPX"
   );
   const [showToken, setShowToken] = useState<boolean>(false);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const {projectId} = useParams()
 
-  const url = "http://localhost:8080/";
+  const url = "https://shopcrm-server-5e5331b6be39.herokuapp.com/";
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        const projectId = window.location.pathname.split("/")[3] ?? "";
         const response = await axios.get(`${url}project/${projectId}`);
 
         setToken(response.data.cliAccessToken);
@@ -36,7 +37,6 @@ const CliAccesTokens: React.FC = () => {
 
   const generateToken = async () => {
     try {
-      const projectId = window.location.pathname.split("/")[3] ?? "";
       const data = {
         projectId,
       };
@@ -65,7 +65,6 @@ const CliAccesTokens: React.FC = () => {
 
   const handleUpdateToken = async () => {
     try {
-      const projectId = window.location.pathname.split("/")[3] ?? "";
 
       await axios.patch(`${url}project/${projectId}`, { token });
       setOpenDialog(false);

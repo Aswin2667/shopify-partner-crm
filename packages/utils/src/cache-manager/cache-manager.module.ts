@@ -8,7 +8,7 @@ export const RedisOptions: CacheModuleAsyncOptions = {
   imports: [ConfigModule],
   useFactory: async (configService: ConfigService) => {
     const store = await redisStore({
-      url: "redis://127.0.0.1:6378",
+      url: "redis://default:VSqteQE9zbSBBZcpJydJ8TodySmtIlGs@redis-10294.c261.us-east-1-4.ec2.redns.redis-cloud.com:10294",
     });
     return {
       store: () => store,

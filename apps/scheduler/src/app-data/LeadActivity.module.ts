@@ -15,16 +15,24 @@ import { AppService } from './LeadActivity.Sync.cron';
     EventEmitterModule.forRoot(),
     BullModule.forRoot({
       redis: {
-        host: 'localhost',
-        port: 6378,
+        host: 'redis-10294.c261.us-east-1-4.ec2.redns.redis-cloud.com',
+        port: 10294,
+        password: 'VSqteQE9zbSBBZcpJydJ8TodySmtIlGs',
+        username: 'default',
       },
     }),
     BullModule.registerQueue({
       name: 'app_events_queue',
+      redis: {
+        host: 'redis-10294.c261.us-east-1-4.ec2.redns.redis-cloud.com',
+        port: 10294,
+        username:"default",
+        password: "VSqteQE9zbSBBZcpJydJ8TodySmtIlGs",
+      }
     }),
     DataSourceModule,
   ],
   controllers: [],
-  providers: [LeadActivitySyncService, PrismaService,AppService],
+  providers: [LeadActivitySyncService, PrismaService, AppService],
 })
 export class LeadActivityModule {}

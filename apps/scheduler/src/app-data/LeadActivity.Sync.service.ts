@@ -141,7 +141,7 @@ export class LeadActivitySyncService {
         return null;
       }
     } catch (error) {
-      console.error('Failed to fetch and store data:', error.message);
+      console.error('Failed to fetch and store data:', error);
       throw new Error('Failed to fetch data');
     }
   }

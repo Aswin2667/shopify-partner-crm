@@ -17,7 +17,7 @@ const Invitation = () => {
     }
     if (token) {
       axios
-        .get(`http://localhost:8080/invitation/verify?token=${token}`)
+        .get(`https://shopcrm-server-5e5331b6be39.herokuapp.com/invitation/verify?token=${token}`)
         .then((response) => {
           setTokenDetails(response.data.data);
           console.log(response);
@@ -39,7 +39,7 @@ const Invitation = () => {
   const handleAccept = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/invitation/accept?token=${token}`
+        `https://shopcrm-server-5e5331b6be39.herokuapp.com/invitation/accept?token=${token}`
       );
       console.log(response.data);
       alert("Accepted");

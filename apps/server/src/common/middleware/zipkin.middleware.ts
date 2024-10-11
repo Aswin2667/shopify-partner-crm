@@ -10,7 +10,7 @@ export class ZipkinMiddleware implements NestMiddleware {
   private readonly tracer: Tracer;
 
   constructor() {
-    const zipkinBaseUrl = process.env.ZIPKIN_BASE_URL || 'http://localhost:9411';
+    const zipkinBaseUrl = process.env.ZIPKIN_BASE_URL || 'http://zipkin:9411';
 
     const ctxImpl = new ExplicitContext();
     const recorder = new BatchRecorder({

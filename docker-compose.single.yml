@@ -1,0 +1,44 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${APP_CONTAINER_NAME:-dev_app}
+    ports:
+      # client
+      - "3000:3000"
+      # server
+      - "8080:8080"
+      # tracker
+      - "9090:9090"
+      # event-consumer
+      - "8082:8082"
+      # scheduler
+      - "8081:8081"
+    networks:
+      - app_network
+      
+  redis:
+    image: ${REDIS_IMAGE:-redis}
+    container_name: ${REDIS_CONTAINER_NAME:-redis}
+    ports:
+      - "${REDIS_PORT:-6378}:6379"
+    networks:
+      - app_network
+    volumes:
+      - redis_volume_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: always 
+
+volumes:
+  redis_insight_volume_data:
+  redis_volume_data:
+  pgadmin-data:
+
+networks:
+  app_network:
+    driver: bridge

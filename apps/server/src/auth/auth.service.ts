@@ -34,8 +34,8 @@ export class AuthService {
         'https://oauth2.googleapis.com/token',
         new URLSearchParams({
           code,
-          client_id: process.env.GOOGLE_CLIENT_ID,
-          client_secret: process.env.GOOGLE_CLIENT_SECRET,
+          client_id: process.env.GOOGLE_CLIENT_ID || '132861762148-dhkdcu4kmkv3p3drdr6n1l3m748mbfk1.apps.googleusercontent.com',
+          client_secret: process.env.GOOGLE_CLIENT_SECRET || "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",
           redirect_uri: 'http://localhost:8080/auth/google/callback',
           grant_type: 'authorization_code',
         }).toString(),
