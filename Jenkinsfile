@@ -11,7 +11,7 @@ pipeline {
             steps {
                 dir('apps/client') {
                      script {
-                        sh 'sudo docker build -t shopcrm-client .'
+                        sh 'docker build -t shopcrm-client .'
                     }
                 }
             }
