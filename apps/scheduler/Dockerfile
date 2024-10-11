@@ -2,7 +2,7 @@ FROM node:18-alpine AS base
 RUN apk update && apk add --no-cache libc6-compat
 WORKDIR /app
 FROM base AS builder
-RUN npm install -g turbo
+RUN npm install -g turbo --ignore-engines
 COPY . .
 RUN turbo prune --scope=scheduler --docker
 FROM base AS installer
