@@ -17,16 +17,4 @@ pipeline {
             }
         }
     }
-
-    post {
-        always {
-            cleanWs()
-        }
-        success {
-            echo 'Deployment to Heroku was successful!'
-        }
-        failure {
-            echo 'Deployment to Heroku failed.'
-        }
-    }
 }
