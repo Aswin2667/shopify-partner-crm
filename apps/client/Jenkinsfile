@@ -10,11 +10,9 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-              dir('apps/client') { // Ensure the directory is correct
                 script {
-                    sh 'docker build -t shopcrm-client .'
+                    sh 'docker build -t shopcrm-client -f apps/client/Dockerfile .'
                 }
-              }
             }
         }
 
