@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/Aswin2667/shopify-partner-crm.git'
+                git branch: 'main', url: 'https://github.com/Aswin2667/shopify-partner-crm.git'
             }
         }
 
