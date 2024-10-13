@@ -9,7 +9,6 @@ FROM base AS installer
 WORKDIR /app
 COPY --from=builder /app/out/full/ ./
 RUN npm install --force
-RUN ls -la
 RUN npm run build
 FROM base AS runner
 WORKDIR /app
@@ -18,4 +17,4 @@ RUN adduser --system --uid 1001 nestjs
 USER nestjs
 COPY --from=installer --chown=nestjs:nodejs /app/ ./
 EXPOSE 8080
-CMD ["npm", "run", "prod"]
+CMD [ "node", "dist/main.js" ]
