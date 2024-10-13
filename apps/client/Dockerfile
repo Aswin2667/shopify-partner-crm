@@ -1,4 +1,3 @@
-# to docker hub
 FROM node:18-alpine AS base
 FROM base AS builder
 RUN apk update && apk add --no-cache libc6-compat
