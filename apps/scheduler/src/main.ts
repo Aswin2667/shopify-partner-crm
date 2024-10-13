@@ -6,6 +6,6 @@ async function bootstrap() {
   BigInt.prototype['toJSON'] = function () {
     return this.toString();
   };
-  await app.listen(8081);
+  await app.listen(process.env.PORT || 8081);
 }
 bootstrap();

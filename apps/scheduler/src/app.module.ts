@@ -4,9 +4,15 @@ import { DataSourceModule, PrismaService } from '@org/data-source';
 import { LeadActivityModule } from './app-data/LeadActivity.module';
 import { LeadActivitySyncService } from './app-data/LeadActivity.Sync.service';
 import { EmailCronModule } from './email/email.module';
+import { ConfigModule } from '@nestjs/config';
+import * as path from 'path';
 
 @Module({
-  imports: [LeadActivityModule, EmailCronModule, ScheduleModule.forRoot(), DataSourceModule],
+  imports: [ ConfigModule.forRoot({
+    envFilePath: path.resolve(__dirname, '../../../../', '.env'),
+    isGlobal: true,
+  }),
+  LeadActivityModule, EmailCronModule, ScheduleModule.forRoot(), DataSourceModule],
   controllers: [],
   providers: [LeadActivitySyncService, PrismaService],
 })

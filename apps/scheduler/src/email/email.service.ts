@@ -103,6 +103,6 @@ export class EmailCronService {
 const getTrackingImage = (body: string, id: string): string => {
   const bodyWithTrackingImage =
     body +
-    `<img src="https://aswin.ngrok.dev/email-open/1px-image?id=${id}" style="display:none;" width="1" height="1" alt="" />`;
+    `<img src="${process.env.TRACKER_BASE_URL}?id=${id}" style="display:none;" width="1" height="1" alt="" />`;
   return bodyWithTrackingImage;
 };
