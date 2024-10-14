@@ -41,9 +41,11 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
   constructor(private readonly prisma: PrismaService) {
     super();
     this.oauth2Client = new google.auth.OAuth2(
-      process.env.GOOGLE_CLIENT_ID || '132861762148-dhkdcu4kmkv3p3drdr6n1l3m748mbfk1.apps.googleusercontent.com',
-      process.env.GOOGLE_CLIENT_SECRET || "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",
-      'http://localhost:8080/auth/google/callback',
+      process.env.GOOGLE_CLIENT_ID ||
+        '132861762148-dhkdcu4kmkv3p3drdr6n1l3m748mbfk1.apps.googleusercontent.com',
+      process.env.GOOGLE_CLIENT_SECRET || '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',
+      process.env.REDIRECT_URI ||
+        'https://shopcrm-server-5e5331b6be39.herokuapp.com/auth/google/callback',
     );
   }
 
@@ -60,9 +62,15 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         'https://oauth2.googleapis.com/token',
         new URLSearchParams({
           code,
-          client_id: process.env.GOOGLE_CLIENT_ID || '132861762148-dhkdcu4kmkv3p3drdr6n1l3m748mbfk1.apps.googleusercontent.com',
-          client_secret: process.env.GOOGLE_CLIENT_SECRET||"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",
-          redirect_uri: 'http://localhost:8080/auth/google/callback',
+          client_id:
+            process.env.GOOGLE_CLIENT_ID ||
+            '132861762148-dhkdcu4kmkv3p3drdr6n1l3m748mbfk1.apps.googleusercontent.com',
+          client_secret:
+            process.env.GOOGLE_CLIENT_SECRET ||
+            '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',
+          redirect_uri:
+            process.env.REDIRECT_URI ||
+            'https://shopcrm-server-5e5331b6be39.herokuapp.com/auth/google/callback',
           grant_type: 'authorization_code',
         }).toString(),
         {
@@ -662,7 +670,7 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
       <footer style="text-align: center; padding: 20px; font-size: 12px; color: #888;">
         <p>
           ${unsubscribeLink?.message || 'If you no longer wish to receive these emails, you can '}
-          <a href="https://crmclient.ngrok.dev/unsubscribe/${contactId}" target="_blank">
+          <a href="https://shopify-crm-prod-e605497309dc.herokuapp.com/unsubscribe/${contactId}" target="_blank">
             ${unsubscribeLink?.anchorText || 'unsubscribe'}
           </a>.
         </p>
@@ -882,8 +890,12 @@ export class GmailIntegrationService extends BaseIntegrationService<object> {
         'https://oauth2.googleapis.com/token',
         new URLSearchParams({
           refresh_token: refreshToken,
-          client_id: process.env.GOOGLE_CLIENT_ID || '132861762148-dhkdcu4kmkv3p3drdr6n1l3m748mbfk1.apps.googleusercontent.com',
-          client_secret: process.env.GOOGLE_CLIENT_SECRET || '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',
+          client_id:
+            process.env.GOOGLE_CLIENT_ID ||
+            '132861762148-dhkdcu4kmkv3p3drdr6n1l3m748mbfk1.apps.googleusercontent.com',
+          client_secret:
+            process.env.GOOGLE_CLIENT_SECRET ||
+            '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',
           grant_type: 'refresh_token',
         }).toString(),
         {

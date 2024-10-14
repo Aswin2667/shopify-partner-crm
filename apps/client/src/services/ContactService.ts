@@ -43,7 +43,7 @@ class ContactService {
       // );
 
       const response = await axios.get(
-        `https://crmserver.ngrok.dev/contacts/${contactId}/unsubscribe`
+        `https://shopcrm-server-5e5331b6be39.herokuapp.com/contacts/${contactId}/unsubscribe`
       );
       return response.data;
     } catch (error) {
