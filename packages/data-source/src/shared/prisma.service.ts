@@ -3,7 +3,19 @@ import { Prisma, PrismaClient } from '../../generated';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
+  private static instance: PrismaService;
   private readonly logger = new Logger(PrismaService.name);
+
+  private constructor() {
+    super();
+  }
+
+  static getInstance(): PrismaService {
+    if (!PrismaService.instance) {
+      PrismaService.instance = new PrismaService();
+    }
+    return PrismaService.instance;
+  }
 
   async onModuleInit() {
     try {
@@ -15,4 +27,5 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     }
   }
 }
-export { Prisma }
+
+export { Prisma };

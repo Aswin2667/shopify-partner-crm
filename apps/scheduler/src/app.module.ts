@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
-import { DataSourceModule, PrismaService } from '@org/data-source';
 import { LeadActivityModule } from './app-data/LeadActivity.module';
 import { LeadActivitySyncService } from './app-data/LeadActivity.Sync.service';
 import { EmailCronModule } from './email/email.module';
@@ -12,8 +11,8 @@ import * as path from 'path';
     envFilePath: path.resolve(__dirname, '../../../../', '.env'),
     isGlobal: true,
   }),
-  LeadActivityModule, EmailCronModule, ScheduleModule.forRoot(), DataSourceModule],
+  LeadActivityModule, EmailCronModule, ScheduleModule.forRoot()],
   controllers: [],
-  providers: [LeadActivitySyncService, PrismaService],
+  providers: [LeadActivitySyncService,],
 })
 export class AppModule {}

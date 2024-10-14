@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
-import { PrismaService } from '@org/data-source';
+import prisma from 'src/utils/PrismaService';
 import { DateHelper } from '@org/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { IntegrationManager } from '@org/integrations';
@@ -10,17 +10,16 @@ export class EmailCronService {
   private readonly MAX_RETRIES = 3;
 
   constructor(
-    private readonly prisma: PrismaService,
     private readonly IntegrationManager: IntegrationManager,
   ) {}
 
-  @Cron('*/10 * * * * *')
+  @Cron('* * * * *')
   async emailSender() {
     this.logger.log('Cron job running every minute');
 
     try {
       // Fetch emails from the queue that are scheduled to be sent
-      const emailsToSend = await this.prisma.emailQueue.findMany({
+      const emailsToSend = await prisma.emailQueue.findMany({
         where: {
           scheduledAt: {
             lt: DateHelper.getCurrentUnixTime(),
@@ -31,7 +30,7 @@ export class EmailCronService {
           email: true,
         },
       });
-
+      console.log(emailsToSend)
       for (const emailQueueEntry of emailsToSend) {
         try {
           const { email } = emailQueueEntry;
@@ -45,7 +44,7 @@ export class EmailCronService {
             'SEND_MAIL',
             email,
           );
-          await this.prisma.email.updateMany({
+          await prisma.email.updateMany({
             where: { id: emailQueueEntry.emailId },
             data: {
               status: 'SEND',
@@ -53,7 +52,7 @@ export class EmailCronService {
               sentAt: DateHelper.getCurrentUnixTime(),
             },
           }),
-            await this.prisma.emailQueue.deleteMany({
+            await prisma.emailQueue.deleteMany({
               where: { id: emailQueueEntry.id },
             });
 
@@ -69,7 +68,7 @@ export class EmailCronService {
 
           if (emailQueueEntry.retryCount < this.MAX_RETRIES) {
             // Increment retry count and set status to PENDING
-            await this.prisma.emailQueue.update({
+            await prisma.emailQueue.update({
               where: { id: emailQueueEntry.id },
               data: {
                 status: 'PENDING',
@@ -82,11 +81,11 @@ export class EmailCronService {
             );
           } else {
             // After max retries, update email status to FAILED and remove from queue
-            await this.prisma.email.updateMany({
+            await prisma.email.updateMany({
               where: { id: emailQueueEntry.emailId },
               data: { status: 'FAILED' },
             }),
-              await this.prisma.emailQueue.deleteMany({
+              await prisma.emailQueue.deleteMany({
                 where: { id: emailQueueEntry.id },
               }),
               this.logger.error(
