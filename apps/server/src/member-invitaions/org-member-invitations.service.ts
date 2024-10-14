@@ -7,7 +7,10 @@ import { DateHelper } from '@org/utils';
 import { PrismaService } from '@org/data-source';
 @Injectable()
 export class OrgMemberInvitationsService {
-  constructor(@InjectQueue('events') private readonly eventQueue: Queue,private readonly prisma: PrismaService) {}
+  constructor(
+    @InjectQueue('events') private readonly eventQueue: Queue,
+    private readonly prisma: PrismaService,
+  ) {}
 
   async acceptInviteToken(token: string) {
     try {
@@ -17,12 +20,13 @@ export class OrgMemberInvitationsService {
           token: token,
         },
       });
-      console.log(inviteData)
+      console.log(inviteData);
       const user = await this.prisma.user.findUnique({
         where: {
-          email: inviteData.email,   
-      }});
-      console.log(user)
+          email: inviteData.email,
+        },
+      });
+      console.log(user);
       // Add the new member to the organization
       const newMember = await this.prisma.orgMember.create({
         data: {
@@ -34,14 +38,13 @@ export class OrgMemberInvitationsService {
           organizationId: inviteData.organizationId,
         },
       });
-  
+
       return newMember;
     } catch (error) {
-      console.error("Error accepting invite token:", error);
-      throw new Error("Failed to accept the invitation."); // Throw error to handle it properly in the calling function
+      console.error('Error accepting invite token:', error);
+      throw new Error('Failed to accept the invitation.'); // Throw error to handle it properly in the calling function
     }
   }
-  
 
   async sendInviteLink(sendInviteLinkData: SendInviteLinkDto): Promise<void> {
     try {
@@ -73,7 +76,7 @@ export class OrgMemberInvitationsService {
               email: email,
             },
           });
-          const actionUrl = `http://localhost:3000/invite?token=${token}&orgId=${sendInviteLinkData.organizationId}`;
+          const actionUrl = `https://shopify-crm-prod-e605497309dc.herokuapp.com/invite?token=${token}&orgId=${sendInviteLinkData.organizationId}`;
           const updatedData = {
             ...sendInviteLinkData,
             emails: email,
@@ -95,16 +98,16 @@ export class OrgMemberInvitationsService {
 
   async verifyInviteToken(token: string): Promise<any> {
     try {
-      const invitation =  await this.prisma.orgMemberInvite.findFirst({
+      const invitation = await this.prisma.orgMemberInvite.findFirst({
         where: {
           token: token,
         },
-        include:{
-           inviter: true,
-           organization: true
-        }
-      })
-      return invitation
+        include: {
+          inviter: true,
+          organization: true,
+        },
+      });
+      return invitation;
     } catch (error) {
       console.log(error);
       throw new HttpException(
@@ -118,9 +121,10 @@ export class OrgMemberInvitationsService {
     return await this.prisma.orgMember.findMany({
       where: {
         organizationId: orgId,
-      },include:{
-        user: true
-      }
+      },
+      include: {
+        user: true,
+      },
     });
   }
   async getPendingInvitationByOrgId(orgId: string) {
