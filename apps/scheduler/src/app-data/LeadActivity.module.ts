@@ -4,7 +4,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { CacheManagerModule } from '@org/utils';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { BullModule } from '@nestjs/bull';
-import { DataSourceModule, PrismaService } from '@org/data-source';
+// import { DataSourceModule, PrismaService } from '@org/data-source';
 import { LeadActivitySyncService } from './LeadActivity.Sync.service';
 import { AppService } from './LeadActivity.Sync.cron';
 
@@ -30,9 +30,8 @@ import { AppService } from './LeadActivity.Sync.cron';
         password: "VSqteQE9zbSBBZcpJydJ8TodySmtIlGs",
       }
     }),
-    DataSourceModule,
   ],
   controllers: [],
-  providers: [LeadActivitySyncService, PrismaService, AppService],
+  providers: [LeadActivitySyncService, AppService],
 })
 export class LeadActivityModule {}

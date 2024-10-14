@@ -5,13 +5,12 @@ import {
   APP_INSTALLS_UNINSTALLS_AFTER_QUERY,
   APP_INSTALLS_UNINSTALLS_QUERY,
 } from 'src/queries/queries';
-import { PrismaService } from '@org/data-source';
+import prisma from 'src/utils/PrismaService';
 @Injectable()
 export class LeadActivitySyncService {
   constructor(
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
-    private readonly PrismaService: PrismaService,
-  ) {}
+   ) {}
 
   async fetchAndStoreData(app) {
     const { appId, partnerId, accessToken } = app;
@@ -209,7 +208,7 @@ export class LeadActivitySyncService {
   }
 
   private async updateProjectSyncStatus(appId: string, isSynced: boolean) {
-    const project = await this.PrismaService.project.findFirst({
+    const project = await prisma.project.findFirst({
       where: {
         data: {
           path: ['appId'],
@@ -219,7 +218,7 @@ export class LeadActivitySyncService {
     });
 
     if (project) {
-      await this.PrismaService.project.update({
+      await prisma.project.update({
         where: { id: project.id },
         data: { isSynced },
       });

@@ -4,7 +4,7 @@ import { EmailCronService } from './email.service';
 import { DataSourceModule, PrismaService } from '@org/data-source';
 import { IntegrationManager,IntegrationModule} from '@org/integrations';
 @Module({
-  imports: [ScheduleModule.forRoot(), DataSourceModule,IntegrationModule],
-  providers: [EmailCronService, PrismaService,IntegrationManager],
+  imports: [ScheduleModule.forRoot(),IntegrationModule],
+  providers: [EmailCronService ,IntegrationManager],
 })
 export class EmailCronModule {}

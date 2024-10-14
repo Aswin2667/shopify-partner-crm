@@ -3,8 +3,8 @@ import { Cron } from '@nestjs/schedule';
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bullmq';
+import prisma from 'src/utils/PrismaService';
  import axios from 'axios';
-import { PrismaService } from '@org/data-source';
 import { LeadActivitySyncService } from './LeadActivity.Sync.service';
 
 @Injectable()
@@ -14,12 +14,11 @@ export class AppService {
     @InjectQueue('app_events_queue')
     private readonly appEventsQueue: Queue,
     private readonly installUninstallService:LeadActivitySyncService ,
-    private readonly PrismaService: PrismaService,
   ) {}
 
   @Cron('*/5 * * * * *')
   async handleCron() {
-    const apps: [] = await this.PrismaService.$queryRaw`
+    const apps: [] = await prisma.$queryRaw`
       SELECT 
         i."id" AS "integrationId",
         i."organizationId" AS "organizationId",
@@ -56,7 +55,7 @@ export class AppService {
   async handleCron2() {
     // console.log('Running cron job every 5 seconds...');
 
-    const apps: [] = await this.PrismaService.$queryRaw`
+    const apps: [] = await prisma.$queryRaw`
       SELECT 
         i."id" AS "integrationId",
         i."organizationId" AS "organizationId",
